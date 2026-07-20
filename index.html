@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NewBatteries | The right battery starts here</title>
+  <meta name="description" content="Find a replacement battery for your tool, vehicle, caravan, equipment, device or home system—even when you’re not sure what battery you need.">
+  <link rel="canonical" href="https://newbatteries.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="NewBatteries | The right battery starts here">
+  <meta property="og:description" content="NewBatteries helps people identify the correct replacement battery and connect with suitable suppliers or installers.">
+  <meta property="og:url" content="https://newbatteries.com/">
+  <meta property="og:site_name" content="NewBatteries">
+  <meta name="theme-color" content="#0A0D0C">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "NewBatteries",
+    "url": "https://newbatteries.com/",
+    "description": "Early-stage Australian platform helping users identify replacement batteries and connect with suitable suppliers or installers.",
+    "foundingLocation": "Australia"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NewBatteries",
+    "url": "https://newbatteries.com/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://newbatteries.com/finder.html?query={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does NewBatteries sell batteries directly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not in this prototype. NewBatteries currently focuses on helping people identify battery needs and connect with suitable suppliers or installers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if I do not know my battery number?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can start with your equipment details, enter battery specifications if known, or upload a photo in the prototype finder flow."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you guarantee a battery is compatible?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Compatibility must always be independently verified before purchase or installation, especially for critical or high-voltage systems."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I request installation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, the finder includes options for supply only, supply and installation, mobile replacement, and identification help."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens to my old battery?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can request recycling information in the form. Disposal requirements vary and should follow local regulations and safety guidance."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the service available across Australia?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This is an early-stage platform. Coverage may vary while supplier participation is being established."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header" role="banner">
+    <div class="container nav-wrap">
+      <a class="wordmark" href="index.html" aria-label="NewBatteries home">NewBatteries</a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">
+        <span class="visually-hidden">Toggle navigation</span>
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="primaryNav" class="primary-nav" aria-label="Primary">
+        <a href="finder.html">Find My Battery</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="suppliers.html">For Suppliers</a>
+        <a href="about.html">About</a>
+        <a class="btn btn-primary" href="finder.html">Start Battery Finder</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero section">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Australian battery identification platform</p>
+          <h1>The right battery starts here.</h1>
+          <p class="lead">Find a replacement battery for your tool, vehicle, caravan, equipment, device or home system—even when you’re not sure what battery you need.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="finder.html">Find My Battery</a>
+            <a class="btn btn-secondary" href="finder.html?path=photo">Upload a Battery Photo</a>
+          </div>
+        </div>
+        <aside class="hero-mock" aria-label="Battery identification interface preview">
+          <div class="mock-card">
+            <h2>Battery Finder Preview</h2>
+            <ul>
+              <li><span class="dot ok"></span>Category: Cars and vehicles</li>
+              <li><span class="dot ok"></span>Identification: Existing battery number</li>
+              <li><span class="dot ok"></span>Number entered: DIN66MF</li>
+              <li><span class="dot pending"></span>Awaiting suburb and contact details</li>
+            </ul>
+            <div class="mock-progress" aria-hidden="true"><span></span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="category-heading">
+      <div class="container">
+        <h2 id="category-heading">Choose what needs power</h2>
+        <div class="cards-grid" id="categoryCards" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section" id="how-it-works" aria-labelledby="steps-heading">
+      <div class="container">
+        <h2 id="steps-heading">How it works</h2>
+        <div class="steps-grid">
+          <article class="panel"><h3>1. Tell us what needs power</h3><p>Select your equipment category and share what you know.</p></article>
+          <article class="panel"><h3>2. Help us identify the battery</h3><p>Use equipment details, battery numbers, specs or a photo.</p></article>
+          <article class="panel"><h3>3. Review your options</h3><p>NewBatteries assists with identification and supplier connection. Compatibility must be independently verified.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="paths-heading">
+      <div class="container">
+        <h2 id="paths-heading">Multiple identification pathways</h2>
+        <div class="pathways">
+          <div class="chip">Search by equipment</div>
+          <div class="chip">Enter a battery number</div>
+          <div class="chip">Enter specifications</div>
+          <div class="chip">Upload a photo</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="trust-heading">
+      <div class="container">
+        <h2 id="trust-heading">Built for practical confidence</h2>
+        <ul class="trust-list">
+          <li>Brand-neutral guidance</li>
+          <li>Multiple identification pathways</li>
+          <li>Australian-first platform</li>
+          <li>Built to reduce battery guesswork</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section cta" aria-labelledby="supplier-heading">
+      <div class="container">
+        <h2 id="supplier-heading">Supply batteries? Join the network.</h2>
+        <p>NewBatteries is inviting established battery retailers, specialist suppliers, installers and mobile replacement services to register interest.</p>
+        <a class="btn btn-primary" href="suppliers.html">Register Supplier Interest</a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-heading">
+      <div class="container">
+        <h2 id="faq-heading">Frequently asked questions</h2>
+        <div class="faq-list">
+          <details><summary>Does NewBatteries sell batteries directly?</summary><p>No. This prototype focuses on identification and supplier connection.</p></details>
+          <details><summary>What if I do not know my battery number?</summary><p>You can provide equipment details, submit specs, or upload a battery photo.</p></details>
+          <details><summary>Can you guarantee a battery is compatible?</summary><p>No. Compatibility must always be independently verified before purchase or installation.</p></details>
+          <details><summary>Can I request installation?</summary><p>Yes. You can indicate supply and installation, mobile replacement, or identification help.</p></details>
+          <details><summary>What happens to my old battery?</summary><p>You can request old battery recycling information in your enquiry.</p></details>
+          <details><summary>Is the service available across Australia?</summary><p>This is an early-stage platform and coverage may vary while participation grows.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <p class="wordmark">NewBatteries</p>
+        <p class="small">Early-stage prototype. Identification support only. Always verify compatibility before purchase or installation.</p>
+      </div>
+      <nav aria-label="Footer">
+        <a href="index.html">Home</a>
+        <a href="finder.html">Find My Battery</a>
+        <a href="about.html">About</a>
+        <a href="suppliers.html">For Suppliers</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </nav>
+    </div>
+    <p class="container small">© <span id="year"></span> NewBatteries. All rights reserved.</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
