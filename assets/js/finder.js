@@ -76,6 +76,15 @@
   /* ── State ──────────────────────────────────────────────── */
   var state = loadState();
 
+  /*
+   * Contact details (name, email, phone, notes) are intentionally kept in
+   * memory only and NOT persisted to sessionStorage, to avoid storing PII
+   * as clear text in browser storage. If the user navigates away and
+   * returns, they will need to re-enter contact details — this is
+   * acceptable given this is a prototype.
+   */
+  var contactState = {};
+
   function loadState() {
     try {
       var raw = sessionStorage.getItem(STORAGE_KEY);
@@ -86,12 +95,19 @@
 
   function saveState() {
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      /* Strip any contact fields that may have been accidentally added */
+      var toSave = {};
+      var contactKeys = { contactName: 1, contactEmail: 1, contactPhone: 1, additionalNotes: 1 };
+      Object.keys(state).forEach(function (k) {
+        if (!contactKeys[k]) toSave[k] = state[k];
+      });
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
     } catch (e) { /* ignore */ }
   }
 
   function clearState() {
     state = {};
+    contactState = {};
     try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
   }
 
@@ -223,7 +239,7 @@
 
   /* ── Restore saved values into form fields ──────────────── */
   function restoreFields() {
-    /* Restore radios / checkboxes / inputs from state */
+    /* Restore non-sensitive state to form fields */
     Object.keys(state).forEach(function (key) {
       var val = state[key];
       var el  = document.getElementById(key);
@@ -240,6 +256,12 @@
       } else {
         el.value = val || '';
       }
+    });
+
+    /* Restore contact fields from in-memory contactState (not sessionStorage) */
+    ['contactName', 'contactEmail', 'contactPhone', 'additionalNotes'].forEach(function (key) {
+      var el = document.getElementById(key);
+      if (el && contactState[key]) el.value = contactState[key];
     });
   }
 
@@ -467,11 +489,11 @@
 
       if (errors.length) { showErrorSummary(errors); return; }
 
-      state.contactName  = name.trim();
-      state.contactEmail = email.trim();
-      state.contactPhone = phone.trim();
-      state.additionalNotes = notes.trim();
-      saveState();
+      contactState.contactName     = name.trim();
+      contactState.contactEmail    = email.trim();
+      contactState.contactPhone    = phone.trim();
+      contactState.additionalNotes = notes.trim();
+      /* contactState is intentionally NOT persisted to sessionStorage */
 
       populateReview();
       showStep('step-review');
@@ -521,10 +543,10 @@
     set('rv-postcode', state.postcode);
     set('rv-state',    state.state);
 
-    set('rv-name',  state.contactName);
-    set('rv-email', state.contactEmail);
-    set('rv-phone', state.contactPhone || 'Not provided');
-    set('rv-notes', state.additionalNotes || 'None');
+    set('rv-name',  contactState.contactName  || '');
+    set('rv-email', contactState.contactEmail || '');
+    set('rv-phone', contactState.contactPhone || 'Not provided');
+    set('rv-notes', contactState.additionalNotes || 'None');
   }
 
   /* ── Review Change links ─────────────────────────────────── */
@@ -552,21 +574,39 @@
     var el = $('confirmSummary');
     if (!el) return;
 
-    el.innerHTML =
-      '<dl style="display:flex;flex-direction:column;gap:var(--sp-3)">' +
-      row('Equipment', CATEGORY_LABELS[state.category] || state.category) +
-      row('Identification', IDENT_LABELS[state.identMethod] || '—') +
-      row('Help required', HELP_LABELS[state.helpType] || '—') +
-      row('Location', [state.suburb, state.postcode, state.state].filter(Boolean).join(', ')) +
-      row('Contact', state.contactName + ' — ' + state.contactEmail) +
-      '</dl>';
-  }
+    /* Clear existing content safely */
+    while (el.firstChild) el.removeChild(el.firstChild);
 
-  function row(label, value) {
-    return '<div style="display:flex;gap:var(--sp-4);flex-wrap:wrap">' +
-           '<dt style="font-weight:600;min-width:160px;color:var(--color-text-muted)">' + label + '</dt>' +
-           '<dd style="margin:0">' + (value || '—') + '</dd>' +
-           '</div>';
+    var dl = document.createElement('dl');
+    dl.style.cssText = 'display:flex;flex-direction:column;gap:var(--sp-3)';
+
+    var rows = [
+      ['Equipment',       CATEGORY_LABELS[state.category] || state.category || '—'],
+      ['Identification',  IDENT_LABELS[state.identMethod]  || '—'],
+      ['Help required',   HELP_LABELS[state.helpType]       || '—'],
+      ['Location',        [state.suburb, state.postcode, state.state].filter(Boolean).join(', ') || '—'],
+      ['Name',            contactState.contactName  || '—'],
+      ['Email',           contactState.contactEmail || '—']
+    ];
+
+    rows.forEach(function (r) {
+      var div = document.createElement('div');
+      div.style.cssText = 'display:flex;gap:var(--sp-4);flex-wrap:wrap';
+
+      var dt = document.createElement('dt');
+      dt.style.cssText = 'font-weight:600;min-width:140px;color:var(--color-text-muted)';
+      dt.textContent = r[0];
+
+      var dd = document.createElement('dd');
+      dd.style.margin = '0';
+      dd.textContent = r[1];  /* textContent — no HTML injection risk */
+
+      div.appendChild(dt);
+      div.appendChild(dd);
+      dl.appendChild(div);
+    });
+
+    el.appendChild(dl);
   }
 
   /* ── Start over ──────────────────────────────────────────── */
