@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Battery Finder | NewBatteries</title>
-  <meta name="description" content="Find the right replacement battery step-by-step. Tell us about your equipment, identify the battery, and we will connect you with suitable suppliers.">
+  <meta name="description" content="Get a preliminary battery match step-by-step. Identify likely battery families, review confidence, and optionally request supplier support.">
   <meta name="robots" content="noindex">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
@@ -38,6 +38,7 @@
         <h2 id="errorSummaryHeading">There is a problem</h2>
         <ul id="errorSummaryList"></ul>
       </div>
+      <p id="resultLive" class="visually-hidden" aria-live="polite"></p>
 
       <!-- ═══ STEP 1 – CATEGORY ════════════════════════════════ -->
       <div class="finder-card" id="step-category" data-step="1">
@@ -219,10 +220,10 @@
         </div>
       </div>
 
-      <!-- ═══ STEP 5 – BATTERY SPECS (conditional) ════════════ -->
+      <!-- ═══ STEP 5 – SUPPORTING DETAILS ═════════════════════ -->
       <div class="finder-card" id="step-batt-specs" data-step="5" hidden>
-        <h1 id="step-batt-specs-heading" tabindex="-1">Battery specifications</h1>
-        <p class="step-hint">Enter as much as you know. Any field can be left blank.</p>
+        <h1 id="step-batt-specs-heading" tabindex="-1">Supporting battery details</h1>
+        <p class="step-hint">These details improve the quality of your preliminary result. Leave blank if unknown.</p>
 
         <div class="form-group">
           <label for="specVoltage">Voltage</label>
@@ -278,8 +279,29 @@
                  autocomplete="off" aria-describedby="hint-specDimensions" placeholder="L × W × H mm (optional)" style="max-width:320px">
         </div>
 
+        <div class="form-group">
+          <label for="intendedUse">Intended use</label>
+          <select class="form-control" id="intendedUse" name="intendedUse" style="max-width:360px">
+            <option value="">— Select intended use —</option>
+            <option value="starting">Engine starting</option>
+            <option value="deepcycle">Deep-cycle / accessory power</option>
+            <option value="dualpurpose">Dual-purpose (start + auxiliary)</option>
+            <option value="other">Other / not sure</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="startStopRequired">Does the equipment/vehicle use a start-stop system?</label>
+          <select class="form-control" id="startStopRequired" name="startStopRequired" style="max-width:360px">
+            <option value="">— Select an option —</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="unsure">Not sure</option>
+          </select>
+        </div>
+
         <div class="step-actions">
-          <button class="btn btn-primary" id="btn-continue-5" type="button">Continue</button>
+          <button class="btn btn-primary" id="btn-continue-5" type="button">Generate preliminary result</button>
           <button class="btn-back" id="btn-back-5" type="button">← Back</button>
         </div>
       </div>
@@ -324,11 +346,63 @@
         </div>
       </div>
 
-      <!-- ═══ STEP 7 – HELP TYPE ═══════════════════════════════ -->
-      <div class="finder-card" id="step-help-type" data-step="7" hidden>
+      <!-- ═══ STEP 7 – PRELIMINARY RESULT ══════════════════════ -->
+      <div class="finder-card" id="step-result" data-step="7" hidden style="max-width:760px">
+        <h1 id="step-result-heading" tabindex="-1">Your preliminary battery match</h1>
+        <p class="step-hint">This result is designed to help narrow the search. It is not a guarantee of compatibility.</p>
+        <p id="resultGeneratedAt" class="result-muted"></p>
+
+        <div id="resultLoadError" class="notice notice--warn" hidden role="alert">
+          We could not load the local battery reference data right now. You can still continue and request supplier help.
+        </div>
+
+        <section class="result-section">
+          <h2>A. Likely identification</h2>
+          <div id="resultIdentification"></div>
+        </section>
+
+        <section class="result-section">
+          <h2>B. Confidence level</h2>
+          <p id="resultOutcome" class="result-muted"></p>
+          <p id="resultConfidenceLabel" class="confidence-pill">LOW CONFIDENCE</p>
+          <p id="resultConfidenceReason" class="result-muted">Not enough information yet.</p>
+        </section>
+
+        <section class="result-section">
+          <h2>C. What we know</h2>
+          <ul id="resultKnownList" class="result-list"></ul>
+        </section>
+
+        <section class="result-section">
+          <h2>D. What remains unknown</h2>
+          <ul id="resultUnknownList" class="result-list"></ul>
+        </section>
+
+        <section class="result-section">
+          <h2>E. Before you buy</h2>
+          <ul id="resultChecklist" class="result-list"></ul>
+        </section>
+
+        <section class="result-section">
+          <h2>F. Recommended next action</h2>
+          <p id="resultRecommendation"></p>
+        </section>
+
+        <p class="notice" style="margin-bottom:var(--sp-6)">Safety disclaimer: Always verify fitment and performance details against manufacturer requirements before purchase or installation.</p>
+
+        <div class="step-actions" style="border-top:none;padding-top:0">
+          <button class="btn btn-primary" id="btn-find-supplier" type="button">Find a supplier</button>
+          <button class="btn btn-secondary" id="btn-improve-result" type="button">Improve this result</button>
+          <button class="btn btn-ghost" id="btn-print-result" type="button">Print or save result</button>
+          <button class="btn-back" id="btn-start-again-result" type="button">Start again</button>
+        </div>
+      </div>
+
+      <!-- ═══ STEP 8 – HELP TYPE (optional supplier flow) ══════ -->
+      <div class="finder-card" id="step-help-type" data-step="8" hidden>
         <fieldset>
-          <legend id="step-help-type-heading" tabindex="-1">What kind of help do you need?</legend>
-          <p class="form-hint">Select the service that best matches what you are looking for.</p>
+          <legend id="step-help-type-heading" tabindex="-1">Supplier assistance type</legend>
+          <p class="form-hint">Optional: choose how you want a supplier to help after seeing your preliminary result.</p>
 
           <ul class="radio-list">
             <li>
@@ -378,12 +452,12 @@
 
         <div class="step-actions">
           <button class="btn btn-primary" id="btn-continue-7" type="button">Continue</button>
-          <button class="btn-back" id="btn-back-7" type="button">← Back</button>
+          <button class="btn-back" id="btn-back-7" type="button">← Back to result</button>
         </div>
       </div>
 
-      <!-- ═══ STEP 8 – LOCATION ════════════════════════════════ -->
-      <div class="finder-card" id="step-location" data-step="8" hidden>
+      <!-- ═══ STEP 9 – LOCATION (optional supplier flow) ═══════ -->
+      <div class="finder-card" id="step-location" data-step="9" hidden>
         <h1 id="step-location-heading" tabindex="-1">Your location</h1>
         <p class="step-hint">This helps us find nearby suppliers or mobile services.</p>
 
@@ -428,10 +502,10 @@
         </div>
       </div>
 
-      <!-- ═══ STEP 9 – CONTACT ══════════════════════════════════ -->
-      <div class="finder-card" id="step-contact" data-step="9" hidden>
+      <!-- ═══ STEP 10 – CONTACT (optional supplier flow) ═══════ -->
+      <div class="finder-card" id="step-contact" data-step="10" hidden>
         <h1 id="step-contact-heading" tabindex="-1">Your contact details</h1>
-        <p class="step-hint">So a supplier or our team can follow up with you.</p>
+        <p class="step-hint">Optional supplier connection details. These are only requested if you choose to find a supplier.</p>
 
         <div class="form-group">
           <label for="contactName">Full name</label>
@@ -467,14 +541,14 @@
         </div>
 
         <div class="step-actions">
-          <button class="btn btn-primary" id="btn-continue-9" type="button">Review my request</button>
+          <button class="btn btn-primary" id="btn-continue-9" type="button">Review supplier request</button>
           <button class="btn-back" id="btn-back-9" type="button">← Back</button>
         </div>
       </div>
 
-      <!-- ═══ STEP 10 – REVIEW ══════════════════════════════════ -->
-      <div class="finder-card" id="step-review" data-step="10" hidden style="max-width:680px">
-        <h1 id="step-review-heading" tabindex="-1">Review your request</h1>
+      <!-- ═══ STEP 11 – REVIEW (optional supplier flow) ════════ -->
+      <div class="finder-card" id="step-review" data-step="11" hidden style="max-width:680px">
+        <h1 id="step-review-heading" tabindex="-1">Review your supplier request</h1>
         <p class="step-hint" style="margin-bottom:var(--sp-8)">Check your details below. Use the Change links to correct anything before submitting.</p>
 
         <!-- Group 1: What needs power -->
@@ -546,13 +620,13 @@
         </div>
 
         <div class="step-actions" style="margin-top:var(--sp-6)">
-          <button class="btn btn-primary" id="btn-submit" type="button">Submit request</button>
+          <button class="btn btn-primary" id="btn-submit" type="button">Submit supplier request</button>
           <button class="btn-back" id="btn-back-10" type="button">← Back</button>
         </div>
       </div>
 
-      <!-- ═══ STEP 11 – CONFIRMATION ════════════════════════════ -->
-      <div class="finder-card" id="step-confirm" data-step="11" hidden>
+      <!-- ═══ STEP 12 – CONFIRMATION (optional supplier flow) ══ -->
+      <div class="finder-card" id="step-confirm" data-step="12" hidden>
         <div class="confirm-banner">
           <h2>✓ Request received</h2>
           <p>Thank you. Your battery enquiry has been logged in this prototype session.</p>
