@@ -998,6 +998,65 @@ legend + * { clear: left; }
 
 .review-dl dd:last-child { border-bottom: none; padding-bottom: 0; }
 
+/* ─── 26. PRELIMINARY RESULT ─────────────────────────────────── */
+.result-section {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5) var(--sp-6);
+  margin-bottom: var(--sp-5);
+  background: var(--color-surface);
+}
+
+.result-section h2 {
+  margin-top: 0;
+  margin-bottom: var(--sp-3);
+  font-size: var(--text-xl);
+}
+
+.result-list {
+  padding-left: var(--sp-5);
+  margin: 0;
+}
+
+.result-list li {
+  margin-bottom: var(--sp-2);
+}
+
+.result-dl {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: var(--sp-2) var(--sp-4);
+  margin: 0;
+}
+
+.result-dl dt {
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.result-dl dd {
+  margin: 0;
+}
+
+.result-muted {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.confidence-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  margin-bottom: var(--sp-2);
+}
+
 /* ─── 26. CONFIRMATION PAGE ─────────────────────────────────── */
 .confirm-banner {
   background: var(--color-success-bg);
@@ -1203,9 +1262,48 @@ legend + * { clear: left; }
   .finder-card h1 { font-size: var(--text-2xl); }
 
   .review-section-header { flex-direction: column; align-items: flex-start; gap: var(--sp-2); }
+
+  .result-dl {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 400px) {
   .radio-cards { grid-template-columns: 1fr; }
   .hero-actions { flex-direction: column; }
+}
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+
+  .finder-header,
+  .site-footer,
+  .progress-bar-wrap,
+  .error-summary,
+  .step-actions,
+  .help-toggle,
+  .help-panel,
+  .photo-guide,
+  .back-home {
+    display: none !important;
+  }
+
+  [data-step] {
+    display: none !important;
+  }
+
+  #step-result {
+    display: block !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    border: 1px solid #bbb !important;
+    padding: 16px !important;
+  }
+
+  #step-result .notice {
+    border: 1px solid #bbb !important;
+    background: #fff !important;
+  }
 }
