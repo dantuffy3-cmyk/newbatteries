@@ -404,38 +404,65 @@
     };
   }
 
-  function listToHtml(items) {
-    if (!items.length) return '<li>—</li>';
-    return items.map(function (item) { return '<li>' + item + '</li>'; }).join('');
+  function renderList(id, items) {
+    var list = $(id);
+    if (!list) return;
+    while (list.firstChild) list.removeChild(list.firstChild);
+    var values = items.length ? items : ['—'];
+    values.forEach(function (item) {
+      var li = document.createElement('li');
+      li.textContent = item;
+      list.appendChild(li);
+    });
   }
 
   function renderIdentification(result) {
     var el = $('resultIdentification');
     if (!el) return;
+    while (el.firstChild) el.removeChild(el.firstChild);
 
     var selected = result.selected ? result.selected.record : null;
     if (result.unknownCode) {
-      el.innerHTML = '<p><strong>We could not confidently recognise that battery code yet.</strong></p>' +
-        '<p class="result-muted">Check the code for missed letters/numbers, enter voltage and dimensions, choose the equipment category, prepare a clear label photo, or contact a supplier. Our database is still growing.</p>';
+      var unknownP = document.createElement('p');
+      var strong = document.createElement('strong');
+      strong.textContent = 'We could not confidently recognise that battery code yet.';
+      unknownP.appendChild(strong);
+      el.appendChild(unknownP);
+
+      var unknownHelp = document.createElement('p');
+      unknownHelp.className = 'result-muted';
+      unknownHelp.textContent = 'Check the code for missed letters/numbers, enter voltage and dimensions, choose the equipment category, prepare a clear label photo, or contact a supplier. Our database is still growing.';
+      el.appendChild(unknownHelp);
       return;
     }
 
     if (!selected) {
-      el.innerHTML = '<p>Insufficient information to identify a likely code or family.</p>';
+      var empty = document.createElement('p');
+      empty.textContent = 'Insufficient information to identify a likely code or family.';
+      el.appendChild(empty);
       return;
     }
 
     var app = (selected.typicalApplications || []).join(', ') || 'varies';
     var chem = (selected.chemistryOptions || []).join(', ') || 'varies';
-
-    el.innerHTML =
-      '<dl class="result-dl">' +
-      '<dt>Likely code/family</dt><dd>' + selected.canonicalCode + ' (' + selected.family + ')</dd>' +
-      '<dt>Category</dt><dd>' + (selected.category || 'varies') + '</dd>' +
-      '<dt>Nominal voltage</dt><dd>' + (selected.nominalVoltage || 'varies') + '</dd>' +
-      '<dt>Common uses</dt><dd>' + app + '</dd>' +
-      '<dt>Likely chemistry options</dt><dd>' + chem + '</dd>' +
-      '</dl>';
+    var dl = document.createElement('dl');
+    dl.className = 'result-dl';
+    var rows = [
+      ['Likely code/family', selected.canonicalCode + ' (' + selected.family + ')'],
+      ['Category', selected.category || 'varies'],
+      ['Nominal voltage', selected.nominalVoltage || 'varies'],
+      ['Common uses', app],
+      ['Likely chemistry options', chem]
+    ];
+    rows.forEach(function (row) {
+      var dt = document.createElement('dt');
+      dt.textContent = row[0];
+      var dd = document.createElement('dd');
+      dd.textContent = row[1];
+      dl.appendChild(dt);
+      dl.appendChild(dd);
+    });
+    el.appendChild(dl);
   }
 
   function buildKnownItems(result) {
@@ -522,9 +549,9 @@
     var knownItems = buildKnownItems(result);
     var unknownItems = buildUnknownItems(result);
 
-    if ($('resultKnownList')) $('resultKnownList').innerHTML = listToHtml(knownItems);
-    if ($('resultUnknownList')) $('resultUnknownList').innerHTML = listToHtml(unknownItems);
-    if ($('resultChecklist')) $('resultChecklist').innerHTML = listToHtml(RESULT_CHECKLIST);
+    renderList('resultKnownList', knownItems);
+    renderList('resultUnknownList', unknownItems);
+    renderList('resultChecklist', RESULT_CHECKLIST);
     if ($('resultRecommendation')) $('resultRecommendation').textContent = recommendationFor(result.confidence);
 
     var live = $('resultLive');
