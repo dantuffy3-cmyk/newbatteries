@@ -33,15 +33,17 @@
   var container = document.getElementById('categoryCards');
   if (container) {
     var categories = [
-      { label: 'Cars & vehicles',   icon: '🚗', slug: 'car'       },
-      { label: 'Motorcycles',       icon: '🏍️', slug: 'moto'      },
-      { label: 'Caravans & RVs',    icon: '🚐', slug: 'caravan'   },
-      { label: 'Marine / boats',    icon: '⛵', slug: 'marine'    },
-      { label: 'Power tools',       icon: '🔧', slug: 'tools'     },
-      { label: 'Garden equipment',  icon: '🌿', slug: 'garden'    },
-      { label: 'Mobility aids',     icon: '♿', slug: 'mobility'  },
-      { label: 'Home & solar',      icon: '🏠', slug: 'home'      },
-      { label: 'Other / not sure',  icon: '❓', slug: 'other'     }
+      { label: 'Power tool',                     icon: '🔧', slug: 'tool'        },
+      { label: 'Car or vehicle',                 icon: '🚗', slug: 'car'         },
+      { label: 'Caravan or camping equipment',   icon: '🚐', slug: 'caravan'     },
+      { label: 'Motorcycle',                     icon: '🏍️', slug: 'moto'        },
+      { label: 'Boat or marine equipment',       icon: '⛵', slug: 'marine'      },
+      { label: 'Mower or garden equipment',      icon: '🌿', slug: 'garden'      },
+      { label: 'Home or solar system',           icon: '🏠', slug: 'home'        },
+      { label: 'Electronics',                    icon: '💻', slug: 'electronics' },
+      { label: 'Mobility equipment',             icon: '♿', slug: 'mobility'    },
+      { label: 'Security or emergency equipment',icon: '🔒', slug: 'security'    },
+      { label: 'Something else',                 icon: '❓', slug: 'other'       }
     ];
 
     var html = '';
