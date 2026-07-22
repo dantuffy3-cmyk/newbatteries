@@ -1,90 +1,323 @@
 /* =============================================================
-   NewBatteries – finder.js
-   Multi-step battery finder with preliminary match result
+   NewBatteries – finder.js (v2)
+   Finder-first battery identification service.
+   8-step enquiry flow: no fake results, no fake suppliers.
    ============================================================= */
 
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'nb_finder_state_v1';
-  var RESULT_CHECKLIST = [
-    'Confirm length, width and height.',
-    'Confirm positive and negative terminal positions.',
-    'Confirm terminal type.',
-    'Confirm required CCA or capacity.',
-    'Confirm mounting and hold-down arrangement.',
-    'Confirm start-stop compatibility where relevant.',
-    'Check the equipment manufacturer\'s requirements.',
-    'Ask a qualified supplier to confirm fitment when uncertain.'
-  ];
+  var STORAGE_KEY = 'nb_finder_state_v2';
 
+  /* ── Battery identification module ─────────────────────────── */
+  var batteryData = null; /* loaded on demand from data/batteries.json */
+
+  function normaliseBattCode(code) {
+    return code.replace(/[\s\-\.]/g, '').toUpperCase();
+  }
+
+  function loadBatteryData(cb) {
+    if (batteryData !== null) { cb(batteryData); return; }
+    fetch('data/batteries.json')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        batteryData = Array.isArray(d.batteries) ? d.batteries : [];
+        cb(batteryData);
+      })
+      .catch(function () {
+        batteryData = [];
+        cb([]);
+      });
+  }
+
+  function lookupBattery(normalised, batteries) {
+    var i, j, b, aliases, canon;
+
+    /* 1. Exact match: canonicalCode */
+    for (i = 0; i < batteries.length; i++) {
+      b = batteries[i];
+      if (normaliseBattCode(b.canonicalCode) === normalised) {
+        return { battery: b, matchType: 'exact' };
+      }
+    }
+
+    /* 2. Exact match: any alias */
+    for (i = 0; i < batteries.length; i++) {
+      b = batteries[i];
+      aliases = b.aliases || [];
+      for (j = 0; j < aliases.length; j++) {
+        if (normaliseBattCode(aliases[j]) === normalised) {
+          return { battery: b, matchType: 'exact' };
+        }
+      }
+    }
+
+    /* 3. Family prefix match: entered code starts with canonical (e.g. "DIN66MF" → DIN66)
+          or canonical starts with entered code (at least 3 chars) */
+    if (normalised.length >= 3) {
+      for (i = 0; i < batteries.length; i++) {
+        b = batteries[i];
+        canon = normaliseBattCode(b.canonicalCode);
+        if (normalised.indexOf(canon) === 0 || canon.indexOf(normalised) === 0) {
+          return { battery: b, matchType: 'family' };
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function confidenceLabel(conf) {
+    if (conf === 'exact')  return 'High \u2014 exact code recognised in reference database';
+    if (conf === 'family') return 'Medium \u2014 recognised battery family; exact variant requires supplier verification';
+    return 'Low \u2014 code not found in reference database';
+  }
+
+  function buildIdentResult(match, enteredCode) {
+    if (!match) {
+      return {
+        confidence:           'unknown',
+        enteredCode:          enteredCode,
+        canonical:            null,
+        family:               null,
+        category:             null,
+        nominalVoltage:       '',
+        typicalApplications:  [],
+        chemistryOptions:     [],
+        warnings:             [],
+        verificationRequired: []
+      };
+    }
+
+    var b    = match.battery;
+    var conf = match.matchType === 'exact' ? 'exact' : 'family';
+    var warnings = (b.warnings || []).slice();
+
+    /* Start-stop AGM/EFB compatibility warning */
+    var ssText = (b.startStopCompatibility || '').toLowerCase();
+    if (ssText && (ssText.indexOf('agm') !== -1 || ssText.indexOf('efb') !== -1) &&
+        (ssText.indexOf('only') !== -1 || ssText.indexOf('confirm') !== -1 || ssText.indexOf('verify') !== -1)) {
+      warnings.push('Start-stop compatibility: ' + b.startStopCompatibility);
+    }
+
+    /* Voltage-conflict note: all DB entries are 12V; flag if code implies otherwise */
+    var nomV = b.nominalVoltage || '';
+    if (nomV && nomV !== '12V') {
+      warnings.push('Voltage: this battery is rated ' + nomV + '. Confirm this matches your vehicle/equipment requirement.');
+    }
+
+    return {
+      confidence:           conf,
+      enteredCode:          enteredCode,
+      canonical:            b.canonicalCode,
+      family:               b.family,
+      category:             b.category,
+      nominalVoltage:       nomV,
+      typicalApplications:  b.typicalApplications  || [],
+      chemistryOptions:     b.chemistryOptions      || [],
+      warnings:             warnings,
+      verificationRequired: b.verificationRequirements || []
+    };
+  }
+
+  function setText(id, text) {
+    var el = $(id);
+    if (el) el.textContent = text || '\u2014';
+  }
+
+  function renderIdentResult(result) {
+    var wrap    = $('battIdResult');
+    var recog   = $('battIdRecognised');
+    var unknown = $('battIdUnknown');
+    if (!wrap || !recog || !unknown) return;
+
+    wrap.hidden = false;
+
+    if (result.confidence === 'unknown') {
+      recog.hidden   = true;
+      unknown.hidden = false;
+      var unknCode = $('biv-unknownCode');
+      if (unknCode) {
+        unknCode.textContent = '\u201c' + result.enteredCode + '\u201d is not in our current reference database.';
+      }
+      return;
+    }
+
+    /* Recognised result */
+    recog.hidden   = false;
+    unknown.hidden = true;
+
+    setText('biv-enteredCode', result.enteredCode);
+    setText('biv-canonical',
+      result.canonical + (result.category ? ' \u2014 ' + result.category : ''));
+    setText('biv-confidence', confidenceLabel(result.confidence));
+
+    /* Details DL */
+    var dl = $('biv-details');
+    if (dl) {
+      while (dl.firstChild) dl.removeChild(dl.firstChild);
+      var dlRows = [];
+      if (result.nominalVoltage)             dlRows.push(['Voltage',              result.nominalVoltage]);
+      if (result.typicalApplications.length) dlRows.push(['Typical applications', result.typicalApplications.join(', ')]);
+      if (result.chemistryOptions.length)    dlRows.push(['Chemistry options',     result.chemistryOptions.join(', ')]);
+      dlRows.forEach(function (row) {
+        var dt = document.createElement('dt');
+        dt.textContent = row[0];
+        var dd = document.createElement('dd');
+        dd.textContent = row[1];
+        dl.appendChild(dt);
+        dl.appendChild(dd);
+      });
+    }
+
+    /* Warnings */
+    var warnWrap = $('biv-warnings-wrap');
+    var warnList = $('biv-warnings');
+    if (warnWrap && warnList) {
+      while (warnList.firstChild) warnList.removeChild(warnList.firstChild);
+      if (result.warnings.length) {
+        result.warnings.forEach(function (w) {
+          var li = document.createElement('li');
+          li.textContent = w;
+          warnList.appendChild(li);
+        });
+        warnWrap.hidden = false;
+      } else {
+        warnWrap.hidden = true;
+      }
+    }
+
+    /* Verification required */
+    var verWrap = $('biv-verification-wrap');
+    var verList = $('biv-verification');
+    if (verWrap && verList) {
+      while (verList.firstChild) verList.removeChild(verList.firstChild);
+      if (result.verificationRequired.length) {
+        result.verificationRequired.forEach(function (v) {
+          var li = document.createElement('li');
+          li.textContent = v;
+          verList.appendChild(li);
+        });
+        verWrap.hidden = false;
+      } else {
+        verWrap.hidden = true;
+      }
+    }
+  }
+
+  function saveIdentToState(result) {
+    state.battIdDone         = true;
+    state.battIdConf         = result.confidence;
+    state.battIdCanonical    = result.canonical    || null;
+    state.battIdFamily       = result.family       || null;
+    state.battIdCategory     = result.category     || null;
+    state.battIdVoltage      = result.nominalVoltage;
+    state.battIdApplications = result.typicalApplications;
+    state.battIdChemistry    = result.chemistryOptions;
+    state.battIdWarnings     = result.warnings;
+    state.battIdVerification = result.verificationRequired;
+    saveState();
+  }
+
+  function restoreBattIdPanel() {
+    if (!state.battIdDone || state.infoType !== 'number') return;
+    var result = {
+      confidence:           state.battIdConf          || 'unknown',
+      enteredCode:          state.battCode             || '',
+      canonical:            state.battIdCanonical      || null,
+      family:               state.battIdFamily         || null,
+      category:             state.battIdCategory       || null,
+      nominalVoltage:       state.battIdVoltage        || '',
+      typicalApplications:  state.battIdApplications   || [],
+      chemistryOptions:     state.battIdChemistry      || [],
+      warnings:             state.battIdWarnings       || [],
+      verificationRequired: state.battIdVerification   || []
+    };
+    renderIdentResult(result);
+    var btn = $('btn-continue-batt-code');
+    if (btn) btn.textContent = 'Continue with enquiry \u2192';
+  }
+
+  /* ── Label maps ─────────────────────────────────────────── */
   var CATEGORY_LABELS = {
-    car: 'Cars & vehicles',
-    moto: 'Motorcycles',
-    caravan: 'Caravans & RVs',
-    marine: 'Marine / boats',
-    tools: 'Power tools',
-    garden: 'Garden equipment',
-    mobility: 'Mobility aids',
-    home: 'Home & solar',
-    other: 'Other / not sure'
+    tool:        'Power tool',
+    car:         'Car or vehicle',
+    caravan:     'Caravan or camping equipment',
+    moto:        'Motorcycle',
+    marine:      'Boat or marine equipment',
+    garden:      'Mower or garden equipment',
+    home:        'Home or solar system',
+    electronics: 'Electronics',
+    mobility:    'Mobility equipment',
+    security:    'Security or emergency equipment',
+    other:       'Something else'
   };
 
-  var IDENT_LABELS = {
-    number: 'I have a battery number or part number',
-    specs: 'I know battery specifications',
-    photo: 'I have the old battery and can take a photo',
-    notsure: 'I\'m not sure — I need identification help'
+  var INFO_LABELS = {
+    equipment: 'Equipment brand and model',
+    number:    'Existing battery number',
+    specs:     'Battery specifications',
+    photo:     'Photographs',
+    notsure:   "I'm not sure"
   };
 
   var HELP_LABELS = {
-    supply: 'Supply only — I will install it myself',
-    install: 'Supply and installation',
-    mobile: 'Mobile replacement service',
-    identification: 'Identification help only',
-    notsure: 'Not sure yet'
+    supply:         'Supply only',
+    install:        'Supply and installation',
+    mobile:         'Mobile replacement',
+    identification: 'Battery identification help',
+    recycle:        'Old battery recycling information'
+  };
+
+  var URGENCY_LABELS = {
+    urgent:   'Urgent — as soon as possible',
+    week:     'Within a week',
+    month:    'Within a month',
+    flexible: 'No urgency — planning ahead'
   };
 
   var CHEMISTRY_LABELS = {
-    fla: 'Flooded lead-acid (FLA / wet cell)',
-    agm: 'AGM — sealed, no-maintenance',
-    gel: 'Gel cell',
-    lithium: 'Lithium (LiFePO₄)',
+    fla:     'Flooded lead-acid (FLA / wet cell)',
+    agm:     'AGM — sealed, no-maintenance',
+    gel:     'Gel cell',
+    lithium: 'Lithium (LiFePO\u2084)',
     notsure: 'Not sure'
   };
 
-  var INTENDED_USE_LABELS = {
-    starting: 'Engine starting',
-    deepcycle: 'Deep-cycle / accessory power',
-    dualpurpose: 'Dual-purpose',
-    other: 'Other / not sure'
+  /* Step display info: num=null hides progress bar */
+  var STEP_INFO = {
+    'step-category':      { num: 1, label: 'What needs a new battery' },
+    'step-info-type':     { num: 2, label: 'What information you have' },
+    'step-equip-details': { num: 3, label: 'Equipment details' },
+    'step-batt-code':     { num: 3, label: 'Battery number' },
+    'step-batt-specs':    { num: 3, label: 'Battery specifications' },
+    'step-photo':         { num: 3, label: 'Photo guidance' },
+    'step-not-sure':      { num: 3, label: 'Your situation' },
+    'step-help-type':     { num: 4, label: 'Help required' },
+    'step-location':      { num: 5, label: 'Your location' },
+    'step-contact':       { num: 6, label: 'Contact details' },
+    'step-review':        { num: null, label: 'Review' },
+    'step-confirm':       { num: null, label: 'Done' }
   };
 
-  var STEP_LABELS = {
-    'step-category': 'What needs power',
-    'step-equipment': 'Equipment details',
-    'step-ident-method': 'Battery identification method',
-    'step-batt-number': 'Battery code entry',
-    'step-photo': 'Photo guidance',
-    'step-batt-specs': 'Supporting battery details',
-    'step-result': 'Preliminary result',
-    'step-help-type': 'Supplier assistance',
-    'step-location': 'Location',
-    'step-contact': 'Contact details',
-    'step-review': 'Review supplier request',
-    'step-confirm': 'Confirmation'
-  };
+  var TOTAL_STEPS = 6;
 
+  /* All step element IDs (used for hide-all) */
+  var ALL_STEPS = [
+    'step-category', 'step-info-type',
+    'step-equip-details', 'step-batt-code', 'step-batt-specs',
+    'step-photo', 'step-not-sure',
+    'step-help-type', 'step-location', 'step-contact',
+    'step-review', 'step-confirm'
+  ];
+
+  /* ── State ──────────────────────────────────────────────── */
+  /* state: non-sensitive flow data (category, info type, battery details, help type).
+     locationState and contactState: kept in-memory only and never persisted. */
   var state = loadState();
+  var locationState = {};
   var contactState = {};
-  var batteryDb = {
-    loaded: false,
-    loadError: false,
-    records: []
-  };
-
-  function $(id) { return document.getElementById(id); }
-  function qsa(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+  var currentStepId = 'step-category';
 
   function loadState() {
     try {
@@ -95,11 +328,15 @@
   }
 
   function saveState() {
+    /* Only persist non-location, non-contact flow data */
     try {
       var toSave = {};
-      var blocked = { contactName: 1, contactEmail: 1, contactPhone: 1, additionalNotes: 1 };
+      var exclude = {
+        suburb: 1, state: 1, postcode: 1, urgency: 1,
+        contactName: 1, contactEmail: 1, contactPhone: 1
+      };
       Object.keys(state).forEach(function (k) {
-        if (!blocked[k]) toSave[k] = state[k];
+        if (!exclude[k]) toSave[k] = state[k];
       });
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
     } catch (e) { /* ignore */ }
@@ -107,353 +344,331 @@
 
   function clearState() {
     state = {};
+    locationState = {};
     contactState = {};
     try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
   }
 
-  function normalizeCode(input) {
-    if (!input) return '';
-    return String(input)
-      .toUpperCase()
-      .trim()
-      .replace(/[‐‑–—−_]+/g, '-')
-      .replace(/[\s-]+/g, ' ')
-      .trim();
+  /* ── DOM helpers ────────────────────────────────────────── */
+  function $(id) { return document.getElementById(id); }
+  function qsa(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+
+  function radioVal(name) {
+    var checked = document.querySelector('input[name="' + name + '"]:checked');
+    return checked ? checked.value : '';
   }
 
-  function normalizeCodeKey(input) {
-    return normalizeCode(input).replace(/[^A-Z0-9]/g, '');
+  function getVal(id) {
+    var el = $(id);
+    return el ? (el.value || '') : '';
   }
 
-  function normalizedVoltage(value) {
-    if (!value || value === 'other') return null;
-    return String(value).replace(/\s+/g, '').toUpperCase();
+  function isChecked(id) {
+    var el = $(id);
+    return el ? el.checked : false;
   }
 
-  function parseDimensions(value) {
-    if (!value) return null;
-    var nums = String(value).match(/\d+(?:\.\d+)?/g);
-    if (!nums || nums.length < 3) return null;
-    return [Number(nums[0]), Number(nums[1]), Number(nums[2])];
-  }
-
-  function deriveFamilyKey(rawCode, key) {
-    if (!rawCode && !key) return '';
-    var upperRaw = normalizeCode(rawCode);
-
-    if (/^(?:GROUP\s*)?24/.test(upperRaw) || /^24/.test(key)) return '24-SERIES';
-    if (/^(?:GROUP\s*)?27/.test(upperRaw) || /^27/.test(key)) return '27-SERIES';
-    if (/^(?:GROUP\s*)?31/.test(upperRaw) || /^31/.test(key)) return '31-SERIES';
-
-    if (/^DIN\d+/.test(key)) return 'DIN';
-    if (/^(?:LN\d+|L\d+|H\d+)/.test(key)) return 'LN';
-    if (/^NS\d+/.test(key)) return 'NS';
-    if (/^N\d+/.test(key)) return 'N';
-    if (/MF$/.test(key) || /\d+MF/.test(key)) return 'MF';
-
-    var letterPrefix = key.match(/^[A-Z]+/);
-    return letterPrefix ? letterPrefix[0] : '';
-  }
-
-  function prepRecord(record) {
-    var aliases = Array.isArray(record.aliases) ? record.aliases : [];
-    record._canonicalKey = normalizeCodeKey(record.canonicalCode);
-    record._aliasKeys = aliases.map(normalizeCodeKey).filter(Boolean);
-    record._familyKey = normalizeCodeKey(record.family);
-    return record;
-  }
-
-  function loadBatteryData() {
-    return fetch('data/batteries.json')
-      .then(function (res) {
-        if (!res.ok) throw new Error('Failed to load dataset');
-        return res.json();
-      })
-      .then(function (data) {
-        var rows = Array.isArray(data.batteries) ? data.batteries : [];
-        batteryDb.records = rows.map(prepRecord);
-        batteryDb.loaded = true;
-        batteryDb.loadError = false;
-      })
-      .catch(function () {
-        batteryDb.records = [];
-        batteryDb.loaded = true;
-        batteryDb.loadError = true;
-      });
-  }
-
-  function getComparisonText(record) {
-    return [record.category || '', (record.typicalApplications || []).join(' ')].join(' ').toLowerCase();
-  }
-
-  function categoryAlignment(record, category) {
-    if (!category) return null;
-    var text = getComparisonText(record);
-    var map = {
-      car: ['automotive', 'vehicle', 'passenger', 'suv', '4wd'],
-      moto: ['motorcycle'],
-      caravan: ['caravan', 'rv', 'auxiliary', 'deep-cycle', 'deep cycle'],
-      marine: ['marine', 'boat'],
-      tools: ['tool', 'power tool'],
-      garden: ['garden', 'mower'],
-      mobility: ['mobility'],
-      home: ['home', 'solar', 'storage'],
-      other: []
-    };
-
-    var wanted = map[category] || [];
-    if (!wanted.length) return null;
-
-    var match = wanted.some(function (kw) { return text.indexOf(kw) !== -1; });
-    if (match) return true;
-
-    if ((category === 'tools' || category === 'mobility' || category === 'home') && text.indexOf('automotive') !== -1) {
-      return false;
-    }
-    return null;
-  }
-
-  function evaluateCandidate(record, matchType, details) {
-    var support = [];
-    var conflicts = [];
-    var score = matchType === 'exact' ? 4 : (matchType === 'alias' ? 3 : (matchType === 'variant' ? 2 : 1));
-
-    if (details.userVoltage) {
-      var recVoltage = normalizedVoltage(record.nominalVoltage);
-      if (recVoltage && recVoltage !== 'VARIES') {
-        if (recVoltage !== details.userVoltage) {
-          conflicts.push('Entered voltage (' + details.userVoltage + ') conflicts with typical ' + record.nominalVoltage + ' for ' + record.canonicalCode + '.');
-        } else {
-          support.push('Entered voltage matches typical ' + record.nominalVoltage + '.');
-          score += 1;
-        }
-      }
-    }
-
-    var categoryMatch = categoryAlignment(record, details.category);
-    if (categoryMatch === true) {
-      support.push('Selected equipment category aligns with typical applications.');
-      score += 1;
-    } else if (categoryMatch === false) {
-      conflicts.push('Selected equipment category appears inconsistent with this battery family.');
-    }
-
-    if (details.startStopRequired === 'yes') {
-      var startStopText = (record.startStopCompatibility || '').toLowerCase();
-      if (details.chemistry && details.chemistry !== 'agm' && details.chemistry !== 'notsure') {
-        conflicts.push('Start-stop was selected, but chemistry is not confirmed as AGM/EFB.');
-      }
-      if (startStopText.indexOf('not') !== -1 && startStopText.indexOf('compatible') !== -1) {
-        conflicts.push('Record does not confirm start-stop compatibility.');
-      } else if (startStopText.indexOf('agm') !== -1 || startStopText.indexOf('efb') !== -1) {
-        support.push('Record notes AGM/EFB options for start-stop systems.');
-        score += 1;
-      }
-    }
-
-    if (details.dimensions && record.approximateDimensions) {
-      var dims = record.approximateDimensions;
-      if (typeof dims.lengthMm === 'number' && typeof dims.widthMm === 'number' && typeof dims.heightMm === 'number') {
-        var tolerance = 25;
-        var delta = [Math.abs(details.dimensions[0] - dims.lengthMm), Math.abs(details.dimensions[1] - dims.widthMm), Math.abs(details.dimensions[2] - dims.heightMm)];
-        if (delta[0] > tolerance || delta[1] > tolerance || delta[2] > tolerance) {
-          conflicts.push('Entered dimensions appear far from this family\'s typical case envelope.');
-        } else {
-          support.push('Entered dimensions are within a broad tolerance of typical dimensions.');
-          score += 1;
-        }
-      }
-    }
-
-    if (details.intendedUse === 'deepcycle') {
-      var appText = getComparisonText(record);
-      if (appText.indexOf('starting') !== -1 && appText.indexOf('deep') === -1) {
-        conflicts.push('Intended deep-cycle use may conflict with a primarily starting-battery family.');
-      }
-    }
-
-    if (details.intendedUse) score += 0.2;
-
-    score -= conflicts.length * 2;
-
-    return {
-      record: record,
-      matchType: matchType,
-      support: support,
-      conflicts: conflicts,
-      score: score
-    };
-  }
-
-  function firstByScore(entries) {
-    if (!entries.length) return null;
-    return entries.sort(function (a, b) { return b.score - a.score; })[0];
-  }
-
-  function createResult() {
-    var codeRaw = state.battNumber || '';
-    var codeDisplay = normalizeCode(codeRaw);
-    var codeKey = normalizeCodeKey(codeRaw);
-    var familyKey = deriveFamilyKey(codeRaw, codeKey);
-    var details = {
-      category: state.category || '',
-      userVoltage: normalizedVoltage(state.specVoltage),
-      chemistry: state.specChemistry || '',
-      dimensions: parseDimensions(state.specDimensions),
-      startStopRequired: state.startStopRequired || '',
-      intendedUse: state.intendedUse || ''
-    };
-
-    var records = batteryDb.records || [];
-
-    var exact = [];
-    var alias = [];
-    var variant = [];
-    var family = [];
-
-    if (codeKey) {
-      exact = records.filter(function (r) { return r._canonicalKey === codeKey; });
-      alias = records.filter(function (r) { return r._aliasKeys.indexOf(codeKey) !== -1; });
-      variant = records.filter(function (r) {
-        if (!r._canonicalKey || r._canonicalKey === codeKey) return false;
-        if (codeKey.length < 3) return false;
-        return codeKey.indexOf(r._canonicalKey) === 0 || r._canonicalKey.indexOf(codeKey) === 0;
-      });
-    }
-
-    if (!exact.length && !alias.length) {
-      family = records.filter(function (r) {
-        var recFamily = normalizeCodeKey(r.family);
-        if (!recFamily) return false;
-        return recFamily === normalizeCodeKey(familyKey) || recFamily === familyKey;
-      });
-    }
-
-    var evaluated = [];
-    exact.forEach(function (r) { evaluated.push(evaluateCandidate(r, 'exact', details)); });
-    alias.forEach(function (r) { evaluated.push(evaluateCandidate(r, 'alias', details)); });
-    variant.forEach(function (r) { evaluated.push(evaluateCandidate(r, 'variant', details)); });
-
-    var best = firstByScore(evaluated);
-    var bestFamily = firstByScore(family.map(function (r) { return evaluateCandidate(r, 'family', details); }));
-
-    var outcome = 'C';
-    var confidence = 'LOW CONFIDENCE';
-    var confidenceReason = 'The current inputs are not strong enough to identify a likely battery yet.';
-    var unknownCode = false;
-    var conflicts = [];
-    var support = [];
-    var selected = null;
-
-    if (best && best.conflicts.length) {
-      selected = best;
-      conflicts = best.conflicts.slice();
-      support = best.support.slice();
-      outcome = 'D';
-      confidence = 'LOW CONFIDENCE';
-      confidenceReason = 'Conflicting information was detected. Please resolve the conflicts before purchasing.';
-    } else if (best) {
-      selected = best;
-      support = best.support.slice();
-      outcome = 'A';
-      if ((best.matchType === 'exact' || best.matchType === 'alias') && support.length >= 2) {
-        confidence = 'HIGH CONFIDENCE';
-        confidenceReason = 'Recognised code and supporting details generally agree, but final fitment checks are still required.';
+  /* ── Error handling ─────────────────────────────────────── */
+  function showFieldError(errorId, show) {
+    var el = $(errorId);
+    if (!el) return;
+    el.hidden = !show;
+    /* Mark the associated control */
+    var inputId = errorId.replace(/^error-/, '');
+    var input = $(inputId);
+    if (input) {
+      if (show) {
+        input.classList.add('has-error');
+        input.setAttribute('aria-invalid', 'true');
       } else {
-        confidence = 'MEDIUM CONFIDENCE';
-        confidenceReason = 'A likely code/family was identified, but important checks remain.';
+        input.classList.remove('has-error');
+        input.removeAttribute('aria-invalid');
       }
-    } else if (bestFamily) {
-      selected = bestFamily;
-      support = bestFamily.support.slice();
-      conflicts = bestFamily.conflicts.slice();
-      if (conflicts.length) {
-        outcome = 'D';
-        confidence = 'LOW CONFIDENCE';
-        confidenceReason = 'A possible family was found, but your answers conflict with typical details.';
-      } else {
-        outcome = 'B';
-        confidence = 'MEDIUM CONFIDENCE';
-        confidenceReason = 'A battery family was recognised, but a precise match is not yet confirmed.';
-      }
-    } else {
-      var hasCode = !!codeKey;
-      var hasSomeDetails = !!(details.userVoltage || details.dimensions || details.category || details.intendedUse || details.startStopRequired);
-      if (hasCode) unknownCode = true;
-      outcome = hasSomeDetails ? 'C' : 'C';
-      confidence = 'LOW CONFIDENCE';
-      confidenceReason = hasCode
-        ? 'The entered code is not confidently recognised in this preliminary dataset yet.'
-        : 'Add a code or more supporting details to improve the result.';
     }
-
-    return {
-      generatedAt: new Date(),
-      enteredCode: codeDisplay,
-      enteredCodeKey: codeKey,
-      familyKey: familyKey,
-      outcome: outcome,
-      confidence: confidence,
-      confidenceReason: confidenceReason,
-      selected: selected,
-      support: support,
-      conflicts: conflicts,
-      unknownCode: unknownCode,
-      loadError: batteryDb.loadError,
-      details: details
-    };
   }
 
-  function renderList(id, items) {
-    var list = $(id);
-    if (!list) return;
+  function clearFieldErrors(ids) {
+    (ids || []).forEach(function (id) { showFieldError('error-' + id, false); });
+  }
+
+  function showErrorSummary(errors) {
+    var summary = $('errorSummary');
+    var list    = $('errorSummaryList');
+    if (!summary || !list) return;
     while (list.firstChild) list.removeChild(list.firstChild);
-    var values = items.length ? items : ['—'];
-    values.forEach(function (item) {
+    errors.forEach(function (err) {
       var li = document.createElement('li');
-      li.textContent = item;
+      var a  = document.createElement('a');
+      a.href = '#' + err.id;
+      a.textContent = err.message;
+      li.appendChild(a);
       list.appendChild(li);
     });
+    summary.hidden = false;
+    summary.focus();
   }
 
-  function renderIdentification(result) {
-    var el = $('resultIdentification');
+  function hideErrorSummary() {
+    var s = $('errorSummary');
+    if (s) s.hidden = true;
+  }
+
+  /* ── Progress bar ───────────────────────────────────────── */
+  function updateProgress() {
+    var info  = STEP_INFO[currentStepId];
+    var wrap  = $('progressWrap');
+    var text  = $('progressText');
+    var name  = $('progressStepName');
+    var fill  = $('progressFill');
+    var track = fill ? fill.parentElement : null;
+
+    if (!wrap) return;
+
+    if (info && info.num) {
+      wrap.hidden = false;
+      if (text)  text.textContent  = 'Step ' + info.num + ' of ' + TOTAL_STEPS;
+      if (name)  name.textContent  = info.label;
+      if (fill)  fill.style.width  = Math.round((info.num / TOTAL_STEPS) * 100) + '%';
+      if (track) {
+        track.setAttribute('aria-valuenow', String(info.num));
+        track.setAttribute('aria-valuemax', String(TOTAL_STEPS));
+      }
+    } else {
+      wrap.hidden = true;
+    }
+  }
+
+  /* ── Step navigation ────────────────────────────────────── */
+  function showStep(stepId) {
+    hideErrorSummary();
+
+    /* Hide every step panel */
+    ALL_STEPS.forEach(function (id) {
+      var el = $(id);
+      if (el) el.hidden = true;
+    });
+
+    var card = $(stepId);
+    if (!card) return;
+    card.hidden = false;
+    currentStepId = stepId;
+    state.currentStep = stepId;
+    saveState();
+    updateProgress();
+
+    /* Move focus to the step heading */
+    var heading = card.querySelector('[tabindex="-1"]') || card.querySelector('legend');
+    if (heading) {
+      setTimeout(function () { heading.focus(); }, 60);
+    }
+
+    if (stepId === 'step-review')    populateReview();
+    if (stepId === 'step-confirm')   populateConfirmation();
+    if (stepId === 'step-batt-code') restoreBattIdPanel();
+
+    /* Scroll to top of page content on step change */
+    var main = $('main-content');
+    if (main) main.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+
+  /* ── Back-step routing ──────────────────────────────────── */
+  function getStep3Id() {
+    var map = {
+      equipment: 'step-equip-details',
+      number:    'step-batt-code',
+      specs:     'step-batt-specs',
+      photo:     'step-photo',
+      notsure:   'step-not-sure'
+    };
+    return map[state.infoType] || 'step-equip-details';
+  }
+
+  /* ── Field restore ──────────────────────────────────────── */
+  function restoreField(id, value) {
+    var el = $(id);
+    if (!el || value === undefined || value === null) return;
+    el.value = value;
+  }
+
+  function restoreRadio(name, value) {
+    if (!value) return;
+    var input = document.querySelector(
+      'input[name="' + name + '"][value="' + CSS.escape(value) + '"]'
+    );
+    if (input) input.checked = true;
+  }
+
+  function restoreCheckbox(id, value) {
+    var el = $(id);
+    if (el) el.checked = !!value;
+  }
+
+  function restoreFields() {
+    restoreRadio('category', state.category);
+    restoreRadio('infoType', state.infoType);
+
+    restoreField('equipType',  state.equipType);
+    restoreField('equipBrand', state.equipBrand);
+    restoreField('equipModel', state.equipModel);
+    restoreField('equipYear',  state.equipYear);
+    restoreField('equipNotes', state.equipNotes);
+    restoreCheckbox('equipNotSure', state.equipNotSure);
+
+    restoreField('battBrand',     state.battBrand);
+    restoreField('battCode',      state.battCode);
+    restoreField('battCodeNotes', state.battCodeNotes);
+    restoreCheckbox('battCodeNotSure', state.battCodeNotSure);
+
+    restoreField('specVoltage', state.specVoltage);
+    restoreField('specAh',      state.specAh);
+    restoreRadio('specChemistry', state.specChemistry);
+    restoreField('specLength',  state.specLength);
+    restoreField('specWidth',   state.specWidth);
+    restoreField('specHeight',  state.specHeight);
+    restoreField('specTerminal',state.specTerminal);
+    restoreField('specsNotes',  state.specsNotes);
+    restoreCheckbox('specsNotSure', state.specsNotSure);
+
+    restoreField('photoNotes',   state.photoNotes);
+    restoreField('notSureNotes', state.notSureNotes);
+
+    restoreRadio('helpType', state.helpType);
+
+    restoreField('suburb',  locationState.suburb);
+    restoreField('state',   locationState.state);
+    restoreField('postcode',locationState.postcode);
+    restoreField('urgency', locationState.urgency);
+  }
+
+  /* ── URL params ─────────────────────────────────────────── */
+  function applyUrlParams() {
+    try {
+      var params   = new URLSearchParams(window.location.search);
+      var category = params.get('category');
+      var path     = params.get('path');
+
+      if (category && CATEGORY_LABELS[category] && !state.category) {
+        state.category = category;
+        restoreRadio('category', category);
+      }
+      if (path === 'photo' && !state.infoType) {
+        state.infoType = 'photo';
+        restoreRadio('infoType', 'photo');
+      }
+    } catch (e) { /* ignore */ }
+  }
+
+  /* ── Email validation ───────────────────────────────────── */
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  /* ── Review page ────────────────────────────────────────── */
+  function setReviewField(id, text) {
+    var el = $(id);
+    if (el) el.textContent = text || '\u2014';
+  }
+
+  function populateReview() {
+    setReviewField('rv-category',    CATEGORY_LABELS[state.category]  || state.category);
+    setReviewField('rv-identMethod', INFO_LABELS[state.infoType]      || state.infoType);
+
+    var details = [];
+    if (state.infoType === 'equipment') {
+      if (state.equipNotSure) {
+        details.push('Details not available');
+      } else {
+        if (state.equipType)  details.push('Type: '  + state.equipType);
+        if (state.equipBrand) details.push('Brand: ' + state.equipBrand);
+        if (state.equipModel) details.push('Model: ' + state.equipModel);
+        if (state.equipYear)  details.push('Year: '  + state.equipYear);
+      }
+      if (state.equipNotes)  details.push('Notes: ' + state.equipNotes);
+    } else if (state.infoType === 'number') {
+      if (state.battBrand)       details.push('Brand: ' + state.battBrand);
+      if (state.battCodeNotSure) {
+        details.push('Number not available');
+      } else if (state.battCode) {
+        details.push('Code: ' + state.battCode);
+      }
+      if (state.battCodeNotes)   details.push('Notes: ' + state.battCodeNotes);
+    } else if (state.infoType === 'specs') {
+      if (state.specVoltage && state.specVoltage !== 'other') details.push('Voltage: ' + state.specVoltage);
+      if (state.specAh)      details.push('Capacity: ' + state.specAh + ' Ah');
+      if (state.specChemistry && state.specChemistry !== 'notsure') {
+        details.push('Type: ' + (CHEMISTRY_LABELS[state.specChemistry] || state.specChemistry));
+      }
+      var dims = [state.specLength, state.specWidth, state.specHeight].filter(Boolean);
+      if (dims.length === 3) details.push('Size: ' + dims.join(' \u00d7 ') + ' mm');
+      else if (dims.length)  details.push('Dimensions (partial): ' + dims.join(', ') + ' mm');
+      if (state.specTerminal && state.specTerminal !== 'notsure') {
+        details.push('Terminal: ' + state.specTerminal);
+      }
+      if (state.specsNotes) details.push('Notes: ' + state.specsNotes);
+      if (state.specsNotSure && !details.length) details.push('Specifications not available');
+    } else if (state.infoType === 'photo') {
+      details.push('Photos to be provided after submission');
+      if (state.photoNotes) details.push('Notes: ' + state.photoNotes);
+    } else if (state.infoType === 'notsure') {
+      if (state.notSureNotes) details.push(state.notSureNotes);
+    }
+
+    setReviewField('rv-identDetail', details.length ? details.join(' \u00b7 ') : 'No additional details provided');
+
+    /* Preliminary identification section (battery number route only) */
+    var rvBattIdSec = $('rv-batt-id-section');
+    if (rvBattIdSec) {
+      var showBattId = state.infoType === 'number' && state.battIdDone;
+      rvBattIdSec.hidden = !showBattId;
+      if (showBattId) {
+        if (state.battIdConf === 'unknown') {
+          setReviewField('rv-battCanonical',    'Not found in reference database');
+          setReviewField('rv-battConfidence',   confidenceLabel('unknown'));
+          setReviewField('rv-battWarnings',     '\u2014');
+          setReviewField('rv-battVerification', '\u2014');
+        } else {
+          var canonical = state.battIdCanonical || '\u2014';
+          if (state.battIdCategory) canonical += ' \u2014 ' + state.battIdCategory;
+          setReviewField('rv-battCanonical',    canonical);
+          setReviewField('rv-battConfidence',   confidenceLabel(state.battIdConf));
+          var warns = state.battIdWarnings || [];
+          setReviewField('rv-battWarnings',     warns.length ? warns.join(' \u00b7 ') : '\u2014');
+          var verif = state.battIdVerification || [];
+          setReviewField('rv-battVerification', verif.length ? verif.join(', ') : '\u2014');
+        }
+      }
+    }
+
+    setReviewField('rv-helpType', HELP_LABELS[state.helpType] || state.helpType);
+    setReviewField('rv-suburb',   locationState.suburb);
+    setReviewField('rv-state',    locationState.state);
+    setReviewField('rv-postcode', locationState.postcode);
+    setReviewField('rv-urgency',  URGENCY_LABELS[locationState.urgency] || locationState.urgency || 'Not specified');
+    setReviewField('rv-name',     contactState.contactName  || '');
+    setReviewField('rv-email',    contactState.contactEmail || '');
+    setReviewField('rv-phone',    contactState.contactPhone || 'Not provided');
+  }
+
+  /* ── Confirmation summary ───────────────────────────────── */
+  function populateConfirmation() {
+    var el = $('confirmSummary');
     if (!el) return;
     while (el.firstChild) el.removeChild(el.firstChild);
 
-    var selected = result.selected ? result.selected.record : null;
-    if (result.unknownCode) {
-      var unknownP = document.createElement('p');
-      var strong = document.createElement('strong');
-      strong.textContent = 'We could not confidently recognise that battery code yet.';
-      unknownP.appendChild(strong);
-      el.appendChild(unknownP);
-
-      var unknownHelp = document.createElement('p');
-      unknownHelp.className = 'result-muted';
-      unknownHelp.textContent = 'Check the code for missed letters/numbers, enter voltage and dimensions, choose the equipment category, prepare a clear label photo, or contact a supplier. Our database is still growing.';
-      el.appendChild(unknownHelp);
-      return;
-    }
-
-    if (!selected) {
-      var empty = document.createElement('p');
-      empty.textContent = 'Insufficient information to identify a likely code or family.';
-      el.appendChild(empty);
-      return;
-    }
-
-    var app = (selected.typicalApplications || []).join(', ') || 'varies';
-    var chem = (selected.chemistryOptions || []).join(', ') || 'varies';
     var dl = document.createElement('dl');
-    dl.className = 'result-dl';
+    dl.className = 'review-dl';
+    dl.style.cssText = 'border:1px solid var(--color-border);border-radius:var(--radius);padding:var(--sp-5) var(--sp-6)';
+
+    var location = [locationState.suburb, locationState.state, locationState.postcode].filter(Boolean).join(', ');
     var rows = [
-      ['Likely code/family', selected.canonicalCode + ' (' + selected.family + ')'],
-      ['Category', selected.category || 'varies'],
-      ['Nominal voltage', selected.nominalVoltage || 'varies'],
-      ['Common uses', app],
-      ['Likely chemistry options', chem]
+      ['Equipment',            CATEGORY_LABELS[state.category] || state.category || '\u2014'],
+      ['Identification method',INFO_LABELS[state.infoType]     || '\u2014'],
+      ['Help required',        HELP_LABELS[state.helpType]     || '\u2014'],
+      ['Location',             location || '\u2014'],
+      ['Name',                 contactState.contactName  || '\u2014'],
+      ['Email',                contactState.contactEmail || '\u2014']
     ];
+
     rows.forEach(function (row) {
       var dt = document.createElement('dt');
       dt.textContent = row[0];
@@ -462,551 +677,26 @@
       dl.appendChild(dt);
       dl.appendChild(dd);
     });
-    el.appendChild(dl);
-  }
-
-  function buildKnownItems(result) {
-    var known = [];
-    var selected = result.selected ? result.selected.record : null;
-
-    if (result.enteredCode) known.push('Entered battery code: ' + result.enteredCode + '.');
-    if (state.category) known.push('Selected equipment category: ' + (CATEGORY_LABELS[state.category] || state.category) + '.');
-    if (state.specVoltage) known.push('Entered voltage: ' + state.specVoltage + '.');
-    if (state.specDimensions) known.push('Entered dimensions: ' + state.specDimensions + '.');
-    if (state.specCca) known.push('Entered CCA/capacity note: ' + state.specCca + '.');
-    if (state.startStopRequired) known.push('Start-stop requirement selected: ' + state.startStopRequired + '.');
-    if (state.intendedUse) known.push('Intended use: ' + (INTENDED_USE_LABELS[state.intendedUse] || state.intendedUse) + '.');
-    if (state.specChemistry && state.specChemistry !== 'notsure') known.push('Entered chemistry: ' + (CHEMISTRY_LABELS[state.specChemistry] || state.specChemistry) + '.');
-
-    if (selected) {
-      known.push('Preliminary dataset suggests family: ' + selected.family + ' (' + selected.canonicalCode + ').');
-      if (selected.nominalVoltage) known.push('Typical nominal voltage in dataset: ' + selected.nominalVoltage + '.');
-      if (selected.typicalCcaRange) known.push('Typical performance range reference: ' + selected.typicalCcaRange + '.');
-    }
-
-    result.support.forEach(function (msg) { known.push(msg); });
-    result.conflicts.forEach(function (msg) { known.push('Conflict noted: ' + msg); });
-
-    return known;
-  }
-
-  function buildUnknownItems(result) {
-    var unknown = [];
-
-    if (!parseDimensions(state.specDimensions)) unknown.push('Exact dimensions (length, width, height).');
-    unknown.push('Exact positive terminal position and terminal type.');
-    unknown.push('Mounting/hold-down arrangement confirmation.');
-    if (!state.specCca) unknown.push('Required CCA or capacity target.');
-    if (!state.startStopRequired || state.startStopRequired === 'unsure') unknown.push('Confirmed start-stop requirement and suitable chemistry (AGM/EFB where required).');
-    unknown.push('Venting requirements for the installation location.');
-    unknown.push('Equipment/vehicle manufacturer-specific fitment requirements.');
-
-    if (result.conflicts.length) {
-      unknown.push('Resolution of conflicting answers before purchase.');
-    }
-
-    return unknown;
-  }
-
-  function recommendationFor(confidence) {
-    if (confidence === 'HIGH CONFIDENCE') {
-      return 'Confirm the listed physical and performance details before ordering.';
-    }
-    if (confidence === 'MEDIUM CONFIDENCE') {
-      return 'Measure the existing battery and confirm the outstanding details with a supplier.';
-    }
-    return 'Do not purchase yet. Add a clear battery-label photo or contact a supplier for identification.';
-  }
-
-  function renderResult(result) {
-    state.latestResult = {
-      outcome: result.outcome,
-      confidence: result.confidence,
-      conflicts: result.conflicts,
-      unknownCode: result.unknownCode
-    };
-    saveState();
-
-    if ($('resultGeneratedAt')) {
-      $('resultGeneratedAt').textContent = 'Generated: ' + result.generatedAt.toLocaleString('en-AU', { dateStyle: 'medium', timeStyle: 'short' });
-    }
-
-    if ($('resultLoadError')) $('resultLoadError').hidden = !result.loadError;
-
-    renderIdentification(result);
-
-    var outcomeMap = {
-      A: 'A. Likely match identified',
-      B: 'B. Possible battery family identified',
-      C: 'C. Insufficient information',
-      D: 'D. Conflicting information detected'
-    };
-    if ($('resultOutcome')) $('resultOutcome').textContent = 'Outcome: ' + (outcomeMap[result.outcome] || result.outcome);
-
-    if ($('resultConfidenceLabel')) $('resultConfidenceLabel').textContent = result.confidence;
-    if ($('resultConfidenceReason')) $('resultConfidenceReason').textContent = result.confidenceReason;
-
-    var knownItems = buildKnownItems(result);
-    var unknownItems = buildUnknownItems(result);
-
-    renderList('resultKnownList', knownItems);
-    renderList('resultUnknownList', unknownItems);
-    renderList('resultChecklist', RESULT_CHECKLIST);
-    if ($('resultRecommendation')) $('resultRecommendation').textContent = recommendationFor(result.confidence);
-
-    var live = $('resultLive');
-    if (live) {
-      live.textContent = 'Preliminary result generated. Outcome ' + result.outcome + '. ' + result.confidence + '.';
-    }
-  }
-
-  function getImproveTarget(result) {
-    if (result.conflicts.length) return 'step-batt-specs';
-    if (result.unknownCode && state.identMethod === 'number') return 'step-batt-number';
-    if (!state.identMethod || state.identMethod === 'notsure') return 'step-ident-method';
-    if (!state.specVoltage || !parseDimensions(state.specDimensions) || !state.startStopRequired || state.startStopRequired === 'unsure') {
-      return 'step-batt-specs';
-    }
-    if (state.identMethod === 'photo') return 'step-photo';
-    return state.identMethod === 'number' ? 'step-batt-number' : 'step-batt-specs';
-  }
-
-  function isSupplierFlowStep(id) {
-    return ['step-help-type', 'step-location', 'step-contact', 'step-review', 'step-confirm'].indexOf(id) !== -1;
-  }
-
-  function buildStepSequence() {
-    var seq = ['step-category', 'step-equipment', 'step-ident-method'];
-    if (state.identMethod === 'number') seq.push('step-batt-number');
-    if (state.identMethod === 'photo') seq.push('step-photo');
-    seq.push('step-batt-specs', 'step-result');
-
-    if (state.requestSupplier) {
-      seq.push('step-help-type', 'step-location', 'step-contact', 'step-review', 'step-confirm');
-    }
-    return seq;
-  }
-
-  var currentStepId = state.currentStep || 'step-category';
-
-  function updateProgress() {
-    var seq = buildStepSequence();
-    var progressWrap = $('progressWrap');
-    if (!progressWrap) return;
-
-    if (currentStepId === 'step-confirm') {
-      progressWrap.hidden = true;
-      return;
-    }
-
-    var idx = seq.indexOf(currentStepId);
-    if (idx < 0) idx = 0;
-
-    var current = idx + 1;
-    var total = seq.length;
-    var pct = Math.round((current / total) * 100);
-
-    progressWrap.hidden = false;
-    if ($('progressText')) $('progressText').textContent = 'Step ' + current + ' of ' + total;
-    if ($('progressStepName')) $('progressStepName').textContent = STEP_LABELS[currentStepId] || '';
-    if ($('progressFill')) $('progressFill').style.width = pct + '%';
-
-    var track = progressWrap.querySelector('.progress-track');
-    if (track) {
-      track.setAttribute('aria-valuenow', String(current));
-      track.setAttribute('aria-valuemax', String(total));
-    }
-  }
-
-  function hideErrorSummary() {
-    var summary = $('errorSummary');
-    if (summary) summary.hidden = true;
-  }
-
-  function showStep(id) {
-    qsa('[data-step]').forEach(function (el) { el.hidden = true; });
-    var el = $(id);
-    if (!el) return;
-    el.hidden = false;
-    currentStepId = id;
-    state.currentStep = id;
-    saveState();
-    updateProgress();
-    hideErrorSummary();
-
-    var heading = el.querySelector('[tabindex="-1"]');
-    if (heading) heading.focus();
-    else el.focus();
-
-    el.scrollIntoView({ block: 'start', behavior: 'smooth' });
-  }
-
-  function showFieldError(id, show) {
-    var el = $(id);
-    if (!el) return;
-    el.hidden = !show;
-  }
-
-  function showErrorSummary(errors) {
-    var summary = $('errorSummary');
-    var list = $('errorSummaryList');
-    if (!summary || !list) return;
-
-    list.innerHTML = '';
-    errors.forEach(function (e) {
-      var li = document.createElement('li');
-      var a = document.createElement('a');
-      a.href = '#' + e.id;
-      a.textContent = e.message;
-      li.appendChild(a);
-      list.appendChild(li);
-    });
-    summary.hidden = false;
-    summary.focus();
-  }
-
-  function clearFieldErrors(ids) {
-    ids.forEach(function (id) { showFieldError('error-' + id, false); });
-  }
-
-  function restoreFields() {
-    Object.keys(state).forEach(function (key) {
-      var val = state[key];
-      var el = $(key);
-      if (!el) {
-        var radio = document.querySelector('input[type="radio"][name="' + key + '"][value="' + val + '"]');
-        if (radio) radio.checked = true;
-        return;
-      }
-      if (el.type === 'checkbox') el.checked = !!val;
-      else el.value = val || '';
-    });
-
-    ['contactName', 'contactEmail', 'contactPhone', 'additionalNotes'].forEach(function (key) {
-      var el = $(key);
-      if (el && contactState[key]) el.value = contactState[key];
-    });
-  }
-
-  function radioVal(name) {
-    var checked = document.querySelector('input[type="radio"][name="' + name + '"]:checked');
-    return checked ? checked.value : null;
-  }
-
-  function populateReview() {
-    function set(id, val) {
-      var el = $(id);
-      if (el) el.textContent = val || '—';
-    }
-
-    set('rv-category', CATEGORY_LABELS[state.category] || state.category);
-    set('rv-make', state.equipNotSure ? 'Not sure / not applicable' : (state.equipMake || 'Not provided'));
-    set('rv-model', state.equipNotSure ? 'Not sure / not applicable' : (state.equipModel || 'Not provided'));
-
-    set('rv-identMethod', IDENT_LABELS[state.identMethod] || state.identMethod);
-
-    var detailParts = [];
-    if (state.battNumber) detailParts.push('Code: ' + normalizeCode(state.battNumber));
-    if (state.specVoltage) detailParts.push('Voltage: ' + state.specVoltage);
-    if (state.specCca) detailParts.push('CCA: ' + state.specCca);
-    if (state.specChemistry && state.specChemistry !== 'notsure') detailParts.push('Type: ' + (CHEMISTRY_LABELS[state.specChemistry] || state.specChemistry));
-    if (state.specDimensions) detailParts.push('Size: ' + state.specDimensions);
-    set('rv-identDetail', detailParts.length ? detailParts.join(', ') : 'No additional identification details');
-
-    set('rv-helpType', HELP_LABELS[state.helpType] || state.helpType);
-    set('rv-recycle', state.recycleOld ? 'Yes — recycling information requested' : 'No');
-
-    set('rv-suburb', state.suburb);
-    set('rv-postcode', state.postcode);
-    set('rv-state', state.state);
-
-    set('rv-name', contactState.contactName || '');
-    set('rv-email', contactState.contactEmail || '');
-    set('rv-phone', contactState.contactPhone || 'Not provided');
-    set('rv-notes', contactState.additionalNotes || 'None');
-  }
-
-  function populateConfirmation() {
-    var el = $('confirmSummary');
-    if (!el) return;
-    while (el.firstChild) el.removeChild(el.firstChild);
-
-    var dl = document.createElement('dl');
-    dl.style.cssText = 'display:flex;flex-direction:column;gap:var(--sp-3)';
-
-    var rows = [
-      ['Equipment', CATEGORY_LABELS[state.category] || state.category || '—'],
-      ['Preliminary result confidence', (state.latestResult && state.latestResult.confidence) || '—'],
-      ['Supplier assistance', HELP_LABELS[state.helpType] || state.helpType || '—'],
-      ['Location', [state.suburb, state.postcode, state.state].filter(Boolean).join(', ') || '—'],
-      ['Name', contactState.contactName || '—'],
-      ['Email', contactState.contactEmail || '—']
-    ];
-
-    rows.forEach(function (row) {
-      var wrap = document.createElement('div');
-      wrap.style.cssText = 'display:flex;gap:var(--sp-4);flex-wrap:wrap';
-      var dt = document.createElement('dt');
-      dt.style.cssText = 'font-weight:600;min-width:180px;color:var(--color-text-muted)';
-      dt.textContent = row[0];
-      var dd = document.createElement('dd');
-      dd.style.margin = '0';
-      dd.textContent = row[1];
-      wrap.appendChild(dt);
-      wrap.appendChild(dd);
-      dl.appendChild(wrap);
-    });
 
     el.appendChild(dl);
   }
 
-  function bindStepEvents() {
-    var btn1 = $('btn-continue-1');
-    if (btn1) {
-      btn1.addEventListener('click', function () {
-        var val = radioVal('category');
-        if (!val) {
-          showErrorSummary([{ id: 'categoryGrid', message: 'Please select what needs power' }]);
-          showFieldError('error-category', true);
-          return;
-        }
-        state.category = val;
-        saveState();
-        showStep('step-equipment');
+  /* ── Help panel toggle ──────────────────────────────────── */
+  function bindHelpToggles() {
+    qsa('.help-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var panelId = btn.getAttribute('aria-controls');
+        var panel   = $(panelId);
+        if (!panel) return;
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        panel.classList.toggle('is-open', !open);
       });
-    }
+    });
+  }
 
-    var btn2 = $('btn-continue-2');
-    if (btn2) {
-      btn2.addEventListener('click', function () {
-        var make = ($('equipMake') || {}).value || '';
-        var model = ($('equipModel') || {}).value || '';
-        var notSure = ($('equipNotSure') || {}).checked;
-
-        clearFieldErrors(['equipModel']);
-        if (!notSure && !make.trim() && !model.trim()) {
-          showErrorSummary([{ id: 'equipModel', message: 'Please describe the equipment, or tick "I\'m not sure"' }]);
-          showFieldError('error-equipModel', true);
-          return;
-        }
-
-        state.equipMake = make.trim();
-        state.equipModel = model.trim();
-        state.equipNotSure = notSure;
-        saveState();
-        showStep('step-ident-method');
-      });
-      $('btn-back-2').addEventListener('click', function () { showStep('step-category'); });
-    }
-
-    var btn3 = $('btn-continue-3');
-    if (btn3) {
-      btn3.addEventListener('click', function () {
-        var val = radioVal('identMethod');
-        if (!val) {
-          showErrorSummary([{ id: 'step-ident-method', message: 'Please choose how you would like to identify the battery' }]);
-          showFieldError('error-identMethod', true);
-          return;
-        }
-        state.identMethod = val;
-        saveState();
-
-        if (val === 'number') showStep('step-batt-number');
-        else if (val === 'photo') showStep('step-photo');
-        else showStep('step-batt-specs');
-      });
-      $('btn-back-3').addEventListener('click', function () { showStep('step-equipment'); });
-    }
-
-    var btn4 = $('btn-continue-4');
-    if (btn4) {
-      btn4.addEventListener('click', function () {
-        var num = ($('battNumber') || {}).value || '';
-        var notSure = ($('battNumberNotSure') || {}).checked;
-
-        clearFieldErrors(['battNumber']);
-        if (!notSure && !num.trim()) {
-          showErrorSummary([{ id: 'battNumber', message: 'Please enter the battery number, or tick to skip this step' }]);
-          showFieldError('error-battNumber', true);
-          return;
-        }
-
-        state.battNumber = num.trim();
-        state.battNumberNotSure = notSure;
-        saveState();
-        showStep('step-batt-specs');
-      });
-      $('btn-back-4').addEventListener('click', function () { showStep('step-ident-method'); });
-    }
-
-    var btn5 = $('btn-continue-5');
-    if (btn5) {
-      btn5.addEventListener('click', function () {
-        state.specVoltage = ($('specVoltage') || {}).value || '';
-        state.specCca = ($('specCca') || {}).value || '';
-        state.specChemistry = radioVal('specChemistry') || '';
-        state.specDimensions = ($('specDimensions') || {}).value || '';
-        state.intendedUse = ($('intendedUse') || {}).value || '';
-        state.startStopRequired = ($('startStopRequired') || {}).value || '';
-        saveState();
-
-        var result = createResult();
-        renderResult(result);
-        showStep('step-result');
-      });
-      $('btn-back-5').addEventListener('click', function () {
-        if (state.identMethod === 'number') showStep('step-batt-number');
-        else if (state.identMethod === 'photo') showStep('step-photo');
-        else showStep('step-ident-method');
-      });
-    }
-
-    var btn6 = $('btn-continue-6');
-    if (btn6) {
-      btn6.addEventListener('click', function () {
-        var confirmed = ($('photoConfirm') || {}).checked;
-        clearFieldErrors(['photoConfirm']);
-        if (!confirmed) {
-          showErrorSummary([{ id: 'photoConfirm', message: 'Please confirm you understand photos are sent via email' }]);
-          showFieldError('error-photoConfirm', true);
-          return;
-        }
-
-        state.photoNotes = ($('photoNotes') || {}).value || '';
-        state.photoConfirm = confirmed;
-        saveState();
-        showStep('step-batt-specs');
-      });
-      $('btn-back-6').addEventListener('click', function () { showStep('step-ident-method'); });
-    }
-
-    var btnFindSupplier = $('btn-find-supplier');
-    if (btnFindSupplier) {
-      btnFindSupplier.addEventListener('click', function () {
-        state.requestSupplier = true;
-        saveState();
-        showStep('step-help-type');
-      });
-    }
-
-    var btnImprove = $('btn-improve-result');
-    if (btnImprove) {
-      btnImprove.addEventListener('click', function () {
-        var result = createResult();
-        var target = getImproveTarget(result);
-        showStep(target);
-      });
-    }
-
-    var btnPrint = $('btn-print-result');
-    if (btnPrint) {
-      btnPrint.addEventListener('click', function () {
-        window.print();
-      });
-    }
-
-    var btnStartAgainResult = $('btn-start-again-result');
-    if (btnStartAgainResult) {
-      btnStartAgainResult.addEventListener('click', function () {
-        clearState();
-        qsa('input[type="radio"]').forEach(function (r) { r.checked = false; });
-        qsa('input[type="checkbox"]').forEach(function (c) { c.checked = false; });
-        qsa('input[type="text"], input[type="email"], input[type="tel"], textarea, select').forEach(function (i) { i.value = ''; });
-        showStep('step-category');
-      });
-    }
-
-    var btn7 = $('btn-continue-7');
-    if (btn7) {
-      btn7.addEventListener('click', function () {
-        var val = radioVal('helpType');
-        clearFieldErrors(['helpType']);
-        if (!val) {
-          showErrorSummary([{ id: 'step-help-type', message: 'Please select the type of help you are looking for' }]);
-          showFieldError('error-helpType', true);
-          return;
-        }
-        state.helpType = val;
-        state.recycleOld = ($('recycleOld') || {}).checked;
-        saveState();
-        showStep('step-location');
-      });
-      $('btn-back-7').addEventListener('click', function () { showStep('step-result'); });
-    }
-
-    var btn8 = $('btn-continue-8');
-    if (btn8) {
-      btn8.addEventListener('click', function () {
-        var suburb = ($('suburb') || {}).value || '';
-        var postcode = ($('postcode') || {}).value || '';
-        var stateVal = ($('state') || {}).value || '';
-
-        clearFieldErrors(['suburb', 'postcode', 'state']);
-        var errors = [];
-
-        if (!suburb.trim()) {
-          errors.push({ id: 'suburb', message: 'Please enter your suburb or town' });
-          showFieldError('error-suburb', true);
-        }
-        if (!postcode.trim() || !/^\d{4}$/.test(postcode.trim())) {
-          errors.push({ id: 'postcode', message: 'Please enter a valid 4-digit Australian postcode' });
-          showFieldError('error-postcode', true);
-        }
-        if (!stateVal) {
-          errors.push({ id: 'state', message: 'Please select your state or territory' });
-          showFieldError('error-state', true);
-        }
-
-        if (errors.length) {
-          showErrorSummary(errors);
-          return;
-        }
-
-        state.suburb = suburb.trim();
-        state.postcode = postcode.trim();
-        state.state = stateVal;
-        saveState();
-        showStep('step-contact');
-      });
-      $('btn-back-8').addEventListener('click', function () { showStep('step-help-type'); });
-    }
-
-    var btn9 = $('btn-continue-9');
-    if (btn9) {
-      btn9.addEventListener('click', function () {
-        var name = ($('contactName') || {}).value || '';
-        var email = ($('contactEmail') || {}).value || '';
-        var phone = ($('contactPhone') || {}).value || '';
-        var notes = ($('additionalNotes') || {}).value || '';
-
-        clearFieldErrors(['contactName', 'contactEmail']);
-
-        var errors = [];
-        if (!name.trim()) {
-          errors.push({ id: 'contactName', message: 'Please enter your name' });
-          showFieldError('error-contactName', true);
-        }
-        if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-          errors.push({ id: 'contactEmail', message: 'Please enter a valid email address' });
-          showFieldError('error-contactEmail', true);
-        }
-
-        if (errors.length) {
-          showErrorSummary(errors);
-          return;
-        }
-
-        contactState.contactName = name.trim();
-        contactState.contactEmail = email.trim();
-        contactState.contactPhone = phone.trim();
-        contactState.additionalNotes = notes.trim();
-
-        populateReview();
-        showStep('step-review');
-      });
-      $('btn-back-9').addEventListener('click', function () { showStep('step-location'); });
-    }
-
+  /* ── Change links on review ─────────────────────────────── */
+  function bindChangeLinks() {
     qsa('.change-link').forEach(function (link) {
       link.addEventListener('click', function (e) {
         e.preventDefault();
@@ -1014,84 +704,333 @@
         if (target) showStep(target);
       });
     });
+  }
 
-    var btnSubmit = $('btn-submit');
-    if (btnSubmit) {
-      btnSubmit.addEventListener('click', function () {
-        populateConfirmation();
-        showStep('step-confirm');
+  /* ── Step event bindings ────────────────────────────────── */
+  function bindStepEvents() {
+
+    /* Step 1: Category ──────────────────────────────────── */
+    var btn1 = $('btn-continue-1');
+    if (btn1) {
+      btn1.addEventListener('click', function () {
+        var val = radioVal('category');
+        clearFieldErrors(['category']);
+        if (!val) {
+          showErrorSummary([{ id: 'categoryGrid', message: 'Please select what needs a new battery' }]);
+          showFieldError('error-category', true);
+          return;
+        }
+        state.category = val;
+        saveState();
+        showStep('step-info-type');
       });
-      $('btn-back-10').addEventListener('click', function () { showStep('step-contact'); });
     }
 
-    var btnStartOver = $('btn-start-over');
-    if (btnStartOver) {
-      btnStartOver.addEventListener('click', function () {
+    /* Step 2: Information type ──────────────────────────── */
+    var btn2 = $('btn-continue-2');
+    if (btn2) {
+      btn2.addEventListener('click', function () {
+        var val = radioVal('infoType');
+        clearFieldErrors(['infoType']);
+        if (!val) {
+          showErrorSummary([{ id: 'step-info-type', message: 'Please choose what information you have available' }]);
+          showFieldError('error-infoType', true);
+          return;
+        }
+        state.infoType = val;
+        saveState();
+        showStep(getStep3Id());
+      });
+    }
+    var back2 = $('btn-back-2');
+    if (back2) back2.addEventListener('click', function () { showStep('step-category'); });
+
+    /* Step 3a: Equipment details ────────────────────────── */
+    var btnEquip = $('btn-continue-equip');
+    if (btnEquip) {
+      btnEquip.addEventListener('click', function () {
+        var type    = getVal('equipType').trim();
+        var brand   = getVal('equipBrand').trim();
+        var model   = getVal('equipModel').trim();
+        var year    = getVal('equipYear').trim();
+        var notes   = getVal('equipNotes').trim();
+        var notSure = isChecked('equipNotSure');
+
+        clearFieldErrors(['equip']);
+        if (!notSure && !type && !brand && !model) {
+          showErrorSummary([{ id: 'equipType', message: 'Please provide at least one equipment detail, or tick \u201cI\u2019m not sure\u201d' }]);
+          showFieldError('error-equip', true);
+          return;
+        }
+        state.equipType    = type;
+        state.equipBrand   = brand;
+        state.equipModel   = model;
+        state.equipYear    = year;
+        state.equipNotes   = notes;
+        state.equipNotSure = notSure;
+        saveState();
+        showStep('step-help-type');
+      });
+    }
+    var backEquip = $('btn-back-equip');
+    if (backEquip) backEquip.addEventListener('click', function () { showStep('step-info-type'); });
+
+    /* Step 3b: Battery code ─────────────────────────────── */
+    var btnCode = $('btn-continue-batt-code');
+    if (btnCode) {
+      btnCode.addEventListener('click', function () {
+        var brand   = getVal('battBrand').trim();
+        var code    = getVal('battCode').trim();
+        var notes   = getVal('battCodeNotes').trim();
+        var notSure = isChecked('battCodeNotSure');
+
+        clearFieldErrors(['battCode']);
+        if (!notSure && !code) {
+          showErrorSummary([{ id: 'battCode', message: 'Please enter the battery model or part number, or tick to skip this field' }]);
+          showFieldError('error-battCode', true);
+          return;
+        }
+
+        /* If code changed since last identification, reset identification so it re-runs */
+        if (code !== state.battCode) {
+          state.battIdDone = false;
+          var resultWrap = $('battIdResult');
+          if (resultWrap) resultWrap.hidden = true;
+          btnCode.textContent = 'Continue';
+        }
+
+        state.battBrand       = brand;
+        state.battCode        = code;
+        state.battCodeNotes   = notes;
+        state.battCodeNotSure = notSure;
+        saveState();
+
+        /* If identification already shown, or user skipped the code → proceed to step 4 */
+        if (state.battIdDone || notSure) {
+          showStep('step-help-type');
+          return;
+        }
+
+        /* Run battery-code identification before proceeding */
+        loadBatteryData(function (batteries) {
+          var normalised = normaliseBattCode(code);
+          var match      = lookupBattery(normalised, batteries);
+          var result     = buildIdentResult(match, code);
+          renderIdentResult(result);
+          saveIdentToState(result);
+
+          /* Update button for the next click */
+          btnCode.textContent = 'Continue with enquiry \u2192';
+
+          /* Scroll the result panel into view and focus the result heading */
+          var wrap = $('battIdResult');
+          if (wrap) {
+            setTimeout(function () {
+              wrap.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }, 80);
+          }
+        });
+      });
+    }
+    var backCode = $('btn-back-batt-code');
+    if (backCode) backCode.addEventListener('click', function () { showStep('step-info-type'); });
+
+    /* Step 3c: Specifications ───────────────────────────── */
+    var btnSpecs = $('btn-continue-specs');
+    if (btnSpecs) {
+      btnSpecs.addEventListener('click', function () {
+        state.specVoltage   = getVal('specVoltage');
+        state.specAh        = getVal('specAh').trim();
+        state.specChemistry = radioVal('specChemistry');
+        state.specLength    = getVal('specLength').trim();
+        state.specWidth     = getVal('specWidth').trim();
+        state.specHeight    = getVal('specHeight').trim();
+        state.specTerminal  = getVal('specTerminal');
+        state.specsNotes    = getVal('specsNotes').trim();
+        state.specsNotSure  = isChecked('specsNotSure');
+        saveState();
+        showStep('step-help-type');
+      });
+    }
+    var backSpecs = $('btn-back-specs');
+    if (backSpecs) backSpecs.addEventListener('click', function () { showStep('step-info-type'); });
+
+    /* Step 3d: Photo ────────────────────────────────────── */
+    var btnPhoto = $('btn-continue-photo');
+    if (btnPhoto) {
+      btnPhoto.addEventListener('click', function () {
+        state.photoNotes = getVal('photoNotes').trim();
+        saveState();
+        showStep('step-help-type');
+      });
+    }
+    var backPhoto = $('btn-back-photo');
+    if (backPhoto) backPhoto.addEventListener('click', function () { showStep('step-info-type'); });
+
+    /* Step 3e: Not sure ─────────────────────────────────── */
+    var btnNotSure = $('btn-continue-not-sure');
+    if (btnNotSure) {
+      btnNotSure.addEventListener('click', function () {
+        var notes = getVal('notSureNotes').trim();
+        clearFieldErrors(['notSureNotes']);
+        if (!notes) {
+          showErrorSummary([{ id: 'notSureNotes', message: 'Please describe what you know so we can help find the right battery' }]);
+          showFieldError('error-notSureNotes', true);
+          return;
+        }
+        state.notSureNotes = notes;
+        saveState();
+        showStep('step-help-type');
+      });
+    }
+    var backNotSure = $('btn-back-not-sure');
+    if (backNotSure) backNotSure.addEventListener('click', function () { showStep('step-info-type'); });
+
+    /* Step 4: Help type ─────────────────────────────────── */
+    var btnHelp = $('btn-continue-help');
+    if (btnHelp) {
+      btnHelp.addEventListener('click', function () {
+        var val = radioVal('helpType');
+        clearFieldErrors(['helpType']);
+        if (!val) {
+          showErrorSummary([{ id: 'step-help-type', message: 'Please select the type of help you need' }]);
+          showFieldError('error-helpType', true);
+          return;
+        }
+        state.helpType = val;
+        saveState();
+        showStep('step-location');
+      });
+    }
+    var backHelp = $('btn-back-help');
+    if (backHelp) backHelp.addEventListener('click', function () { showStep(getStep3Id()); });
+
+    /* Step 5: Location ──────────────────────────────────── */
+    var btnLocation = $('btn-continue-location');
+    if (btnLocation) {
+      btnLocation.addEventListener('click', function () {
+        var suburb   = getVal('suburb').trim();
+        var stateVal = getVal('state');
+        var postcode = getVal('postcode').trim();
+        var urgency  = getVal('urgency');
+
+        clearFieldErrors(['suburb', 'state', 'postcode']);
+        var errors = [];
+        if (!suburb) {
+          showFieldError('error-suburb', true);
+          errors.push({ id: 'suburb', message: 'Please enter your suburb or town' });
+        }
+        if (!stateVal) {
+          showFieldError('error-state', true);
+          errors.push({ id: 'state', message: 'Please select your state or territory' });
+        }
+        if (!postcode || !/^\d{4}$/.test(postcode)) {
+          showFieldError('error-postcode', true);
+          errors.push({ id: 'postcode', message: 'Please enter a valid 4-digit Australian postcode' });
+        }
+        if (errors.length) { showErrorSummary(errors); return; }
+
+        /* Store location in memory only — not persisted to sessionStorage */
+        locationState.suburb   = suburb;
+        locationState.state    = stateVal;
+        locationState.postcode = postcode;
+        locationState.urgency  = urgency;
+        showStep('step-contact');
+      });
+    }
+    var backLocation = $('btn-back-location');
+    if (backLocation) backLocation.addEventListener('click', function () { showStep('step-help-type'); });
+
+    /* Step 6: Contact ───────────────────────────────────── */
+    var btnContact = $('btn-continue-contact');
+    if (btnContact) {
+      btnContact.addEventListener('click', function () {
+        var name  = getVal('contactName').trim();
+        var email = getVal('contactEmail').trim();
+        var phone = getVal('contactPhone').trim();
+
+        clearFieldErrors(['contactName', 'contactEmail']);
+        var errors = [];
+        if (!name) {
+          showFieldError('error-contactName', true);
+          errors.push({ id: 'contactName', message: 'Please enter your name' });
+        }
+        if (!email || !isValidEmail(email)) {
+          showFieldError('error-contactEmail', true);
+          errors.push({ id: 'contactEmail', message: 'Please enter a valid email address' });
+        }
+        if (errors.length) { showErrorSummary(errors); return; }
+
+        /* Store contact data separately — never persisted to sessionStorage */
+        contactState.contactName  = name;
+        contactState.contactEmail = email;
+        contactState.contactPhone = phone;
+        showStep('step-review');
+      });
+    }
+    var backContact = $('btn-back-contact');
+    if (backContact) backContact.addEventListener('click', function () { showStep('step-location'); });
+
+    /* Review: Submit ────────────────────────────────────── */
+    var btnSubmit = $('btn-submit');
+    if (btnSubmit) {
+      btnSubmit.addEventListener('click', function () { showStep('step-confirm'); });
+    }
+
+    /* Review: Back ──────────────────────────────────────── */
+    var backReview = $('btn-back-review');
+    if (backReview) backReview.addEventListener('click', function () { showStep('step-contact'); });
+
+    /* Confirmation: Start over ──────────────────────────── */
+    var btnOver = $('btn-start-over');
+    if (btnOver) {
+      btnOver.addEventListener('click', function () {
         clearState();
-        qsa('input[type="radio"]').forEach(function (r) { r.checked = false; });
+        /* Reset all form controls */
+        qsa('input[type="radio"]').forEach(function (r)    { r.checked = false; });
         qsa('input[type="checkbox"]').forEach(function (c) { c.checked = false; });
-        qsa('input[type="text"], input[type="email"], input[type="tel"], textarea, select').forEach(function (i) { i.value = ''; });
+        qsa('input[type="text"], input[type="email"], input[type="tel"], textarea')
+          .forEach(function (f) { f.value = ''; });
+        qsa('select').forEach(function (s) { s.selectedIndex = 0; });
+        /* Reset battery identification panel and button */
+        var resultWrap = $('battIdResult');
+        if (resultWrap) resultWrap.hidden = true;
+        var btnC = $('btn-continue-batt-code');
+        if (btnC) btnC.textContent = 'Continue';
         showStep('step-category');
       });
     }
-
-    qsa('.help-toggle').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var panelId = btn.getAttribute('aria-controls');
-        var panel = $(panelId);
-        if (!panel) return;
-        var open = panel.classList.toggle('is-open');
-        btn.setAttribute('aria-expanded', String(open));
-      });
-    });
   }
 
-  function applyUrlParams() {
-    var params = new URLSearchParams(window.location.search);
-    var cat = params.get('category');
-    var path = params.get('path');
-
-    if (cat && !state.category) {
-      state.category = cat;
-      saveState();
-      var radio = document.querySelector('input[type="radio"][name="category"][value="' + cat + '"]');
-      if (radio) radio.checked = true;
-    }
-
-    if (path === 'photo' && !state.currentStep && state.category) {
-      state.identMethod = 'photo';
-      saveState();
-      showStep('step-photo');
-      return;
-    }
-  }
-
+  /* ── Init ───────────────────────────────────────────────── */
   function init() {
     bindStepEvents();
+    bindHelpToggles();
+    bindChangeLinks();
     restoreFields();
     applyUrlParams();
 
-    if (isSupplierFlowStep(state.currentStep)) state.requestSupplier = true;
-
+    /* Determine starting step */
     var stepToShow = state.currentStep || 'step-category';
-    if (!$(stepToShow)) stepToShow = 'step-category';
+    if (!$(stepToShow) || stepToShow === 'step-confirm') {
+      stepToShow = 'step-category';
+    }
 
-    qsa('[data-step]').forEach(function (el) { el.hidden = true; });
+    /* Hide all, show target */
+    ALL_STEPS.forEach(function (id) {
+      var el = $(id);
+      if (el) el.hidden = true;
+    });
+
     var card = $(stepToShow);
     if (card) card.hidden = false;
     currentStepId = stepToShow;
     updateProgress();
 
-    if (stepToShow === 'step-review') populateReview();
-    if (stepToShow === 'step-confirm') populateConfirmation();
-
-    loadBatteryData().then(function () {
-      if (stepToShow === 'step-result') {
-        var result = createResult();
-        renderResult(result);
-      }
-    });
+    if (stepToShow === 'step-review')    populateReview();
+    if (stepToShow === 'step-batt-code') restoreBattIdPanel();
   }
 
   init();
+
 })();
