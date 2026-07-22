@@ -271,6 +271,52 @@
           </ul>
         </div>
 
+        <!-- Battery identification result (shown after code lookup) -->
+        <div id="battIdResult" hidden aria-live="polite" style="margin-top:var(--sp-6)">
+
+          <!-- Recognised code result -->
+          <div id="battIdRecognised" hidden>
+            <div class="notice notice--info">
+              <strong>Possible battery identification</strong>
+              <p style="margin:var(--sp-2) 0 0">This is a preliminary guide based on your code &mdash; not a guaranteed match. Dimensions, terminal configuration and fitment must be confirmed with a battery specialist before purchasing.</p>
+            </div>
+            <div style="margin-top:var(--sp-4);padding:var(--sp-5) var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius);background:var(--color-surface)">
+              <p style="margin:0 0 var(--sp-1)"><strong>Code entered:</strong> <span id="biv-enteredCode">&mdash;</span></p>
+              <p style="margin:0 0 var(--sp-1)"><strong>Recognised as:</strong> <span id="biv-canonical">&mdash;</span></p>
+              <p style="margin:0 0 var(--sp-4)"><strong>Confidence:</strong> <span id="biv-confidence">&mdash;</span></p>
+              <dl class="review-dl" id="biv-details" style="margin-bottom:0"></dl>
+              <div id="biv-warnings-wrap" hidden style="margin-top:var(--sp-4)">
+                <p style="font-weight:600;margin:0 0 var(--sp-2)">&#9888; Things to check with a supplier</p>
+                <ul id="biv-warnings" style="margin:0;padding-left:var(--sp-5)"></ul>
+              </div>
+              <div id="biv-verification-wrap" hidden style="margin-top:var(--sp-4)">
+                <p style="font-weight:600;margin:0 0 var(--sp-2)">Still needs supplier verification</p>
+                <ul id="biv-verification" style="margin:0;padding-left:var(--sp-5)"></ul>
+              </div>
+            </div>
+            <p class="step-hint" style="margin-top:var(--sp-3)">Click <strong>Continue with enquiry</strong> below to request supply, installation or specialist help.</p>
+          </div>
+
+          <!-- Unknown code result -->
+          <div id="battIdUnknown" hidden>
+            <div class="notice notice--warn">
+              <strong>Code not found in our reference database</strong>
+              <p style="margin:var(--sp-2) 0 0"><span id="biv-unknownCode"></span></p>
+            </div>
+            <div style="margin-top:var(--sp-4);padding:var(--sp-5) var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius)">
+              <p style="margin:0 0 var(--sp-2)">This doesn&apos;t mean the code is wrong &mdash; manufacturer codes vary and may not be in our current reference database. Our supplier network may still be able to identify your battery from the code you&apos;ve entered.</p>
+              <p style="font-weight:600;margin:0 0 var(--sp-2)">To improve identification, you can also:</p>
+              <ul style="margin:0;padding-left:var(--sp-5)">
+                <li>Go back to <strong>Step 1</strong> and add your equipment make and model</li>
+                <li>Continue and select <strong>Battery identification help</strong> as the service type</li>
+                <li>Take and submit photos of the battery label</li>
+              </ul>
+            </div>
+            <p class="step-hint" style="margin-top:var(--sp-3)">Click <strong>Continue with enquiry</strong> below to proceed &mdash; a specialist can identify your battery from the code or from additional information you provide.</p>
+          </div>
+
+        </div><!-- /#battIdResult -->
+
         <div class="step-actions">
           <button class="btn btn-primary" id="btn-continue-batt-code" type="button">Continue</button>
           <button class="btn-back" id="btn-back-batt-code" type="button">&#8592; Back</button>
@@ -596,6 +642,21 @@
             <dt>Method</dt><dd id="rv-identMethod">&#8212;</dd>
             <dt>Details provided</dt><dd id="rv-identDetail">&#8212;</dd>
           </dl>
+        </div>
+
+        <!-- Group 2b: Preliminary identification (battery number route, shown only when identification was run) -->
+        <div class="review-section" id="rv-batt-id-section" hidden>
+          <div class="review-section-header">
+            <h2>Preliminary identification</h2>
+            <a href="#" class="change-link" data-goto="step-batt-code" aria-label="Change: Battery code">Change</a>
+          </div>
+          <dl class="review-dl">
+            <dt>Recognised as</dt><dd id="rv-battCanonical">&#8212;</dd>
+            <dt>Confidence</dt><dd id="rv-battConfidence">&#8212;</dd>
+            <dt>Warnings</dt><dd id="rv-battWarnings">&#8212;</dd>
+            <dt>Needs supplier verification</dt><dd id="rv-battVerification">&#8212;</dd>
+          </dl>
+          <p class="step-hint" style="margin-top:var(--sp-3)">Preliminary identification only &mdash; no compatibility is confirmed and no supplier inventory has been checked.</p>
         </div>
 
         <!-- Group 3: Help required -->

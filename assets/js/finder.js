@@ -9,6 +9,235 @@
 
   var STORAGE_KEY = 'nb_finder_state_v2';
 
+  /* ── Battery identification module ─────────────────────────── */
+  var batteryData = null; /* loaded on demand from data/batteries.json */
+
+  function normaliseBattCode(code) {
+    return code.replace(/[\s\-\.]/g, '').toUpperCase();
+  }
+
+  function loadBatteryData(cb) {
+    if (batteryData !== null) { cb(batteryData); return; }
+    fetch('data/batteries.json')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        batteryData = Array.isArray(d.batteries) ? d.batteries : [];
+        cb(batteryData);
+      })
+      .catch(function () {
+        batteryData = [];
+        cb([]);
+      });
+  }
+
+  function lookupBattery(normalised, batteries) {
+    var i, j, b, aliases, canon;
+
+    /* 1. Exact match: canonicalCode */
+    for (i = 0; i < batteries.length; i++) {
+      b = batteries[i];
+      if (normaliseBattCode(b.canonicalCode) === normalised) {
+        return { battery: b, matchType: 'exact' };
+      }
+    }
+
+    /* 2. Exact match: any alias */
+    for (i = 0; i < batteries.length; i++) {
+      b = batteries[i];
+      aliases = b.aliases || [];
+      for (j = 0; j < aliases.length; j++) {
+        if (normaliseBattCode(aliases[j]) === normalised) {
+          return { battery: b, matchType: 'exact' };
+        }
+      }
+    }
+
+    /* 3. Family prefix match: entered code starts with canonical (e.g. "DIN66MF" → DIN66)
+          or canonical starts with entered code (at least 3 chars) */
+    if (normalised.length >= 3) {
+      for (i = 0; i < batteries.length; i++) {
+        b = batteries[i];
+        canon = normaliseBattCode(b.canonicalCode);
+        if (normalised.indexOf(canon) === 0 || canon.indexOf(normalised) === 0) {
+          return { battery: b, matchType: 'family' };
+        }
+      }
+    }
+
+    return null;
+  }
+
+  function confidenceLabel(conf) {
+    if (conf === 'exact')  return 'High \u2014 exact code recognised in reference database';
+    if (conf === 'family') return 'Medium \u2014 recognised battery family; exact variant requires supplier verification';
+    return 'Low \u2014 code not found in reference database';
+  }
+
+  function buildIdentResult(match, enteredCode) {
+    if (!match) {
+      return {
+        confidence:           'unknown',
+        enteredCode:          enteredCode,
+        canonical:            null,
+        family:               null,
+        category:             null,
+        nominalVoltage:       '',
+        typicalApplications:  [],
+        chemistryOptions:     [],
+        warnings:             [],
+        verificationRequired: []
+      };
+    }
+
+    var b    = match.battery;
+    var conf = match.matchType === 'exact' ? 'exact' : 'family';
+    var warnings = (b.warnings || []).slice();
+
+    /* Start-stop AGM/EFB compatibility warning */
+    var ssText = (b.startStopCompatibility || '').toLowerCase();
+    if (ssText && (ssText.indexOf('agm') !== -1 || ssText.indexOf('efb') !== -1) &&
+        (ssText.indexOf('only') !== -1 || ssText.indexOf('confirm') !== -1 || ssText.indexOf('verify') !== -1)) {
+      warnings.push('Start-stop compatibility: ' + b.startStopCompatibility);
+    }
+
+    /* Voltage-conflict note: all DB entries are 12V; flag if code implies otherwise */
+    var nomV = b.nominalVoltage || '';
+    if (nomV && nomV !== '12V') {
+      warnings.push('Voltage: this battery is rated ' + nomV + '. Confirm this matches your vehicle/equipment requirement.');
+    }
+
+    return {
+      confidence:           conf,
+      enteredCode:          enteredCode,
+      canonical:            b.canonicalCode,
+      family:               b.family,
+      category:             b.category,
+      nominalVoltage:       nomV,
+      typicalApplications:  b.typicalApplications  || [],
+      chemistryOptions:     b.chemistryOptions      || [],
+      warnings:             warnings,
+      verificationRequired: b.verificationRequirements || []
+    };
+  }
+
+  function setText(id, text) {
+    var el = $(id);
+    if (el) el.textContent = text || '\u2014';
+  }
+
+  function renderIdentResult(result) {
+    var wrap    = $('battIdResult');
+    var recog   = $('battIdRecognised');
+    var unknown = $('battIdUnknown');
+    if (!wrap || !recog || !unknown) return;
+
+    wrap.hidden = false;
+
+    if (result.confidence === 'unknown') {
+      recog.hidden   = true;
+      unknown.hidden = false;
+      var unknCode = $('biv-unknownCode');
+      if (unknCode) {
+        unknCode.textContent = '\u201c' + result.enteredCode + '\u201d is not in our current reference database.';
+      }
+      return;
+    }
+
+    /* Recognised result */
+    recog.hidden   = false;
+    unknown.hidden = true;
+
+    setText('biv-enteredCode', result.enteredCode);
+    setText('biv-canonical',
+      result.canonical + (result.category ? ' \u2014 ' + result.category : ''));
+    setText('biv-confidence', confidenceLabel(result.confidence));
+
+    /* Details DL */
+    var dl = $('biv-details');
+    if (dl) {
+      while (dl.firstChild) dl.removeChild(dl.firstChild);
+      var dlRows = [];
+      if (result.nominalVoltage)             dlRows.push(['Voltage',              result.nominalVoltage]);
+      if (result.typicalApplications.length) dlRows.push(['Typical applications', result.typicalApplications.join(', ')]);
+      if (result.chemistryOptions.length)    dlRows.push(['Chemistry options',     result.chemistryOptions.join(', ')]);
+      dlRows.forEach(function (row) {
+        var dt = document.createElement('dt');
+        dt.textContent = row[0];
+        var dd = document.createElement('dd');
+        dd.textContent = row[1];
+        dl.appendChild(dt);
+        dl.appendChild(dd);
+      });
+    }
+
+    /* Warnings */
+    var warnWrap = $('biv-warnings-wrap');
+    var warnList = $('biv-warnings');
+    if (warnWrap && warnList) {
+      while (warnList.firstChild) warnList.removeChild(warnList.firstChild);
+      if (result.warnings.length) {
+        result.warnings.forEach(function (w) {
+          var li = document.createElement('li');
+          li.textContent = w;
+          warnList.appendChild(li);
+        });
+        warnWrap.hidden = false;
+      } else {
+        warnWrap.hidden = true;
+      }
+    }
+
+    /* Verification required */
+    var verWrap = $('biv-verification-wrap');
+    var verList = $('biv-verification');
+    if (verWrap && verList) {
+      while (verList.firstChild) verList.removeChild(verList.firstChild);
+      if (result.verificationRequired.length) {
+        result.verificationRequired.forEach(function (v) {
+          var li = document.createElement('li');
+          li.textContent = v;
+          verList.appendChild(li);
+        });
+        verWrap.hidden = false;
+      } else {
+        verWrap.hidden = true;
+      }
+    }
+  }
+
+  function saveIdentToState(result) {
+    state.battIdDone         = true;
+    state.battIdConf         = result.confidence;
+    state.battIdCanonical    = result.canonical    || null;
+    state.battIdFamily       = result.family       || null;
+    state.battIdCategory     = result.category     || null;
+    state.battIdVoltage      = result.nominalVoltage;
+    state.battIdApplications = result.typicalApplications;
+    state.battIdChemistry    = result.chemistryOptions;
+    state.battIdWarnings     = result.warnings;
+    state.battIdVerification = result.verificationRequired;
+    saveState();
+  }
+
+  function restoreBattIdPanel() {
+    if (!state.battIdDone || state.infoType !== 'number') return;
+    var result = {
+      confidence:           state.battIdConf          || 'unknown',
+      enteredCode:          state.battCode             || '',
+      canonical:            state.battIdCanonical      || null,
+      family:               state.battIdFamily         || null,
+      category:             state.battIdCategory       || null,
+      nominalVoltage:       state.battIdVoltage        || '',
+      typicalApplications:  state.battIdApplications   || [],
+      chemistryOptions:     state.battIdChemistry      || [],
+      warnings:             state.battIdWarnings       || [],
+      verificationRequired: state.battIdVerification   || []
+    };
+    renderIdentResult(result);
+    var btn = $('btn-continue-batt-code');
+    if (btn) btn.textContent = 'Continue with enquiry \u2192';
+  }
+
   /* ── Label maps ─────────────────────────────────────────── */
   var CATEGORY_LABELS = {
     tool:        'Power tool',
@@ -233,8 +462,9 @@
       setTimeout(function () { heading.focus(); }, 60);
     }
 
-    if (stepId === 'step-review')  populateReview();
-    if (stepId === 'step-confirm') populateConfirmation();
+    if (stepId === 'step-review')    populateReview();
+    if (stepId === 'step-confirm')   populateConfirmation();
+    if (stepId === 'step-batt-code') restoreBattIdPanel();
 
     /* Scroll to top of page content on step change */
     var main = $('main-content');
@@ -384,6 +614,30 @@
     }
 
     setReviewField('rv-identDetail', details.length ? details.join(' \u00b7 ') : 'No additional details provided');
+
+    /* Preliminary identification section (battery number route only) */
+    var rvBattIdSec = $('rv-batt-id-section');
+    if (rvBattIdSec) {
+      var showBattId = state.infoType === 'number' && state.battIdDone;
+      rvBattIdSec.hidden = !showBattId;
+      if (showBattId) {
+        if (state.battIdConf === 'unknown') {
+          setReviewField('rv-battCanonical',    'Not found in reference database');
+          setReviewField('rv-battConfidence',   confidenceLabel('unknown'));
+          setReviewField('rv-battWarnings',     '\u2014');
+          setReviewField('rv-battVerification', '\u2014');
+        } else {
+          var canonical = state.battIdCanonical || '\u2014';
+          if (state.battIdCategory) canonical += ' \u2014 ' + state.battIdCategory;
+          setReviewField('rv-battCanonical',    canonical);
+          setReviewField('rv-battConfidence',   confidenceLabel(state.battIdConf));
+          var warns = state.battIdWarnings || [];
+          setReviewField('rv-battWarnings',     warns.length ? warns.join(' \u00b7 ') : '\u2014');
+          var verif = state.battIdVerification || [];
+          setReviewField('rv-battVerification', verif.length ? verif.join(', ') : '\u2014');
+        }
+      }
+    }
 
     setReviewField('rv-helpType', HELP_LABELS[state.helpType] || state.helpType);
     setReviewField('rv-suburb',   locationState.suburb);
@@ -536,12 +790,46 @@
           showFieldError('error-battCode', true);
           return;
         }
+
+        /* If code changed since last identification, reset identification so it re-runs */
+        if (code !== state.battCode) {
+          state.battIdDone = false;
+          var resultWrap = $('battIdResult');
+          if (resultWrap) resultWrap.hidden = true;
+          btnCode.textContent = 'Continue';
+        }
+
         state.battBrand       = brand;
         state.battCode        = code;
         state.battCodeNotes   = notes;
         state.battCodeNotSure = notSure;
         saveState();
-        showStep('step-help-type');
+
+        /* If identification already shown, or user skipped the code → proceed to step 4 */
+        if (state.battIdDone || notSure) {
+          showStep('step-help-type');
+          return;
+        }
+
+        /* Run battery-code identification before proceeding */
+        loadBatteryData(function (batteries) {
+          var normalised = normaliseBattCode(code);
+          var match      = lookupBattery(normalised, batteries);
+          var result     = buildIdentResult(match, code);
+          renderIdentResult(result);
+          saveIdentToState(result);
+
+          /* Update button for the next click */
+          btnCode.textContent = 'Continue with enquiry \u2192';
+
+          /* Scroll the result panel into view and focus the result heading */
+          var wrap = $('battIdResult');
+          if (wrap) {
+            setTimeout(function () {
+              wrap.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }, 80);
+          }
+        });
       });
     }
     var backCode = $('btn-back-batt-code');
@@ -704,6 +992,11 @@
         qsa('input[type="text"], input[type="email"], input[type="tel"], textarea')
           .forEach(function (f) { f.value = ''; });
         qsa('select').forEach(function (s) { s.selectedIndex = 0; });
+        /* Reset battery identification panel and button */
+        var resultWrap = $('battIdResult');
+        if (resultWrap) resultWrap.hidden = true;
+        var btnC = $('btn-continue-batt-code');
+        if (btnC) btnC.textContent = 'Continue';
         showStep('step-category');
       });
     }
@@ -734,7 +1027,8 @@
     currentStepId = stepToShow;
     updateProgress();
 
-    if (stepToShow === 'step-review') populateReview();
+    if (stepToShow === 'step-review')    populateReview();
+    if (stepToShow === 'step-batt-code') restoreBattIdPanel();
   }
 
   init();
