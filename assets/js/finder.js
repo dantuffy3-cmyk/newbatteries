@@ -83,7 +83,10 @@
   ];
 
   /* ── State ──────────────────────────────────────────────── */
+  /* state: non-sensitive flow data (category, info type, battery details, help type).
+     locationState and contactState: kept in-memory only and never persisted. */
   var state = loadState();
+  var locationState = {};
   var contactState = {};
   var currentStepId = 'step-category';
 
@@ -96,13 +99,23 @@
   }
 
   function saveState() {
+    /* Only persist non-location, non-contact flow data */
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      var toSave = {};
+      var exclude = {
+        suburb: 1, state: 1, postcode: 1, urgency: 1,
+        contactName: 1, contactEmail: 1, contactPhone: 1
+      };
+      Object.keys(state).forEach(function (k) {
+        if (!exclude[k]) toSave[k] = state[k];
+      });
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
     } catch (e) { /* ignore */ }
   }
 
   function clearState() {
     state = {};
+    locationState = {};
     contactState = {};
     try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
   }
@@ -291,10 +304,10 @@
 
     restoreRadio('helpType', state.helpType);
 
-    restoreField('suburb',  state.suburb);
-    restoreField('state',   state.state);
-    restoreField('postcode',state.postcode);
-    restoreField('urgency', state.urgency);
+    restoreField('suburb',  locationState.suburb);
+    restoreField('state',   locationState.state);
+    restoreField('postcode',locationState.postcode);
+    restoreField('urgency', locationState.urgency);
   }
 
   /* ── URL params ─────────────────────────────────────────── */
@@ -373,10 +386,10 @@
     setReviewField('rv-identDetail', details.length ? details.join(' \u00b7 ') : 'No additional details provided');
 
     setReviewField('rv-helpType', HELP_LABELS[state.helpType] || state.helpType);
-    setReviewField('rv-suburb',   state.suburb);
-    setReviewField('rv-state',    state.state);
-    setReviewField('rv-postcode', state.postcode);
-    setReviewField('rv-urgency',  URGENCY_LABELS[state.urgency] || state.urgency || 'Not specified');
+    setReviewField('rv-suburb',   locationState.suburb);
+    setReviewField('rv-state',    locationState.state);
+    setReviewField('rv-postcode', locationState.postcode);
+    setReviewField('rv-urgency',  URGENCY_LABELS[locationState.urgency] || locationState.urgency || 'Not specified');
     setReviewField('rv-name',     contactState.contactName  || '');
     setReviewField('rv-email',    contactState.contactEmail || '');
     setReviewField('rv-phone',    contactState.contactPhone || 'Not provided');
@@ -392,11 +405,12 @@
     dl.className = 'review-dl';
     dl.style.cssText = 'border:1px solid var(--color-border);border-radius:var(--radius);padding:var(--sp-5) var(--sp-6)';
 
+    var location = [locationState.suburb, locationState.state, locationState.postcode].filter(Boolean).join(', ');
     var rows = [
       ['Equipment',            CATEGORY_LABELS[state.category] || state.category || '\u2014'],
       ['Identification method',INFO_LABELS[state.infoType]     || '\u2014'],
       ['Help required',        HELP_LABELS[state.helpType]     || '\u2014'],
-      ['Location',             [state.suburb, state.state, state.postcode].filter(Boolean).join(', ') || '\u2014'],
+      ['Location',             location || '\u2014'],
       ['Name',                 contactState.contactName  || '\u2014'],
       ['Email',                contactState.contactEmail || '\u2014']
     ];
@@ -628,11 +642,11 @@
         }
         if (errors.length) { showErrorSummary(errors); return; }
 
-        state.suburb   = suburb;
-        state.state    = stateVal;
-        state.postcode = postcode;
-        state.urgency  = urgency;
-        saveState();
+        /* Store location in memory only — not persisted to sessionStorage */
+        locationState.suburb   = suburb;
+        locationState.state    = stateVal;
+        locationState.postcode = postcode;
+        locationState.urgency  = urgency;
         showStep('step-contact');
       });
     }
