@@ -546,14 +546,41 @@
       var params   = new URLSearchParams(window.location.search);
       var category = params.get('category');
       var path     = params.get('path');
+      var query    = params.get('query');
 
       if (category && CATEGORY_LABELS[category] && !state.category) {
         state.category = category;
         restoreRadio('category', category);
       }
-      if (path === 'photo' && !state.infoType) {
-        state.infoType = 'photo';
-        restoreRadio('infoType', 'photo');
+
+      /* Map path param to infoType value and step-3 ID */
+      var PATH_STEP = {
+        photo:     'step-photo',
+        number:    'step-batt-code',
+        equipment: 'step-equip-details',
+        notsure:   'step-not-sure',
+        specs:     'step-batt-specs'
+      };
+
+      if (path && PATH_STEP[path]) {
+        /* When arriving via path param, override infoType and jump to step-3 */
+        state.infoType    = path;
+        state.currentStep = PATH_STEP[path];
+        restoreRadio('infoType', path);
+
+        /* Pre-fill the relevant field with the homepage starting query */
+        if (query) {
+          if (path === 'number') {
+            state.battCode = query;
+            restoreField('battCode', query);
+          } else if (path === 'equipment') {
+            state.equipNotes = query;
+            restoreField('equipNotes', query);
+          } else if (path === 'notsure') {
+            state.notSureNotes = query;
+            restoreField('notSureNotes', query);
+          }
+        }
       }
     } catch (e) { /* ignore */ }
   }
