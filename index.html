@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NewBatteries | The right battery starts here</title>
-  <meta name="description" content="Find a replacement battery for your tool, vehicle, caravan, equipment, device or home system—even when you’re not sure what battery you need.">
+  <title>NewBatteries | Battery intelligence for almost anything</title>
+  <meta name="description" content="Upload a photo, enter a model or type the battery code. NewBatteries helps identify the likely replacement and shows what still needs checking.">
   <link rel="canonical" href="https://newbatteries.com/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="NewBatteries | The right battery starts here">
-  <meta property="og:description" content="NewBatteries helps people identify the correct replacement battery and connect with suitable suppliers or installers.">
+  <meta property="og:title" content="NewBatteries | Battery intelligence for almost anything">
+  <meta property="og:description" content="Upload a photo, enter a model or type the battery code. NewBatteries helps identify the likely replacement and shows what still needs checking.">
   <meta property="og:url" content="https://newbatteries.com/">
   <meta property="og:site_name" content="NewBatteries">
-  <meta name="theme-color" content="#0A0D0C">
+  <meta name="theme-color" content="#070908">
   <link rel="stylesheet" href="assets/css/styles.css">
   <script type="application/ld+json">
   {
@@ -36,178 +36,450 @@
     }
   }
   </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Does NewBatteries sell batteries directly?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Not in this prototype. NewBatteries currently focuses on helping people identify battery needs and connect with suitable suppliers or installers."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What if I do not know my battery number?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "You can start with your equipment details, enter battery specifications if known, or upload a photo in the prototype finder flow."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can you guarantee a battery is compatible?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. Compatibility must always be independently verified before purchase or installation, especially for critical or high-voltage systems."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I request installation?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, the finder includes options for supply only, supply and installation, mobile replacement, and identification help."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What happens to my old battery?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "You can request recycling information in the form. Disposal requirements vary and should follow local regulations and safety guidance."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Is the service available across Australia?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "This is an early-stage platform. Coverage may vary while supplier participation is being established."
-        }
-      }
-    ]
-  }
-  </script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <!-- ═══ HEADER ════════════════════════════════════════════════ -->
   <header class="site-header" role="banner">
     <div class="container nav-wrap">
       <a class="wordmark" href="index.html" aria-label="NewBatteries home">NewBatteries</a>
-      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation">
         <span class="visually-hidden">Toggle navigation</span>
-        <span></span><span></span><span></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
       </button>
       <nav id="primaryNav" class="primary-nav" aria-label="Primary">
-        <a href="finder.html">Find My Battery</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="suppliers.html">For Suppliers</a>
+        <a href="finder.html">Identify</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="suppliers.html">For suppliers</a>
         <a href="about.html">About</a>
-        <a class="btn btn-primary" href="finder.html">Start Battery Finder</a>
+        <a class="btn btn-primary btn-sm" href="finder.html">Identify a battery</a>
       </nav>
     </div>
   </header>
 
   <main id="main-content">
-    <section class="hero section">
-      <div class="container hero-grid">
-        <div>
-          <p class="eyebrow">Australian battery identification platform</p>
-          <h1>Find the right battery without the guesswork.</h1>
-          <p class="lead">Tell us what needs power. NewBatteries helps identify the battery and shows you where you can buy it, have it installed or get further help.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="finder.html">Start Battery Finder</a>
-            <a class="btn btn-secondary" href="finder.html?path=photo">Upload a Battery Photo</a>
+
+    <!-- ═══ HERO ══════════════════════════════════════════════════ -->
+    <section class="lp-hero" aria-labelledby="hero-heading">
+      <div class="container">
+
+        <!-- Hero battery visual -->
+        <div class="lp-hero__visual" aria-hidden="true">
+          <svg class="lp-batt-vis" viewBox="0 0 320 186" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Corner scanning brackets -->
+            <path class="bv-bracket" d="M6 52V14h38"/>
+            <path class="bv-bracket" d="M6 134v38h38"/>
+            <path class="bv-bracket" d="M258 14h38v38"/>
+            <path class="bv-bracket" d="M258 172h38v-38"/>
+            <!-- Battery body -->
+            <rect class="bv-body" x="14" y="26" width="244" height="134" rx="10"/>
+            <!-- Terminal cap -->
+            <rect class="bv-terminal" x="258" y="62" width="36" height="62" rx="7"/>
+            <!-- Internal dividers -->
+            <line class="bv-divider" x1="90" y1="36" x2="90" y2="150"/>
+            <line class="bv-divider" x1="166" y1="36" x2="166" y2="150"/>
+            <!-- Segment fills: 2 of 3 lit (medium charge) -->
+            <rect class="bv-seg-fill"   x="22" y="36" width="62" height="114" rx="5"/>
+            <rect class="bv-seg-fill-2" x="98" y="36" width="62" height="114" rx="5"/>
+            <rect class="bv-seg-empty"  x="174" y="36" width="76" height="114" rx="5"/>
+            <!-- Terminal node -->
+            <circle class="bv-node" cx="276" cy="93" r="5"/>
+            <!-- Scanning line -->
+            <line class="bv-scan" x1="14" y1="93" x2="258" y2="93"/>
+          </svg>
+        </div>
+
+        <div class="lp-hero__content">
+          <p class="lp-eyebrow">Battery intelligence for almost anything</p>
+          <h1 class="lp-headline" id="hero-heading">Show us what<br>needs power.</h1>
+          <p class="lp-lead">Upload a photo, enter a model or type the battery code. NewBatteries helps identify the likely replacement and shows what still needs checking.</p>
+
+          <!-- Primary identification control -->
+          <form class="lp-id-control" id="homeIdForm" novalidate>
+            <label for="homeQuery" class="visually-hidden">
+              Describe the item, enter a model or battery code
+            </label>
+            <div class="lp-id-control__inner" role="search" aria-label="Battery identification">
+              <input
+                type="text"
+                id="homeQuery"
+                class="lp-id-control__input"
+                placeholder="Describe the item, enter a model or battery code…"
+                autocomplete="off"
+                spellcheck="false"
+                aria-label="Describe the item, enter a model or battery code"
+              >
+              <button
+                type="button"
+                class="lp-id-control__photo"
+                id="homePhotoBtn"
+                aria-label="Upload a photograph to identify a battery"
+                title="Upload a photograph"
+              >
+                <!-- Camera / scan SVG mark -->
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 6V3h3M16 3h3v3M2 14v3h3M16 17h3v-3"/>
+                  <circle cx="11" cy="10" r="3"/>
+                  <circle cx="11" cy="10" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+              </button>
+              <button type="submit" class="lp-id-control__submit">Identify it</button>
+            </div>
+          </form>
+
+          <p class="lp-scope">Tools · vehicles · devices · equipment · solar · mobility · almost anything</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══ THREE PATHWAYS ════════════════════════════════════════ -->
+    <section class="lp-pathways" aria-labelledby="pathways-heading">
+      <div class="container">
+        <h2 id="pathways-heading" class="visually-hidden">Identification pathways</h2>
+        <div class="lp-pathways__grid">
+
+          <!-- Show us -->
+          <a href="finder.html?path=photo" class="lp-pathway lp-pathway--show">
+            <div class="lp-pathway__icon" aria-hidden="true">
+              <!-- Scanning bracket mark (cyan = scanning/intelligence) -->
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#62E7FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 10V4h6M26 4h6v6M3 22v6h6M26 32h6v-6"/>
+                <circle cx="18" cy="18" r="4"/>
+                <circle cx="18" cy="18" r="1.5" fill="#62E7FF" stroke="none"/>
+              </svg>
+            </div>
+            <div class="lp-pathway__title">Show us</div>
+            <div class="lp-pathway__desc">Upload the item, battery label, model plate or battery compartment.</div>
+            <span class="lp-pathway__arrow" aria-hidden="true">→</span>
+          </a>
+
+          <!-- Tell us -->
+          <a href="finder.html?path=equipment" class="lp-pathway lp-pathway--tell">
+            <div class="lp-pathway__icon" aria-hidden="true">
+              <!-- Battery with + terminal (green = identification/completion) -->
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#B6FF3B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="10" width="26" height="16" rx="3"/>
+                <rect x="28" y="14" width="6" height="8" rx="2"/>
+                <line x1="15" y1="15" x2="15" y2="21"/>
+                <line x1="12" y1="18" x2="18" y2="18"/>
+              </svg>
+            </div>
+            <div class="lp-pathway__title">Tell us</div>
+            <div class="lp-pathway__desc">Enter the equipment brand, model or describe what needs power.</div>
+            <span class="lp-pathway__arrow" aria-hidden="true">→</span>
+          </a>
+
+          <!-- Enter the code -->
+          <a href="finder.html?path=number" class="lp-pathway lp-pathway--code">
+            <div class="lp-pathway__icon" aria-hidden="true">
+              <!-- Voltage trace (cyan = data/intelligence) -->
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="#62E7FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1,18 6,18 9,10 13,26 17,14 21,22 25,18 35,18"/>
+              </svg>
+            </div>
+            <div class="lp-pathway__title">Enter the code</div>
+            <div class="lp-pathway__desc">Use an existing battery number, product code, part number or model plate.</div>
+            <span class="lp-pathway__arrow" aria-hidden="true">→</span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ EXAMPLE RESULT ════════════════════════════════════════ -->
+    <section class="lp-example" aria-labelledby="example-heading">
+      <div class="container">
+
+        <div class="lp-example__demo-badge" aria-label="This is a demonstration, not a live result">
+          <!-- Amber dot -->
+          <svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#FFB547"/></svg>
+          Example identification
+        </div>
+
+        <h2 id="example-heading" class="visually-hidden">Example identification result (demonstration only)</h2>
+
+        <div class="lp-example__card" role="region" aria-label="Example identification — demonstration only, not a live result">
+
+          <!-- Confidence battery: medium -->
+          <div class="conf-batt conf-batt--medium" role="img" aria-label="Confidence: Medium">
+            <svg class="conf-batt__svg" viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Outline -->
+              <rect x="1" y="1" width="66" height="38" rx="5" stroke="rgba(245,247,245,0.3)" stroke-width="1.5"/>
+              <!-- Terminal -->
+              <rect x="67" y="13" width="12" height="14" rx="3" stroke="rgba(245,247,245,0.3)" stroke-width="1.5"/>
+              <!-- Dividers -->
+              <line x1="24" y1="6" x2="24" y2="34" stroke="rgba(245,247,245,0.12)" stroke-width="1"/>
+              <line x1="46" y1="6" x2="46" y2="34" stroke="rgba(245,247,245,0.12)" stroke-width="1"/>
+              <!-- Seg 1: filled (green) -->
+              <rect x="5" y="6" width="16" height="28" rx="3" fill="#B6FF3B" opacity="0.9"/>
+              <!-- Seg 2: filled (amber) -->
+              <rect x="27" y="6" width="16" height="28" rx="3" fill="#FFB547" opacity="0.75"/>
+              <!-- Seg 3: empty -->
+              <rect x="49" y="6" width="14" height="28" rx="3" fill="rgba(245,247,245,0.07)"/>
+            </svg>
+            <span class="conf-batt__label">Medium</span>
           </div>
-        </div>
-        <aside class="hero-mock" aria-label="Battery finder interface preview">
-          <div class="mock-card">
-            <h2>Battery Finder</h2>
-            <ul>
-              <li><span class="dot ok"></span>Equipment: Car or vehicle</li>
-              <li><span class="dot ok"></span>Identification: Battery number entered</li>
-              <li><span class="dot ok"></span>Help needed: Supply and installation</li>
-              <li><span class="dot pending"></span>Location and contact details</li>
-            </ul>
-            <div class="mock-progress" aria-hidden="true"><span></span></div>
+
+          <!-- Details -->
+          <div>
+            <div class="lp-example__family">LN2 / DIN66</div>
+            <div class="lp-example__meta">
+              Confidence: Medium &nbsp;·&nbsp; Evidence: Recognised battery-family code
+            </div>
+            <div class="lp-example__confirm">
+              <strong>Still confirm:</strong> Dimensions · terminal layout · battery technology · start-stop requirement
+            </div>
           </div>
-        </aside>
-      </div>
-    </section>
 
-    <section class="section" aria-labelledby="category-heading">
-      <div class="container">
-        <h2 id="category-heading">What needs a new battery?</h2>
-        <p style="color:var(--color-text-muted);margin-bottom:var(--sp-8)">Select your equipment type to start the battery finder.</p>
-        <div class="cards-grid" id="categoryCards" aria-live="polite"></div>
-      </div>
-    </section>
+          <!-- Actions -->
+          <div class="lp-example__actions">
+            <a href="finder.html" class="btn btn-lp-ghost btn-sm">Improve identification</a>
+            <a href="finder.html" class="btn btn-lp-primary btn-sm">See replacement pathway</a>
+          </div>
 
-    <section class="section" aria-labelledby="paths-heading" style="background:var(--color-surface)">
-      <div class="container">
-        <h2 id="paths-heading">Battery identification pathways</h2>
-        <p style="color:var(--color-text-muted);margin-bottom:var(--sp-6)">Not sure which approach to use? The finder guides you through the right path.</p>
-        <div class="pathways">
-          <div class="chip">Equipment brand and model</div>
-          <div class="chip">Existing battery number</div>
-          <div class="chip">Battery specifications</div>
-          <div class="chip">Photographs</div>
-          <div class="chip">Not sure — we can help</div>
         </div>
+
+        <p class="lp-example__notice" aria-live="polite">
+          This is a demonstration only. No real query has been processed. Results shown are not from a live search.
+        </p>
+
       </div>
     </section>
 
-    <section class="section" id="how-it-works" aria-labelledby="steps-heading">
+    <!-- ═══ TRUST / HOW IT WORKS ══════════════════════════════════ -->
+    <section class="lp-trust" id="how-it-works" aria-labelledby="trust-heading">
       <div class="container">
-        <h2 id="steps-heading">How it works</h2>
-        <div class="steps-grid">
-          <article class="panel"><h3>1. Tell us what needs power</h3><p>Select your equipment type and share what you know — even a rough description helps.</p></article>
-          <article class="panel"><h3>2. Identify the battery</h3><p>Use equipment details, a battery number, specifications, or photos. One clear question at a time.</p></article>
-          <article class="panel"><h3>3. Get connected</h3><p>Choose the help you need — supply, installation, mobile replacement or identification assistance.</p></article>
-        </div>
-      </div>
-    </section>
+        <h2 class="lp-trust__heading" id="trust-heading">Identification before recommendation.</h2>
+        <ul class="lp-trust__list" role="list">
 
-    <section class="section" aria-labelledby="trust-heading" style="background:var(--color-surface)">
-      <div class="container">
-        <h2 id="trust-heading">Why use NewBatteries</h2>
-        <ul class="trust-list">
-          <li>No guesswork — step-by-step identification</li>
-          <li>Multiple identification pathways</li>
-          <li>Brand-neutral, plain-English guidance</li>
-          <li>Australian-first platform</li>
-          <li>No fake results, no fake stock, no pressure</li>
+          <li class="lp-trust__item">
+            <svg class="lp-trust__item-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+              <!-- Evidence/check mark node -->
+              <circle cx="10" cy="10" r="8"/>
+              <polyline points="6,10 9,13 14,7"/>
+            </svg>
+            <span class="lp-trust__item-text">Evidence shown</span>
+          </li>
+
+          <li class="lp-trust__item">
+            <svg class="lp-trust__item-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+              <!-- Eye / visible -->
+              <circle cx="10" cy="10" r="3"/>
+              <path d="M1 10s3-7 9-7 9 7 9 7-3 7-9 7-9-7-9-7z"/>
+            </svg>
+            <span class="lp-trust__item-text">Unknowns made visible</span>
+          </li>
+
+          <li class="lp-trust__item">
+            <svg class="lp-trust__item-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+              <!-- Terminal connector / no-guess -->
+              <rect x="2" y="6" width="12" height="8" rx="2"/>
+              <rect x="14" y="8" width="4" height="4" rx="1"/>
+              <line x1="7" y1="4" x2="7" y2="6"/>
+              <line x1="11" y1="4" x2="11" y2="6"/>
+            </svg>
+            <span class="lp-trust__item-text">Compatibility never guessed</span>
+          </li>
+
+          <li class="lp-trust__item">
+            <svg class="lp-trust__item-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+              <!-- Link / supplier connection -->
+              <path d="M8 12a4 4 0 0 0 4 0M6 10a4 4 0 1 1 8 0"/>
+              <line x1="10" y1="6" x2="10" y2="14"/>
+              <circle cx="10" cy="15" r="1.5" fill="currentColor" stroke="none"/>
+            </svg>
+            <span class="lp-trust__item-text">Supplier confirmation where required</span>
+          </li>
+
         </ul>
       </div>
     </section>
 
-    <section class="section cta" aria-labelledby="supplier-heading">
+    <!-- ═══ CATEGORY BROWSER ══════════════════════════════════════ -->
+    <section class="lp-cats" aria-labelledby="cats-section-heading">
       <div class="container">
-        <h2 id="supplier-heading">Supply batteries? Join the network.</h2>
-        <p>NewBatteries is inviting established battery retailers, specialist suppliers, installers and mobile replacement services to register interest.</p>
-        <a class="btn btn-primary" href="suppliers.html">Register Supplier Interest</a>
-      </div>
-    </section>
+        <h2 id="cats-section-heading" class="visually-hidden">Browse by equipment type</h2>
+        <button
+          type="button"
+          class="lp-cats__toggle"
+          id="catsToggle"
+          aria-expanded="false"
+          aria-controls="catsBrowser"
+        >
+          Browse by equipment type
+          <svg class="lp-cats__chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="3,6 8,11 13,6"/>
+          </svg>
+        </button>
 
-    <section class="section" aria-labelledby="faq-heading">
-      <div class="container">
-        <h2 id="faq-heading">Frequently asked questions</h2>
-        <div class="faq-list">
-          <details><summary>Does NewBatteries sell batteries directly?</summary><p>No. NewBatteries focuses on helping people identify the battery they need and connecting them with suitable suppliers or installers.</p></details>
-          <details><summary>What if I do not know my battery number?</summary><p>That's fine. You can describe your equipment, enter specifications if known, or indicate you have photos. The finder guides you through whichever path suits your situation.</p></details>
-          <details><summary>Can you guarantee a battery is compatible?</summary><p>No. Compatibility must always be independently verified before purchase or installation, especially for critical or high-voltage systems. NewBatteries helps identify and connect — it does not replace expert advice.</p></details>
-          <details><summary>Can I request installation?</summary><p>Yes. The finder lets you indicate whether you need supply only, supply and installation, mobile replacement, or just identification help.</p></details>
-          <details><summary>What happens to my old battery?</summary><p>You can request old battery recycling information as part of your enquiry. Disposal requirements vary and should follow local regulations and safety guidance.</p></details>
-          <details><summary>Is the service available across Australia?</summary><p>This is an early-stage platform. Coverage may vary while supplier participation is being established.</p></details>
+        <div id="catsBrowser" hidden>
+          <div class="lp-cats__panel">
+
+            <!-- VEHICLE & MOBILE -->
+            <div>
+              <div class="lp-cats__group-title">Vehicle &amp; Mobile</div>
+              <ul class="lp-cats__items" role="list">
+                <li>
+                  <a href="finder.html?category=car" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <rect x="1" y="7" width="16" height="7" rx="2"/>
+                      <path d="M3 7l2-4h8l2 4"/>
+                      <circle cx="5" cy="14" r="1.5"/>
+                      <circle cx="13" cy="14" r="1.5"/>
+                    </svg>
+                    Cars and vehicles
+                  </a>
+                </li>
+                <li>
+                  <a href="finder.html?category=moto" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <circle cx="4" cy="13" r="3"/>
+                      <circle cx="14" cy="13" r="3"/>
+                      <path d="M4 13 8 6h4l3 4"/>
+                      <line x1="8" y1="6" x2="11" y2="6"/>
+                    </svg>
+                    Motorcycles
+                  </a>
+                </li>
+                <li>
+                  <a href="finder.html?category=marine" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <path d="M2 12c4-6 10-6 14 0"/>
+                      <path d="M2 12l7-8 7 8"/>
+                      <line x1="9" y1="4" x2="9" y2="2"/>
+                    </svg>
+                    Boats and marine
+                  </a>
+                </li>
+                <li>
+                  <a href="finder.html?category=caravan" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <rect x="2" y="5" width="14" height="9" rx="2"/>
+                      <circle cx="5" cy="14" r="1.5"/>
+                      <circle cx="13" cy="14" r="1.5"/>
+                      <line x1="16" y1="8" x2="18" y2="8"/>
+                    </svg>
+                    Caravans and camping
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- TOOLS & EQUIPMENT -->
+            <div>
+              <div class="lp-cats__group-title">Tools &amp; Equipment</div>
+              <ul class="lp-cats__items" role="list">
+                <li>
+                  <a href="finder.html?category=tool" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <rect x="2" y="8" width="10" height="6" rx="2"/>
+                      <rect x="12" y="7" width="5" height="8" rx="1.5"/>
+                      <line x1="2" y1="11" x2="12" y2="11"/>
+                    </svg>
+                    Power tools
+                  </a>
+                </li>
+                <li>
+                  <a href="finder.html?category=garden" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <circle cx="4" cy="13" r="2.5"/>
+                      <circle cx="14" cy="13" r="2.5"/>
+                      <rect x="3" y="7" width="12" height="5" rx="2"/>
+                      <line x1="9" y1="5" x2="9" y2="7"/>
+                    </svg>
+                    Mowers and garden equipment
+                  </a>
+                </li>
+                <li>
+                  <a href="finder.html?category=other" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <rect x="2" y="5" width="14" height="10" rx="2"/>
+                      <rect x="16" y="8" width="3" height="4" rx="1"/>
+                      <line x1="6" y1="9" x2="6" y2="11"/>
+                      <line x1="9" y1="9" x2="9" y2="11"/>
+                    </svg>
+                    Other equipment
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- HOME & PERSONAL -->
+            <div>
+              <div class="lp-cats__group-title">Home &amp; Personal</div>
+              <ul class="lp-cats__items" role="list">
+                <li>
+                  <a href="finder.html?category=home" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <path d="M2 9l7-7 7 7"/>
+                      <rect x="5" y="9" width="8" height="7" rx="1"/>
+                      <line x1="9" y1="5" x2="9" y2="2"/>
+                    </svg>
+                    Home and solar
+                  </a>
+                </li>
+                <li>
+                  <a href="finder.html?category=electronics" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <rect x="2" y="4" width="14" height="10" rx="2"/>
+                      <line x1="6" y1="14" x2="12" y2="14"/>
+                      <line x1="9" y1="14" x2="9" y2="16"/>
+                    </svg>
+                    Electronics
+                  </a>
+                </li>
+                <li>
+                  <a href="finder.html?category=mobility" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <circle cx="13" cy="14" r="2.5"/>
+                      <circle cx="5" cy="14" r="2.5"/>
+                      <path d="M5 11.5V5h5l3 6.5"/>
+                    </svg>
+                    Mobility equipment
+                  </a>
+                </li>
+                <li>
+                  <a href="finder.html?category=security" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <path d="M9 2l6 2v6c0 3-6 6-6 6S3 13 3 10V4z"/>
+                    </svg>
+                    Security and emergency equipment
+                  </a>
+                </li>
+                <li>
+                  <a href="finder.html?category=other" class="lp-cats__link">
+                    <svg class="lp-cats__link-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                      <circle cx="9" cy="9" r="7"/>
+                      <line x1="9" y1="6" x2="9" y2="9"/>
+                      <circle cx="9" cy="12" r="0.8" fill="currentColor" stroke="none"/>
+                    </svg>
+                    Something else
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
+
+    <!-- ═══ SUPPLIER INVITATION ════════════════════════════════════ -->
+    <section class="lp-supplier" aria-labelledby="supplier-heading">
+      <div class="container">
+        <h2 class="lp-supplier__heading" id="supplier-heading">Supply batteries? Join the network.</h2>
+        <p class="lp-supplier__body">NewBatteries is inviting established battery retailers, specialist suppliers, installers and mobile replacement services to register interest.</p>
+        <a class="btn btn-lp-primary" href="suppliers.html">Register supplier interest</a>
+      </div>
+    </section>
+
   </main>
 
+  <!-- ═══ FOOTER ═════════════════════════════════════════════════ -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
@@ -216,9 +488,9 @@
       </div>
       <nav aria-label="Footer">
         <a href="index.html">Home</a>
-        <a href="finder.html">Find My Battery</a>
+        <a href="finder.html">Identify</a>
         <a href="about.html">About</a>
-        <a href="suppliers.html">For Suppliers</a>
+        <a href="suppliers.html">For suppliers</a>
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
       </nav>

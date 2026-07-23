@@ -1,6 +1,6 @@
 /* =============================================================
    NewBatteries – main.js
-   Site-wide utilities: nav toggle, year, category cards
+   Site-wide utilities: nav toggle, year, homepage routing
    ============================================================= */
 
 (function () {
@@ -20,7 +20,6 @@
       nav.classList.toggle('is-open', !expanded);
     });
 
-    /* Close nav when a link is activated */
     nav.addEventListener('click', function (e) {
       if (e.target.tagName === 'A') {
         toggle.setAttribute('aria-expanded', 'false');
@@ -29,37 +28,68 @@
     });
   }
 
-  /* ── Category cards (home page) ─────────────────────── */
-  var container = document.getElementById('categoryCards');
-  if (container) {
-    var categories = [
-      { label: 'Power tool',                     icon: '🔧', slug: 'tool'        },
-      { label: 'Car or vehicle',                 icon: '🚗', slug: 'car'         },
-      { label: 'Caravan or camping equipment',   icon: '🚐', slug: 'caravan'     },
-      { label: 'Motorcycle',                     icon: '🏍️', slug: 'moto'        },
-      { label: 'Boat or marine equipment',       icon: '⛵', slug: 'marine'      },
-      { label: 'Mower or garden equipment',      icon: '🌿', slug: 'garden'      },
-      { label: 'Home or solar system',           icon: '🏠', slug: 'home'        },
-      { label: 'Electronics',                    icon: '💻', slug: 'electronics' },
-      { label: 'Mobility equipment',             icon: '♿', slug: 'mobility'    },
-      { label: 'Security or emergency equipment',icon: '🔒', slug: 'security'    },
-      { label: 'Something else',                 icon: '❓', slug: 'other'       }
-    ];
+  /* ── Homepage identification routing ────────────────── */
 
-    var html = '';
-    categories.forEach(function (cat) {
-      html +=
-        '<a href="finder.html?category=' + cat.slug + '" class="panel" ' +
-        'style="display:flex;flex-direction:column;gap:var(--sp-2);text-decoration:none;' +
-        'align-items:flex-start;cursor:pointer;transition:box-shadow var(--ease),border-color var(--ease)"' +
-        ' onmouseover="this.style.borderColor=\'var(--color-accent)\'" ' +
-        ' onmouseout="this.style.borderColor=\'\'"' +
-        '>' +
-        '<span style="font-size:1.75rem;line-height:1">' + cat.icon + '</span>' +
-        '<span style="font-weight:700;font-size:var(--text-sm);color:var(--color-text)">' + cat.label + '</span>' +
-        '</a>';
+  /* Simple transparent keyword router.
+     Returns the finder path value: 'number' | 'equipment' | 'notsure' */
+  function routeQuery(q) {
+    var s = q.trim();
+    if (!s) return 'notsure';
+
+    /* Battery code detection: short, no-space alphanumeric matching
+       common battery-code patterns (e.g. LN2, DIN66, N70, NS60, 66MF). */
+    if (s.indexOf(' ') === -1 && s.length <= 12) {
+      if (/^[A-Za-z]{1,4}\d{1,4}[A-Za-z0-9]*$/.test(s)) return 'number';
+      if (/^\d{1,4}[A-Za-z]{1,4}$/.test(s))              return 'number';
+    }
+
+    /* Battery spec/chemistry terms (e.g. "AGM 600CCA", "100AH gel") */
+    if (/\b(CCA|AGM|GEL|AH|LFP|VRLA|FLA|EFB|SLA)\b/i.test(s)) return 'number';
+
+    /* Multi-word queries suggest equipment description / brand + model */
+    if (s.indexOf(' ') !== -1) return 'equipment';
+
+    /* Single capitalised word with 4+ chars: likely an equipment brand */
+    if (/^[A-Z][a-zA-Z]{3,}$/.test(s)) return 'equipment';
+
+    return 'notsure';
+  }
+
+  var form     = document.getElementById('homeIdForm');
+  var input    = document.getElementById('homeQuery');
+  var photoBtn = document.getElementById('homePhotoBtn');
+
+  if (form && input) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q    = input.value.trim();
+      var path = q ? routeQuery(q) : 'notsure';
+
+      /* Save only the non-personal starting query to session */
+      try { sessionStorage.setItem('nb_home_query', q); } catch (ex) { /* ignore */ }
+
+      var url = 'finder.html?path=' + encodeURIComponent(path);
+      if (q) url += '&query=' + encodeURIComponent(q);
+      window.location.href = url;
     });
-    container.innerHTML = html;
+  }
+
+  if (photoBtn) {
+    photoBtn.addEventListener('click', function () {
+      window.location.href = 'finder.html?path=photo';
+    });
+  }
+
+  /* ── Category browser toggle ────────────────────────── */
+  var catsToggle = document.getElementById('catsToggle');
+  var catsPanel  = document.getElementById('catsBrowser');
+
+  if (catsToggle && catsPanel) {
+    catsToggle.addEventListener('click', function () {
+      var expanded = catsToggle.getAttribute('aria-expanded') === 'true';
+      catsToggle.setAttribute('aria-expanded', String(!expanded));
+      catsPanel.hidden = expanded;
+    });
   }
 
 })();
