@@ -153,6 +153,8 @@
     if (result.confidence === 'unknown') {
       recog.hidden   = true;
       unknown.hidden = false;
+      var compareWrapUnknown = $('biv-compare-wrap');
+      if (compareWrapUnknown) compareWrapUnknown.hidden = true;
       var unknCode = $('biv-unknownCode');
       if (unknCode) {
         unknCode.textContent = '\u201c' + result.enteredCode + '\u201d is not in our current reference database.';
@@ -248,6 +250,14 @@
       } else {
         verWrap.hidden = true;
       }
+    }
+
+    /* Show compare link */
+    var compareWrap = $('biv-compare-wrap');
+    var compareLink = $('biv-compare-link');
+    if (compareWrap && compareLink && result.canonical) {
+      compareLink.href = 'compatibility.html?code=' + encodeURIComponent(result.canonical);
+      compareWrap.hidden = false;
     }
   }
 

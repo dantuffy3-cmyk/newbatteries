@@ -153,3 +153,63 @@ Run these browser-based checks in `finder.html`:
 8. **Improve result flow**: generate a low/medium result and click **Improve this result**; confirm it returns to uncertain inputs while preserving existing answers.
 9. **Restart flow**: click **Start again** and confirm finder state is cleared.
 10. **Print summary**: click **Print or save result** on mobile and desktop widths; confirm result summary prints while nav/controls are hidden.
+
+## Battery Intelligence Core
+
+NewBatteries now includes a conservative Battery Intelligence Core for battery master data, relationship records and evidence-led compatibility checks.
+
+### Architecture overview
+
+The core is made up of:
+- `data/batteries.json` — battery master records, including backward-compatible finder fields plus new structured fields
+- `data/relationships.json` — explicit relationship records between batteries or battery ecosystems
+- `data/rule-profiles.json` — category-specific compatibility rule profiles
+- `data/sources.json` — source register and evidence authority metadata
+- `data/battery-record-schema.json` — JSON Schema for battery records
+- `assets/js/battery-data.js` — browser-safe loader and normaliser for battery datasets
+- `assets/js/compatibility-engine.js` — rules-based compatibility assessment engine
+- `compatibility.html` — UI for comparing two battery codes
+
+### File descriptions
+
+- `batteries.json` remains the source of truth for the existing finder. New records must keep the old fields (`id`, `canonicalCode`, `aliases`, `family`, `category`, `nominalVoltage`, `typicalApplications`, `chemistryOptions`, `warnings`, `verificationRequirements`) so `finder.js` keeps working.
+- `relationships.json` is intentionally conservative. It stores only explicit relationship records with warnings, unknowns, confidence and verification requirements.
+- `rule-profiles.json` defines which checks are blocking, conditional or informational for each category.
+- `sources.json` documents source classes and their permitted use. It does not grant any scraping or republication rights.
+- `battery-record-schema.json` is the validation reference for structured battery records.
+
+### How to add a battery record
+
+1. Add the record to `data/batteries.json` following `data/battery-record-schema.json`.
+2. Keep all backward-compatible finder fields present so the existing finder can still read the record.
+3. Start conservative: use `reviewStatus: "draft"` unless the record has passed review.
+4. Populate `unknowns` with anything that is missing, conflicting or still unverified.
+5. Leave `manufacturerSpecifications` empty unless you have source-backed manufacturer detail.
+
+### How to add a relationship record
+
+1. Add an explicit record to `data/relationships.json`.
+2. Describe what matches, what differs, the warnings, the unknowns and the required verification steps.
+3. Use `relationshipType`, `classification`, `confidence` and `reviewStatus` conservatively.
+4. Only use `direct_equivalent` when an approved relationship explicitly supports it.
+
+### Approval workflow
+
+Records should move from `draft` to `reviewed` to `approved` using the process in `docs/verification-workflow.md`. Evidence governance rules are defined in `docs/evidence-governance.md`.
+
+### How the compatibility engine works
+
+`assets/js/compatibility-engine.js` loads normalised batteries, relationships, rule profiles and sources via `assets/js/battery-data.js`. It then:
+- looks up both codes conservatively
+- checks for an explicit relationship record
+- applies category rule profiles
+- treats missing data as unknown, not as a match
+- never generates compatibility percentages
+- only returns `direct_equivalent` when an approved explicit relationship says so
+
+### Current limitations
+
+- The dataset is still incomplete and many records remain draft or reviewed rather than approved.
+- Source IDs are placeholders until evidence is linked per record.
+- Relationship coverage is intentionally narrow.
+- The engine does not guarantee fitment, safety or supplier availability.

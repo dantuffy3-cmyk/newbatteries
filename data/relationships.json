@@ -1,0 +1,212 @@
+{
+  "version": "v1",
+  "lastUpdated": "2026-07-23",
+  "notes": "Conservative starter relationship set. All relationships must explain what matches, what differs, warnings, confidence and evidence status.",
+  "relationships": [
+    {
+      "relationshipId": "ag13-lr44-alias-conditional",
+      "sourceBatteryId": "button-ag13",
+      "targetBatteryId": "button-lr44",
+      "relationshipType": "conditional_substitute",
+      "direction": "bidirectional",
+      "matches": [
+        "physical_diameter",
+        "physical_height"
+      ],
+      "differences": [
+        "chemistry_may_differ",
+        "voltage_nominal"
+      ],
+      "warnings": [
+        "AG13 is commonly cross-referenced with LR44 but chemistry and voltage must be confirmed.",
+        "AG13 (alkaline 1.5V) and LR44 (alkaline 1.5V) are physically similar, but some LR44-cross-referenced products are silver oxide (SR44/357 at 1.55V).",
+        "Device compatibility depends on chemistry and discharge profile tolerance.",
+        "Always confirm with device manufacturer documentation."
+      ],
+      "unknowns": [
+        "Device-specific chemistry requirement",
+        "Whether device is tolerant of silver-oxide vs alkaline discharge profile",
+        "Manufacturer approval for the specific device"
+      ],
+      "classification": "conditional",
+      "confidence": "low",
+      "evidence": [],
+      "deviceVerificationRequired": true,
+      "supplierVerificationRequired": true,
+      "reviewStatus": "draft",
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "relationshipId": "cr2025-to-cr2032-conditional",
+      "sourceBatteryId": "coin-cr2025",
+      "targetBatteryId": "coin-cr2032",
+      "relationshipType": "conditional_substitute",
+      "direction": "one_way",
+      "matches": [
+        "nominal_voltage",
+        "diameter",
+        "chemistry"
+      ],
+      "differences": [
+        "height",
+        "typical_capacity"
+      ],
+      "warnings": [
+        "CR2032 (3.2mm) is thicker than CR2025 (2.5mm). Physical fit in the device compartment must be confirmed before use.",
+        "CR2032 typically has higher capacity than CR2025 due to greater volume.",
+        "Contact spring pressure may be affected by the height difference.",
+        "Do not force a CR2032 into a CR2025 compartment."
+      ],
+      "unknowns": [
+        "Device-specific battery compartment clearance",
+        "Contact spring pressure tolerance",
+        "Manufacturer approval or guidance for this substitution"
+      ],
+      "classification": "conditional",
+      "confidence": "medium",
+      "evidence": [
+        {
+          "evidenceType": "physical_specification",
+          "claim": "Both batteries share 20mm diameter and 3V nominal voltage; height differs (2.5mm vs 3.2mm)",
+          "sourceId": null,
+          "verificationStatus": "unverified"
+        }
+      ],
+      "deviceVerificationRequired": true,
+      "supplierVerificationRequired": false,
+      "reviewStatus": "draft",
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "relationshipId": "din66-ln2-same-family-insufficient",
+      "sourceBatteryId": "din66",
+      "targetBatteryId": "ln2",
+      "relationshipType": "insufficient_evidence",
+      "direction": "bidirectional",
+      "matches": [],
+      "differences": [
+        "designation_system",
+        "terminal_configuration_may_differ",
+        "hold_down_requirements_may_differ"
+      ],
+      "warnings": [
+        "DIN66 and LN2 are sometimes cross-referenced in Australian retail but are not universally interchangeable.",
+        "Terminal polarity, hold-down style and connector position can differ between DIN and LN variants.",
+        "Never assume interchangeability without explicit OEM or supplier confirmation.",
+        "Chemistry requirements (flooded vs AGM vs EFB) must be verified separately."
+      ],
+      "unknowns": [
+        "Whether specific DIN66 and LN2 variants share terminal layout",
+        "Hold-down ledge compatibility for the specific vehicle",
+        "Start-stop and BMS compatibility",
+        "OEM approval for this substitution"
+      ],
+      "classification": "insufficient_evidence",
+      "confidence": "low",
+      "evidence": [],
+      "deviceVerificationRequired": true,
+      "supplierVerificationRequired": true,
+      "reviewStatus": "draft",
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "relationshipId": "lr41-sr41-same-size-different-chemistry",
+      "sourceBatteryId": "button-lr41",
+      "targetBatteryId": "button-sr41",
+      "relationshipType": "conditional_substitute",
+      "direction": "bidirectional",
+      "matches": [
+        "physical_diameter",
+        "physical_height"
+      ],
+      "differences": [
+        "chemistry",
+        "nominal_voltage",
+        "discharge_profile"
+      ],
+      "warnings": [
+        "LR41 (alkaline 1.5V) and SR41 (silver oxide 1.55V) are physically the same size.",
+        "The 0.05V nominal voltage difference and significantly different discharge profiles mean they are NOT equivalent in all devices.",
+        "Precision instruments and medical devices may require the specific chemistry."
+      ],
+      "unknowns": [
+        "Device sensitivity to chemistry type",
+        "Whether device specifications require alkaline or silver oxide"
+      ],
+      "classification": "conditional",
+      "confidence": "low",
+      "evidence": [],
+      "deviceVerificationRequired": true,
+      "supplierVerificationRequired": false,
+      "reviewStatus": "draft",
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "relationshipId": "lr44-sr44-same-size-different-chemistry",
+      "sourceBatteryId": "button-lr44",
+      "targetBatteryId": "button-sr44",
+      "relationshipType": "conditional_substitute",
+      "direction": "bidirectional",
+      "matches": [
+        "physical_diameter",
+        "physical_height"
+      ],
+      "differences": [
+        "chemistry",
+        "nominal_voltage",
+        "discharge_profile"
+      ],
+      "warnings": [
+        "LR44 (alkaline 1.5V) and SR44 (silver oxide 1.55V) share the same physical dimensions.",
+        "Discharge profile differs significantly: SR44 maintains flat voltage, LR44 gradually declines.",
+        "Use in precision devices (watches, medical) typically requires silver oxide (SR44/357).",
+        "Alkaline substitute may reduce device performance or accuracy."
+      ],
+      "unknowns": [
+        "Device-specific chemistry requirement",
+        "Whether device is sensitive to voltage stability"
+      ],
+      "classification": "conditional",
+      "confidence": "medium",
+      "evidence": [],
+      "deviceVerificationRequired": true,
+      "supplierVerificationRequired": false,
+      "reviewStatus": "draft",
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "relationshipId": "aa-alkaline-aa-nimh-same-size",
+      "sourceBatteryId": "household-aa-alkaline",
+      "targetBatteryId": "household-aa-nimh",
+      "relationshipType": "conditional_substitute",
+      "direction": "bidirectional",
+      "matches": [
+        "physical_size",
+        "iec_size_designation"
+      ],
+      "differences": [
+        "chemistry",
+        "nominal_voltage",
+        "rechargeable_status",
+        "charger_required"
+      ],
+      "warnings": [
+        "AA NiMH (1.2V nominal) has a lower nominal voltage than AA alkaline (1.5V).",
+        "NiMH requires a compatible NiMH charger and must not be used with alkaline-only chargers.",
+        "Some devices may not operate correctly at 1.2V nominal voltage.",
+        "NiMH is rechargeable; alkaline is typically single-use."
+      ],
+      "unknowns": [
+        "Device compatibility at 1.2V nominal",
+        "Charger availability and compatibility"
+      ],
+      "classification": "conditional",
+      "confidence": "medium",
+      "evidence": [],
+      "deviceVerificationRequired": true,
+      "supplierVerificationRequired": false,
+      "reviewStatus": "draft",
+      "lastVerified": "2026-07-23"
+    }
+  ]
+}

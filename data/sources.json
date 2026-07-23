@@ -1,0 +1,153 @@
+{
+  "version": "v1",
+  "lastUpdated": "2026-07-23",
+  "notes": "Source register. Each source class describes the type of evidence, its authority level, and use conditions. Do not invent permissions or commercial reuse rights.",
+  "sources": [
+    {
+      "sourceId": "src-manufacturer-datasheet",
+      "sourceName": "Official Manufacturer Technical Datasheet",
+      "sourceOwner": "Battery manufacturer (varies by record)",
+      "sourceType": "manufacturer_technical_document",
+      "jurisdiction": "varies",
+      "sourceUrl": null,
+      "authorityScore": 95,
+      "licensingStatus": "review_required",
+      "permittedUse": "Human reference and verification. Republication requires explicit permission from each manufacturer.",
+      "humanVerificationRequired": true,
+      "limitations": [
+        "Datasheets are version-specific. Superseded versions may no longer be accurate.",
+        "Application-specific datasheets may not represent all product variants.",
+        "Commercial reuse or reproduction requires individual manufacturer permission."
+      ],
+      "lastReviewed": "2026-07-23"
+    },
+    {
+      "sourceId": "src-government-regulator",
+      "sourceName": "Government or Regulator Data",
+      "sourceOwner": "Government agency or statutory authority (varies)",
+      "sourceType": "government_regulator",
+      "jurisdiction": "varies",
+      "sourceUrl": null,
+      "authorityScore": 98,
+      "licensingStatus": "public_link_only",
+      "permittedUse": "Reference for safety, compliance and recall information. Link to original source. Do not claim to reproduce regulatory determinations as original NewBatteries content.",
+      "humanVerificationRequired": true,
+      "limitations": [
+        "Regulatory data applies to specific jurisdictions.",
+        "Recall information may be updated; always check current agency records.",
+        "'No recall found' does not confirm a product is safe."
+      ],
+      "lastReviewed": "2026-07-23"
+    },
+    {
+      "sourceId": "src-standards-body",
+      "sourceName": "Recognised Standards Body Metadata",
+      "sourceOwner": "Standards body (e.g. IEC, ISO, SAE)",
+      "sourceType": "standards_metadata",
+      "jurisdiction": "international",
+      "sourceUrl": null,
+      "authorityScore": 90,
+      "licensingStatus": "permission_required",
+      "permittedUse": "Reference to standard designations and metadata. Full standards documents typically require purchase or licence.",
+      "humanVerificationRequired": true,
+      "limitations": [
+        "Full standards content is copyrighted by the standards body.",
+        "Only publicly available metadata may be referenced without licence.",
+        "Standard designations may be amended or superseded."
+      ],
+      "lastReviewed": "2026-07-23"
+    },
+    {
+      "sourceId": "src-distributor-datasheet",
+      "sourceName": "Distributor or Supplier Technical Datasheet",
+      "sourceOwner": "Battery distributor or supplier (varies)",
+      "sourceType": "distributor_technical_datasheet",
+      "jurisdiction": "varies",
+      "sourceUrl": null,
+      "authorityScore": 65,
+      "licensingStatus": "review_required",
+      "permittedUse": "Human reference. Verify against manufacturer documentation where possible. No automatic republication rights.",
+      "humanVerificationRequired": true,
+      "limitations": [
+        "Distributor specifications may differ from manufacturer originals.",
+        "May reflect regional or variant-specific product specifications.",
+        "Supplier rankings or commercial relationships must not influence compatibility ratings."
+      ],
+      "lastReviewed": "2026-07-23"
+    },
+    {
+      "sourceId": "src-manufacturer-xref",
+      "sourceName": "Manufacturer Cross-Reference Chart",
+      "sourceOwner": "Battery manufacturer (varies)",
+      "sourceType": "manufacturer_cross_reference",
+      "jurisdiction": "varies",
+      "sourceUrl": null,
+      "authorityScore": 75,
+      "licensingStatus": "review_required",
+      "permittedUse": "Human reference for identifying potential cross-references. Cross-references must be reviewed against technical specifications before being used as compatibility evidence.",
+      "humanVerificationRequired": true,
+      "limitations": [
+        "Cross-reference charts list potential matches, not guaranteed direct replacements.",
+        "May reflect manufacturer's own product range only.",
+        "Application-specific differences (chemistry, dimensions) may still apply."
+      ],
+      "lastReviewed": "2026-07-23"
+    },
+    {
+      "sourceId": "src-newbatteries-verified",
+      "sourceName": "NewBatteries Independently Verified Record",
+      "sourceOwner": "NewBatteries",
+      "sourceType": "newbatteries_verified_record",
+      "jurisdiction": "Australia",
+      "sourceUrl": "https://newbatteries.com/",
+      "authorityScore": 80,
+      "licensingStatus": "verified",
+      "permittedUse": "Used internally for NewBatteries platform records. Approved records may be presented as verified on the platform.",
+      "humanVerificationRequired": true,
+      "limitations": [
+        "NewBatteries verified records represent the outcome of the internal verification workflow.",
+        "Records must pass technical review and conflict review before achieving 'approved' status.",
+        "Periodic reverification is required to maintain approved status."
+      ],
+      "lastReviewed": "2026-07-23"
+    },
+    {
+      "sourceId": "src-user-supplied",
+      "sourceName": "User-Supplied Information",
+      "sourceOwner": "User (anonymous or named)",
+      "sourceType": "user_supplied",
+      "jurisdiction": "varies",
+      "sourceUrl": null,
+      "authorityScore": 20,
+      "licensingStatus": "manual_use_only",
+      "permittedUse": "May inform draft records only. Must not be presented as verified without independent technical review.",
+      "humanVerificationRequired": true,
+      "limitations": [
+        "User-supplied information is unverified.",
+        "Must not be used as primary compatibility evidence.",
+        "May contain errors, misidentifications, or application-specific data.",
+        "Personal data in user submissions must be handled per privacy policy."
+      ],
+      "lastReviewed": "2026-07-23"
+    },
+    {
+      "sourceId": "src-ai-inference",
+      "sourceName": "AI Inference",
+      "sourceOwner": "AI system (not a human authority)",
+      "sourceType": "ai_inference",
+      "jurisdiction": "not_applicable",
+      "sourceUrl": null,
+      "authorityScore": 5,
+      "licensingStatus": "manual_use_only",
+      "permittedUse": "May be used to generate draft records for human review only. AI output alone is never compatibility evidence. Must not appear on public-facing pages as a basis for compatibility claims.",
+      "humanVerificationRequired": true,
+      "limitations": [
+        "AI output is not authoritative evidence.",
+        "AI may hallucinate or misstate technical specifications.",
+        "Any AI-generated content must be reviewed and approved by a human before publication.",
+        "AI inference must be clearly labelled as such in any draft record."
+      ],
+      "lastReviewed": "2026-07-23"
+    }
+  ]
+}
