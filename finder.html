@@ -11,11 +11,23 @@
 <body class="finder-page">
   <a class="skip-link" href="#main-content">Skip to content</a>
 
-  <header class="finder-header" role="banner">
-    <div class="container" style="display:flex;align-items:center;gap:var(--sp-5)">
+  <header class="site-header finder-header" role="banner">
+    <div class="container nav-wrap">
       <a class="wordmark" href="index.html" aria-label="NewBatteries home">NewBatteries</a>
-      <span style="font-size:var(--text-sm);color:rgba(255,255,255,.55);padding-left:var(--sp-3);border-left:1px solid rgba(255,255,255,.2)" aria-hidden="true">Battery Finder</span>
-      <a class="back-home" href="index.html" style="margin-left:auto;font-size:var(--text-sm);color:rgba(255,255,255,.65);text-decoration:none">&#8592; Back to home</a>
+      <span class="finder-badge" aria-hidden="true">Battery Finder</span>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation">
+        <span class="visually-hidden">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <nav id="primaryNav" class="primary-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="finder.html" aria-current="page">Identify</a>
+        <a href="suppliers.html">For suppliers</a>
+        <a href="about.html">About</a>
+        <a class="btn btn-ghost btn-sm" href="index.html">&#8592; Return home</a>
+      </nav>
     </div>
   </header>
 
@@ -23,13 +35,20 @@
     <div class="container">
 
       <!-- Progress indicator -->
-      <div class="progress-bar-wrap" id="progressWrap" aria-label="Finder progress" style="max-width:var(--form-width);margin:0 auto var(--sp-8)">
+      <div class="progress-bar-wrap progress-rail" id="progressWrap" aria-label="Finder progress">
         <div class="progress-label">
-          <span id="progressText">Step 1 of 6</span>
-          <span id="progressStepName" style="font-weight:400"></span>
+          <span>
+            <span id="progressText">Step 1 of 6</span>
+            <strong id="progressStepName"></strong>
+          </span>
         </div>
         <div class="progress-track" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="6" aria-labelledby="progressText">
-          <div class="progress-fill" id="progressFill" style="width:17%"></div>
+          <span class="progress-segment is-current" data-step="1" aria-hidden="true"></span>
+          <span class="progress-segment" data-step="2" aria-hidden="true"></span>
+          <span class="progress-segment" data-step="3" aria-hidden="true"></span>
+          <span class="progress-segment" data-step="4" aria-hidden="true"></span>
+          <span class="progress-segment" data-step="5" aria-hidden="true"></span>
+          <span class="progress-segment" data-step="6" aria-hidden="true"></span>
         </div>
       </div>
 
@@ -48,57 +67,101 @@
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-tool" value="tool">
-              <label for="cat-tool"><span class="card-icon">&#128295;</span><span class="card-title">Power tool</span></label>
+              <label for="cat-tool">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18h4l4-4-2-2-4 4v4z"/><path d="M13 9l2-2 3 3-2 2"/><path d="M19 7l1-1"/><rect x="2" y="17" width="20" height="5" rx="2"/></svg>
+                <span class="card-title">Power tool</span>
+                <span class="card-desc">Cordless and workshop battery systems</span>
+              </label>
             </div>
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-car" value="car">
-              <label for="cat-car"><span class="card-icon">&#128663;</span><span class="card-title">Car or vehicle</span></label>
+              <label for="cat-car">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="6" rx="2"/><path d="M6 9l2-3h8l2 3"/><circle cx="7" cy="16.5" r="1.5"/><circle cx="17" cy="16.5" r="1.5"/></svg>
+                <span class="card-title">Car or vehicle</span>
+                <span class="card-desc">Passenger, 4WD and work vehicles</span>
+              </label>
             </div>
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-caravan" value="caravan">
-              <label for="cat-caravan"><span class="card-icon">&#128656;</span><span class="card-title">Caravan or camping equipment</span></label>
+              <label for="cat-caravan">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M19 10h2l1 2v5h-3"/><circle cx="8" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/></svg>
+                <span class="card-title">Caravan or camping equipment</span>
+                <span class="card-desc">Leisure, deep-cycle and off-grid setups</span>
+              </label>
             </div>
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-moto" value="moto">
-              <label for="cat-moto"><span class="card-icon">&#127949;&#65039;</span><span class="card-title">Motorcycle</span></label>
+              <label for="cat-moto">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="17" r="2"/><circle cx="18" cy="17" r="2"/><path d="M8 17h6l3-5h-4l-2-2h-3"/><path d="M13 12h-2"/></svg>
+                <span class="card-title">Motorcycle</span>
+                <span class="card-desc">Motorbike and powersports batteries</span>
+              </label>
             </div>
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-marine" value="marine">
-              <label for="cat-marine"><span class="card-icon">&#9973;</span><span class="card-title">Boat or marine equipment</span></label>
+              <label for="cat-marine">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15h18l-2 3H5l-2-3z"/><path d="M8 15V8h6v7"/><path d="M2 20c1-.8 2-.8 3 0s2 .8 3 0 2-.8 3 0 2 .8 3 0 2-.8 3 0"/></svg>
+                <span class="card-title">Boat or marine equipment</span>
+                <span class="card-desc">Starting and auxiliary marine systems</span>
+              </label>
             </div>
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-garden" value="garden">
-              <label for="cat-garden"><span class="card-icon">&#127807;</span><span class="card-title">Mower or garden equipment</span></label>
+              <label for="cat-garden">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="17" r="2"/><circle cx="18" cy="17" r="2"/><path d="M4 14h12l3-3"/><path d="M8 14V9h6"/><path d="M13 9l2-2"/></svg>
+                <span class="card-title">Mower or garden equipment</span>
+                <span class="card-desc">Ride-on, mower and garden power</span>
+              </label>
             </div>
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-home" value="home">
-              <label for="cat-home"><span class="card-icon">&#127968;</span><span class="card-title">Home or solar system</span></label>
+              <label for="cat-home">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-6 9 6"/><path d="M5 10v9h14v-9"/><path d="M9 14h6"/><path d="M12 11v6"/></svg>
+                <span class="card-title">Home or solar system</span>
+                <span class="card-desc">Backup, storage and solar battery banks</span>
+              </label>
             </div>
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-electronics" value="electronics">
-              <label for="cat-electronics"><span class="card-icon">&#128187;</span><span class="card-title">Electronics</span></label>
+              <label for="cat-electronics">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M9 20h6"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
+                <span class="card-title">Electronics</span>
+                <span class="card-desc">Portable and small device power packs</span>
+              </label>
             </div>
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-mobility" value="mobility">
-              <label for="cat-mobility"><span class="card-icon">&#9855;</span><span class="card-title">Mobility equipment</span></label>
+              <label for="cat-mobility">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="17" r="2.5"/><circle cx="17" cy="17" r="2"/><path d="M8 9h6l3 6"/><path d="M10 6h2"/><path d="M12 9V6"/></svg>
+                <span class="card-title">Mobility equipment</span>
+                <span class="card-desc">Scooters, chairs and access devices</span>
+              </label>
             </div>
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-security" value="security">
-              <label for="cat-security"><span class="card-icon">&#128274;</span><span class="card-title">Security or emergency equipment</span></label>
+              <label for="cat-security">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v2"/><path d="M10 16h4"/></svg>
+                <span class="card-title">Security or emergency equipment</span>
+                <span class="card-desc">Alarm, UPS and emergency backup systems</span>
+              </label>
             </div>
 
             <div class="radio-card">
               <input type="radio" name="category" id="cat-other" value="other">
-              <label for="cat-other"><span class="card-icon">&#10067;</span><span class="card-title">Something else</span></label>
+              <label for="cat-other">
+                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 9a2.5 2.5 0 1 1 4.5 1.5c-.7.8-1.8 1.4-1.8 2.5"/><circle cx="12" cy="17.5" r=".8"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+                <span class="card-title">Something else</span>
+                <span class="card-desc">Specialist or uncommon battery requirements</span>
+              </label>
             </div>
 
           </div>
@@ -283,10 +346,16 @@
             <div style="margin-top:var(--sp-4);padding:var(--sp-5) var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius);background:var(--color-surface)">
               <p style="margin:0 0 var(--sp-1)"><strong>Code entered:</strong> <span id="biv-enteredCode">&mdash;</span></p>
               <p style="margin:0 0 var(--sp-1)"><strong>Recognised as:</strong> <span id="biv-canonical">&mdash;</span></p>
-              <p style="margin:0 0 var(--sp-4)"><strong>Confidence:</strong> <span id="biv-confidence">&mdash;</span></p>
+              <p style="margin:0 0 var(--sp-2)"><strong>Confidence:</strong> <span id="biv-confidence">&mdash;</span></p>
+              <p class="confidence-pill" id="biv-confidence-pill" data-confidence="medium">Confidence shown in text and colour</p>
+              <p style="margin:0 0 var(--sp-2)"><strong>Evidence used:</strong> <span id="biv-evidence">&mdash;</span></p>
               <dl class="review-dl" id="biv-details" style="margin-bottom:0"></dl>
+              <div id="biv-unknowns-wrap" hidden style="margin-top:var(--sp-4)">
+                <p style="font-weight:600;margin:0 0 var(--sp-2)">Unknowns</p>
+                <ul id="biv-unknowns" style="margin:0;padding-left:var(--sp-5)"></ul>
+              </div>
               <div id="biv-warnings-wrap" hidden style="margin-top:var(--sp-4)">
-                <p style="font-weight:600;margin:0 0 var(--sp-2)">&#9888; Things to check with a supplier</p>
+                <p style="font-weight:600;margin:0 0 var(--sp-2)">Things to check with a supplier</p>
                 <ul id="biv-warnings" style="margin:0;padding-left:var(--sp-5)"></ul>
               </div>
               <div id="biv-verification-wrap" hidden style="margin-top:var(--sp-4)">
@@ -423,13 +492,25 @@
         <p class="step-hint">We will ask for the photos after you submit your enquiry. Here is what to photograph so you are ready.</p>
 
         <div class="photo-guide" role="note" aria-label="Photo requirements">
-          <h2 style="font-size:var(--text-lg);margin-bottom:var(--sp-3)">What to photograph &mdash; include all of these if possible:</h2>
-          <ul>
-            <li><strong>The full battery label</strong> &mdash; the complete sticker on top or side showing all printed text and codes</li>
-            <li><strong>Terminal position</strong> &mdash; show which terminal is positive (+) and which is negative (&minus;), and their locations on the battery</li>
-            <li><strong>Model or part numbers</strong> &mdash; any codes, batch numbers, or manufacturer identifiers printed on the case or label</li>
-            <li><strong>The equipment the battery came from</strong> &mdash; photograph the battery in or next to the equipment so the mounting bay is visible</li>
-          </ul>
+          <h2 style="font-size:var(--text-lg);margin-bottom:var(--sp-3)">Photo guidance &mdash; include these four views:</h2>
+          <div class="photo-guide-grid">
+            <article class="photo-guide-panel">
+              <h3>Full battery label</h3>
+              <p>Capture the entire label in one frame so all codes, ratings and text are readable.</p>
+            </article>
+            <article class="photo-guide-panel">
+              <h3>Terminal position</h3>
+              <p>Show both terminals and polarity so left/right orientation can be confirmed.</p>
+            </article>
+            <article class="photo-guide-panel">
+              <h3>Equipment model plate</h3>
+              <p>Photograph the compliance/model plate or serial sticker on the equipment.</p>
+            </article>
+            <article class="photo-guide-panel">
+              <h3>Battery compartment</h3>
+              <p>Show the battery bay and mounting area to help verify fit and clearance.</p>
+            </article>
+          </div>
         </div>
 
         <div class="notice notice--warn" style="margin-bottom:var(--sp-6)">
@@ -653,6 +734,8 @@
           <dl class="review-dl">
             <dt>Recognised as</dt><dd id="rv-battCanonical">&#8212;</dd>
             <dt>Confidence</dt><dd id="rv-battConfidence">&#8212;</dd>
+            <dt>Evidence</dt><dd id="rv-battEvidence">&#8212;</dd>
+            <dt>Unknowns</dt><dd id="rv-battUnknowns">&#8212;</dd>
             <dt>Warnings</dt><dd id="rv-battWarnings">&#8212;</dd>
             <dt>Needs supplier verification</dt><dd id="rv-battVerification">&#8212;</dd>
           </dl>
@@ -702,7 +785,7 @@
         </div>
 
         <div class="step-actions" style="margin-top:var(--sp-6)">
-          <button class="btn btn-primary" id="btn-submit" type="button">Submit enquiry</button>
+          <button class="btn btn-primary" id="btn-submit" type="button">Prepare request summary</button>
           <button class="btn-back" id="btn-back-review" type="button">&#8592; Back</button>
         </div>
       </div>
@@ -710,8 +793,8 @@
       <!-- ═══ CONFIRMATION ══════════════════════════════════════ -->
       <div class="finder-card" id="step-confirm" hidden>
         <div class="confirm-banner">
-          <h2>&#10003; Enquiry submitted</h2>
-          <p>Thank you for using the NewBatteries Battery Finder.</p>
+          <h2>Your battery request is ready</h2>
+          <p>Review the summary below before sharing it with a supplier.</p>
         </div>
 
         <h1 id="step-confirm-heading" tabindex="-1" class="visually-hidden">Enquiry confirmation</h1>
@@ -723,12 +806,15 @@
           If you have a genuine battery requirement, please contact a local battery retailer or specialist supplier directly.
         </div>
 
-        <p style="margin-top:var(--sp-6)">A summary of what you entered is shown below.</p>
+        <p style="margin-top:var(--sp-6)">Request summary:</p>
         <div id="confirmSummary" style="margin-top:var(--sp-4)"></div>
 
         <div style="margin-top:var(--sp-8);display:flex;gap:var(--sp-4);flex-wrap:wrap">
-          <a class="btn btn-primary" href="index.html">Return to home</a>
+          <button class="btn btn-ghost" id="btn-copy-summary" type="button">Copy summary</button>
+          <button class="btn btn-ghost" id="btn-print-summary" type="button">Print or save summary</button>
+          <button class="btn btn-primary" id="btn-improve-identification" type="button">Improve identification</button>
           <button class="btn btn-ghost" id="btn-start-over" type="button">Start a new enquiry</button>
+          <a class="btn btn-ghost" href="index.html">Return home</a>
         </div>
       </div>
 
@@ -743,7 +829,7 @@
       </div>
       <nav aria-label="Footer">
         <a href="index.html">Home</a>
-        <a href="finder.html">Find My Battery</a>
+        <a href="finder.html">Identify</a>
         <a href="about.html">About</a>
         <a href="suppliers.html">For Suppliers</a>
         <a href="privacy.html">Privacy</a>
