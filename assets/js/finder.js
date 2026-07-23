@@ -85,7 +85,9 @@
         typicalApplications:  [],
         chemistryOptions:     [],
         warnings:             [],
-        verificationRequired: []
+        verificationRequired: [],
+        evidence:             'Code not recognised in current reference data',
+        unknowns:             ['Battery family', 'Variant details', 'Fitment checks']
       };
     }
 
@@ -116,7 +118,13 @@
       typicalApplications:  b.typicalApplications  || [],
       chemistryOptions:     b.chemistryOptions      || [],
       warnings:             warnings,
-      verificationRequired: b.verificationRequirements || []
+      verificationRequired: b.verificationRequirements || [],
+      evidence:             conf === 'exact'
+        ? 'Exact code or alias matched in reference database'
+        : 'Family-level code pattern matched in reference database',
+      unknowns:             conf === 'family'
+        ? ['Exact variant suffix', 'Terminal orientation confirmation', 'Physical fit verification']
+        : ['Terminal orientation confirmation', 'Physical fit verification']
     };
   }
 
@@ -151,6 +159,17 @@
     setText('biv-canonical',
       result.canonical + (result.category ? ' \u2014 ' + result.category : ''));
     setText('biv-confidence', confidenceLabel(result.confidence));
+    setText('biv-evidence', result.evidence || 'Reference matching');
+
+    var pill = $('biv-confidence-pill');
+    if (pill) {
+      var tone = result.confidence === 'exact' ? 'high' : 'medium';
+      if ((result.warnings || []).length) tone = 'conflict';
+      pill.setAttribute('data-confidence', tone);
+      pill.textContent = tone === 'conflict'
+        ? 'Conflict checks required'
+        : (tone === 'high' ? 'High confidence (preliminary)' : 'Medium confidence (preliminary)');
+    }
 
     /* Details DL */
     var dl = $('biv-details');
@@ -185,6 +204,24 @@
       } else {
         warnWrap.hidden = true;
       }
+
+      /* Unknowns */
+      var unknownWrap = $('biv-unknowns-wrap');
+      var unknownList = $('biv-unknowns');
+      if (unknownWrap && unknownList) {
+        while (unknownList.firstChild) unknownList.removeChild(unknownList.firstChild);
+        var unknowns = result.unknowns || [];
+        if (unknowns.length) {
+          unknowns.forEach(function (u) {
+            var li = document.createElement('li');
+            li.textContent = u;
+            unknownList.appendChild(li);
+          });
+          unknownWrap.hidden = false;
+        } else {
+          unknownWrap.hidden = true;
+        }
+      }
     }
 
     /* Verification required */
@@ -216,6 +253,8 @@
     state.battIdChemistry    = result.chemistryOptions;
     state.battIdWarnings     = result.warnings;
     state.battIdVerification = result.verificationRequired;
+    state.battIdEvidence     = result.evidence;
+    state.battIdUnknowns     = result.unknowns;
     saveState();
   }
 
@@ -231,7 +270,9 @@
       typicalApplications:  state.battIdApplications   || [],
       chemistryOptions:     state.battIdChemistry      || [],
       warnings:             state.battIdWarnings       || [],
-      verificationRequired: state.battIdVerification   || []
+      verificationRequired: state.battIdVerification   || [],
+      evidence:             state.battIdEvidence       || '',
+      unknowns:             state.battIdUnknowns       || []
     };
     renderIdentResult(result);
     var btn = $('btn-continue-batt-code');
@@ -419,8 +460,8 @@
     var wrap  = $('progressWrap');
     var text  = $('progressText');
     var name  = $('progressStepName');
-    var fill  = $('progressFill');
-    var track = fill ? fill.parentElement : null;
+    var track = wrap ? wrap.querySelector('.progress-track') : null;
+    var segs  = track ? qsa('.progress-segment', track) : [];
 
     if (!wrap) return;
 
@@ -428,13 +469,19 @@
       wrap.hidden = false;
       if (text)  text.textContent  = 'Step ' + info.num + ' of ' + TOTAL_STEPS;
       if (name)  name.textContent  = info.label;
-      if (fill)  fill.style.width  = Math.round((info.num / TOTAL_STEPS) * 100) + '%';
       if (track) {
         track.setAttribute('aria-valuenow', String(info.num));
         track.setAttribute('aria-valuemax', String(TOTAL_STEPS));
       }
+      segs.forEach(function (seg, idx) {
+        var stepNum = idx + 1;
+        seg.classList.toggle('is-complete', stepNum < info.num);
+        seg.classList.toggle('is-current', stepNum === info.num);
+      });
+      document.body.setAttribute('data-step-color', String(info.num));
     } else {
       wrap.hidden = true;
+      document.body.removeAttribute('data-step-color');
     }
   }
 
@@ -651,6 +698,8 @@
         if (state.battIdConf === 'unknown') {
           setReviewField('rv-battCanonical',    'Not found in reference database');
           setReviewField('rv-battConfidence',   confidenceLabel('unknown'));
+          setReviewField('rv-battEvidence',     state.battIdEvidence || 'Code not recognised in current reference data');
+          setReviewField('rv-battUnknowns',     (state.battIdUnknowns || []).join(' \u00b7 ') || 'Variant and fitment details');
           setReviewField('rv-battWarnings',     '\u2014');
           setReviewField('rv-battVerification', '\u2014');
         } else {
@@ -658,6 +707,8 @@
           if (state.battIdCategory) canonical += ' \u2014 ' + state.battIdCategory;
           setReviewField('rv-battCanonical',    canonical);
           setReviewField('rv-battConfidence',   confidenceLabel(state.battIdConf));
+          setReviewField('rv-battEvidence',     state.battIdEvidence || 'Reference code match');
+          setReviewField('rv-battUnknowns',     (state.battIdUnknowns || []).join(' \u00b7 ') || '\u2014');
           var warns = state.battIdWarnings || [];
           setReviewField('rv-battWarnings',     warns.length ? warns.join(' \u00b7 ') : '\u2014');
           var verif = state.battIdVerification || [];
@@ -690,6 +741,7 @@
     var rows = [
       ['Equipment',            CATEGORY_LABELS[state.category] || state.category || '\u2014'],
       ['Identification method',INFO_LABELS[state.infoType]     || '\u2014'],
+      ['Possible identification', state.battIdCanonical || 'Pending supplier verification'],
       ['Help required',        HELP_LABELS[state.helpType]     || '\u2014'],
       ['Location',             location || '\u2014'],
       ['Name',                 contactState.contactName  || '\u2014'],
@@ -1026,6 +1078,27 @@
         if (btnC) btnC.textContent = 'Continue';
         showStep('step-category');
       });
+    }
+
+    var btnCopy = $('btn-copy-summary');
+    if (btnCopy) {
+      btnCopy.addEventListener('click', function () {
+        var summary = $('confirmSummary');
+        var text = summary ? summary.textContent.trim() : '';
+        if (navigator.clipboard && text) {
+          navigator.clipboard.writeText(text).catch(function () { /* ignore */ });
+        }
+      });
+    }
+
+    var btnPrint = $('btn-print-summary');
+    if (btnPrint) {
+      btnPrint.addEventListener('click', function () { window.print(); });
+    }
+
+    var btnImprove = $('btn-improve-identification');
+    if (btnImprove) {
+      btnImprove.addEventListener('click', function () { showStep(getStep3Id()); });
     }
   }
 

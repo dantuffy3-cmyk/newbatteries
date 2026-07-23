@@ -24,6 +24,14 @@ The entered value is preserved via the `query` URL parameter and pre-filled in t
 
 ### Design system
 
+NewBatteries now uses a shared **energy-spectrum** token set across homepage and finder:
+
+`--energy-red #FF5C62`, `--energy-orange #FF8A34`, `--energy-amber #FFC247`, `--energy-green #A8F238`, `--energy-cyan #45DCE8`, `--energy-blue #5F8CFF`, `--energy-violet #A56EFF`.
+
+Core dark-surface tokens remain:
+
+`--void #070908`, `--carbon #101412`, `--panel #161B19`, `--battery-white #F5F7F5`, `--muted-text #A5ADA8`.
+
 | Token | Value | Use |
 |-------|-------|-----|
 | void black | `#070908` | Hero background |
@@ -33,6 +41,15 @@ The entered value is preserved via the `query` URL parameter and pre-filled in t
 | electric cyan | `#62E7FF` | Scanning / data / intelligence |
 | caution amber | `#FFB547` | Warnings / confirmation required |
 | low-charge red | `#FF6262` | Errors / low confidence |
+
+### Finder visual upgrade
+
+`finder.html` now uses the same dark battery-intelligence styling language as the homepage:
+- dark panel/surface system with illuminated focus and active-step accents
+- 6-segment battery progress rail with step text (`Step X of 6`)
+- custom inline SVG category marks (emoji removed)
+- pathway-coloured controls, radio cards, and technical field states
+- upgraded preliminary identification, review, and confirmation presentation while preserving all existing finder logic and routing behaviour
 
 ### Page structure
 
