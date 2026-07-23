@@ -1,0 +1,185 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://newbatteries.com/schema/battery-record-v1.json",
+  "title": "NewBatteries Battery Record",
+  "description": "Schema for a NewBatteries battery master record.",
+  "type": "object",
+  "required": [
+    "batteryId",
+    "canonicalCode",
+    "displayName",
+    "category",
+    "confidence",
+    "reviewStatus",
+    "sourceIds",
+    "lastVerified"
+  ],
+  "properties": {
+    "batteryId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9\\-]*[a-z0-9]$",
+      "description": "Unique kebab-case identifier for this battery record"
+    },
+    "canonicalCode": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The primary standardised code for this battery"
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable name for display purposes"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "coin_cell",
+        "button_cell",
+        "household_primary",
+        "household_rechargeable",
+        "automotive",
+        "motorcycle",
+        "power_tool_platform",
+        "marine",
+        "mobility",
+        "other"
+      ],
+      "description": "Battery category (controls which rule profile is applied)"
+    },
+    "subCategory": {
+      "type": "string",
+      "description": "Optional sub-category for further classification"
+    },
+    "chemistry": {
+      "type": "string",
+      "description": "Primary chemistry (snake_case)"
+    },
+    "nominalVoltage": {
+      "type": [
+        "number",
+        "string"
+      ],
+      "description": "Nominal voltage (number in volts, or descriptive string for platform entries)"
+    },
+    "dimensionsMm": {
+      "type": "object",
+      "description": "Physical dimensions in millimetres",
+      "properties": {
+        "diameter": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "height": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "length": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "width": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "rechargeable": {
+      "type": "boolean",
+      "description": "Whether this battery is rechargeable"
+    },
+    "codes": {
+      "type": "array",
+      "description": "Array of known codes for this battery",
+      "items": {
+        "type": "object",
+        "required": [
+          "code",
+          "codeType"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "codeType": {
+            "type": "string",
+            "enum": [
+              "canonical",
+              "alias",
+              "manufacturer_code",
+              "iec_code",
+              "regional_code"
+            ]
+          }
+        }
+      }
+    },
+    "manufacturerSpecifications": {
+      "type": "array",
+      "description": "Manufacturer-specific specification references (only with evidence)"
+    },
+    "commonApplications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Common device/equipment applications"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Safety and usage warnings"
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Missing or unverified information that requires checking"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Evidence confidence level for this record"
+    },
+    "reviewStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "reviewed",
+        "approved",
+        "retired"
+      ],
+      "description": "Record review status"
+    },
+    "sourceIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of source IDs from sources.json"
+    },
+    "lastVerified": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO 8601 date of last verification (YYYY-MM-DD)"
+    }
+  },
+  "additionalProperties": true
+}

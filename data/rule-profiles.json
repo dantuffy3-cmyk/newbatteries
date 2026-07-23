@@ -1,0 +1,125 @@
+{
+  "version": "v1",
+  "lastUpdated": "2026-07-23",
+  "notes": "Category-specific compatibility rule profiles. Each profile defines blocking checks (hard incompatibilities), conditional checks (differences requiring confirmation), and informational checks (non-blocking context).",
+  "profiles": {
+    "coin_cell": {
+      "blockingChecks": [
+        "nominal_voltage",
+        "rechargeable_status",
+        "physical_diameter"
+      ],
+      "conditionalChecks": [
+        "chemistry",
+        "physical_height",
+        "device_clearance",
+        "contact_pressure",
+        "manufacturer_approval"
+      ],
+      "informationalChecks": [
+        "typical_capacity"
+      ]
+    },
+    "button_cell": {
+      "blockingChecks": [
+        "nominal_voltage",
+        "rechargeable_status",
+        "physical_diameter",
+        "physical_height"
+      ],
+      "conditionalChecks": [
+        "chemistry",
+        "discharge_profile",
+        "device_clearance",
+        "manufacturer_approval"
+      ],
+      "informationalChecks": [
+        "typical_capacity",
+        "brand_preference"
+      ]
+    },
+    "household_primary": {
+      "blockingChecks": [
+        "nominal_voltage",
+        "rechargeable_status",
+        "physical_size_designation"
+      ],
+      "conditionalChecks": [
+        "chemistry"
+      ],
+      "informationalChecks": [
+        "typical_capacity",
+        "brand_preference"
+      ]
+    },
+    "household_rechargeable": {
+      "blockingChecks": [
+        "rechargeable_status",
+        "physical_size_designation"
+      ],
+      "conditionalChecks": [
+        "nominal_voltage",
+        "charger_compatibility",
+        "device_voltage_tolerance"
+      ],
+      "informationalChecks": [
+        "typical_capacity",
+        "self_discharge_rate"
+      ]
+    },
+    "automotive": {
+      "blockingChecks": [
+        "nominal_voltage",
+        "battery_family_or_group",
+        "terminal_polarity",
+        "agm_efb_flooded_requirement"
+      ],
+      "conditionalChecks": [
+        "dimensions",
+        "terminal_position",
+        "hold_down_style",
+        "cranking_performance",
+        "reserve_capacity",
+        "venting_requirement",
+        "vehicle_battery_management_system"
+      ],
+      "informationalChecks": [
+        "typical_cca_range",
+        "start_stop_compatibility"
+      ]
+    },
+    "motorcycle": {
+      "blockingChecks": [
+        "nominal_voltage",
+        "battery_family_code",
+        "terminal_polarity"
+      ],
+      "conditionalChecks": [
+        "physical_dimensions",
+        "cca_rating",
+        "chemistry_agm_gel_flooded",
+        "vehicle_specific_fitment"
+      ],
+      "informationalChecks": [
+        "typical_capacity"
+      ]
+    },
+    "power_tool_platform": {
+      "blockingChecks": [
+        "brand_platform",
+        "voltage_class",
+        "connector_geometry"
+      ],
+      "conditionalChecks": [
+        "charger_compatibility",
+        "battery_management_electronics",
+        "manufacturer_supported_compatibility",
+        "generation_or_platform_restrictions"
+      ],
+      "informationalChecks": [
+        "typical_capacity",
+        "weight"
+      ]
+    }
+  }
+}

@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Can this battery replace that one? | NewBatteries</title>
+  <meta name="description" content="Compare two battery codes and see what matches, what differs and what still needs confirmation. Evidence-led battery compatibility from NewBatteries.">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="compat-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header finder-header" role="banner">
+    <div class="container nav-wrap">
+      <a class="wordmark" href="index.html" aria-label="NewBatteries home">NewBatteries</a>
+      <span class="finder-badge" aria-hidden="true">Compatibility Check</span>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation">
+        <span class="visually-hidden">Toggle navigation</span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+      <nav id="primaryNav" class="primary-nav" aria-label="Primary">
+        <a href="finder.html">Identify</a>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a class="btn btn-primary btn-sm" href="finder.html">Identify a battery</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="compat-wrap container">
+
+      <div class="compat-intro">
+        <h1 class="compat-title">Can this battery replace that one?</h1>
+        <p class="compat-lead">Compare two battery codes and see what matches, what differs and what still needs confirmation. Results are evidence-led — we show what we know and what is still unknown.</p>
+      </div>
+
+      <form class="compat-form finder-card" id="compatForm" novalidate aria-label="Battery compatibility check">
+        <div class="compat-inputs">
+          <div class="form-group">
+            <label for="inputA">Current battery</label>
+            <span class="form-hint" id="hint-inputA">Enter the battery code, e.g. CR2032, LR44, LN2, 18V LXT</span>
+            <input
+              type="text"
+              class="form-control compat-input"
+              id="inputA"
+              name="batteryA"
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="hint-inputA error-inputA"
+              aria-required="true"
+              placeholder="e.g. CR2032"
+              maxlength="60"
+            >
+            <div class="field-error" id="error-inputA" hidden role="alert">Please enter a battery code.</div>
+          </div>
+
+          <div class="compat-vs" aria-hidden="true">vs</div>
+
+          <div class="form-group">
+            <label for="inputB">Possible replacement</label>
+            <span class="form-hint" id="hint-inputB">Enter the replacement battery code</span>
+            <input
+              type="text"
+              class="form-control compat-input"
+              id="inputB"
+              name="batteryB"
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="hint-inputB error-inputB"
+              aria-required="true"
+              placeholder="e.g. CR2025"
+              maxlength="60"
+            >
+            <div class="field-error" id="error-inputB" hidden role="alert">Please enter a replacement battery code.</div>
+          </div>
+        </div>
+
+        <div class="compat-form-actions">
+          <button type="submit" class="btn btn-primary" id="btn-check">
+            Check compatibility
+          </button>
+          <span class="compat-or" aria-hidden="true">or</span>
+          <a href="finder.html?path=number" class="btn-text-link">Search one battery code</a>
+        </div>
+      </form>
+
+      <div
+        id="compatResult"
+        class="compat-result"
+        aria-live="polite"
+        aria-atomic="true"
+        hidden
+      ></div>
+
+      <div id="compatLoading" class="compat-loading" hidden aria-live="polite">
+        <span class="visually-hidden">Checking compatibility, please wait…</span>
+        <span aria-hidden="true">Checking…</span>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-legal">
+        Compatibility results are preliminary and evidence-led. They do not constitute a guarantee of fitment, safety or performance.
+        Always confirm with the device manufacturer, vehicle documentation or a qualified supplier before purchasing.
+        <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/battery-data.js"></script>
+  <script src="assets/js/compatibility-engine.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    var form    = document.getElementById('compatForm');
+    var inputA  = document.getElementById('inputA');
+    var inputB  = document.getElementById('inputB');
+    var result  = document.getElementById('compatResult');
+    var loading = document.getElementById('compatLoading');
+
+    function getParam(name) {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        return params.get(name) || '';
+      } catch (e) { return ''; }
+    }
+
+    function applyUrlParams() {
+      var a    = getParam('a');
+      var b    = getParam('b');
+      var code = getParam('code');
+      if (code && inputA) inputA.value = code;
+      if (a    && inputA) inputA.value = a;
+      if (b    && inputB) inputB.value = b;
+      if (a && b) runCheck(a, b);
+    }
+
+    function esc(s) {
+      return String(s || '')
+        .replace(/&/g,  '&amp;')
+        .replace(/</g,  '&lt;')
+        .replace(/>/g,  '&gt;')
+        .replace(/"/g,  '&quot;')
+        .replace(/'/g,  '&#39;');
+    }
+
+    var CONF_LABELS = {
+      high:   'High confidence',
+      medium: 'Medium confidence',
+      low:    'Low confidence'
+    };
+    var CONF_BADGE_CLASS = {
+      high:   'compat-badge--high',
+      medium: 'compat-badge--medium',
+      low:    'compat-badge--low'
+    };
+
+    var CLASS_BADGE_CLASS = {
+      'direct_equivalent':     'compat-badge--high',
+      'same_family':           'compat-badge--medium',
+      'conditional':           'compat-badge--low',
+      'not_recommended':       'compat-badge--conflict',
+      'insufficient_evidence': 'compat-badge--unknown'
+    };
+
+    function buildList(items, className) {
+      if (!items || !items.length) return '';
+      var html = '<ul class="compat-list ' + (className || '') + '">';
+      items.forEach(function (item) {
+        html += '<li>' + esc(item) + '</li>';
+      });
+      html += '</ul>';
+      return html;
+    }
+
+    function renderResult(data) {
+      if (!data) {
+        result.hidden = true;
+        return;
+      }
+
+      var isInsuff = data.classification === 'insufficient_evidence';
+      var confLabel = CONF_LABELS[data.confidence] || 'Unknown confidence';
+      var confClass = CONF_BADGE_CLASS[data.confidence] || 'compat-badge--unknown';
+      var classClass = CLASS_BADGE_CLASS[data.classification] || 'compat-badge--unknown';
+
+      var html = '<div class="compat-result-inner">';
+      html += '<div class="compat-result-header">';
+      html += '<div class="compat-codes">';
+      html += '<span class="compat-code-chip">' + esc(data.sourceBattery) + '</span>';
+      html += ' <span class="compat-vs-label">vs</span> ';
+      html += '<span class="compat-code-chip">' + esc(data.targetBattery) + '</span>';
+      html += '</div>';
+      html += '<div class="compat-badges">';
+      html += '<span class="compat-badge ' + classClass + '">' + esc(data.headline) + '</span>';
+      html += '<span class="compat-badge ' + confClass + '">' + esc(confLabel) + '</span>';
+      html += '</div>';
+      html += '</div>';
+
+      if (isInsuff) {
+        html += '<div class="compat-empty">';
+        html += '<p class="compat-empty-text">We do not yet have enough verified information to assess this pair.</p>';
+        html += '</div>';
+      }
+
+      if (!isInsuff && data.matches && data.matches.length) {
+        html += '<div class="compat-section compat-section--matches">';
+        html += '<h2 class="compat-section-title">What matches</h2>';
+        html += buildList(data.matches, 'compat-list--matches');
+        html += '</div>';
+      }
+
+      if (data.differences && data.differences.length) {
+        html += '<div class="compat-section compat-section--diffs">';
+        html += '<h2 class="compat-section-title">Differences</h2>';
+        html += buildList(data.differences, 'compat-list--diffs');
+        html += '</div>';
+      }
+
+      if (data.warnings && data.warnings.length) {
+        html += '<div class="compat-section compat-section--warnings">';
+        html += '<h2 class="compat-section-title">Warnings</h2>';
+        html += buildList(data.warnings, 'compat-list--warnings');
+        html += '</div>';
+      }
+
+      if (data.unknowns && data.unknowns.length) {
+        html += '<div class="compat-section compat-section--unknowns">';
+        html += '<h2 class="compat-section-title">Still needs checking</h2>';
+        html += buildList(data.unknowns, 'compat-list--unknowns');
+        html += '</div>';
+      }
+
+      if (data.evidenceSummary && data.evidenceSummary.length) {
+        html += '<details class="compat-evidence-details">';
+        html += '<summary class="compat-evidence-summary">Evidence status</summary>';
+        html += buildList(data.evidenceSummary, 'compat-list--evidence');
+        html += '</details>';
+      }
+
+      html += '<div class="compat-verification">';
+      if (data.deviceVerificationRequired) {
+        html += '<div class="compat-verif-item compat-verif-item--device">';
+        html += '<strong>Device verification required</strong> — confirm compatibility with the device manufacturer's documentation before purchase.';
+        html += '</div>';
+      }
+      if (data.supplierVerificationRequired) {
+        html += '<div class="compat-verif-item compat-verif-item--supplier">';
+        html += '<strong>Supplier verification required</strong> — confirm the physical specification, availability and correct variant with your supplier.';
+        html += '</div>';
+      }
+      html += '</div>';
+
+      html += '<div class="compat-actions">';
+      html += '<h2 class="compat-actions-title">Next steps</h2>';
+      html += '<ul class="compat-actions-list" role="list">';
+      html += '<li><button type="button" class="btn-text-link" id="btn-check-another">Check another pair</button></li>';
+      html += '<li><a href="finder.html?path=number">Use the main battery finder</a></li>';
+      html += '<li><a href="finder.html">Create a battery identification request</a></li>';
+      html += '<li><a href="finder.html?path=photo">Provide a model number or photo</a></li>';
+      html += '</ul>';
+      html += '</div>';
+
+      html += '</div>';
+
+      result.innerHTML = html;
+      result.hidden    = false;
+
+      var btn = document.getElementById('btn-check-another');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          result.hidden = true;
+          result.innerHTML = '';
+          if (inputA) { inputA.value = ''; inputA.focus(); }
+          if (inputB) inputB.value = '';
+        });
+      }
+    }
+
+    function validate() {
+      var ok = true;
+      var errA = document.getElementById('error-inputA');
+      var errB = document.getElementById('error-inputB');
+      if (!inputA.value.trim()) {
+        if (errA) errA.hidden = false;
+        inputA.setAttribute('aria-invalid', 'true');
+        ok = false;
+      } else {
+        if (errA) errA.hidden = true;
+        inputA.removeAttribute('aria-invalid');
+      }
+      if (!inputB.value.trim()) {
+        if (errB) errB.hidden = false;
+        inputB.setAttribute('aria-invalid', 'true');
+        ok = false;
+      } else {
+        if (errB) errB.hidden = true;
+        inputB.removeAttribute('aria-invalid');
+      }
+      return ok;
+    }
+
+    function runCheck(a, b) {
+      if (!window.NBCompatEngine) {
+        result.innerHTML = '<p class="compat-error">Compatibility engine not available. Please try refreshing the page.</p>';
+        result.hidden = false;
+        return;
+      }
+
+      loading.hidden = false;
+      result.hidden  = true;
+
+      var btn = document.getElementById('btn-check');
+      if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
+
+      window.NBCompatEngine.assess(a.trim(), b.trim(), function (err, data) {
+        loading.hidden = true;
+        if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
+        renderResult(data);
+      });
+    }
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!validate()) {
+          if (!inputA.value.trim()) { inputA.focus(); return; }
+          if (!inputB.value.trim()) { inputB.focus(); return; }
+          return;
+        }
+        runCheck(inputA.value, inputB.value);
+      });
+    }
+
+    applyUrlParams();
+  })();
+  </script>
+</body>
+</html>

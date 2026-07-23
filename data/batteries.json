@@ -1,403 +1,3119 @@
 {
-  "version": "v1",
-  "lastUpdated": "2026-07-21",
+  "version": "v2",
+  "lastUpdated": "2026-07-23",
   "notes": "Preliminary educational dataset for likely battery identification only. Not a guaranteed fitment database.",
   "batteries": [
     {
       "id": "din44",
       "canonicalCode": "DIN44",
-      "aliases": ["DIN 44", "DIN-44", "DIN44MF"],
+      "aliases": [
+        "DIN 44",
+        "DIN-44",
+        "DIN44MF"
+      ],
       "family": "DIN",
       "category": "automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["small to medium passenger vehicles"],
-      "chemistryOptions": ["flooded", "calcium", "AGM (varies)"],
-      "approximateDimensions": {"lengthMm": 207, "widthMm": 175, "heightMm": 190, "notes": "approximate; varies by manufacturer"},
+      "typicalApplications": [
+        "small to medium passenger vehicles"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "AGM (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 207,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate; varies by manufacturer"
+      },
       "terminalLayoutNotes": "Terminal orientation varies by brand and sub-variant.",
       "typicalCcaRange": "330-460 A (varies)",
       "startStopCompatibility": "Some AGM/EFB variants available; must verify",
       "mountingNotes": "Common lower hold-down patterns; verify lip and clamp type.",
       "ventingNotes": "May require vent provisions for some enclosed bays.",
-      "verificationRequirements": ["verify dimensions", "verify terminal polarity", "verify hold-down", "verify CCA requirement"],
-      "warnings": ["Do not assume all DIN44-labelled batteries share identical case details."]
+      "verificationRequirements": [
+        "verify dimensions",
+        "verify terminal polarity",
+        "verify hold-down",
+        "verify CCA requirement"
+      ],
+      "warnings": [
+        "Do not assume all DIN44-labelled batteries share identical case details."
+      ]
     },
     {
       "id": "din53",
       "canonicalCode": "DIN53",
-      "aliases": ["DIN 53", "DIN-53", "DIN53MF"],
+      "aliases": [
+        "DIN 53",
+        "DIN-53",
+        "DIN53MF"
+      ],
       "family": "DIN",
       "category": "automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["passenger vehicles"],
-      "chemistryOptions": ["flooded", "calcium", "AGM (varies)"],
-      "approximateDimensions": {"lengthMm": 242, "widthMm": 175, "heightMm": 190, "notes": "approximate; brand differences common"},
+      "typicalApplications": [
+        "passenger vehicles"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "AGM (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 242,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate; brand differences common"
+      },
       "terminalLayoutNotes": "Left/right polarity variants exist.",
       "typicalCcaRange": "420-560 A (varies)",
       "startStopCompatibility": "Requires explicit AGM/EFB confirmation for start-stop",
       "mountingNotes": "Check tray length and hold-down style.",
       "ventingNotes": "Follow OEM vent guidance where battery is enclosed.",
-      "verificationRequirements": ["confirm dimensions", "confirm terminal position", "confirm start-stop requirement", "check manufacturer fitment data"],
-      "warnings": ["Preliminary match only; never treat as guaranteed fit."]
+      "verificationRequirements": [
+        "confirm dimensions",
+        "confirm terminal position",
+        "confirm start-stop requirement",
+        "check manufacturer fitment data"
+      ],
+      "warnings": [
+        "Preliminary match only; never treat as guaranteed fit."
+      ]
     },
     {
       "id": "din55",
       "canonicalCode": "DIN55",
-      "aliases": ["DIN 55", "DIN-55", "DIN55MF"],
+      "aliases": [
+        "DIN 55",
+        "DIN-55",
+        "DIN55MF"
+      ],
       "family": "DIN",
       "category": "automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["passenger vehicles", "light commercial"],
-      "chemistryOptions": ["flooded", "calcium", "EFB (varies)"],
-      "approximateDimensions": {"lengthMm": 242, "widthMm": 175, "heightMm": 190, "notes": "approximate only"},
+      "typicalApplications": [
+        "passenger vehicles",
+        "light commercial"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "EFB (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 242,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate only"
+      },
       "terminalLayoutNotes": "Commonly available in multiple polarity variants.",
       "typicalCcaRange": "460-600 A (varies)",
       "startStopCompatibility": "Only where specific EFB/AGM model confirms",
       "mountingNotes": "Confirm base ledge and clamp style.",
       "ventingNotes": "Venting approach varies by battery design.",
-      "verificationRequirements": ["verify fitment dimensions", "verify terminal orientation", "verify CCA", "verify start-stop needs"],
-      "warnings": ["Code family overlap exists across brands."]
+      "verificationRequirements": [
+        "verify fitment dimensions",
+        "verify terminal orientation",
+        "verify CCA",
+        "verify start-stop needs"
+      ],
+      "warnings": [
+        "Code family overlap exists across brands."
+      ]
     },
     {
       "id": "din65",
       "canonicalCode": "DIN65",
-      "aliases": ["DIN 65", "DIN-65", "DIN65MF"],
+      "aliases": [
+        "DIN 65",
+        "DIN-65",
+        "DIN65MF"
+      ],
       "family": "DIN",
       "category": "automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["mid-size vehicles", "light 4WD"],
-      "chemistryOptions": ["flooded", "calcium", "EFB/AGM (varies)"],
-      "approximateDimensions": {"lengthMm": 278, "widthMm": 175, "heightMm": 190, "notes": "approximate"},
+      "typicalApplications": [
+        "mid-size vehicles",
+        "light 4WD"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "EFB/AGM (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 278,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate"
+      },
       "terminalLayoutNotes": "Terminal style and orientation vary.",
       "typicalCcaRange": "540-700 A (varies)",
       "startStopCompatibility": "Possible with correct AGM/EFB variant",
       "mountingNotes": "Confirm tray length and retention hardware.",
       "ventingNotes": "Check if vent elbow/tube required.",
-      "verificationRequirements": ["confirm physical fit", "confirm polarity", "confirm required performance", "verify OEM guidance"],
-      "warnings": ["Do not buy on code alone."]
+      "verificationRequirements": [
+        "confirm physical fit",
+        "confirm polarity",
+        "confirm required performance",
+        "verify OEM guidance"
+      ],
+      "warnings": [
+        "Do not buy on code alone."
+      ]
     },
     {
       "id": "din66",
       "canonicalCode": "DIN66",
-      "aliases": ["DIN 66", "DIN-66", "DIN66MF", "DIN66 M F"],
+      "aliases": [
+        "DIN 66",
+        "DIN-66",
+        "DIN66MF",
+        "DIN66 M F"
+      ],
       "family": "DIN",
       "category": "automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["larger passenger vehicles", "SUV", "light commercial"],
-      "chemistryOptions": ["flooded", "calcium", "EFB", "AGM (model dependent)"],
-      "approximateDimensions": {"lengthMm": 278, "widthMm": 175, "heightMm": 190, "notes": "approximate; verify brand variant"},
+      "typicalApplications": [
+        "larger passenger vehicles",
+        "SUV",
+        "light commercial"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "EFB",
+        "AGM (model dependent)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 278,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate; verify brand variant"
+      },
       "terminalLayoutNotes": "Multiple polarity/terminal configurations are sold under DIN66-related labels.",
       "typicalCcaRange": "580-760 A (varies)",
       "startStopCompatibility": "Only confirmed when labelled EFB/AGM and vehicle requirement matches",
       "mountingNotes": "Check hold-down ledge style and tray clearances.",
       "ventingNotes": "Some vehicles require vented battery arrangements.",
-      "verificationRequirements": ["verify dimensions", "verify terminal polarity and type", "verify CCA or Ah requirement", "confirm start-stop compatibility"],
-      "warnings": ["DIN66-related labels are not a universal fitment guarantee."]
+      "verificationRequirements": [
+        "verify dimensions",
+        "verify terminal polarity and type",
+        "verify CCA or Ah requirement",
+        "confirm start-stop compatibility"
+      ],
+      "warnings": [
+        "DIN66-related labels are not a universal fitment guarantee."
+      ]
     },
     {
       "id": "din75",
       "canonicalCode": "DIN75",
-      "aliases": ["DIN 75", "DIN-75", "DIN75MF"],
+      "aliases": [
+        "DIN 75",
+        "DIN-75",
+        "DIN75MF"
+      ],
       "family": "DIN",
       "category": "automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["large engines", "SUV/4WD"],
-      "chemistryOptions": ["flooded", "calcium", "AGM (varies)"],
-      "approximateDimensions": {"lengthMm": 315, "widthMm": 175, "heightMm": 190, "notes": "approximate"},
+      "typicalApplications": [
+        "large engines",
+        "SUV/4WD"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "AGM (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 315,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate"
+      },
       "terminalLayoutNotes": "Confirm polarity and terminal size before purchase.",
       "typicalCcaRange": "650-820 A (varies)",
       "startStopCompatibility": "Needs explicit AGM/EFB confirmation",
       "mountingNotes": "Longer case often requires tray length confirmation.",
       "ventingNotes": "May require vent routing in enclosed engine bays.",
-      "verificationRequirements": ["confirm tray length", "confirm terminal orientation", "confirm performance requirement"],
-      "warnings": ["Case size and post orientation differences are common."]
+      "verificationRequirements": [
+        "confirm tray length",
+        "confirm terminal orientation",
+        "confirm performance requirement"
+      ],
+      "warnings": [
+        "Case size and post orientation differences are common."
+      ]
     },
     {
       "id": "din88",
       "canonicalCode": "DIN88",
-      "aliases": ["DIN 88", "DIN-88", "DIN88MF"],
+      "aliases": [
+        "DIN 88",
+        "DIN-88",
+        "DIN88MF"
+      ],
       "family": "DIN",
       "category": "automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["larger diesel/petrol applications"],
-      "chemistryOptions": ["flooded", "calcium", "AGM (varies)"],
-      "approximateDimensions": {"lengthMm": 354, "widthMm": 175, "heightMm": 190, "notes": "approximate only"},
+      "typicalApplications": [
+        "larger diesel/petrol applications"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "AGM (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 354,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate only"
+      },
       "terminalLayoutNotes": "Terminal arrangement differs by model.",
       "typicalCcaRange": "720-950 A (varies)",
       "startStopCompatibility": "May support if specific AGM/EFB model is chosen",
       "mountingNotes": "Check high-capacity case clearance and hold-down.",
       "ventingNotes": "Confirm venting strategy if specified by vehicle maker.",
-      "verificationRequirements": ["confirm fitment envelope", "confirm terminal layout", "confirm OEM electrical spec"],
-      "warnings": ["Large-case batteries can have major fitment variation."]
+      "verificationRequirements": [
+        "confirm fitment envelope",
+        "confirm terminal layout",
+        "confirm OEM electrical spec"
+      ],
+      "warnings": [
+        "Large-case batteries can have major fitment variation."
+      ]
     },
     {
       "id": "ln1",
       "canonicalCode": "LN1",
-      "aliases": ["LN 1", "LN-1", "H4"],
+      "aliases": [
+        "LN 1",
+        "LN-1",
+        "H4"
+      ],
       "family": "LN",
       "category": "european automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["compact European vehicles"],
-      "chemistryOptions": ["flooded", "EFB", "AGM"],
-      "approximateDimensions": {"lengthMm": 207, "widthMm": 175, "heightMm": 190, "notes": "approximate EN case references"},
+      "typicalApplications": [
+        "compact European vehicles"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "EFB",
+        "AGM"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 207,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate EN case references"
+      },
       "terminalLayoutNotes": "Terminal orientation differs by part number suffix.",
       "typicalCcaRange": "440-600 A (varies)",
       "startStopCompatibility": "EFB/AGM variants commonly used for start-stop",
       "mountingNotes": "Confirm B13/other hold-down base style.",
       "ventingNotes": "Check if vent plug/tube required by vehicle layout.",
-      "verificationRequirements": ["confirm LN case subtype", "confirm hold-down", "confirm chemistry for start-stop"],
-      "warnings": ["LN code alone does not confirm terminal polarity."]
+      "verificationRequirements": [
+        "confirm LN case subtype",
+        "confirm hold-down",
+        "confirm chemistry for start-stop"
+      ],
+      "warnings": [
+        "LN code alone does not confirm terminal polarity."
+      ]
     },
     {
       "id": "ln2",
       "canonicalCode": "LN2",
-      "aliases": ["LN 2", "LN-2", "H5", "L2"],
+      "aliases": [
+        "LN 2",
+        "LN-2",
+        "H5",
+        "L2"
+      ],
       "family": "LN",
       "category": "european automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["European passenger vehicles"],
-      "chemistryOptions": ["flooded", "EFB", "AGM"],
-      "approximateDimensions": {"lengthMm": 242, "widthMm": 175, "heightMm": 190, "notes": "approximate"},
+      "typicalApplications": [
+        "European passenger vehicles"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "EFB",
+        "AGM"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 242,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate"
+      },
       "terminalLayoutNotes": "Many polarity and terminal permutations exist.",
       "typicalCcaRange": "520-760 A (varies)",
       "startStopCompatibility": "Commonly used with EFB/AGM in start-stop vehicles",
       "mountingNotes": "Confirm base hold-down and clearance.",
       "ventingNotes": "Venting provisions can be mandatory in some vehicles.",
-      "verificationRequirements": ["confirm exact LN2 variant", "confirm start-stop chemistry", "check manufacturer specs"],
-      "warnings": ["Treat LN2 as family guidance, not guaranteed fitment."]
+      "verificationRequirements": [
+        "confirm exact LN2 variant",
+        "confirm start-stop chemistry",
+        "check manufacturer specs"
+      ],
+      "warnings": [
+        "Treat LN2 as family guidance, not guaranteed fitment."
+      ]
     },
     {
       "id": "ln3",
       "canonicalCode": "LN3",
-      "aliases": ["LN 3", "LN-3", "H6", "L3"],
+      "aliases": [
+        "LN 3",
+        "LN-3",
+        "H6",
+        "L3"
+      ],
       "family": "LN",
       "category": "european automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["larger European sedans/SUVs"],
-      "chemistryOptions": ["flooded", "EFB", "AGM"],
-      "approximateDimensions": {"lengthMm": 278, "widthMm": 175, "heightMm": 190, "notes": "approximate"},
+      "typicalApplications": [
+        "larger European sedans/SUVs"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "EFB",
+        "AGM"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 278,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate"
+      },
       "terminalLayoutNotes": "Verify polarity and terminal height.",
       "typicalCcaRange": "600-850 A (varies)",
       "startStopCompatibility": "Often paired with EFB/AGM in start-stop systems",
       "mountingNotes": "Check tray, clamp and sensor clearance.",
       "ventingNotes": "Battery monitoring/vent fittings may be required.",
-      "verificationRequirements": ["confirm terminal layout", "confirm chemistry", "confirm BMS/OEM requirements"],
-      "warnings": ["Higher-capacity variants may alter dimensions/performance."]
+      "verificationRequirements": [
+        "confirm terminal layout",
+        "confirm chemistry",
+        "confirm BMS/OEM requirements"
+      ],
+      "warnings": [
+        "Higher-capacity variants may alter dimensions/performance."
+      ]
     },
     {
       "id": "ln4",
       "canonicalCode": "LN4",
-      "aliases": ["LN 4", "LN-4", "H7", "L4"],
+      "aliases": [
+        "LN 4",
+        "LN-4",
+        "H7",
+        "L4"
+      ],
       "family": "LN",
       "category": "european automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["high-demand passenger vehicles", "large SUVs"],
-      "chemistryOptions": ["flooded", "EFB", "AGM"],
-      "approximateDimensions": {"lengthMm": 315, "widthMm": 175, "heightMm": 190, "notes": "approximate"},
+      "typicalApplications": [
+        "high-demand passenger vehicles",
+        "large SUVs"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "EFB",
+        "AGM"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 315,
+        "widthMm": 175,
+        "heightMm": 190,
+        "notes": "approximate"
+      },
       "terminalLayoutNotes": "Confirm polarity and vent-side placement.",
       "typicalCcaRange": "700-950 A (varies)",
       "startStopCompatibility": "Frequently AGM/EFB in start-stop applications",
       "mountingNotes": "Check long-case fit and retention.",
       "ventingNotes": "Confirm vent tube and plug setup.",
-      "verificationRequirements": ["confirm exact fitment code", "confirm start-stop compliance", "verify manufacturer requirements"],
-      "warnings": ["LN4 family includes many non-interchangeable variants."]
+      "verificationRequirements": [
+        "confirm exact fitment code",
+        "confirm start-stop compliance",
+        "verify manufacturer requirements"
+      ],
+      "warnings": [
+        "LN4 family includes many non-interchangeable variants."
+      ]
     },
     {
       "id": "ns40",
       "canonicalCode": "NS40",
-      "aliases": ["NS 40", "NS-40", "NS40Z", "NS40ZL", "40B19"],
+      "aliases": [
+        "NS 40",
+        "NS-40",
+        "NS40Z",
+        "NS40ZL",
+        "40B19"
+      ],
       "family": "NS",
       "category": "japanese automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["small Japanese/Korean vehicles"],
-      "chemistryOptions": ["flooded", "calcium"],
-      "approximateDimensions": {"lengthMm": null, "widthMm": null, "heightMm": null, "notes": "varies by NS40 subtype (e.g., B19/B20 case differences)"},
+      "typicalApplications": [
+        "small Japanese/Korean vehicles"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium"
+      ],
+      "approximateDimensions": {
+        "lengthMm": null,
+        "widthMm": null,
+        "heightMm": null,
+        "notes": "varies by NS40 subtype (e.g., B19/B20 case differences)"
+      },
       "terminalLayoutNotes": "L/R polarity variants common (e.g., ZL forms).",
       "typicalCcaRange": "varies",
       "startStopCompatibility": "Generally not confirmed unless model explicitly states",
       "mountingNotes": "Subtype strongly affects tray fit and hold-down.",
       "ventingNotes": "Standard venting; confirm enclosed-bay needs.",
-      "verificationRequirements": ["confirm NS40 subtype", "confirm polarity suffix", "measure current battery"],
-      "warnings": ["NS40 label alone is insufficient for direct replacement."]
+      "verificationRequirements": [
+        "confirm NS40 subtype",
+        "confirm polarity suffix",
+        "measure current battery"
+      ],
+      "warnings": [
+        "NS40 label alone is insufficient for direct replacement."
+      ]
     },
     {
       "id": "ns60",
       "canonicalCode": "NS60",
-      "aliases": ["NS 60", "NS-60", "46B24", "55D23 (related family references)"],
+      "aliases": [
+        "NS 60",
+        "NS-60",
+        "46B24",
+        "55D23 (related family references)"
+      ],
       "family": "NS",
       "category": "japanese automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["mid-size Japanese/Korean vehicles"],
-      "chemistryOptions": ["flooded", "calcium", "EFB (varies)"],
-      "approximateDimensions": {"lengthMm": null, "widthMm": null, "heightMm": null, "notes": "varies by JIS subtype"},
+      "typicalApplications": [
+        "mid-size Japanese/Korean vehicles"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "EFB (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": null,
+        "widthMm": null,
+        "heightMm": null,
+        "notes": "varies by JIS subtype"
+      },
       "terminalLayoutNotes": "Check terminal size and L/R orientation.",
       "typicalCcaRange": "varies",
       "startStopCompatibility": "Only where battery is specifically rated for it",
       "mountingNotes": "JIS subtype and hold-down details must be checked.",
       "ventingNotes": "Confirm vent requirements where applicable.",
-      "verificationRequirements": ["confirm exact JIS code", "verify dimensions", "verify start-stop requirement"],
-      "warnings": ["NS60 is a broad family marker, not a unique fitment code."]
+      "verificationRequirements": [
+        "confirm exact JIS code",
+        "verify dimensions",
+        "verify start-stop requirement"
+      ],
+      "warnings": [
+        "NS60 is a broad family marker, not a unique fitment code."
+      ]
     },
     {
       "id": "ns70",
       "canonicalCode": "NS70",
-      "aliases": ["NS 70", "NS-70", "65D26", "75D26", "95D31 (related family references)"],
+      "aliases": [
+        "NS 70",
+        "NS-70",
+        "65D26",
+        "75D26",
+        "95D31 (related family references)"
+      ],
       "family": "NS",
       "category": "japanese automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["larger passenger vehicles", "4WD/light commercial"],
-      "chemistryOptions": ["flooded", "calcium", "EFB/AGM (varies)"],
-      "approximateDimensions": {"lengthMm": null, "widthMm": null, "heightMm": null, "notes": "varies by NS70 subtype and brand"},
+      "typicalApplications": [
+        "larger passenger vehicles",
+        "4WD/light commercial"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "EFB/AGM (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": null,
+        "widthMm": null,
+        "heightMm": null,
+        "notes": "varies by NS70 subtype and brand"
+      },
       "terminalLayoutNotes": "Terminal orientation and size differ by subtype.",
       "typicalCcaRange": "varies",
       "startStopCompatibility": "Potentially with approved EFB/AGM model",
       "mountingNotes": "Confirm tray length and hold-down style.",
       "ventingNotes": "Check enclosure/venting requirements.",
-      "verificationRequirements": ["confirm subtype suffix", "confirm physical fit", "confirm performance needs"],
-      "warnings": ["NS70 family has significant inter-brand variation."]
+      "verificationRequirements": [
+        "confirm subtype suffix",
+        "confirm physical fit",
+        "confirm performance needs"
+      ],
+      "warnings": [
+        "NS70 family has significant inter-brand variation."
+      ]
     },
     {
       "id": "n50",
       "canonicalCode": "N50",
-      "aliases": ["N 50", "N-50"],
+      "aliases": [
+        "N 50",
+        "N-50"
+      ],
       "family": "N",
       "category": "automotive/commercial starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["older vehicles", "light commercial equipment"],
-      "chemistryOptions": ["flooded", "calcium"],
-      "approximateDimensions": {"lengthMm": "varies", "widthMm": "varies", "heightMm": "varies", "notes": "case style varies by brand"},
+      "typicalApplications": [
+        "older vehicles",
+        "light commercial equipment"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium"
+      ],
+      "approximateDimensions": {
+        "lengthMm": "varies",
+        "widthMm": "varies",
+        "heightMm": "varies",
+        "notes": "case style varies by brand"
+      },
       "terminalLayoutNotes": "Multiple terminal and case variants are sold as N50.",
       "typicalCcaRange": "varies",
       "startStopCompatibility": "Generally not a default start-stop format",
       "mountingNotes": "Check hold-down and tray compatibility carefully.",
       "ventingNotes": "Follow manufacturer guidance.",
-      "verificationRequirements": ["measure existing battery", "confirm polarity and posts", "confirm CCA/Ah requirement"],
-      "warnings": ["N50 identifiers are not standardized across all brands."]
+      "verificationRequirements": [
+        "measure existing battery",
+        "confirm polarity and posts",
+        "confirm CCA/Ah requirement"
+      ],
+      "warnings": [
+        "N50 identifiers are not standardized across all brands."
+      ]
     },
     {
       "id": "n70",
       "canonicalCode": "N70",
-      "aliases": ["N 70", "N-70", "N70L", "N70R"],
+      "aliases": [
+        "N 70",
+        "N-70",
+        "N70L",
+        "N70R"
+      ],
       "family": "N",
       "category": "automotive/commercial starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["4WD", "light truck", "commercial vehicles"],
-      "chemistryOptions": ["flooded", "calcium", "AGM (varies)"],
-      "approximateDimensions": {"lengthMm": "varies", "widthMm": "varies", "heightMm": "varies", "notes": "common dimensions around 305 x 172 x 225 mm but not universal"},
+      "typicalApplications": [
+        "4WD",
+        "light truck",
+        "commercial vehicles"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "AGM (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": "varies",
+        "widthMm": "varies",
+        "heightMm": "varies",
+        "notes": "common dimensions around 305 x 172 x 225 mm but not universal"
+      },
       "terminalLayoutNotes": "L/R versions and post styles vary.",
       "typicalCcaRange": "600-900 A (varies)",
       "startStopCompatibility": "Only with explicitly rated AGM/EFB alternatives",
       "mountingNotes": "Check top hold-down and tray height clearance.",
       "ventingNotes": "Confirm venting if fitted in enclosed location.",
-      "verificationRequirements": ["confirm terminal orientation", "confirm case dimensions", "confirm required CCA/capacity"],
-      "warnings": ["N70 family includes many physically different products."]
+      "verificationRequirements": [
+        "confirm terminal orientation",
+        "confirm case dimensions",
+        "confirm required CCA/capacity"
+      ],
+      "warnings": [
+        "N70 family includes many physically different products."
+      ]
     },
     {
       "id": "n70zz",
       "canonicalCode": "N70ZZ",
-      "aliases": ["N70 ZZ", "N70-ZZ", "N70ZZL", "N70ZZR"],
+      "aliases": [
+        "N70 ZZ",
+        "N70-ZZ",
+        "N70ZZL",
+        "N70ZZR"
+      ],
       "family": "N",
       "category": "automotive/commercial starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["heavy-duty 4WD/light commercial"],
-      "chemistryOptions": ["flooded", "calcium", "AGM (varies)"],
-      "approximateDimensions": {"lengthMm": "varies", "widthMm": "varies", "heightMm": "varies", "notes": "high-CCA versions vary by manufacturer"},
+      "typicalApplications": [
+        "heavy-duty 4WD/light commercial"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "calcium",
+        "AGM (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": "varies",
+        "widthMm": "varies",
+        "heightMm": "varies",
+        "notes": "high-CCA versions vary by manufacturer"
+      },
       "terminalLayoutNotes": "Confirm polarity and terminal type for cable reach.",
       "typicalCcaRange": "700-1000 A (varies)",
       "startStopCompatibility": "Not automatically start-stop compatible",
       "mountingNotes": "Check clamp style and tray depth.",
       "ventingNotes": "Follow equipment manufacturer instructions.",
-      "verificationRequirements": ["confirm case footprint", "confirm terminal orientation", "confirm required electrical performance"],
-      "warnings": ["N70ZZ labels can mask meaningful sub-variant differences."]
+      "verificationRequirements": [
+        "confirm case footprint",
+        "confirm terminal orientation",
+        "confirm required electrical performance"
+      ],
+      "warnings": [
+        "N70ZZ labels can mask meaningful sub-variant differences."
+      ]
     },
     {
       "id": "57mf",
       "canonicalCode": "57MF",
-      "aliases": ["57 MF", "57-MF"],
+      "aliases": [
+        "57 MF",
+        "57-MF"
+      ],
       "family": "MF",
       "category": "maintenance-free automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["passenger vehicles"],
-      "chemistryOptions": ["sealed maintenance-free lead-acid"],
-      "approximateDimensions": {"lengthMm": "varies", "widthMm": "varies", "heightMm": "varies", "notes": "varies by manufacturer"},
+      "typicalApplications": [
+        "passenger vehicles"
+      ],
+      "chemistryOptions": [
+        "sealed maintenance-free lead-acid"
+      ],
+      "approximateDimensions": {
+        "lengthMm": "varies",
+        "widthMm": "varies",
+        "heightMm": "varies",
+        "notes": "varies by manufacturer"
+      },
       "terminalLayoutNotes": "Confirm polarity and terminal size.",
       "typicalCcaRange": "varies",
       "startStopCompatibility": "Not implied by MF label alone",
       "mountingNotes": "Confirm base ledge and top clamp compatibility.",
       "ventingNotes": "Vent strategy depends on battery construction.",
-      "verificationRequirements": ["confirm dimensions", "confirm terminal layout", "confirm required CCA/Ah"],
-      "warnings": ["MF indicates maintenance-free design, not guaranteed fitment type."]
+      "verificationRequirements": [
+        "confirm dimensions",
+        "confirm terminal layout",
+        "confirm required CCA/Ah"
+      ],
+      "warnings": [
+        "MF indicates maintenance-free design, not guaranteed fitment type."
+      ]
     },
     {
       "id": "68mf",
       "canonicalCode": "68MF",
-      "aliases": ["68 MF", "68-MF"],
+      "aliases": [
+        "68 MF",
+        "68-MF"
+      ],
       "family": "MF",
       "category": "maintenance-free automotive starting",
       "nominalVoltage": "12V",
-      "typicalApplications": ["SUV/4WD", "larger passenger vehicles"],
-      "chemistryOptions": ["sealed maintenance-free lead-acid", "AGM (varies)"],
-      "approximateDimensions": {"lengthMm": "varies", "widthMm": "varies", "heightMm": "varies", "notes": "brand-dependent"},
+      "typicalApplications": [
+        "SUV/4WD",
+        "larger passenger vehicles"
+      ],
+      "chemistryOptions": [
+        "sealed maintenance-free lead-acid",
+        "AGM (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": "varies",
+        "widthMm": "varies",
+        "heightMm": "varies",
+        "notes": "brand-dependent"
+      },
       "terminalLayoutNotes": "Terminal orientation can differ across 68MF variants.",
       "typicalCcaRange": "varies",
       "startStopCompatibility": "Only when explicitly labelled EFB/AGM for start-stop",
       "mountingNotes": "Verify hold-down and tray compatibility.",
       "ventingNotes": "Confirm venting in enclosed installs.",
-      "verificationRequirements": ["verify footprint", "verify polarity", "verify performance requirement"],
-      "warnings": ["Treat as preliminary family guidance."]
+      "verificationRequirements": [
+        "verify footprint",
+        "verify polarity",
+        "verify performance requirement"
+      ],
+      "warnings": [
+        "Treat as preliminary family guidance."
+      ]
     },
     {
       "id": "24-series",
       "canonicalCode": "24-SERIES",
-      "aliases": ["24 SERIES", "24SERIES", "GROUP24", "24", "24F"],
+      "aliases": [
+        "24 SERIES",
+        "24SERIES",
+        "GROUP24",
+        "24",
+        "24F"
+      ],
       "family": "24-SERIES",
       "category": "group-size family",
       "nominalVoltage": "12V",
-      "typicalApplications": ["automotive", "marine auxiliary (some models)"] ,
-      "chemistryOptions": ["flooded", "AGM", "EFB (varies)"],
-      "approximateDimensions": {"lengthMm": 260, "widthMm": 173, "heightMm": 225, "notes": "approximate group-family envelope"},
+      "typicalApplications": [
+        "automotive",
+        "marine auxiliary (some models)"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "AGM",
+        "EFB (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 260,
+        "widthMm": 173,
+        "heightMm": 225,
+        "notes": "approximate group-family envelope"
+      },
       "terminalLayoutNotes": "Group variants (e.g., 24F) can invert terminal orientation.",
       "typicalCcaRange": "500-850 A (varies)",
       "startStopCompatibility": "Depends on chemistry and OEM requirements",
       "mountingNotes": "Group size does not guarantee hold-down compatibility.",
       "ventingNotes": "Venting differs by chemistry and case design.",
-      "verificationRequirements": ["confirm exact group subtype", "confirm dimensions", "confirm terminal orientation"],
-      "warnings": ["Group family references are broad and not definitive fitment IDs."]
+      "verificationRequirements": [
+        "confirm exact group subtype",
+        "confirm dimensions",
+        "confirm terminal orientation"
+      ],
+      "warnings": [
+        "Group family references are broad and not definitive fitment IDs."
+      ]
     },
     {
       "id": "27-series",
       "canonicalCode": "27-SERIES",
-      "aliases": ["27 SERIES", "27SERIES", "GROUP27", "27"],
+      "aliases": [
+        "27 SERIES",
+        "27SERIES",
+        "GROUP27",
+        "27"
+      ],
       "family": "27-SERIES",
       "category": "group-size family",
       "nominalVoltage": "12V",
-      "typicalApplications": ["marine starting", "deep cycle/dual-purpose", "4WD auxiliary"],
-      "chemistryOptions": ["flooded", "AGM", "gel", "lithium (varies)"],
-      "approximateDimensions": {"lengthMm": 306, "widthMm": 173, "heightMm": 225, "notes": "approximate group-family envelope"},
+      "typicalApplications": [
+        "marine starting",
+        "deep cycle/dual-purpose",
+        "4WD auxiliary"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "AGM",
+        "gel",
+        "lithium (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 306,
+        "widthMm": 173,
+        "heightMm": 225,
+        "notes": "approximate group-family envelope"
+      },
       "terminalLayoutNotes": "Stud/post combinations and polarity vary.",
       "typicalCcaRange": "varies by intended use",
       "startStopCompatibility": "Usually application-specific; verify directly",
       "mountingNotes": "Verify tray length and top/side terminal clearances.",
       "ventingNotes": "Chemistry-dependent venting requirements.",
-      "verificationRequirements": ["confirm intended use (start/deep cycle)", "confirm terminal type", "confirm charging compatibility"],
-      "warnings": ["Series match alone is not enough to buy safely."]
+      "verificationRequirements": [
+        "confirm intended use (start/deep cycle)",
+        "confirm terminal type",
+        "confirm charging compatibility"
+      ],
+      "warnings": [
+        "Series match alone is not enough to buy safely."
+      ]
     },
     {
       "id": "31-series",
       "canonicalCode": "31-SERIES",
-      "aliases": ["31 SERIES", "31SERIES", "GROUP31", "31"],
+      "aliases": [
+        "31 SERIES",
+        "31SERIES",
+        "GROUP31",
+        "31"
+      ],
       "family": "31-SERIES",
       "category": "group-size family",
       "nominalVoltage": "12V",
-      "typicalApplications": ["commercial vehicles", "marine", "auxiliary power"],
-      "chemistryOptions": ["flooded", "AGM", "lithium (varies)"],
-      "approximateDimensions": {"lengthMm": 330, "widthMm": 173, "heightMm": 240, "notes": "approximate group-family envelope"},
+      "typicalApplications": [
+        "commercial vehicles",
+        "marine",
+        "auxiliary power"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "AGM",
+        "lithium (varies)"
+      ],
+      "approximateDimensions": {
+        "lengthMm": 330,
+        "widthMm": 173,
+        "heightMm": 240,
+        "notes": "approximate group-family envelope"
+      },
       "terminalLayoutNotes": "Stud/post options vary by model.",
       "typicalCcaRange": "varies widely",
       "startStopCompatibility": "Only if specific battery and system requirements align",
       "mountingNotes": "Heavy-case formats may require reinforced mounting.",
       "ventingNotes": "Follow battery and equipment venting recommendations.",
-      "verificationRequirements": ["confirm exact subtype", "confirm dimensions and terminal type", "confirm charging system compatibility"],
-      "warnings": ["Group 31 covers multiple duty cycles and constructions."]
+      "verificationRequirements": [
+        "confirm exact subtype",
+        "confirm dimensions and terminal type",
+        "confirm charging system compatibility"
+      ],
+      "warnings": [
+        "Group 31 covers multiple duty cycles and constructions."
+      ]
+    },
+    {
+      "id": "coin-cr2016",
+      "canonicalCode": "CR2016",
+      "aliases": [
+        "CR 2016",
+        "DL2016",
+        "ECR2016",
+        "BR2016"
+      ],
+      "family": "CR20-series",
+      "category": "coin_cell",
+      "nominalVoltage": "3V",
+      "typicalApplications": [
+        "key fobs",
+        "small remotes",
+        "compact electronics"
+      ],
+      "chemistryOptions": [
+        "lithium"
+      ],
+      "warnings": [
+        "Keep coin cells away from children. Swallowing can cause severe injury.",
+        "Confirm the exact code and physical height before replacement."
+      ],
+      "verificationRequirements": [
+        "verify device battery code",
+        "verify 20mm diameter and 1.6mm height fit"
+      ],
+      "batteryId": "coin-cr2016",
+      "displayName": "CR2016 coin cell",
+      "subCategory": "lithium_coin_cell",
+      "chemistry": "lithium",
+      "dimensionsMm": {
+        "diameter": 20,
+        "height": 1.6
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "CR2016",
+          "codeType": "canonical"
+        },
+        {
+          "code": "CR 2016",
+          "codeType": "alias"
+        },
+        {
+          "code": "DL2016",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "ECR2016",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "BR2016",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "key fobs",
+        "small remotes",
+        "compact electronics"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "coin-cr2025",
+      "canonicalCode": "CR2025",
+      "aliases": [
+        "CR 2025",
+        "DL2025",
+        "ECR2025"
+      ],
+      "family": "CR20-series",
+      "category": "coin_cell",
+      "nominalVoltage": "3V",
+      "typicalApplications": [
+        "key fobs",
+        "fitness devices",
+        "small electronics"
+      ],
+      "chemistryOptions": [
+        "lithium"
+      ],
+      "warnings": [
+        "Keep coin cells away from children. Swallowing can cause severe injury.",
+        "Confirm device clearance before considering thicker or thinner substitutes."
+      ],
+      "verificationRequirements": [
+        "verify device battery code",
+        "verify 20mm diameter and 2.5mm height fit"
+      ],
+      "batteryId": "coin-cr2025",
+      "displayName": "CR2025 coin cell",
+      "subCategory": "lithium_coin_cell",
+      "chemistry": "lithium",
+      "dimensionsMm": {
+        "diameter": 20,
+        "height": 2.5
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "CR2025",
+          "codeType": "canonical"
+        },
+        {
+          "code": "CR 2025",
+          "codeType": "alias"
+        },
+        {
+          "code": "DL2025",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "ECR2025",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "key fobs",
+        "fitness devices",
+        "small electronics"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "coin-cr2032",
+      "canonicalCode": "CR2032",
+      "aliases": [
+        "CR 2032",
+        "DL2032",
+        "ECR2032",
+        "5004LC"
+      ],
+      "family": "CR20-series",
+      "category": "coin_cell",
+      "nominalVoltage": "3V",
+      "typicalApplications": [
+        "key fobs",
+        "motherboard backup",
+        "small electronics"
+      ],
+      "chemistryOptions": [
+        "lithium"
+      ],
+      "warnings": [
+        "Keep coin cells away from children. Swallowing can cause severe injury.",
+        "Confirm device compartment height before substitution."
+      ],
+      "verificationRequirements": [
+        "verify device battery code",
+        "verify 20mm diameter and 3.2mm height fit"
+      ],
+      "batteryId": "coin-cr2032",
+      "displayName": "CR2032 coin cell",
+      "subCategory": "lithium_coin_cell",
+      "chemistry": "lithium",
+      "dimensionsMm": {
+        "diameter": 20,
+        "height": 3.2
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "CR2032",
+          "codeType": "canonical"
+        },
+        {
+          "code": "CR 2032",
+          "codeType": "alias"
+        },
+        {
+          "code": "DL2032",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "ECR2032",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "5004LC",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "key fobs",
+        "motherboard backup",
+        "small electronics"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "coin-cr2430",
+      "canonicalCode": "CR2430",
+      "aliases": [
+        "CR 2430",
+        "DL2430"
+      ],
+      "family": "CR24-series",
+      "category": "coin_cell",
+      "nominalVoltage": "3V",
+      "typicalApplications": [
+        "electronic organisers",
+        "small remotes",
+        "specialty electronics"
+      ],
+      "chemistryOptions": [
+        "lithium"
+      ],
+      "warnings": [
+        "Keep coin cells away from children. Swallowing can cause severe injury.",
+        "Confirm the exact thickness before replacement."
+      ],
+      "verificationRequirements": [
+        "verify device battery code",
+        "verify 24mm diameter and 3.0mm height fit"
+      ],
+      "batteryId": "coin-cr2430",
+      "displayName": "CR2430 coin cell",
+      "subCategory": "lithium_coin_cell",
+      "chemistry": "lithium",
+      "dimensionsMm": {
+        "diameter": 24,
+        "height": 3.0
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "CR2430",
+          "codeType": "canonical"
+        },
+        {
+          "code": "CR 2430",
+          "codeType": "alias"
+        },
+        {
+          "code": "DL2430",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "electronic organisers",
+        "small remotes",
+        "specialty electronics"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "coin-cr2450",
+      "canonicalCode": "CR2450",
+      "aliases": [
+        "CR 2450",
+        "DL2450"
+      ],
+      "family": "CR24-series",
+      "category": "coin_cell",
+      "nominalVoltage": "3V",
+      "typicalApplications": [
+        "medical accessories",
+        "small remotes",
+        "specialty electronics"
+      ],
+      "chemistryOptions": [
+        "lithium"
+      ],
+      "warnings": [
+        "Keep coin cells away from children. Swallowing can cause severe injury.",
+        "Confirm thickness and compartment clearance before replacement."
+      ],
+      "verificationRequirements": [
+        "verify device battery code",
+        "verify 24mm diameter and 5.0mm height fit"
+      ],
+      "batteryId": "coin-cr2450",
+      "displayName": "CR2450 coin cell",
+      "subCategory": "lithium_coin_cell",
+      "chemistry": "lithium",
+      "dimensionsMm": {
+        "diameter": 24,
+        "height": 5.0
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "CR2450",
+          "codeType": "canonical"
+        },
+        {
+          "code": "CR 2450",
+          "codeType": "alias"
+        },
+        {
+          "code": "DL2450",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "medical accessories",
+        "small remotes",
+        "specialty electronics"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "coin-cr2477",
+      "canonicalCode": "CR2477",
+      "aliases": [
+        "CR 2477",
+        "DL2477"
+      ],
+      "family": "CR24-series",
+      "category": "coin_cell",
+      "nominalVoltage": "3V",
+      "typicalApplications": [
+        "specialty electronics",
+        "memory backup",
+        "remote devices"
+      ],
+      "chemistryOptions": [
+        "lithium"
+      ],
+      "warnings": [
+        "Keep coin cells away from children. Swallowing can cause severe injury.",
+        "Confirm the unusually tall profile before replacement."
+      ],
+      "verificationRequirements": [
+        "verify device battery code",
+        "verify 24mm diameter and 7.7mm height fit"
+      ],
+      "batteryId": "coin-cr2477",
+      "displayName": "CR2477 coin cell",
+      "subCategory": "lithium_coin_cell",
+      "chemistry": "lithium",
+      "dimensionsMm": {
+        "diameter": 24,
+        "height": 7.7
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "CR2477",
+          "codeType": "canonical"
+        },
+        {
+          "code": "CR 2477",
+          "codeType": "alias"
+        },
+        {
+          "code": "DL2477",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "specialty electronics",
+        "memory backup",
+        "remote devices"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "button-lr41",
+      "canonicalCode": "LR41",
+      "aliases": [
+        "AG3",
+        "192",
+        "384",
+        "LR736",
+        "G3",
+        "392A"
+      ],
+      "family": "LR40-series",
+      "category": "button_cell",
+      "nominalVoltage": "1.5V",
+      "typicalApplications": [
+        "small toys",
+        "calculators",
+        "thermometers"
+      ],
+      "chemistryOptions": [
+        "alkaline"
+      ],
+      "warnings": [
+        "LR41 and SR41 may be physically similar but device chemistry requirements must be confirmed.",
+        "Keep button batteries away from children."
+      ],
+      "verificationRequirements": [
+        "verify exact device code",
+        "confirm alkaline chemistry is acceptable",
+        "verify physical size"
+      ],
+      "batteryId": "button-lr41",
+      "displayName": "LR41 button cell",
+      "subCategory": "alkaline_button_cell",
+      "chemistry": "alkaline",
+      "dimensionsMm": {
+        "diameter": 7.9,
+        "height": 3.6
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "LR41",
+          "codeType": "canonical"
+        },
+        {
+          "code": "AG3",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "192",
+          "codeType": "alias"
+        },
+        {
+          "code": "384",
+          "codeType": "alias"
+        },
+        {
+          "code": "LR736",
+          "codeType": "alias"
+        },
+        {
+          "code": "G3",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "392A",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "small toys",
+        "calculators",
+        "thermometers"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "button-lr44",
+      "canonicalCode": "LR44",
+      "aliases": [
+        "AG13",
+        "A76",
+        "157",
+        "303",
+        "SR44",
+        "L1154",
+        "1166A",
+        "357A"
+      ],
+      "family": "LR44-series",
+      "category": "button_cell",
+      "nominalVoltage": "1.5V",
+      "typicalApplications": [
+        "toys",
+        "laser pointers",
+        "small instruments"
+      ],
+      "chemistryOptions": [
+        "alkaline"
+      ],
+      "warnings": [
+        "LR44 (alkaline 1.5V) and SR44 (silver oxide 1.55V) share the same physical size but differ in voltage and discharge profile. Chemistry must be confirmed for device compatibility.",
+        "Keep button batteries away from children."
+      ],
+      "verificationRequirements": [
+        "verify exact device code",
+        "confirm alkaline chemistry is acceptable",
+        "verify physical size"
+      ],
+      "batteryId": "button-lr44",
+      "displayName": "LR44 button cell",
+      "subCategory": "alkaline_button_cell",
+      "chemistry": "alkaline",
+      "dimensionsMm": {
+        "diameter": 11.6,
+        "height": 5.4
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "LR44",
+          "codeType": "canonical"
+        },
+        {
+          "code": "AG13",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "A76",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "157",
+          "codeType": "alias"
+        },
+        {
+          "code": "303",
+          "codeType": "alias"
+        },
+        {
+          "code": "SR44",
+          "codeType": "alias"
+        },
+        {
+          "code": "L1154",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "1166A",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "357A",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "toys",
+        "laser pointers",
+        "small instruments"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "button-sr41",
+      "canonicalCode": "SR41",
+      "aliases": [
+        "SR736",
+        "AG3",
+        "392",
+        "384",
+        "192"
+      ],
+      "family": "SR40-series",
+      "category": "button_cell",
+      "nominalVoltage": "1.55V",
+      "typicalApplications": [
+        "watches",
+        "medical thermometers",
+        "precision instruments"
+      ],
+      "chemistryOptions": [
+        "silver oxide"
+      ],
+      "warnings": [
+        "SR41 (silver oxide 1.55V) and LR41 (alkaline 1.5V) are physically similar. Chemistry confirmation required.",
+        "Keep button batteries away from children."
+      ],
+      "verificationRequirements": [
+        "verify exact device code",
+        "confirm silver oxide chemistry is required or accepted",
+        "verify physical size"
+      ],
+      "batteryId": "button-sr41",
+      "displayName": "SR41 button cell",
+      "subCategory": "silver_oxide_button_cell",
+      "chemistry": "silver_oxide",
+      "dimensionsMm": {
+        "diameter": 7.9,
+        "height": 3.6
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "SR41",
+          "codeType": "canonical"
+        },
+        {
+          "code": "SR736",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "AG3",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "392",
+          "codeType": "alias"
+        },
+        {
+          "code": "384",
+          "codeType": "alias"
+        },
+        {
+          "code": "192",
+          "codeType": "alias"
+        }
+      ],
+      "commonApplications": [
+        "watches",
+        "medical thermometers",
+        "precision instruments"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "button-sr44",
+      "canonicalCode": "SR44",
+      "aliases": [
+        "SR1154",
+        "357",
+        "SB-B9",
+        "A76",
+        "D357"
+      ],
+      "family": "SR44-series",
+      "category": "button_cell",
+      "nominalVoltage": "1.55V",
+      "typicalApplications": [
+        "watches",
+        "medical devices",
+        "precision instruments"
+      ],
+      "chemistryOptions": [
+        "silver oxide"
+      ],
+      "warnings": [
+        "SR44 (silver oxide 1.55V) and LR44 (alkaline 1.5V) share physical dimensions but differ in chemistry and voltage.",
+        "Keep button batteries away from children."
+      ],
+      "verificationRequirements": [
+        "verify exact device code",
+        "confirm silver oxide chemistry is required or accepted",
+        "verify physical size"
+      ],
+      "batteryId": "button-sr44",
+      "displayName": "SR44 button cell",
+      "subCategory": "silver_oxide_button_cell",
+      "chemistry": "silver_oxide",
+      "dimensionsMm": {
+        "diameter": 11.6,
+        "height": 5.4
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "SR44",
+          "codeType": "canonical"
+        },
+        {
+          "code": "SR1154",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "357",
+          "codeType": "alias"
+        },
+        {
+          "code": "SB-B9",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "A76",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "D357",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "watches",
+        "medical devices",
+        "precision instruments"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "button-ag10",
+      "canonicalCode": "AG10",
+      "aliases": [
+        "LR54",
+        "189",
+        "D189",
+        "L1130",
+        "SR54",
+        "L754"
+      ],
+      "family": "AG-series",
+      "category": "button_cell",
+      "nominalVoltage": "1.5V",
+      "typicalApplications": [
+        "small toys",
+        "calculators",
+        "compact electronics"
+      ],
+      "chemistryOptions": [
+        "alkaline"
+      ],
+      "warnings": [
+        "AG10 cross-references vary by chemistry. Confirm the required chemistry before replacement.",
+        "Keep button batteries away from children."
+      ],
+      "verificationRequirements": [
+        "verify exact device code",
+        "confirm chemistry requirement",
+        "verify physical size"
+      ],
+      "batteryId": "button-ag10",
+      "displayName": "AG10 button cell",
+      "subCategory": "alkaline_button_cell",
+      "chemistry": "alkaline",
+      "dimensionsMm": {
+        "diameter": 11.6,
+        "height": 3.1
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "AG10",
+          "codeType": "canonical"
+        },
+        {
+          "code": "LR54",
+          "codeType": "alias"
+        },
+        {
+          "code": "189",
+          "codeType": "alias"
+        },
+        {
+          "code": "D189",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "L1130",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "SR54",
+          "codeType": "alias"
+        },
+        {
+          "code": "L754",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "small toys",
+        "calculators",
+        "compact electronics"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "button-ag13",
+      "canonicalCode": "AG13",
+      "aliases": [
+        "LR44",
+        "A76",
+        "157",
+        "303",
+        "L1154"
+      ],
+      "family": "AG-series",
+      "category": "button_cell",
+      "nominalVoltage": "1.5V",
+      "typicalApplications": [
+        "toys",
+        "small lights",
+        "compact electronics"
+      ],
+      "chemistryOptions": [
+        "alkaline"
+      ],
+      "warnings": [
+        "AG13 is commonly cross-referenced with LR44. Chemistry and voltage must be confirmed. AG13 specifications are not universally standardised.",
+        "Keep button batteries away from children."
+      ],
+      "verificationRequirements": [
+        "verify exact device code",
+        "confirm chemistry requirement",
+        "verify physical size"
+      ],
+      "batteryId": "button-ag13",
+      "displayName": "AG13 button cell",
+      "subCategory": "alkaline_button_cell",
+      "chemistry": "alkaline",
+      "dimensionsMm": {
+        "diameter": 11.6,
+        "height": 5.4
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "AG13",
+          "codeType": "canonical"
+        },
+        {
+          "code": "LR44",
+          "codeType": "alias"
+        },
+        {
+          "code": "A76",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "157",
+          "codeType": "alias"
+        },
+        {
+          "code": "303",
+          "codeType": "alias"
+        },
+        {
+          "code": "L1154",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "toys",
+        "small lights",
+        "compact electronics"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "AG13 naming is not fully standardised across all brands."
+      ],
+      "confidence": "low",
+      "reviewStatus": "draft",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "household-aa-alkaline",
+      "canonicalCode": "AA",
+      "aliases": [
+        "LR6",
+        "AM3",
+        "MN1500",
+        "HP7",
+        "15A",
+        "15LF",
+        "R6"
+      ],
+      "family": "AA",
+      "category": "household_primary",
+      "nominalVoltage": "1.5V",
+      "typicalApplications": [
+        "remote controls",
+        "toys",
+        "flashlights"
+      ],
+      "chemistryOptions": [
+        "alkaline"
+      ],
+      "warnings": [
+        "Do not attempt to recharge alkaline batteries.",
+        "Verify the required battery chemistry if the device manual specifies rechargeable or lithium use only."
+      ],
+      "verificationRequirements": [
+        "verify AA size requirement",
+        "confirm single-use alkaline is acceptable"
+      ],
+      "batteryId": "household-aa-alkaline",
+      "displayName": "AA alkaline battery",
+      "subCategory": "cylindrical_primary",
+      "chemistry": "alkaline",
+      "dimensionsMm": {
+        "diameter": 14.5,
+        "height": 50.5
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "AA",
+          "codeType": "canonical"
+        },
+        {
+          "code": "LR6",
+          "codeType": "alias"
+        },
+        {
+          "code": "AM3",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "MN1500",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "HP7",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "15A",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "15LF",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "R6",
+          "codeType": "alias"
+        }
+      ],
+      "commonApplications": [
+        "remote controls",
+        "toys",
+        "flashlights"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "household-aaa-alkaline",
+      "canonicalCode": "AAA",
+      "aliases": [
+        "LR03",
+        "AM4",
+        "MN2400",
+        "HP16",
+        "24A",
+        "R03"
+      ],
+      "family": "AAA",
+      "category": "household_primary",
+      "nominalVoltage": "1.5V",
+      "typicalApplications": [
+        "remote controls",
+        "small electronics",
+        "toys"
+      ],
+      "chemistryOptions": [
+        "alkaline"
+      ],
+      "warnings": [
+        "Do not attempt to recharge alkaline batteries.",
+        "Verify the required battery chemistry if the device manual specifies rechargeable or lithium use only."
+      ],
+      "verificationRequirements": [
+        "verify AAA size requirement",
+        "confirm single-use alkaline is acceptable"
+      ],
+      "batteryId": "household-aaa-alkaline",
+      "displayName": "AAA alkaline battery",
+      "subCategory": "cylindrical_primary",
+      "chemistry": "alkaline",
+      "dimensionsMm": {
+        "diameter": 10.5,
+        "height": 44.5
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "AAA",
+          "codeType": "canonical"
+        },
+        {
+          "code": "LR03",
+          "codeType": "alias"
+        },
+        {
+          "code": "AM4",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "MN2400",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "HP16",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "24A",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "R03",
+          "codeType": "alias"
+        }
+      ],
+      "commonApplications": [
+        "remote controls",
+        "small electronics",
+        "toys"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "household-c-alkaline",
+      "canonicalCode": "C",
+      "aliases": [
+        "LR14",
+        "AM2",
+        "MN1400",
+        "HP11",
+        "14A",
+        "R14"
+      ],
+      "family": "C",
+      "category": "household_primary",
+      "nominalVoltage": "1.5V",
+      "typicalApplications": [
+        "torches",
+        "portable radios",
+        "toys"
+      ],
+      "chemistryOptions": [
+        "alkaline"
+      ],
+      "warnings": [
+        "Do not attempt to recharge alkaline batteries.",
+        "Confirm C-size fit and device chemistry requirements."
+      ],
+      "verificationRequirements": [
+        "verify C size requirement",
+        "confirm single-use alkaline is acceptable"
+      ],
+      "batteryId": "household-c-alkaline",
+      "displayName": "C alkaline battery",
+      "subCategory": "cylindrical_primary",
+      "chemistry": "alkaline",
+      "dimensionsMm": {
+        "diameter": 26.2,
+        "height": 50.0
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "C",
+          "codeType": "canonical"
+        },
+        {
+          "code": "LR14",
+          "codeType": "alias"
+        },
+        {
+          "code": "AM2",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "MN1400",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "HP11",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "14A",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "R14",
+          "codeType": "alias"
+        }
+      ],
+      "commonApplications": [
+        "torches",
+        "portable radios",
+        "toys"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "household-d-alkaline",
+      "canonicalCode": "D",
+      "aliases": [
+        "LR20",
+        "AM1",
+        "MN1300",
+        "HP2",
+        "13A",
+        "R20"
+      ],
+      "family": "D",
+      "category": "household_primary",
+      "nominalVoltage": "1.5V",
+      "typicalApplications": [
+        "lanterns",
+        "portable radios",
+        "high-drain torches"
+      ],
+      "chemistryOptions": [
+        "alkaline"
+      ],
+      "warnings": [
+        "Do not attempt to recharge alkaline batteries.",
+        "Confirm D-size fit and device chemistry requirements."
+      ],
+      "verificationRequirements": [
+        "verify D size requirement",
+        "confirm single-use alkaline is acceptable"
+      ],
+      "batteryId": "household-d-alkaline",
+      "displayName": "D alkaline battery",
+      "subCategory": "cylindrical_primary",
+      "chemistry": "alkaline",
+      "dimensionsMm": {
+        "diameter": 34.2,
+        "height": 61.5
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "D",
+          "codeType": "canonical"
+        },
+        {
+          "code": "LR20",
+          "codeType": "alias"
+        },
+        {
+          "code": "AM1",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "MN1300",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "HP2",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "13A",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "R20",
+          "codeType": "alias"
+        }
+      ],
+      "commonApplications": [
+        "lanterns",
+        "portable radios",
+        "high-drain torches"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "household-9v-alkaline",
+      "canonicalCode": "9V",
+      "aliases": [
+        "6LR61",
+        "PP3",
+        "MN1604",
+        "1604A",
+        "6AM6",
+        "MX1604"
+      ],
+      "family": "9V",
+      "category": "household_primary",
+      "nominalVoltage": "9V",
+      "typicalApplications": [
+        "smoke alarms",
+        "multimeters",
+        "small audio equipment"
+      ],
+      "chemistryOptions": [
+        "alkaline"
+      ],
+      "warnings": [
+        "Do not attempt to recharge alkaline 9V batteries.",
+        "Verify the exact connector style and chemistry required by the device."
+      ],
+      "verificationRequirements": [
+        "verify 9V connector requirement",
+        "confirm single-use alkaline is acceptable"
+      ],
+      "batteryId": "household-9v-alkaline",
+      "displayName": "9V alkaline battery",
+      "subCategory": "rectangular_primary",
+      "chemistry": "alkaline",
+      "dimensionsMm": {
+        "length": 26.5,
+        "width": 17.5,
+        "height": 48.5
+      },
+      "rechargeable": false,
+      "codes": [
+        {
+          "code": "9V",
+          "codeType": "canonical"
+        },
+        {
+          "code": "6LR61",
+          "codeType": "alias"
+        },
+        {
+          "code": "PP3",
+          "codeType": "alias"
+        },
+        {
+          "code": "MN1604",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "1604A",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "6AM6",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "MX1604",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "smoke alarms",
+        "multimeters",
+        "small audio equipment"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "household-aa-nimh",
+      "canonicalCode": "AA",
+      "aliases": [
+        "HR6",
+        "NH-AA",
+        "AA NiMH"
+      ],
+      "family": "AA",
+      "category": "household_rechargeable",
+      "nominalVoltage": "1.2V",
+      "typicalApplications": [
+        "rechargeable household electronics",
+        "camera accessories",
+        "toys"
+      ],
+      "chemistryOptions": [
+        "nickel-metal hydride"
+      ],
+      "warnings": [
+        "NiMH batteries require a compatible NiMH charger. Do not use with alkaline chargers.",
+        "Nominal voltage 1.2V vs alkaline 1.5V \u2014 some devices may require 1.5V. Verify device compatibility."
+      ],
+      "verificationRequirements": [
+        "verify AA size requirement",
+        "verify device compatibility with 1.2V nominal voltage",
+        "use a compatible NiMH charger"
+      ],
+      "batteryId": "household-aa-nimh",
+      "displayName": "AA NiMH battery",
+      "subCategory": "cylindrical_rechargeable",
+      "chemistry": "nickel_metal_hydride",
+      "dimensionsMm": {
+        "diameter": 14.5,
+        "height": 50.5
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "AA",
+          "codeType": "canonical"
+        },
+        {
+          "code": "HR6",
+          "codeType": "alias"
+        },
+        {
+          "code": "NH-AA",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "AA NiMH",
+          "codeType": "alias"
+        }
+      ],
+      "commonApplications": [
+        "rechargeable household electronics",
+        "camera accessories",
+        "toys"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "Capacity varies significantly by brand and model (typically 1000\u20133000 mAh). Source-verified capacity not recorded.",
+        "Self-discharge rate varies by brand."
+      ],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "household-aaa-nimh",
+      "canonicalCode": "AAA",
+      "aliases": [
+        "HR03",
+        "NH-AAA",
+        "AAA NiMH"
+      ],
+      "family": "AAA",
+      "category": "household_rechargeable",
+      "nominalVoltage": "1.2V",
+      "typicalApplications": [
+        "rechargeable small electronics",
+        "remote controls",
+        "toys"
+      ],
+      "chemistryOptions": [
+        "nickel-metal hydride"
+      ],
+      "warnings": [
+        "NiMH batteries require a compatible NiMH charger. Do not use with alkaline chargers.",
+        "Nominal voltage 1.2V vs alkaline 1.5V \u2014 some devices may require 1.5V. Verify device compatibility."
+      ],
+      "verificationRequirements": [
+        "verify AAA size requirement",
+        "verify device compatibility with 1.2V nominal voltage",
+        "use a compatible NiMH charger"
+      ],
+      "batteryId": "household-aaa-nimh",
+      "displayName": "AAA NiMH battery",
+      "subCategory": "cylindrical_rechargeable",
+      "chemistry": "nickel_metal_hydride",
+      "dimensionsMm": {
+        "diameter": 10.5,
+        "height": 44.5
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "AAA",
+          "codeType": "canonical"
+        },
+        {
+          "code": "HR03",
+          "codeType": "alias"
+        },
+        {
+          "code": "NH-AAA",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "AAA NiMH",
+          "codeType": "alias"
+        }
+      ],
+      "commonApplications": [
+        "rechargeable small electronics",
+        "remote controls",
+        "toys"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "Capacity varies by brand and model (typically 600\u20131300 mAh). Source-verified capacity not recorded.",
+        "Charger compatibility depends on specific brand/charger combination."
+      ],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "motorcycle-ytx5l-bs",
+      "canonicalCode": "YTX5L-BS",
+      "aliases": [
+        "YTX5L BS",
+        "YTX-5L-BS",
+        "GTX5L-BS",
+        "CTX5L-BS"
+      ],
+      "family": "YTX",
+      "category": "motorcycle",
+      "nominalVoltage": "12V",
+      "typicalApplications": [
+        "motorcycles",
+        "scooters",
+        "powersports vehicles"
+      ],
+      "chemistryOptions": [
+        "sealed AGM lead-acid"
+      ],
+      "warnings": [
+        "Motorcycle battery codes are not fully standardised across manufacturers. Physical fit, CCA rating, and terminal polarity must be confirmed against OEM specifications before purchase."
+      ],
+      "verificationRequirements": [
+        "verify OEM battery code",
+        "verify terminal polarity",
+        "verify physical dimensions and mounting"
+      ],
+      "batteryId": "motorcycle-ytx5l-bs",
+      "displayName": "YTX5L-BS motorcycle battery",
+      "subCategory": "sealed_agm_motorcycle",
+      "chemistry": "sealed_agm_lead_acid",
+      "dimensionsMm": {
+        "length": null,
+        "width": null,
+        "height": null,
+        "notes": "Exact physical dimensions vary by brand; verify manufacturer datasheet."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "YTX5L-BS",
+          "codeType": "canonical"
+        },
+        {
+          "code": "YTX5L BS",
+          "codeType": "alias"
+        },
+        {
+          "code": "YTX-5L-BS",
+          "codeType": "alias"
+        },
+        {
+          "code": "GTX5L-BS",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "CTX5L-BS",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "motorcycles",
+        "scooters",
+        "powersports vehicles"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "Exact physical dimensions vary by brand.",
+        "CCA rating varies by manufacturer \u2014 not recorded without source evidence.",
+        "Vehicle-specific fitment must be verified against OEM specifications."
+      ],
+      "confidence": "low",
+      "reviewStatus": "draft",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "motorcycle-ytx7l-bs",
+      "canonicalCode": "YTX7L-BS",
+      "aliases": [
+        "YTX7L BS",
+        "YTX-7L-BS",
+        "GTX7L-BS",
+        "CTX7L-BS"
+      ],
+      "family": "YTX",
+      "category": "motorcycle",
+      "nominalVoltage": "12V",
+      "typicalApplications": [
+        "motorcycles",
+        "scooters",
+        "powersports vehicles"
+      ],
+      "chemistryOptions": [
+        "sealed AGM lead-acid"
+      ],
+      "warnings": [
+        "Motorcycle battery codes are not fully standardised across manufacturers. Physical fit, CCA rating, and terminal polarity must be confirmed against OEM specifications before purchase."
+      ],
+      "verificationRequirements": [
+        "verify OEM battery code",
+        "verify terminal polarity",
+        "verify physical dimensions and mounting"
+      ],
+      "batteryId": "motorcycle-ytx7l-bs",
+      "displayName": "YTX7L-BS motorcycle battery",
+      "subCategory": "sealed_agm_motorcycle",
+      "chemistry": "sealed_agm_lead_acid",
+      "dimensionsMm": {
+        "length": null,
+        "width": null,
+        "height": null,
+        "notes": "Exact physical dimensions vary by brand; verify manufacturer datasheet."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "YTX7L-BS",
+          "codeType": "canonical"
+        },
+        {
+          "code": "YTX7L BS",
+          "codeType": "alias"
+        },
+        {
+          "code": "YTX-7L-BS",
+          "codeType": "alias"
+        },
+        {
+          "code": "GTX7L-BS",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "CTX7L-BS",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "motorcycles",
+        "scooters",
+        "powersports vehicles"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "CCA rating varies by brand.",
+        "Exact physical dimensions not uniformly standardised.",
+        "Vehicle fitment must be verified."
+      ],
+      "confidence": "low",
+      "reviewStatus": "draft",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "motorcycle-ytx9-bs",
+      "canonicalCode": "YTX9-BS",
+      "aliases": [
+        "YTX9 BS",
+        "YTX-9-BS",
+        "GTX9-BS",
+        "CTX9-BS"
+      ],
+      "family": "YTX",
+      "category": "motorcycle",
+      "nominalVoltage": "12V",
+      "typicalApplications": [
+        "motorcycles",
+        "scooters",
+        "powersports vehicles"
+      ],
+      "chemistryOptions": [
+        "sealed AGM lead-acid"
+      ],
+      "warnings": [
+        "Motorcycle battery codes are not fully standardised across manufacturers. Physical fit, CCA rating, and terminal polarity must be confirmed against OEM specifications before purchase."
+      ],
+      "verificationRequirements": [
+        "verify OEM battery code",
+        "verify terminal polarity",
+        "verify physical dimensions and mounting"
+      ],
+      "batteryId": "motorcycle-ytx9-bs",
+      "displayName": "YTX9-BS motorcycle battery",
+      "subCategory": "sealed_agm_motorcycle",
+      "chemistry": "sealed_agm_lead_acid",
+      "dimensionsMm": {
+        "length": null,
+        "width": null,
+        "height": null,
+        "notes": "Physical dimensions vary by brand; verify manufacturer datasheet."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "YTX9-BS",
+          "codeType": "canonical"
+        },
+        {
+          "code": "YTX9 BS",
+          "codeType": "alias"
+        },
+        {
+          "code": "YTX-9-BS",
+          "codeType": "alias"
+        },
+        {
+          "code": "GTX9-BS",
+          "codeType": "manufacturer_code"
+        },
+        {
+          "code": "CTX9-BS",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "motorcycles",
+        "scooters",
+        "powersports vehicles"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "CCA varies by manufacturer.",
+        "Physical dimensions vary.",
+        "Vehicle fitment requires OEM verification."
+      ],
+      "confidence": "low",
+      "reviewStatus": "draft",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "din77",
+      "canonicalCode": "DIN77",
+      "aliases": [
+        "DIN 77",
+        "DIN-77",
+        "DIN77MF"
+      ],
+      "family": "DIN",
+      "category": "automotive",
+      "nominalVoltage": "12V",
+      "typicalApplications": [
+        "larger passenger vehicles",
+        "European vehicles",
+        "light commercial vehicles"
+      ],
+      "chemistryOptions": [
+        "flooded",
+        "EFB",
+        "AGM"
+      ],
+      "warnings": [
+        "DIN77 fitment is not guaranteed by code alone. Confirm tray size, polarity and battery technology before purchase."
+      ],
+      "verificationRequirements": [
+        "verify dimensions",
+        "verify terminal polarity and type",
+        "verify CCA or Ah requirement",
+        "confirm start-stop compatibility"
+      ],
+      "batteryId": "din77",
+      "displayName": "DIN77 automotive battery",
+      "subCategory": "automotive_starting",
+      "chemistry": "lead_acid",
+      "dimensionsMm": {
+        "length": 315,
+        "width": 175,
+        "height": 190,
+        "notes": "Approximate case dimensions; verify brand-specific variant."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "DIN77",
+          "codeType": "canonical"
+        },
+        {
+          "code": "DIN 77",
+          "codeType": "alias"
+        },
+        {
+          "code": "DIN-77",
+          "codeType": "alias"
+        },
+        {
+          "code": "DIN77MF",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "larger passenger vehicles",
+        "European vehicles",
+        "light commercial vehicles"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "DIN77 is less common in Australian retail; verify availability.",
+        "Terminal polarity varies by brand."
+      ],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23",
+      "startStopCompatibility": "Only confirmed when battery technology and vehicle requirement match"
+    },
+    {
+      "id": "agm-ln2",
+      "canonicalCode": "AGM-LN2",
+      "aliases": [
+        "AGM LN2",
+        "LN2 AGM",
+        "LN2-AGM",
+        "H5-AGM"
+      ],
+      "family": "LN-AGM",
+      "category": "automotive",
+      "nominalVoltage": "12V",
+      "typicalApplications": [
+        "start-stop passenger vehicles",
+        "European vehicles requiring AGM",
+        "modern vehicles with battery management systems"
+      ],
+      "chemistryOptions": [
+        "AGM lead-acid"
+      ],
+      "warnings": [
+        "AGM-LN2 is an LN2-case-format AGM battery intended for start-stop applications. Verify OEM chemistry requirement before replacement."
+      ],
+      "verificationRequirements": [
+        "confirm exact LN2 case format",
+        "confirm AGM requirement in vehicle documentation",
+        "verify BMS registration or coding requirements"
+      ],
+      "batteryId": "agm-ln2",
+      "displayName": "AGM-LN2 automotive battery",
+      "subCategory": "start_stop_automotive",
+      "chemistry": "agm_lead_acid",
+      "dimensionsMm": {
+        "length": 242,
+        "width": 175,
+        "height": 190,
+        "notes": "LN2/H5 case format; verify brand-specific variant and terminal layout."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "AGM-LN2",
+          "codeType": "canonical"
+        },
+        {
+          "code": "AGM LN2",
+          "codeType": "alias"
+        },
+        {
+          "code": "LN2 AGM",
+          "codeType": "alias"
+        },
+        {
+          "code": "LN2-AGM",
+          "codeType": "alias"
+        },
+        {
+          "code": "H5-AGM",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "start-stop passenger vehicles",
+        "European vehicles requiring AGM",
+        "modern vehicles with battery management systems"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "BMS compatibility must be confirmed with vehicle manufacturer.",
+        "Not interchangeable with flooded LN2 in all vehicles."
+      ],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23",
+      "startStopCompatibility": "Common for start-stop vehicles when AGM is specified"
+    },
+    {
+      "id": "efb-ln2",
+      "canonicalCode": "EFB-LN2",
+      "aliases": [
+        "EFB LN2",
+        "LN2 EFB",
+        "LN2-EFB",
+        "H5-EFB"
+      ],
+      "family": "LN-EFB",
+      "category": "automotive",
+      "nominalVoltage": "12V",
+      "typicalApplications": [
+        "start-stop passenger vehicles",
+        "European vehicles requiring EFB",
+        "vehicles specified for enhanced flooded batteries"
+      ],
+      "chemistryOptions": [
+        "EFB lead-acid"
+      ],
+      "warnings": [
+        "EFB-LN2 is an LN2-case-format EFB battery for vehicles that specify EFB. Do not substitute without OEM confirmation."
+      ],
+      "verificationRequirements": [
+        "confirm exact LN2 case format",
+        "confirm EFB requirement in vehicle documentation",
+        "verify BMS or reset requirements"
+      ],
+      "batteryId": "efb-ln2",
+      "displayName": "EFB-LN2 automotive battery",
+      "subCategory": "start_stop_automotive",
+      "chemistry": "efb_lead_acid",
+      "dimensionsMm": {
+        "length": 242,
+        "width": 175,
+        "height": 190,
+        "notes": "LN2/H5 case format; verify brand-specific variant and terminal layout."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "EFB-LN2",
+          "codeType": "canonical"
+        },
+        {
+          "code": "EFB LN2",
+          "codeType": "alias"
+        },
+        {
+          "code": "LN2 EFB",
+          "codeType": "alias"
+        },
+        {
+          "code": "LN2-EFB",
+          "codeType": "alias"
+        },
+        {
+          "code": "H5-EFB",
+          "codeType": "manufacturer_code"
+        }
+      ],
+      "commonApplications": [
+        "start-stop passenger vehicles",
+        "European vehicles requiring EFB",
+        "vehicles specified for enhanced flooded batteries"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "EFB compatibility with vehicle BMS requires OEM verification.",
+        "Not interchangeable with flooded LN2 in start-stop systems."
+      ],
+      "confidence": "medium",
+      "reviewStatus": "reviewed",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23",
+      "startStopCompatibility": "Common for start-stop vehicles when EFB is specified"
+    },
+    {
+      "id": "platform-makita-18v-lxt",
+      "canonicalCode": "MAKITA-18V-LXT",
+      "aliases": [],
+      "family": "MAKITA-LXT",
+      "category": "power_tool_platform",
+      "nominalVoltage": "18V",
+      "typicalApplications": [
+        "Makita cordless power tools",
+        "Makita outdoor power equipment",
+        "Makita workshop tools"
+      ],
+      "chemistryOptions": [
+        "lithium-ion"
+      ],
+      "warnings": [
+        "Makita 18V LXT is a platform brand, not a single battery. Multiple capacities (Ah) and generations exist. Only Makita-approved batteries are compatible. Third-party compatibility is not verified here."
+      ],
+      "verificationRequirements": [
+        "verify Makita LXT platform requirement",
+        "verify charger compatibility",
+        "verify tool documentation for approved packs"
+      ],
+      "batteryId": "platform-makita-18v-lxt",
+      "displayName": "Makita 18V LXT",
+      "subCategory": "cordless_tool_platform",
+      "chemistry": "lithium_ion",
+      "dimensionsMm": {
+        "notes": "Platform record only; not a single battery size."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "MAKITA-18V-LXT",
+          "codeType": "canonical"
+        }
+      ],
+      "commonApplications": [
+        "Makita cordless power tools",
+        "Makita outdoor power equipment",
+        "Makita workshop tools"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "Specific capacity (Ah) required for intended use.",
+        "Generation compatibility within LXT platform.",
+        "Third-party battery compatibility not assessed."
+      ],
+      "confidence": "low",
+      "reviewStatus": "draft",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "platform-milwaukee-m18",
+      "canonicalCode": "MILWAUKEE-M18",
+      "aliases": [],
+      "family": "MILWAUKEE-M18",
+      "category": "power_tool_platform",
+      "nominalVoltage": "18V",
+      "typicalApplications": [
+        "Milwaukee cordless power tools",
+        "Milwaukee outdoor equipment",
+        "Milwaukee workshop tools"
+      ],
+      "chemistryOptions": [
+        "lithium-ion"
+      ],
+      "warnings": [
+        "Milwaukee M18 is a platform ecosystem. Compatible batteries are Milwaukee-approved M18 products only. Capacity and generation must match tool requirements."
+      ],
+      "verificationRequirements": [
+        "verify Milwaukee M18 platform requirement",
+        "verify charger compatibility",
+        "verify tool documentation for approved packs"
+      ],
+      "batteryId": "platform-milwaukee-m18",
+      "displayName": "Milwaukee M18",
+      "subCategory": "cordless_tool_platform",
+      "chemistry": "lithium_ion",
+      "dimensionsMm": {
+        "notes": "Platform record only; not a single battery size."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "MILWAUKEE-M18",
+          "codeType": "canonical"
+        }
+      ],
+      "commonApplications": [
+        "Milwaukee cordless power tools",
+        "Milwaukee outdoor equipment",
+        "Milwaukee workshop tools"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "Specific capacity (Ah) required for intended use.",
+        "Generation compatibility within M18 platform.",
+        "Third-party battery compatibility not assessed."
+      ],
+      "confidence": "low",
+      "reviewStatus": "draft",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "platform-dewalt-18v-xr",
+      "canonicalCode": "DEWALT-18V-XR",
+      "aliases": [],
+      "family": "DEWALT-XR",
+      "category": "power_tool_platform",
+      "nominalVoltage": "18V",
+      "typicalApplications": [
+        "DeWalt cordless power tools",
+        "DeWalt outdoor equipment",
+        "DeWalt workshop tools"
+      ],
+      "chemistryOptions": [
+        "lithium-ion"
+      ],
+      "warnings": [
+        "DeWalt 18V XR is a platform. Note: DeWalt markets some products as \"20V MAX\" (US) which is 18V nominal. Verify regional naming and tool compatibility."
+      ],
+      "verificationRequirements": [
+        "verify DeWalt XR platform requirement",
+        "verify charger compatibility",
+        "verify regional naming and approved pack"
+      ],
+      "batteryId": "platform-dewalt-18v-xr",
+      "displayName": "DeWalt 18V XR",
+      "subCategory": "cordless_tool_platform",
+      "chemistry": "lithium_ion",
+      "dimensionsMm": {
+        "notes": "Platform record only; not a single battery size."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "DEWALT-18V-XR",
+          "codeType": "canonical"
+        }
+      ],
+      "commonApplications": [
+        "DeWalt cordless power tools",
+        "DeWalt outdoor equipment",
+        "DeWalt workshop tools"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "Specific capacity (Ah) required for intended use.",
+        "Generation compatibility within XR platform.",
+        "Regional naming differences must be checked."
+      ],
+      "confidence": "low",
+      "reviewStatus": "draft",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "platform-ryobi-one-plus-18v",
+      "canonicalCode": "RYOBI-ONE-PLUS-18V",
+      "aliases": [
+        "RYOBI ONE+ 18V",
+        "RYOBI ONE PLUS 18V",
+        "ONE+ 18V"
+      ],
+      "family": "RYOBI-ONE-PLUS",
+      "category": "power_tool_platform",
+      "nominalVoltage": "18V",
+      "typicalApplications": [
+        "Ryobi cordless power tools",
+        "Ryobi outdoor equipment",
+        "Ryobi workshop tools"
+      ],
+      "chemistryOptions": [
+        "lithium-ion"
+      ],
+      "warnings": [
+        "Ryobi ONE+ is a platform ecosystem. Compatibility between ONE+ generations may vary. Verify with Ryobi product documentation."
+      ],
+      "verificationRequirements": [
+        "verify Ryobi ONE+ platform requirement",
+        "verify charger compatibility",
+        "verify generation support in product documentation"
+      ],
+      "batteryId": "platform-ryobi-one-plus-18v",
+      "displayName": "Ryobi ONE+ 18V",
+      "subCategory": "cordless_tool_platform",
+      "chemistry": "lithium_ion",
+      "dimensionsMm": {
+        "notes": "Platform record only; not a single battery size."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "RYOBI-ONE-PLUS-18V",
+          "codeType": "canonical"
+        },
+        {
+          "code": "RYOBI ONE+ 18V",
+          "codeType": "alias"
+        },
+        {
+          "code": "RYOBI ONE PLUS 18V",
+          "codeType": "alias"
+        },
+        {
+          "code": "ONE+ 18V",
+          "codeType": "alias"
+        }
+      ],
+      "commonApplications": [
+        "Ryobi cordless power tools",
+        "Ryobi outdoor equipment",
+        "Ryobi workshop tools"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "Specific capacity (Ah) required for intended use.",
+        "Compatibility between ONE+ generations may vary.",
+        "Third-party battery compatibility not assessed."
+      ],
+      "confidence": "low",
+      "reviewStatus": "draft",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "platform-bosch-pro-18v",
+      "canonicalCode": "BOSCH-PRO-18V",
+      "aliases": [],
+      "family": "BOSCH-PRO-18V",
+      "category": "power_tool_platform",
+      "nominalVoltage": "18V",
+      "typicalApplications": [
+        "Bosch Professional cordless tools",
+        "Bosch workshop tools",
+        "Bosch jobsite equipment"
+      ],
+      "chemistryOptions": [
+        "lithium-ion"
+      ],
+      "warnings": [
+        "Bosch Professional 18V is a platform. Compatibility between tool generations varies. Only Bosch-approved batteries confirmed."
+      ],
+      "verificationRequirements": [
+        "verify Bosch Professional 18V platform requirement",
+        "verify charger compatibility",
+        "verify generation support in product documentation"
+      ],
+      "batteryId": "platform-bosch-pro-18v",
+      "displayName": "Bosch Professional 18V",
+      "subCategory": "cordless_tool_platform",
+      "chemistry": "lithium_ion",
+      "dimensionsMm": {
+        "notes": "Platform record only; not a single battery size."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "BOSCH-PRO-18V",
+          "codeType": "canonical"
+        }
+      ],
+      "commonApplications": [
+        "Bosch Professional cordless tools",
+        "Bosch workshop tools",
+        "Bosch jobsite equipment"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "Specific capacity (Ah) required for intended use.",
+        "Compatibility between tool generations varies.",
+        "Third-party battery compatibility not assessed."
+      ],
+      "confidence": "low",
+      "reviewStatus": "draft",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
+    },
+    {
+      "id": "platform-hikoki-multivolt",
+      "canonicalCode": "HIKOKI-MULTIVOLT",
+      "aliases": [],
+      "family": "HIKOKI-MULTIVOLT",
+      "category": "power_tool_platform",
+      "nominalVoltage": "18V/36V",
+      "typicalApplications": [
+        "HiKOKI cordless tools",
+        "HiKOKI outdoor equipment",
+        "selected legacy Hitachi-compatible tools"
+      ],
+      "chemistryOptions": [
+        "lithium-ion"
+      ],
+      "warnings": [
+        "Hikoki Multi Volt batteries operate at 36V or 18V depending on tool. Backward compatibility with older HiKOKI/Hitachi tools varies. Verify tool and battery compatibility."
+      ],
+      "verificationRequirements": [
+        "verify tool voltage class",
+        "verify charger compatibility",
+        "verify supported compatibility in tool documentation"
+      ],
+      "batteryId": "platform-hikoki-multivolt",
+      "displayName": "Hikoki Multi Volt",
+      "subCategory": "multi_voltage_tool_platform",
+      "chemistry": "lithium_ion",
+      "dimensionsMm": {
+        "notes": "Platform record only; not a single battery size."
+      },
+      "rechargeable": true,
+      "codes": [
+        {
+          "code": "HIKOKI-MULTIVOLT",
+          "codeType": "canonical"
+        }
+      ],
+      "commonApplications": [
+        "HiKOKI cordless tools",
+        "HiKOKI outdoor equipment",
+        "selected legacy Hitachi-compatible tools"
+      ],
+      "manufacturerSpecifications": [],
+      "unknowns": [
+        "36V vs 18V compatibility with specific tools.",
+        "Backward compatibility with legacy Hitachi tools not universally confirmed."
+      ],
+      "confidence": "low",
+      "reviewStatus": "draft",
+      "sourceIds": [],
+      "lastVerified": "2026-07-23"
     }
   ]
 }
