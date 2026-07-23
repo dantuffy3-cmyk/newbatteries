@@ -3,6 +3,72 @@
 An Australian battery identification and supplier connection platform helping people find the right replacement battery without the guesswork.
 GitHub Pages deployment enabled.
 
+## Enabling live form submission
+
+The Battery Finder sends completed enquiries to NewBatteries for manual review. Submission uses [Formspree](https://formspree.io) as the first backend. No email address is stored in the public code.
+
+### 1. Create a Formspree form
+
+1. Sign in to [formspree.io](https://formspree.io).
+2. Create a new form. Give it a name like "NewBatteries enquiry".
+3. Under **Form endpoint**, copy the URL — it will look like `https://formspree.io/f/xyzabcde`.
+4. In the Formspree dashboard, enable **email notifications** so you receive a copy of each submission.
+
+### 2. Insert the endpoint
+
+Open `assets/js/finder.js` and find the configuration block near the top of the file:
+
+```js
+var FORM_ENDPOINT = 'FORM_ENDPOINT_PLACEHOLDER';
+```
+
+Replace the placeholder string with your Formspree URL:
+
+```js
+var FORM_ENDPOINT = 'https://formspree.io/f/xyzabcde';
+```
+
+Commit and push. That is the only change required to enable live submission.
+
+### 3. Enable domain restriction and spam protection
+
+In the Formspree dashboard for your form:
+
+- **Allowed origins**: add `https://yourdomain.github.io` (or your custom domain). This prevents other sites from submitting to your endpoint.
+- **Enable reCAPTCHA**: Formspree supports reCAPTCHA v2/v3 — enable it once your domain is confirmed. Do not add reCAPTCHA client-side code until the Formspree project is configured.
+- The finder already includes a **honeypot field** (`_gotcha`). Formspree rejects any submission where this hidden field is non-empty (bots often fill all fields).
+- **Email notifications**: configure forwarding rules in Formspree so you can triage enquiries in your preferred inbox.
+
+### 4. Testing success and failure states
+
+**Test success (placeholder mode — no endpoint needed)**
+
+1. Open `finder.html` in a browser.
+2. Complete all steps through to the Review page.
+3. Tick the privacy consent checkbox and click **Send request to NewBatteries**.
+4. Because `FORM_ENDPOINT` is still `FORM_ENDPOINT_PLACEHOLDER`, the finder moves to the confirmation page and shows **"Your battery request is ready"** — no data is transmitted.
+
+**Test success (with a real or mocked endpoint)**
+
+- Set `FORM_ENDPOINT` to your Formspree URL, or to a local mock server (e.g. `http://localhost:3000/mock`).
+- Complete the finder and submit. On a `200 OK` response the page should show **"Request received"** with the request reference and date.
+
+**Test failure handling**
+
+- Temporarily set `FORM_ENDPOINT` to a URL you know will fail (e.g. `https://httpstat.us/500`).
+- Submit the finder. The confirmation page should show the error state with a message and a **"Try again"** button.
+- All answers should remain intact and the request reference should be retained.
+- Clicking **"Try again"** returns to the review step so the user can re-submit.
+
+**Other checks before going live**
+
+- Double-click **Send request to NewBatteries** rapidly: the button disables immediately after the first click so only one request is sent.
+- Leave the privacy consent box unticked and click **Send request**: an error message appears and submission is blocked.
+- Click **Copy request summary** and paste into a text editor to confirm all fields are included.
+- Click **Print or save summary** and confirm the browser print dialog opens with a readable layout.
+
+---
+
 ## Landing page experience
 
 The homepage (`index.html`) is a radically simplified battery-intelligence interface centred on one question: **"What needs power?"**

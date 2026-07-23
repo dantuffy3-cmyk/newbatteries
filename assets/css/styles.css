@@ -2257,6 +2257,21 @@ select:-webkit-autofill {
 .error-summary h2,
 .error-summary a { color: #ffd2d4; }
 
+/* ── Photo-guide dark panel ─────────────────────────────── */
+.photo-guide {
+  background: var(--carbon);
+  border: 1px solid rgba(69,220,232,.35);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5) var(--sp-6);
+  margin-bottom: var(--sp-6);
+}
+
+.photo-guide__heading {
+  font-size: var(--text-lg);
+  margin-bottom: var(--sp-4);
+  color: var(--battery-white);
+}
+
 .photo-guide-grid {
   display: grid;
   gap: var(--sp-4);
@@ -2265,15 +2280,44 @@ select:-webkit-autofill {
 
 .photo-guide-panel {
   border: 1px solid rgba(69,220,232,.35);
-  background: rgba(69,220,232,.08);
+  background: rgba(7,9,8,.55);
   border-radius: var(--radius);
   padding: var(--sp-4);
 }
 
 .photo-guide-panel h3 {
   font-size: var(--text-base);
+  font-weight: 700;
   margin-bottom: var(--sp-2);
-  color: var(--battery-white);
+  color: var(--energy-cyan);
+}
+
+.photo-guide-panel p {
+  color: var(--muted-text);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+/* ── Submission error state ─────────────────────────────── */
+.submission-error {
+  background: rgba(255,92,98,.1);
+  border: 2px solid rgba(255,92,98,.65);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5) var(--sp-6);
+  margin-bottom: var(--sp-6);
+  color: #ffd0d2;
+}
+
+.submission-error strong {
+  display: block;
+  font-size: var(--text-lg);
+  margin-bottom: var(--sp-2);
+  color: #ffb0b3;
+}
+
+/* ── Scroll-margin for sticky-header focus fix ───────────── */
+[tabindex="-1"] {
+  scroll-margin-top: 80px;
 }
 
 .review-section {
@@ -2308,12 +2352,6 @@ select:-webkit-autofill {
 }
 .confirm-banner h2 { color: #d9faa7; }
 
-.prototype-notice {
-  background: rgba(255,194,71,.08);
-  border-color: rgba(255,194,71,.5);
-  color: rgba(245,247,245,.88);
-}
-
 @media (max-width: 640px) {
   .progress-rail { padding: var(--sp-4); }
   .step-actions > .btn,
@@ -2322,5 +2360,8 @@ select:-webkit-autofill {
   }
   .step-actions {
     gap: var(--sp-3);
+  }
+  .consent-group label {
+    font-size: var(--text-sm);
   }
 }

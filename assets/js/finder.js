@@ -7,6 +7,15 @@
 (function () {
   'use strict';
 
+  /* ── Submission endpoint ────────────────────────────────────
+     To enable live submission, replace the placeholder value
+     with your Formspree endpoint URL, e.g.:
+       "https://formspree.io/f/xyzabcde"
+     While the placeholder is in place the finder behaves as a
+     prototype: no data is transmitted.
+  ─────────────────────────────────────────────────────────── */
+  var FORM_ENDPOINT = 'FORM_ENDPOINT_PLACEHOLDER';
+
   var STORAGE_KEY = 'nb_finder_state_v2';
 
   /* ── Battery identification module ─────────────────────────── */
@@ -390,6 +399,214 @@
     try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
   }
 
+  /* ── Submission helpers ─────────────────────────────────────── */
+  var submissionInFlight = false;
+
+  function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function generateRequestRef() {
+    var now  = new Date();
+    var rand = Math.random().toString(36).substr(2, 4).toUpperCase();
+    return 'NB-' + now.getFullYear() + pad2(now.getMonth() + 1) + pad2(now.getDate()) + '-' + rand;
+  }
+
+  function buildSubmissionPayload() {
+    var loc = [locationState.suburb, locationState.state, locationState.postcode].filter(Boolean).join(', ');
+    var payload = {};
+
+    payload.request_reference      = state.requestRef || '';
+    payload.equipment_category     = CATEGORY_LABELS[state.category]   || state.category   || '';
+    payload.identification_pathway = INFO_LABELS[state.infoType]       || '';
+    payload.help_required          = HELP_LABELS[state.helpType]       || '';
+    payload.location               = loc;
+    if (locationState.urgency) {
+      payload.urgency = URGENCY_LABELS[locationState.urgency] || locationState.urgency;
+    }
+    payload.full_name = contactState.contactName  || '';
+    payload.email     = contactState.contactEmail || '';
+    if (contactState.contactPhone)  payload.phone                    = contactState.contactPhone;
+    if (contactState.contactMethod) payload.preferred_contact_method = contactState.contactMethod;
+
+    /* Pathway-specific fields */
+    if (state.infoType === 'equipment') {
+      var ep = [];
+      if (!state.equipNotSure) {
+        if (state.equipType)  ep.push('Type: '  + state.equipType);
+        if (state.equipBrand) ep.push('Brand: ' + state.equipBrand);
+        if (state.equipModel) ep.push('Model: ' + state.equipModel);
+        if (state.equipYear)  ep.push('Year: '  + state.equipYear);
+      }
+      if (state.equipNotes) ep.push('Notes: ' + state.equipNotes);
+      payload.equipment_brand_model = ep.join('; ') || 'Details not available';
+    }
+
+    if (state.infoType === 'number') {
+      if (state.battBrand) payload.battery_brand = state.battBrand;
+      payload.battery_number = state.battCodeNotSure ? 'Not available' : (state.battCode || '');
+      if (state.battCodeNotes) payload.notes = state.battCodeNotes;
+    }
+
+    if (state.infoType === 'specs') {
+      var sp = [];
+      if (state.specVoltage && state.specVoltage !== 'other') sp.push('Voltage: ' + state.specVoltage);
+      if (state.specAh) sp.push('Capacity: ' + state.specAh + ' Ah');
+      if (state.specChemistry && state.specChemistry !== 'notsure') {
+        sp.push('Chemistry: ' + (CHEMISTRY_LABELS[state.specChemistry] || state.specChemistry));
+      }
+      var dims = [state.specLength, state.specWidth, state.specHeight].filter(Boolean);
+      if (dims.length === 3) sp.push('Size: ' + dims.join(' x ') + ' mm');
+      else if (dims.length)  sp.push('Dimensions (partial): ' + dims.join(', ') + ' mm');
+      if (state.specTerminal && state.specTerminal !== 'notsure') sp.push('Terminal: ' + state.specTerminal);
+      payload.specifications = sp.join('; ') || 'Not provided';
+      if (state.specsNotes) payload.notes = state.specsNotes;
+    }
+
+    if (state.infoType === 'photo' && state.photoNotes)    payload.notes = state.photoNotes;
+    if (state.infoType === 'notsure' && state.notSureNotes) payload.notes = state.notSureNotes;
+
+    /* Identification results (number pathway) */
+    if (state.battIdDone) {
+      payload.preliminary_identification = state.battIdCanonical || 'Not recognised';
+      payload.confidence                 = confidenceLabel(state.battIdConf || 'unknown');
+      payload.evidence                   = state.battIdEvidence || '';
+      if (state.battIdUnknowns   && state.battIdUnknowns.length)   payload.unknowns = state.battIdUnknowns.join(', ');
+      if (state.battIdWarnings   && state.battIdWarnings.length)   payload.warnings = state.battIdWarnings.join(', ');
+      if (state.battIdVerification && state.battIdVerification.length) payload.supplier_verification_required = state.battIdVerification.join(', ');
+    }
+
+    payload.submission_timestamp = new Date().toISOString();
+    payload.source_page          = window.location.href;
+
+    return payload;
+  }
+
+  function setSubmissionStatus(text) {
+    var el = $('submissionStatus');
+    if (el) el.textContent = text || '';
+  }
+
+  function setConfirmState(stateVal) {
+    var placeholder = $('confirm-placeholder');
+    var success     = $('confirm-success');
+    var error       = $('confirm-error');
+    var btnRetry    = $('btn-retry');
+
+    if (placeholder) placeholder.hidden = (stateVal !== 'placeholder');
+    if (success)     success.hidden     = (stateVal !== 'success');
+    if (error)       error.hidden       = (stateVal !== 'error');
+    if (btnRetry)    btnRetry.hidden    = (stateVal !== 'error');
+
+    /* Heading text */
+    var heading = $('step-confirm-heading');
+    if (heading) {
+      if (stateVal === 'success') {
+        heading.textContent = 'Request received';
+        heading.className   = '';
+      } else {
+        heading.textContent = 'Enquiry summary';
+        heading.className   = 'visually-hidden';
+      }
+    }
+
+    /* Date submitted and ref (success only) */
+    if (stateVal === 'success') {
+      var refEl  = $('confirm-ref-success');
+      if (refEl) refEl.textContent = state.requestRef || '\u2014';
+      var dateEl = $('confirm-date-success');
+      if (dateEl) {
+        dateEl.textContent = new Date().toLocaleDateString('en-AU', {
+          day: 'numeric', month: 'long', year: 'numeric'
+        });
+      }
+    }
+
+    /* Accessible status announcement */
+    if (stateVal === 'success') {
+      setSubmissionStatus('Your request has been received. NewBatteries will manually review your enquiry.');
+    } else if (stateVal === 'error') {
+      setSubmissionStatus('Request not sent. Your answers have been kept. Please try again.');
+    } else {
+      setSubmissionStatus('');
+    }
+  }
+
+  function submitRequest() {
+    if (submissionInFlight) return;
+
+    /* Validate privacy consent */
+    if (!isChecked('consentPrivacy')) {
+      showFieldError('error-consentPrivacy', true);
+      var cb = $('consentPrivacy');
+      if (cb) setTimeout(function () { cb.focus(); }, 60);
+      return;
+    }
+    showFieldError('error-consentPrivacy', false);
+
+    /* Ensure request reference exists */
+    if (!state.requestRef) {
+      state.requestRef = generateRequestRef();
+      saveState();
+    }
+
+    /* Placeholder mode: show summary without submitting */
+    if (FORM_ENDPOINT === 'FORM_ENDPOINT_PLACEHOLDER') {
+      showStep('step-confirm');
+      setConfirmState('placeholder');
+      return;
+    }
+
+    /* Real endpoint: submit via fetch */
+    submissionInFlight = true;
+    var btn = $('btn-submit');
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-busy', 'true');
+      btn.textContent = 'Sending\u2026';
+    }
+    setSubmissionStatus('Sending your request, please wait\u2026');
+
+    var payload  = buildSubmissionPayload();
+    var formData = new FormData();
+    Object.keys(payload).forEach(function (k) { formData.append(k, payload[k]); });
+    formData.append('_gotcha', ''); /* honeypot – bots fill this; Formspree rejects if non-empty */
+
+    fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      body:   formData,
+      headers: { Accept: 'application/json' }
+    })
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function () {
+      submissionInFlight = false;
+      if (btn) {
+        btn.disabled = false;
+        btn.removeAttribute('aria-busy');
+        btn.textContent = 'Send request to NewBatteries';
+      }
+      state.submittedAt = new Date().toISOString();
+      saveState();
+      showStep('step-confirm');
+      setConfirmState('success');
+    })
+    .catch(function () {
+      submissionInFlight = false;
+      if (btn) {
+        btn.disabled = false;
+        btn.removeAttribute('aria-busy');
+        btn.textContent = 'Send request to NewBatteries';
+      }
+      var errMsg = $('confirm-error-msg');
+      if (errMsg) {
+        errMsg.textContent = 'There was a problem sending your request. Your answers have been kept. Please check your connection and try again. If the problem persists, you can copy the request summary and contact NewBatteries directly.';
+      }
+      showStep('step-confirm');
+      setConfirmState('error');
+    });
+  }
+
   /* ── DOM helpers ────────────────────────────────────────── */
   function $(id) { return document.getElementById(id); }
   function qsa(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
@@ -644,6 +861,13 @@
   }
 
   function populateReview() {
+    /* Generate a request reference if one does not yet exist */
+    if (!state.requestRef) {
+      state.requestRef = generateRequestRef();
+      saveState();
+    }
+    setReviewField('rv-request-ref', state.requestRef);
+
     setReviewField('rv-category',    CATEGORY_LABELS[state.category]  || state.category);
     setReviewField('rv-identMethod', INFO_LABELS[state.infoType]      || state.infoType);
 
@@ -717,18 +941,23 @@
       }
     }
 
-    setReviewField('rv-helpType', HELP_LABELS[state.helpType] || state.helpType);
-    setReviewField('rv-suburb',   locationState.suburb);
-    setReviewField('rv-state',    locationState.state);
-    setReviewField('rv-postcode', locationState.postcode);
-    setReviewField('rv-urgency',  URGENCY_LABELS[locationState.urgency] || locationState.urgency || 'Not specified');
-    setReviewField('rv-name',     contactState.contactName  || '');
-    setReviewField('rv-email',    contactState.contactEmail || '');
-    setReviewField('rv-phone',    contactState.contactPhone || 'Not provided');
+    setReviewField('rv-helpType',       HELP_LABELS[state.helpType] || state.helpType);
+    setReviewField('rv-suburb',         locationState.suburb);
+    setReviewField('rv-state',          locationState.state);
+    setReviewField('rv-postcode',       locationState.postcode);
+    setReviewField('rv-urgency',        URGENCY_LABELS[locationState.urgency] || locationState.urgency || 'Not specified');
+    setReviewField('rv-name',           contactState.contactName   || '');
+    setReviewField('rv-email',          contactState.contactEmail  || '');
+    setReviewField('rv-phone',          contactState.contactPhone  || 'Not provided');
+    setReviewField('rv-contactMethod',  contactState.contactMethod || 'No preference');
   }
 
   /* ── Confirmation summary ───────────────────────────────── */
   function populateConfirmation() {
+    /* Show request reference */
+    var refEl = $('confirm-request-ref');
+    if (refEl) refEl.textContent = state.requestRef || '\u2014';
+
     var el = $('confirmSummary');
     if (!el) return;
     while (el.firstChild) el.removeChild(el.firstChild);
@@ -738,15 +967,25 @@
     dl.style.cssText = 'border:1px solid var(--color-border);border-radius:var(--radius);padding:var(--sp-5) var(--sp-6)';
 
     var location = [locationState.suburb, locationState.state, locationState.postcode].filter(Boolean).join(', ');
+
     var rows = [
-      ['Equipment',            CATEGORY_LABELS[state.category] || state.category || '\u2014'],
-      ['Identification method',INFO_LABELS[state.infoType]     || '\u2014'],
-      ['Possible identification', state.battIdCanonical || 'Pending supplier verification'],
-      ['Help required',        HELP_LABELS[state.helpType]     || '\u2014'],
-      ['Location',             location || '\u2014'],
-      ['Name',                 contactState.contactName  || '\u2014'],
-      ['Email',                contactState.contactEmail || '\u2014']
+      ['Equipment',            CATEGORY_LABELS[state.category]  || state.category || '\u2014'],
+      ['Identification method',INFO_LABELS[state.infoType]      || '\u2014']
     ];
+
+    if (state.battIdDone && state.battIdConf !== 'unknown' && state.battIdCanonical) {
+      rows.push(['Possible identification', state.battIdCanonical + (state.battIdCategory ? ' \u2014 ' + state.battIdCategory : '')]);
+      rows.push(['Confidence',              confidenceLabel(state.battIdConf || 'unknown')]);
+    } else if (state.battIdDone) {
+      rows.push(['Preliminary identification', 'Not recognised in reference database \u2014 compatibility still requires confirmation']);
+    }
+
+    rows.push(['Help required', HELP_LABELS[state.helpType]     || '\u2014']);
+    rows.push(['Location',      location || '\u2014']);
+    rows.push(['Name',          contactState.contactName  || '\u2014']);
+    rows.push(['Email',         contactState.contactEmail || '\u2014']);
+    if (contactState.contactPhone)  rows.push(['Phone',             contactState.contactPhone]);
+    if (contactState.contactMethod) rows.push(['Preferred contact', contactState.contactMethod]);
 
     rows.forEach(function (row) {
       var dt = document.createElement('dt');
@@ -1024,9 +1263,10 @@
     var btnContact = $('btn-continue-contact');
     if (btnContact) {
       btnContact.addEventListener('click', function () {
-        var name  = getVal('contactName').trim();
-        var email = getVal('contactEmail').trim();
-        var phone = getVal('contactPhone').trim();
+        var name   = getVal('contactName').trim();
+        var email  = getVal('contactEmail').trim();
+        var phone  = getVal('contactPhone').trim();
+        var method = getVal('contactMethod');
 
         clearFieldErrors(['contactName', 'contactEmail']);
         var errors = [];
@@ -1041,9 +1281,10 @@
         if (errors.length) { showErrorSummary(errors); return; }
 
         /* Store contact data separately — never persisted to sessionStorage */
-        contactState.contactName  = name;
-        contactState.contactEmail = email;
-        contactState.contactPhone = phone;
+        contactState.contactName   = name;
+        contactState.contactEmail  = email;
+        contactState.contactPhone  = phone;
+        contactState.contactMethod = method;
         showStep('step-review');
       });
     }
@@ -1053,18 +1294,25 @@
     /* Review: Submit ────────────────────────────────────── */
     var btnSubmit = $('btn-submit');
     if (btnSubmit) {
-      btnSubmit.addEventListener('click', function () { showStep('step-confirm'); });
+      btnSubmit.addEventListener('click', function () { submitRequest(); });
     }
 
     /* Review: Back ──────────────────────────────────────── */
     var backReview = $('btn-back-review');
     if (backReview) backReview.addEventListener('click', function () { showStep('step-contact'); });
 
+    /* Confirmation: Retry ───────────────────────────────── */
+    var btnRetry = $('btn-retry');
+    if (btnRetry) {
+      btnRetry.addEventListener('click', function () { showStep('step-review'); });
+    }
+
     /* Confirmation: Start over ──────────────────────────── */
     var btnOver = $('btn-start-over');
     if (btnOver) {
       btnOver.addEventListener('click', function () {
         clearState();
+        submissionInFlight = false;
         /* Reset all form controls */
         qsa('input[type="radio"]').forEach(function (r)    { r.checked = false; });
         qsa('input[type="checkbox"]').forEach(function (c) { c.checked = false; });
@@ -1076,6 +1324,14 @@
         if (resultWrap) resultWrap.hidden = true;
         var btnC = $('btn-continue-batt-code');
         if (btnC) btnC.textContent = 'Continue';
+        /* Reset submit button */
+        var submitBtn = $('btn-submit');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.removeAttribute('aria-busy');
+          submitBtn.textContent = 'Send request to NewBatteries';
+        }
+        setSubmissionStatus('');
         showStep('step-category');
       });
     }
@@ -1083,8 +1339,9 @@
     var btnCopy = $('btn-copy-summary');
     if (btnCopy) {
       btnCopy.addEventListener('click', function () {
+        var refText = state.requestRef ? 'Request reference: ' + state.requestRef + '\n\n' : '';
         var summary = $('confirmSummary');
-        var text = summary ? summary.textContent.trim() : '';
+        var text    = refText + (summary ? summary.textContent.trim() : '');
         if (navigator.clipboard && text) {
           navigator.clipboard.writeText(text).catch(function () { /* ignore */ });
         }
