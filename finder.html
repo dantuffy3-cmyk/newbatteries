@@ -52,6 +52,9 @@
         </div>
       </div>
 
+      <!-- Accessible submission status region -->
+      <div id="submissionStatus" aria-live="assertive" aria-atomic="true" class="visually-hidden"></div>
+
       <!-- Error summary (shown on validation failure) -->
       <div class="error-summary" id="errorSummary" hidden aria-live="assertive" tabindex="-1" style="max-width:var(--form-width);margin:0 auto var(--sp-6)">
         <h2 id="errorSummaryHeading">There is a problem</h2>
@@ -234,7 +237,7 @@
           <label for="equipType">Equipment type</label>
           <span class="form-hint" id="hint-equipType">e.g. ride-on mower, angle grinder, mobility scooter, alarm panel</span>
           <input type="text" class="form-control" id="equipType" name="equipType"
-                 autocomplete="off" aria-describedby="hint-equipType"
+                 autocomplete="off" aria-describedby="hint-equipType" maxlength="100"
                  placeholder="e.g. ride-on mower (optional)" style="max-width:420px">
         </div>
 
@@ -242,7 +245,7 @@
           <label for="equipBrand">Brand</label>
           <span class="form-hint" id="hint-equipBrand">e.g. Toyota, Honda, Makita, Ryobi, Deta</span>
           <input type="text" class="form-control" id="equipBrand" name="equipBrand"
-                 autocomplete="off" aria-describedby="hint-equipBrand"
+                 autocomplete="off" aria-describedby="hint-equipBrand" maxlength="100"
                  placeholder="Brand (optional)" style="max-width:340px">
         </div>
 
@@ -250,7 +253,7 @@
           <label for="equipModel">Model</label>
           <span class="form-hint" id="hint-equipModel">e.g. Corolla 2018, DHP484Z, ZS4800</span>
           <input type="text" class="form-control" id="equipModel" name="equipModel"
-                 autocomplete="off" aria-describedby="hint-equipModel"
+                 autocomplete="off" aria-describedby="hint-equipModel" maxlength="100"
                  placeholder="Model (optional)" style="max-width:340px">
         </div>
 
@@ -265,7 +268,7 @@
           <label for="equipNotes">Additional notes <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
           <span class="form-hint" id="hint-equipNotes">Any other details that may help identify the correct battery</span>
           <textarea class="form-control" id="equipNotes" name="equipNotes"
-                    aria-describedby="hint-equipNotes" rows="3"
+                    aria-describedby="hint-equipNotes" rows="3" maxlength="500"
                     placeholder="e.g. imported model, replaced once before, battery sits in an unusual position"></textarea>
         </div>
 
@@ -297,7 +300,7 @@
           <label for="battBrand">Battery brand <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
           <span class="form-hint" id="hint-battBrand">e.g. Century, Exide, SuperCharge, Optima, Odyssey</span>
           <input type="text" class="form-control" id="battBrand" name="battBrand"
-                 autocomplete="off" aria-describedby="hint-battBrand"
+                 autocomplete="off" aria-describedby="hint-battBrand" maxlength="100"
                  placeholder="Battery brand (optional)" style="max-width:300px">
         </div>
 
@@ -305,14 +308,14 @@
           <label for="battCode">Battery model or part number</label>
           <span class="form-hint" id="hint-battCode">Enter exactly as it appears on the label</span>
           <input type="text" class="form-control" id="battCode" name="battCode"
-                 autocomplete="off" aria-describedby="hint-battCode error-battCode"
+                 autocomplete="off" aria-describedby="hint-battCode error-battCode" maxlength="50"
                  placeholder="e.g. DIN66MF or NS70" style="max-width:300px">
           <div class="field-error" id="error-battCode" hidden role="alert">Please enter the battery model or part number, or tick to skip.</div>
         </div>
 
         <div class="form-group">
           <label for="battCodeNotes">Additional notes <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <textarea class="form-control" id="battCodeNotes" name="battCodeNotes" rows="2"
+          <textarea class="form-control" id="battCodeNotes" name="battCodeNotes" rows="2" maxlength="500"
                     placeholder="e.g. label is partially damaged, battery was replaced previously"></textarea>
         </div>
 
@@ -416,7 +419,7 @@
           <label for="specAh">Amp-hours (Ah) <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
           <span class="form-hint" id="hint-specAh">Capacity rating usually printed on the top or side label (e.g. 70&nbsp;Ah)</span>
           <input type="text" class="form-control" id="specAh" name="specAh"
-                 autocomplete="off" aria-describedby="hint-specAh" inputmode="decimal"
+                 autocomplete="off" aria-describedby="hint-specAh" inputmode="decimal" maxlength="10"
                  placeholder="e.g. 70 (optional)" style="max-width:160px">
         </div>
 
@@ -439,17 +442,17 @@
             <div>
               <label for="specLength">Length (mm)</label>
               <input type="text" class="form-control" id="specLength" name="specLength"
-                     inputmode="decimal" placeholder="e.g. 275">
+                     inputmode="decimal" placeholder="e.g. 275" maxlength="6">
             </div>
             <div>
               <label for="specWidth">Width (mm)</label>
               <input type="text" class="form-control" id="specWidth" name="specWidth"
-                     inputmode="decimal" placeholder="e.g. 175">
+                     inputmode="decimal" placeholder="e.g. 175" maxlength="6">
             </div>
             <div>
               <label for="specHeight">Height (mm)</label>
               <input type="text" class="form-control" id="specHeight" name="specHeight"
-                     inputmode="decimal" placeholder="e.g. 175">
+                     inputmode="decimal" placeholder="e.g. 175" maxlength="6">
             </div>
           </div>
         </div>
@@ -469,7 +472,7 @@
 
         <div class="form-group">
           <label for="specsNotes">Additional notes <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <textarea class="form-control" id="specsNotes" name="specsNotes" rows="2"
+          <textarea class="form-control" id="specsNotes" name="specsNotes" rows="2" maxlength="500"
                     placeholder="Any other specifications or details you know"></textarea>
         </div>
 
@@ -489,10 +492,10 @@
       <!-- ═══ STEP 3d – PHOTO ROUTE ════════════════════════════ -->
       <div class="finder-card" id="step-photo" data-step="3" hidden>
         <h1 id="step-photo-heading" tabindex="-1">Battery photo guidance</h1>
-        <p class="step-hint">We will ask for the photos after you submit your enquiry. Here is what to photograph so you are ready.</p>
+        <p class="step-hint">Complete the request with the information you have. NewBatteries may ask for photographs during manual review.</p>
 
-        <div class="photo-guide" role="note" aria-label="Photo requirements">
-          <h2 style="font-size:var(--text-lg);margin-bottom:var(--sp-3)">Photo guidance &mdash; include these four views:</h2>
+        <div class="photo-guide" role="note" aria-label="Photo guidance">
+          <h2 class="photo-guide__heading">Photo guidance &mdash; four views that help most:</h2>
           <div class="photo-guide-grid">
             <article class="photo-guide-panel">
               <h3>Full battery label</h3>
@@ -513,15 +516,15 @@
           </div>
         </div>
 
-        <div class="notice notice--warn" style="margin-bottom:var(--sp-6)">
-          <strong>Prototype notice:</strong> File uploads are not yet available in this prototype. After submitting, you will be prompted to attach your photos to a follow-up email.
+        <div class="notice notice--info" style="margin-bottom:var(--sp-6)">
+          Photo upload is not yet enabled. Complete the request with the information you have, and NewBatteries may ask for photographs during manual review.
         </div>
 
         <div class="form-group">
           <label for="photoNotes">Additional notes <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
           <span class="form-hint" id="hint-photoNotes">Describe anything unusual &mdash; damage, unusual markings, the equipment context</span>
           <textarea class="form-control" id="photoNotes" name="photoNotes"
-                    aria-describedby="hint-photoNotes" rows="3"
+                    aria-describedby="hint-photoNotes" rows="3" maxlength="500"
                     placeholder="Optional &mdash; describe the battery, equipment, or any other helpful details"></textarea>
         </div>
 
@@ -540,7 +543,7 @@
           <label for="notSureNotes">Description</label>
           <span class="form-hint" id="hint-notSureNotes">For example: &ldquo;AA batteries for a remote control&rdquo; or &ldquo;a big black battery in an old Land Rover that keeps going flat&rdquo;</span>
           <textarea class="form-control" id="notSureNotes" name="notSureNotes"
-                    aria-describedby="hint-notSureNotes error-notSureNotes" rows="5"
+                    aria-describedby="hint-notSureNotes error-notSureNotes" rows="5" maxlength="1000"
                     placeholder="Describe what you know about the battery or the equipment"></textarea>
           <div class="field-error" id="error-notSureNotes" hidden role="alert">Please describe what you know so we can help you find the right battery.</div>
         </div>
@@ -613,7 +616,7 @@
           <span class="form-hint" id="hint-suburb">Enter your suburb or nearest town</span>
           <input type="text" class="form-control" id="suburb" name="suburb"
                  autocomplete="address-level2" aria-describedby="hint-suburb error-suburb"
-                 aria-required="true" placeholder="e.g. Parramatta" style="max-width:340px">
+                 aria-required="true" placeholder="e.g. Parramatta" maxlength="100" style="max-width:340px">
           <div class="field-error" id="error-suburb" hidden role="alert">Please enter your suburb or town.</div>
         </div>
 
@@ -664,22 +667,22 @@
       <!-- ═══ STEP 6 – CONTACT ══════════════════════════════════ -->
       <div class="finder-card" id="step-contact" data-step="6" hidden>
         <h1 id="step-contact-heading" tabindex="-1">Contact details</h1>
-        <p class="step-hint">Your contact details allow suppliers to follow up on your enquiry.</p>
+        <p class="step-hint">Your contact details allow NewBatteries to follow up on your request.</p>
 
         <div class="form-group">
           <label for="contactName">Full name <span aria-hidden="true" style="color:var(--color-error)">*</span></label>
           <input type="text" class="form-control" id="contactName" name="contactName"
                  autocomplete="name" aria-describedby="error-contactName"
-                 aria-required="true" placeholder="Your name" style="max-width:380px">
+                 aria-required="true" maxlength="100" placeholder="Your name" style="max-width:380px">
           <div class="field-error" id="error-contactName" hidden role="alert">Please enter your name.</div>
         </div>
 
         <div class="form-group">
           <label for="contactEmail">Email address <span aria-hidden="true" style="color:var(--color-error)">*</span></label>
-          <span class="form-hint" id="hint-contactEmail">A summary of your enquiry will be shown on screen after submission</span>
+          <span class="form-hint" id="hint-contactEmail">Used to contact you about your battery request</span>
           <input type="email" class="form-control" id="contactEmail" name="contactEmail"
                  autocomplete="email" aria-describedby="hint-contactEmail error-contactEmail"
-                 aria-required="true" placeholder="you@example.com" style="max-width:380px">
+                 aria-required="true" maxlength="254" placeholder="you@example.com" style="max-width:380px">
           <div class="field-error" id="error-contactEmail" hidden role="alert">Please enter a valid email address.</div>
         </div>
 
@@ -687,8 +690,18 @@
           <label for="contactPhone">Phone number <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
           <span class="form-hint" id="hint-contactPhone">Mobile preferred for any follow-up</span>
           <input type="tel" class="form-control" id="contactPhone" name="contactPhone"
-                 autocomplete="tel" aria-describedby="hint-contactPhone"
+                 autocomplete="tel" aria-describedby="hint-contactPhone" maxlength="20"
                  placeholder="e.g. 0412 345 678" style="max-width:280px">
+        </div>
+
+        <div class="form-group">
+          <label for="contactMethod">Preferred contact method <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
+          <select class="form-control" id="contactMethod" name="contactMethod" style="max-width:280px">
+            <option value="">&#8212; No preference &#8212;</option>
+            <option value="Email">Email</option>
+            <option value="Phone or text">Phone or text</option>
+            <option value="Either is fine">Either is fine</option>
+          </select>
         </div>
 
         <div class="step-actions">
@@ -700,7 +713,9 @@
       <!-- ═══ REVIEW ═════════════════════════════════════════════ -->
       <div class="finder-card" id="step-review" hidden style="max-width:680px">
         <h1 id="step-review-heading" tabindex="-1">Review your enquiry</h1>
-        <p class="step-hint" style="margin-bottom:var(--sp-8)">Check your details below. Use the Change links to go back and correct anything before submitting.</p>
+        <p class="step-hint" style="margin-bottom:var(--sp-4)">Check your details below. Use the Change links to go back and correct anything before submitting.</p>
+
+        <p class="step-hint" style="margin-bottom:var(--sp-8)">Request reference: <strong id="rv-request-ref" style="color:var(--battery-white,#1a201e)">&#8212;</strong></p>
 
         <!-- Group 1: What needs power -->
         <div class="review-section">
@@ -739,7 +754,7 @@
             <dt>Warnings</dt><dd id="rv-battWarnings">&#8212;</dd>
             <dt>Needs supplier verification</dt><dd id="rv-battVerification">&#8212;</dd>
           </dl>
-          <p class="step-hint" style="margin-top:var(--sp-3)">Preliminary identification only &mdash; no compatibility is confirmed and no supplier inventory has been checked.</p>
+          <p class="step-hint" style="margin-top:var(--sp-3)">Preliminary identification only &mdash; compatibility still requires confirmation. No supplier inventory has been checked.</p>
         </div>
 
         <!-- Group 3: Help required -->
@@ -777,43 +792,84 @@
             <dt>Name</dt><dd id="rv-name">&#8212;</dd>
             <dt>Email</dt><dd id="rv-email">&#8212;</dd>
             <dt>Phone</dt><dd id="rv-phone">&#8212;</dd>
+            <dt>Preferred contact</dt><dd id="rv-contactMethod">&#8212;</dd>
           </dl>
         </div>
 
-        <div class="notice" style="margin-top:var(--sp-6)">
-          By submitting you confirm you have read our <a href="privacy.html">Privacy Notice</a>. This is a prototype &mdash; no enquiry is actually transmitted to any supplier.
+        <!-- Honeypot: hidden from real users; bots fill this field and Formspree rejects the submission -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <!-- Privacy consent -->
+        <div class="form-group consent-group" style="margin-top:var(--sp-6);padding:var(--sp-5);background:rgba(7,9,8,.4);border:1px solid rgba(245,247,245,.18);border-radius:var(--radius)">
+          <div style="display:flex;gap:var(--sp-3);align-items:flex-start">
+            <input type="checkbox" id="consentPrivacy" name="consentPrivacy"
+                   aria-describedby="error-consentPrivacy"
+                   style="margin-top:3px;width:20px;height:20px;flex-shrink:0;cursor:pointer">
+            <label for="consentPrivacy" style="cursor:pointer;line-height:1.5">
+              I consent to NewBatteries using the information supplied to review this battery request and contact me about it.
+              <a href="privacy.html" style="color:var(--energy-cyan,#45DCE8)">Privacy policy</a>
+            </label>
+          </div>
+          <div class="field-error" id="error-consentPrivacy" hidden role="alert" style="margin-top:var(--sp-2)">Please tick the consent box to continue.</div>
         </div>
 
         <div class="step-actions" style="margin-top:var(--sp-6)">
-          <button class="btn btn-primary" id="btn-submit" type="button">Prepare request summary</button>
+          <button class="btn btn-primary" id="btn-submit" type="button">Send request to NewBatteries</button>
           <button class="btn-back" id="btn-back-review" type="button">&#8592; Back</button>
         </div>
       </div>
 
       <!-- ═══ CONFIRMATION ══════════════════════════════════════ -->
       <div class="finder-card" id="step-confirm" hidden>
-        <div class="confirm-banner">
-          <h2>Your battery request is ready</h2>
-          <p>Review the summary below before sharing it with a supplier.</p>
+
+        <h1 id="step-confirm-heading" tabindex="-1" class="visually-hidden">Enquiry summary</h1>
+
+        <!-- ── Placeholder state (endpoint not configured) ──── -->
+        <div id="confirm-placeholder" hidden>
+          <div class="confirm-banner">
+            <h2>Your battery request is ready</h2>
+            <p>Submission is not yet enabled. Your request summary is shown below. No data has been transmitted.</p>
+          </div>
         </div>
 
-        <h1 id="step-confirm-heading" tabindex="-1" class="visually-hidden">Enquiry confirmation</h1>
-
-        <div class="prototype-notice" role="note">
-          <strong>&#9888; Important &mdash; prototype notice</strong>
-          This is an early-stage prototype. <strong>Your enquiry has not been transmitted to any supplier, installer, or third party.</strong> No data has been stored, no email has been sent, and no action has been taken on your behalf. This tool is for demonstration and user research purposes only.
-          <br><br>
-          If you have a genuine battery requirement, please contact a local battery retailer or specialist supplier directly.
+        <!-- ── Success state (after confirmed server response) ── -->
+        <div id="confirm-success" hidden>
+          <div class="confirm-banner">
+            <h2>Request received</h2>
+            <p>NewBatteries will manually review your battery request. You do not need to do anything else right now.</p>
+          </div>
+          <dl class="review-dl" style="margin-top:var(--sp-5);border:1px solid var(--color-border);border-radius:var(--radius);padding:var(--sp-4) var(--sp-5)">
+            <dt>Request reference</dt><dd id="confirm-ref-success">&#8212;</dd>
+            <dt>Date submitted</dt><dd id="confirm-date-success">&#8212;</dd>
+          </dl>
+          <div class="notice notice--warn" style="margin-top:var(--sp-5)">
+            <strong>Compatibility still requires confirmation.</strong>
+            The possible battery identification shown below is preliminary only and has not been verified. Do not purchase or install a battery based only on this preliminary identification. NewBatteries will manually review your request and may contact you with further information.
+          </div>
         </div>
 
-        <p style="margin-top:var(--sp-6)">Request summary:</p>
+        <!-- ── Error state (transmission failed) ─────────────── -->
+        <div id="confirm-error" hidden>
+          <div class="submission-error" role="alert">
+            <strong>Request not sent</strong>
+            <p id="confirm-error-msg">There was a problem sending your request. Your answers have been kept. Please check your connection and try again.</p>
+          </div>
+        </div>
+
+        <!-- ── Shared: request reference and summary ─────────── -->
+        <p style="margin-top:var(--sp-6)">
+          Request reference: <strong id="confirm-request-ref">&#8212;</strong>
+        </p>
+        <p style="margin-top:var(--sp-2)">Summary of information provided:</p>
         <div id="confirmSummary" style="margin-top:var(--sp-4)"></div>
 
+        <!-- ── Action buttons ─────────────────────────────────── -->
         <div style="margin-top:var(--sp-8);display:flex;gap:var(--sp-4);flex-wrap:wrap">
-          <button class="btn btn-ghost" id="btn-copy-summary" type="button">Copy summary</button>
+          <button class="btn btn-ghost" id="btn-retry" type="button" hidden>&#8634; Try again</button>
+          <button class="btn btn-ghost" id="btn-copy-summary" type="button">Copy request summary</button>
           <button class="btn btn-ghost" id="btn-print-summary" type="button">Print or save summary</button>
           <button class="btn btn-primary" id="btn-improve-identification" type="button">Improve identification</button>
-          <button class="btn btn-ghost" id="btn-start-over" type="button">Start a new enquiry</button>
+          <button class="btn btn-ghost" id="btn-start-over" type="button">Start again</button>
           <a class="btn btn-ghost" href="index.html">Return home</a>
         </div>
       </div>
