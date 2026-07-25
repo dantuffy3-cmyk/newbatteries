@@ -7,15 +7,6 @@
 (function () {
   'use strict';
 
-  /* ── Submission endpoint ────────────────────────────────────
-     To enable live submission, replace the placeholder value
-     with your Formspree endpoint URL, e.g.:
-       "https://formspree.io/f/xyzabcde"
-     While the placeholder is in place the finder behaves as a
-     prototype: no data is transmitted.
-  ─────────────────────────────────────────────────────────── */
-  var FORM_ENDPOINT = 'FORM_ENDPOINT_PLACEHOLDER';
-
   var STORAGE_KEY = 'nb_finder_state_v2';
 
   /* ── Battery identification module ─────────────────────────── */
@@ -495,49 +486,13 @@
     if (el) el.textContent = text || '';
   }
 
-  function setConfirmState(stateVal) {
-    var placeholder = $('confirm-placeholder');
-    var success     = $('confirm-success');
-    var error       = $('confirm-error');
-    var btnRetry    = $('btn-retry');
-
-    if (placeholder) placeholder.hidden = (stateVal !== 'placeholder');
-    if (success)     success.hidden     = (stateVal !== 'success');
-    if (error)       error.hidden       = (stateVal !== 'error');
-    if (btnRetry)    btnRetry.hidden    = (stateVal !== 'error');
-
-    /* Heading text */
+  function setConfirmState() {
     var heading = $('step-confirm-heading');
     if (heading) {
-      if (stateVal === 'success') {
-        heading.textContent = 'Request received';
-        heading.className   = '';
-      } else {
-        heading.textContent = 'Enquiry summary';
-        heading.className   = 'visually-hidden';
-      }
+      heading.textContent = 'Your request summary is ready';
+      heading.className   = 'visually-hidden';
     }
-
-    /* Date submitted and ref (success only) */
-    if (stateVal === 'success') {
-      var refEl  = $('confirm-ref-success');
-      if (refEl) refEl.textContent = state.requestRef || '\u2014';
-      var dateEl = $('confirm-date-success');
-      if (dateEl) {
-        dateEl.textContent = new Date().toLocaleDateString('en-AU', {
-          day: 'numeric', month: 'long', year: 'numeric'
-        });
-      }
-    }
-
-    /* Accessible status announcement */
-    if (stateVal === 'success') {
-      setSubmissionStatus('Your request has been received. NewBatteries will manually review your enquiry.');
-    } else if (stateVal === 'error') {
-      setSubmissionStatus('Request not sent. Your answers have been kept. Please try again.');
-    } else {
-      setSubmissionStatus('');
-    }
+    setSubmissionStatus('Your request summary is ready. No information has been transmitted.');
   }
 
   function submitRequest() {
@@ -558,63 +513,10 @@
       saveState();
     }
 
-    /* Placeholder mode: show summary without submitting */
-    if (FORM_ENDPOINT === 'FORM_ENDPOINT_PLACEHOLDER') {
-      showStep('step-confirm');
-      setConfirmState('placeholder');
-      return;
-    }
-
-    /* Real endpoint: submit via fetch */
-    submissionInFlight = true;
-    var btn = $('btn-submit');
-    if (btn) {
-      btn.disabled = true;
-      btn.setAttribute('aria-busy', 'true');
-      btn.textContent = 'Sending\u2026';
-    }
-    setSubmissionStatus('Sending your request, please wait\u2026');
-
-    var payload  = buildSubmissionPayload();
-    var formData = new FormData();
-    Object.keys(payload).forEach(function (k) { formData.append(k, payload[k]); });
-    formData.append('_gotcha', ''); /* honeypot – bots fill this; Formspree rejects if non-empty */
-
-    fetch(FORM_ENDPOINT, {
-      method: 'POST',
-      body:   formData,
-      headers: { Accept: 'application/json' }
-    })
-    .then(function (r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    })
-    .then(function () {
-      submissionInFlight = false;
-      if (btn) {
-        btn.disabled = false;
-        btn.removeAttribute('aria-busy');
-        btn.textContent = 'Send request to NewBatteries';
-      }
-      state.submittedAt = new Date().toISOString();
-      saveState();
-      showStep('step-confirm');
-      setConfirmState('success');
-    })
-    .catch(function () {
-      submissionInFlight = false;
-      if (btn) {
-        btn.disabled = false;
-        btn.removeAttribute('aria-busy');
-        btn.textContent = 'Send request to NewBatteries';
-      }
-      var errMsg = $('confirm-error-msg');
-      if (errMsg) {
-        errMsg.textContent = 'There was a problem sending your request. Your answers have been kept. Please check your connection and try again. If the problem persists, you can copy the request summary and contact NewBatteries directly.';
-      }
-      showStep('step-confirm');
-      setConfirmState('error');
-    });
+    state.submittedAt = null;
+    saveState();
+    showStep('step-confirm');
+    setConfirmState();
   }
 
   /* ── DOM helpers ────────────────────────────────────────── */
@@ -1311,12 +1213,6 @@
     var backReview = $('btn-back-review');
     if (backReview) backReview.addEventListener('click', function () { showStep('step-contact'); });
 
-    /* Confirmation: Retry ───────────────────────────────── */
-    var btnRetry = $('btn-retry');
-    if (btnRetry) {
-      btnRetry.addEventListener('click', function () { showStep('step-review'); });
-    }
-
     /* Confirmation: Start over ──────────────────────────── */
     var btnOver = $('btn-start-over');
     if (btnOver) {
@@ -1339,7 +1235,7 @@
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.removeAttribute('aria-busy');
-          submitBtn.textContent = 'Send request to NewBatteries';
+          submitBtn.textContent = 'Prepare request summary';
         }
         setSubmissionStatus('');
         showStep('step-category');
@@ -1349,7 +1245,7 @@
     var btnCopy = $('btn-copy-summary');
     if (btnCopy) {
       btnCopy.addEventListener('click', function () {
-        var refText = state.requestRef ? 'Request reference: ' + state.requestRef + '\n\n' : '';
+        var refText = state.requestRef ? 'Summary reference: ' + state.requestRef + '\n\n' : '';
         var summary = $('confirmSummary');
         var text    = refText + (summary ? summary.textContent.trim() : '');
         if (navigator.clipboard && text) {
