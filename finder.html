@@ -496,7 +496,7 @@
       <!-- ═══ STEP 3d – PHOTO ROUTE ════════════════════════════ -->
       <div class="finder-card" id="step-photo" data-step="3" hidden>
         <h1 id="step-photo-heading" tabindex="-1">Battery photo guidance</h1>
-        <p class="step-hint">Complete the request with the information you have. NewBatteries may ask for photographs during manual review.</p>
+        <p class="step-hint">Complete the request with the information you have, then copy or save the request summary for your records.</p>
 
         <div class="photo-guide" role="note" aria-label="Photo guidance">
           <h2 class="photo-guide__heading">Photo guidance &mdash; four views that help most:</h2>
@@ -521,7 +521,7 @@
         </div>
 
         <div class="notice notice--info" style="margin-bottom:var(--sp-6)">
-          Photo upload is not yet enabled. Complete the request with the information you have, and NewBatteries may ask for photographs during manual review.
+          Photo upload is not yet enabled. Complete the request with the information you have, then copy or save the request summary for your records.
         </div>
 
         <div class="form-group">
@@ -810,15 +810,15 @@
                    aria-describedby="error-consentPrivacy"
                    style="margin-top:3px;width:20px;height:20px;flex-shrink:0;cursor:pointer">
             <label for="consentPrivacy" style="cursor:pointer;line-height:1.5">
-              I consent to NewBatteries using the information supplied to review this battery request and contact me about it.
+              I understand that online submission is not yet enabled and no information will be transmitted from this page.
               <a href="privacy.html" style="color:var(--energy-cyan,#45DCE8)">Privacy policy</a>
             </label>
           </div>
-          <div class="field-error" id="error-consentPrivacy" hidden role="alert" style="margin-top:var(--sp-2)">Please tick the consent box to continue.</div>
+          <div class="field-error" id="error-consentPrivacy" hidden role="alert" style="margin-top:var(--sp-2)">Please confirm that you understand no information will be transmitted.</div>
         </div>
 
         <div class="step-actions" style="margin-top:var(--sp-6)">
-          <button class="btn btn-primary" id="btn-submit" type="button">Send request to NewBatteries</button>
+          <button class="btn btn-primary" id="btn-submit" type="button">Prepare request summary</button>
           <button class="btn-back" id="btn-back-review" type="button">&#8592; Back</button>
         </div>
       </div>
@@ -828,53 +828,26 @@
 
         <h1 id="step-confirm-heading" tabindex="-1" class="visually-hidden">Enquiry summary</h1>
 
-        <!-- ── Placeholder state (endpoint not configured) ──── -->
-        <div id="confirm-placeholder" hidden>
+        <div id="confirm-summary">
           <div class="confirm-banner">
-            <h2>Your battery request is ready</h2>
-            <p>Submission is not yet enabled. Your request summary is shown below. No data has been transmitted.</p>
-          </div>
-        </div>
-
-        <!-- ── Success state (after confirmed server response) ── -->
-        <div id="confirm-success" hidden>
-          <div class="confirm-banner">
-            <h2>Request received</h2>
-            <p>NewBatteries will manually review your battery request. You do not need to do anything else right now.</p>
-          </div>
-          <dl class="review-dl" style="margin-top:var(--sp-5);border:1px solid var(--color-border);border-radius:var(--radius);padding:var(--sp-4) var(--sp-5)">
-            <dt>Request reference</dt><dd id="confirm-ref-success">&#8212;</dd>
-            <dt>Date submitted</dt><dd id="confirm-date-success">&#8212;</dd>
-          </dl>
-          <div class="notice notice--warn" style="margin-top:var(--sp-5)">
-            <strong>Compatibility still requires confirmation.</strong>
-            The possible battery identification shown below is preliminary only and has not been verified. Do not purchase or install a battery based only on this preliminary identification. NewBatteries will manually review your request and may contact you with further information.
-          </div>
-        </div>
-
-        <!-- ── Error state (transmission failed) ─────────────── -->
-        <div id="confirm-error" hidden>
-          <div class="submission-error" role="alert">
-            <strong>Request not sent</strong>
-            <p id="confirm-error-msg">There was a problem sending your request. Your answers have been kept. Please check your connection and try again.</p>
+            <h2>Your request summary is ready</h2>
+            <p>Online submission is not yet enabled. No information has been transmitted. You can copy or save the request summary for your records.</p>
           </div>
         </div>
 
         <!-- ── Shared: request reference and summary ─────────── -->
         <p style="margin-top:var(--sp-6)">
-          Request reference: <strong id="confirm-request-ref">&#8212;</strong>
+          Summary reference: <strong id="confirm-request-ref">&#8212;</strong>
         </p>
         <p style="margin-top:var(--sp-2)">Summary of information provided:</p>
         <div id="confirmSummary" style="margin-top:var(--sp-4)"></div>
 
         <!-- ── Action buttons ─────────────────────────────────── -->
         <div style="margin-top:var(--sp-8);display:flex;gap:var(--sp-4);flex-wrap:wrap">
-          <button class="btn btn-ghost" id="btn-retry" type="button" hidden>&#8634; Try again</button>
           <button class="btn btn-ghost" id="btn-copy-summary" type="button">Copy request summary</button>
           <button class="btn btn-ghost" id="btn-print-summary" type="button">Print or save summary</button>
           <button class="btn btn-primary" id="btn-improve-identification" type="button">Improve identification</button>
           <button class="btn btn-ghost" id="btn-start-over" type="button">Start again</button>
-          <a class="btn btn-ghost" href="index.html">Return home</a>
         </div>
       </div>
 
