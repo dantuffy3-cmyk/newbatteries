@@ -262,6 +262,76 @@
       </div>
     </section>
 
+    <!-- ═══ PHYSICAL-FIT DEMO ═══════════════════════════════════════ -->
+    <section class="lp-rule-demo" id="physicalFitDemo" aria-labelledby="physical-fit-demo-heading">
+      <div class="container">
+        <div class="lp-rule-demo__intro">
+          <p class="lp-rule-demo__eyebrow">Compatibility preview</p>
+          <h2 id="physical-fit-demo-heading" class="lp-rule-demo__heading">Compatibility that explains itself</h2>
+          <p class="lp-rule-demo__lead">NewBatteries is being designed to show why a replacement may fit, what evidence supports the result and what still needs confirmation before purchase.</p>
+        </div>
+
+        <div class="lp-rule-demo__cards" role="list" aria-label="Physical-fit outcome states">
+          <article class="lp-rule-demo__card" role="listitem">
+            <p class="lp-rule-demo__card-badge compat-demo__badge compat-demo__badge--blocked">Blocked</p>
+            <p class="lp-rule-demo__card-text">A confirmed physical conflict prevents the replacement.</p>
+          </article>
+          <article class="lp-rule-demo__card" role="listitem">
+            <p class="lp-rule-demo__card-badge compat-demo__badge compat-demo__badge--insufficient">Insufficient evidence</p>
+            <p class="lp-rule-demo__card-text">A critical measurement or specification is still missing.</p>
+          </article>
+          <article class="lp-rule-demo__card" role="listitem">
+            <p class="lp-rule-demo__card-badge compat-demo__badge compat-demo__badge--conditional">Compatible with conditions</p>
+            <p class="lp-rule-demo__card-text">The battery may fit, but one or more checks remain unresolved.</p>
+          </article>
+          <article class="lp-rule-demo__card" role="listitem">
+            <p class="lp-rule-demo__card-badge compat-demo__badge compat-demo__badge--compatible">Compatible</p>
+            <p class="lp-rule-demo__card-text">All required physical-fit checks pass with adequate evidence.</p>
+          </article>
+        </div>
+
+        <div class="lp-rule-demo__panel">
+          <div class="lp-rule-demo__controls">
+            <label class="lp-rule-demo__label" for="compatDemoScenarioSelect">Choose a physical-fit scenario</label>
+            <select id="compatDemoScenarioSelect" class="lp-rule-demo__select" aria-describedby="compatDemoDisclaimer">
+              <option>Loading scenarios…</option>
+            </select>
+            <p id="compatDemoDisclaimer" class="lp-rule-demo__disclaimer">Physical fit only. Electrical and chemistry compatibility have not yet been assessed. Confirm before purchase or installation.</p>
+          </div>
+
+          <div class="lp-rule-demo__result" aria-live="polite" aria-atomic="true">
+            <div class="lp-rule-demo__result-head">
+              <p id="compatDemoOutcomeBadge" class="compat-demo__badge compat-demo__badge--uncertain">Loading</p>
+              <p id="compatDemoConfidence" class="lp-rule-demo__confidence">Loading evidence confidence…</p>
+            </div>
+
+            <h3 id="compatDemoScenarioTitle" class="lp-rule-demo__result-title">Preparing scenario</h3>
+            <p id="compatDemoSummary" class="lp-rule-demo__summary">The physical-fit demonstration is loading.</p>
+
+            <div class="lp-rule-demo__details">
+              <div class="lp-rule-demo__detail-card">
+                <h4 class="lp-rule-demo__detail-heading">Reason</h4>
+                <ul id="compatDemoReasons" class="lp-rule-demo__list"></ul>
+                <p id="compatDemoReasonsEmpty" class="lp-rule-demo__empty">No additional blocking or conditional reason is active in this scenario.</p>
+              </div>
+              <div class="lp-rule-demo__detail-card">
+                <h4 class="lp-rule-demo__detail-heading">Unknowns</h4>
+                <ul id="compatDemoUnknowns" class="lp-rule-demo__list"></ul>
+                <p id="compatDemoUnknownsEmpty" class="lp-rule-demo__empty">No unresolved unknowns are active in this scenario.</p>
+              </div>
+            </div>
+
+            <div class="lp-rule-demo__actions">
+              <h4 id="compatDemoNextActionsHeading" class="lp-rule-demo__detail-heading">Next action</h4>
+              <ul id="compatDemoActions" class="lp-rule-demo__list lp-rule-demo__list--actions"></ul>
+              <p id="compatDemoActionsEmpty" class="lp-rule-demo__empty">No further physical-fit action is listed for this scenario.</p>
+              <p id="compatDemoSupplierConfirmation" class="lp-rule-demo__supplier-note">Supplier confirmation may still be required.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══ COMPATIBILITY CARD ════════════════════════════════ -->
     <section class="lp-compat-card" aria-labelledby="compat-card-heading">
       <div class="container">
@@ -524,5 +594,8 @@
   </footer>
 
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/rule-engine.js"></script>
+  <script src="assets/js/physical-fit-engine.js"></script>
+  <script src="assets/js/physical-fit-demo.js"></script>
 </body>
 </html>

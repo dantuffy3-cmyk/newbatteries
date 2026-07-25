@@ -1,0 +1,389 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-07-25",
+  "testCases": [
+    {
+      "testId": "AUTO-CANONICAL-1",
+      "name": "Test 1 — blocked due to height conflict",
+      "demo": true,
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {
+          "standardCode": "LN2",
+          "lengthMm": 242,
+          "widthMm": 175,
+          "heightMm": 190,
+          "terminalType": "top_post",
+          "terminalLayout": "layout_0",
+          "polarityOrientation": "R+",
+          "terminalPosition": "top_front",
+          "holdDownType": "b13",
+          "baseProfile": "din",
+          "connectorKeying": "standard_top_post",
+          "sameFamilyMatch": true,
+          "variantResolved": true
+        },
+        "compartment": {
+          "maxLengthMm": 245,
+          "maxWidthMm": 178,
+          "maxHeightMm": 175,
+          "requiredTerminalType": "top_post",
+          "requiredTerminalLayout": "layout_0",
+          "requiredPolarityOrientation": "R+",
+          "requiredTerminalPosition": "top_front",
+          "holdDownType": "b13",
+          "coverClearanceMm": 175,
+          "cableReachConfirmed": true,
+          "shapeConfirmed": true
+        },
+        "evidenceFlags": {
+          "approximateMeasurement": false,
+          "terminalViewPhotoProvided": true
+        },
+        "evidence": [
+          {"evidenceId": "EV-A1-1", "field": "candidate.heightMm", "value": 190, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A1-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A1-2", "field": "compartment.maxHeightMm", "value": 175, "unit": "mm", "confidence": "high", "sourceType": "direct_measurement", "sourceId": "SRC-A1-2", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A1-3", "field": "candidate.lengthMm", "value": 242, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A1-3", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A1-4", "field": "candidate.widthMm", "value": 175, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A1-4", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A1-5", "field": "compartment.maxLengthMm", "value": 245, "unit": "mm", "confidence": "high", "sourceType": "direct_measurement", "sourceId": "SRC-A1-5", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A1-6", "field": "compartment.maxWidthMm", "value": 178, "unit": "mm", "confidence": "high", "sourceType": "direct_measurement", "sourceId": "SRC-A1-6", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A1-7", "field": "candidate.terminalType", "value": "top_post", "unit": null, "confidence": "medium", "sourceType": "supplier_catalogue", "sourceId": "SRC-A1-7", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A1-8", "field": "compartment.requiredTerminalType", "value": "top_post", "unit": null, "confidence": "medium", "sourceType": "vehicle_manual", "sourceId": "SRC-A1-8", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A1-9", "field": "candidate.sameFamilyMatch", "value": true, "unit": null, "confidence": "low", "sourceType": "family_code_inference", "sourceId": "SRC-A1-9", "capturedAt": null, "notes": "Supportive only."}
+        ]
+      },
+      "expected": {
+        "outcome": "blocked",
+        "blockingIssuesInclude": ["The proposed battery is taller than the available compartment space."],
+        "summaryIncludes": ["taller"],
+        "unknownsInclude": []
+      }
+    },
+    {
+      "testId": "AUTO-CANONICAL-2",
+      "name": "Test 2 — insufficient evidence due to missing compartment height",
+      "demo": true,
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {
+          "standardCode": "LN2",
+          "lengthMm": 242,
+          "widthMm": 175,
+          "heightMm": 175,
+          "terminalType": "top_post",
+          "terminalLayout": "layout_0",
+          "polarityOrientation": "R+",
+          "terminalPosition": "top_front",
+          "holdDownType": "b13",
+          "baseProfile": "din",
+          "connectorKeying": "standard_top_post",
+          "sameFamilyMatch": true,
+          "variantResolved": true
+        },
+        "compartment": {
+          "maxLengthMm": 245,
+          "maxWidthMm": 178,
+          "maxHeightMm": null,
+          "requiredTerminalType": "top_post",
+          "requiredTerminalLayout": "layout_0",
+          "requiredPolarityOrientation": "R+",
+          "requiredTerminalPosition": "top_front",
+          "holdDownType": "b13",
+          "coverClearanceMm": null,
+          "cableReachConfirmed": true,
+          "shapeConfirmed": true
+        },
+        "evidenceFlags": {
+          "approximateMeasurement": false,
+          "terminalViewPhotoProvided": true
+        },
+        "evidence": [
+          {"evidenceId": "EV-A2-1", "field": "candidate.heightMm", "value": 175, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A2-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A2-2", "field": "candidate.lengthMm", "value": 242, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A2-2", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A2-3", "field": "candidate.widthMm", "value": 175, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A2-3", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A2-4", "field": "compartment.maxLengthMm", "value": 245, "unit": "mm", "confidence": "medium", "sourceType": "direct_measurement", "sourceId": "SRC-A2-4", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A2-5", "field": "compartment.maxWidthMm", "value": 178, "unit": "mm", "confidence": "medium", "sourceType": "direct_measurement", "sourceId": "SRC-A2-5", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A2-6", "field": "candidate.sameFamilyMatch", "value": true, "unit": null, "confidence": "low", "sourceType": "family_code_inference", "sourceId": "SRC-A2-6", "capturedAt": null, "notes": "Supportive only."}
+        ]
+      },
+      "expected": {
+        "outcome": "insufficient_evidence",
+        "unknownsInclude": ["Compartment height"],
+        "requiredNextActionsInclude": ["Measure the available compartment height or provide a clear compartment photo"]
+      }
+    },
+    {
+      "testId": "AUTO-CANONICAL-3",
+      "name": "Test 3 — compatible with conditions when cable reach is unknown",
+      "demo": true,
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {
+          "standardCode": "LN2",
+          "lengthMm": 242,
+          "widthMm": 175,
+          "heightMm": 175,
+          "terminalType": "top_post",
+          "terminalLayout": "layout_0",
+          "polarityOrientation": "R+",
+          "terminalPosition": "top_front",
+          "holdDownType": "b13",
+          "baseProfile": "din",
+          "connectorKeying": "standard_top_post",
+          "sameFamilyMatch": false,
+          "variantResolved": true
+        },
+        "compartment": {
+          "maxLengthMm": 245,
+          "maxWidthMm": 178,
+          "maxHeightMm": 180,
+          "requiredTerminalType": "top_post",
+          "requiredTerminalLayout": "layout_0",
+          "requiredPolarityOrientation": "R+",
+          "requiredTerminalPosition": "top_front",
+          "holdDownType": "b13",
+          "coverClearanceMm": 181,
+          "cableReachConfirmed": null,
+          "shapeConfirmed": true
+        },
+        "evidenceFlags": {
+          "approximateMeasurement": false,
+          "terminalViewPhotoProvided": true
+        },
+        "evidence": [
+          {"evidenceId": "EV-A3-1", "field": "candidate.lengthMm", "value": 242, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A3-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A3-2", "field": "candidate.widthMm", "value": 175, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A3-2", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A3-3", "field": "candidate.heightMm", "value": 175, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A3-3", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A3-4", "field": "compartment.maxLengthMm", "value": 245, "unit": "mm", "confidence": "medium", "sourceType": "direct_measurement", "sourceId": "SRC-A3-4", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A3-5", "field": "compartment.maxWidthMm", "value": 178, "unit": "mm", "confidence": "medium", "sourceType": "direct_measurement", "sourceId": "SRC-A3-5", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A3-6", "field": "compartment.maxHeightMm", "value": 180, "unit": "mm", "confidence": "medium", "sourceType": "direct_measurement", "sourceId": "SRC-A3-6", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A3-7", "field": "candidate.terminalType", "value": "top_post", "unit": null, "confidence": "medium", "sourceType": "supplier_catalogue", "sourceId": "SRC-A3-7", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A3-8", "field": "compartment.requiredTerminalType", "value": "top_post", "unit": null, "confidence": "medium", "sourceType": "vehicle_manual", "sourceId": "SRC-A3-8", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A3-9", "field": "compartment.coverClearanceMm", "value": 181, "unit": "mm", "confidence": "medium", "sourceType": "direct_measurement", "sourceId": "SRC-A3-9", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {
+        "outcome": "compatible_with_conditions",
+        "conditionsInclude": ["Cable reach must be confirmed before installation."],
+        "requiredNextActionsInclude": ["Confirm cable reach with a top-down installation photo or supplier review"]
+      }
+    },
+    {
+      "testId": "AUTO-CANONICAL-4",
+      "name": "Test 4 — compatible when all required checks pass",
+      "demo": true,
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {
+          "standardCode": "LN2",
+          "lengthMm": 242,
+          "widthMm": 175,
+          "heightMm": 175,
+          "terminalType": "top_post",
+          "terminalLayout": "layout_0",
+          "polarityOrientation": "R+",
+          "terminalPosition": "top_front",
+          "holdDownType": "b13",
+          "baseProfile": "din",
+          "connectorKeying": "standard_top_post",
+          "sameFamilyMatch": false,
+          "variantResolved": true,
+          "weightDifferenceKnown": false,
+          "caseStyleDiffers": false,
+          "caseStyleAffectsFit": false
+        },
+        "compartment": {
+          "maxLengthMm": 245,
+          "maxWidthMm": 178,
+          "maxHeightMm": 180,
+          "requiredTerminalType": "top_post",
+          "requiredTerminalLayout": "layout_0",
+          "requiredPolarityOrientation": "R+",
+          "requiredTerminalPosition": "top_front",
+          "holdDownType": "b13",
+          "coverClearanceMm": 185,
+          "cableReachConfirmed": true,
+          "shapeConfirmed": true
+        },
+        "evidenceFlags": {
+          "approximateMeasurement": false,
+          "terminalViewPhotoProvided": true
+        },
+        "evidence": [
+          {"evidenceId": "EV-A4-1", "field": "candidate.lengthMm", "value": 242, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A4-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-2", "field": "candidate.widthMm", "value": 175, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A4-2", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-3", "field": "candidate.heightMm", "value": 175, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A4-3", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-4", "field": "compartment.maxLengthMm", "value": 245, "unit": "mm", "confidence": "high", "sourceType": "direct_measurement", "sourceId": "SRC-A4-4", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-5", "field": "compartment.maxWidthMm", "value": 178, "unit": "mm", "confidence": "high", "sourceType": "direct_measurement", "sourceId": "SRC-A4-5", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-6", "field": "compartment.maxHeightMm", "value": 180, "unit": "mm", "confidence": "high", "sourceType": "direct_measurement", "sourceId": "SRC-A4-6", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-7", "field": "candidate.terminalType", "value": "top_post", "unit": null, "confidence": "high", "sourceType": "supplier_catalogue", "sourceId": "SRC-A4-7", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-8", "field": "compartment.requiredTerminalType", "value": "top_post", "unit": null, "confidence": "high", "sourceType": "vehicle_manual", "sourceId": "SRC-A4-8", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-9", "field": "candidate.terminalLayout", "value": "layout_0", "unit": null, "confidence": "high", "sourceType": "supplier_catalogue", "sourceId": "SRC-A4-9", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-10", "field": "compartment.requiredTerminalLayout", "value": "layout_0", "unit": null, "confidence": "high", "sourceType": "vehicle_manual", "sourceId": "SRC-A4-10", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-11", "field": "candidate.polarityOrientation", "value": "R+", "unit": null, "confidence": "high", "sourceType": "supplier_catalogue", "sourceId": "SRC-A4-11", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-12", "field": "compartment.requiredPolarityOrientation", "value": "R+", "unit": null, "confidence": "high", "sourceType": "vehicle_manual", "sourceId": "SRC-A4-12", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-13", "field": "candidate.terminalPosition", "value": "top_front", "unit": null, "confidence": "high", "sourceType": "terminal_photo", "sourceId": "SRC-A4-13", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-14", "field": "compartment.requiredTerminalPosition", "value": "top_front", "unit": null, "confidence": "high", "sourceType": "vehicle_manual", "sourceId": "SRC-A4-14", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-15", "field": "compartment.holdDownType", "value": "b13", "unit": null, "confidence": "high", "sourceType": "compartment_photo", "sourceId": "SRC-A4-15", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-16", "field": "candidate.holdDownType", "value": "b13", "unit": null, "confidence": "high", "sourceType": "supplier_catalogue", "sourceId": "SRC-A4-16", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-17", "field": "compartment.coverClearanceMm", "value": 185, "unit": "mm", "confidence": "high", "sourceType": "direct_measurement", "sourceId": "SRC-A4-17", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-18", "field": "compartment.cableReachConfirmed", "value": true, "unit": null, "confidence": "high", "sourceType": "installation_check", "sourceId": "SRC-A4-18", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-19", "field": "compartment.shapeConfirmed", "value": true, "unit": null, "confidence": "high", "sourceType": "installation_photo", "sourceId": "SRC-A4-19", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A4-20", "field": "evidenceFlags.terminalViewPhotoProvided", "value": true, "unit": null, "confidence": "high", "sourceType": "terminal_photo", "sourceId": "SRC-A4-20", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {
+        "outcome": "compatible",
+        "conditionsInclude": [],
+        "unknownsInclude": []
+      }
+    },
+    {
+      "testId": "AUTO-EDGE-LENGTH-001",
+      "name": "Excess length blocks fit",
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {"lengthMm": 260, "widthMm": 175, "heightMm": 175, "terminalType": "top_post", "terminalLayout": "layout_0", "polarityOrientation": "R+", "terminalPosition": "top_front", "holdDownType": "b13"},
+        "compartment": {"maxLengthMm": 245, "maxWidthMm": 178, "maxHeightMm": 180, "requiredTerminalType": "top_post", "requiredTerminalLayout": "layout_0", "requiredPolarityOrientation": "R+", "requiredTerminalPosition": "top_front", "holdDownType": "b13", "coverClearanceMm": 185, "cableReachConfirmed": true, "shapeConfirmed": true},
+        "evidence": [
+          {"evidenceId": "EV-A5-1", "field": "candidate.lengthMm", "value": 260, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A5-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A5-2", "field": "compartment.maxLengthMm", "value": 245, "unit": "mm", "confidence": "high", "sourceType": "direct_measurement", "sourceId": "SRC-A5-2", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {"outcome": "blocked", "blockingIssuesInclude": ["longer than the available compartment space"]}
+    },
+    {
+      "testId": "AUTO-EDGE-WIDTH-001",
+      "name": "Excess width blocks fit",
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {"lengthMm": 242, "widthMm": 181, "heightMm": 175, "terminalType": "top_post", "terminalLayout": "layout_0", "polarityOrientation": "R+", "terminalPosition": "top_front", "holdDownType": "b13"},
+        "compartment": {"maxLengthMm": 245, "maxWidthMm": 178, "maxHeightMm": 180, "requiredTerminalType": "top_post", "requiredTerminalLayout": "layout_0", "requiredPolarityOrientation": "R+", "requiredTerminalPosition": "top_front", "holdDownType": "b13", "coverClearanceMm": 185, "cableReachConfirmed": true, "shapeConfirmed": true},
+        "evidence": [
+          {"evidenceId": "EV-A6-1", "field": "candidate.widthMm", "value": 181, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A6-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A6-2", "field": "compartment.maxWidthMm", "value": 178, "unit": "mm", "confidence": "high", "sourceType": "direct_measurement", "sourceId": "SRC-A6-2", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {"outcome": "blocked", "blockingIssuesInclude": ["wider than the available compartment space"]}
+    },
+    {
+      "testId": "AUTO-EDGE-POLARITY-001",
+      "name": "Reversed polarity blocks fit",
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {"lengthMm": 242, "widthMm": 175, "heightMm": 175, "terminalType": "top_post", "terminalLayout": "layout_0", "polarityOrientation": "L+", "terminalPosition": "top_front", "holdDownType": "b13"},
+        "compartment": {"maxLengthMm": 245, "maxWidthMm": 178, "maxHeightMm": 180, "requiredTerminalType": "top_post", "requiredTerminalLayout": "layout_0", "requiredPolarityOrientation": "R+", "requiredTerminalPosition": "top_front", "holdDownType": "b13", "coverClearanceMm": 185, "cableReachConfirmed": true, "shapeConfirmed": true},
+        "evidence": [
+          {"evidenceId": "EV-A7-1", "field": "candidate.polarityOrientation", "value": "L+", "unit": null, "confidence": "high", "sourceType": "supplier_catalogue", "sourceId": "SRC-A7-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A7-2", "field": "compartment.requiredPolarityOrientation", "value": "R+", "unit": null, "confidence": "high", "sourceType": "vehicle_manual", "sourceId": "SRC-A7-2", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {"outcome": "blocked", "blockingIssuesInclude": ["polarity orientation does not match"]}
+    },
+    {
+      "testId": "AUTO-EDGE-TERMINAL-TYPE-001",
+      "name": "Wrong terminal type blocks fit",
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {"lengthMm": 242, "widthMm": 175, "heightMm": 175, "terminalType": "side_post", "terminalLayout": "layout_0", "polarityOrientation": "R+", "terminalPosition": "top_front", "holdDownType": "b13"},
+        "compartment": {"maxLengthMm": 245, "maxWidthMm": 178, "maxHeightMm": 180, "requiredTerminalType": "top_post", "requiredTerminalLayout": "layout_0", "requiredPolarityOrientation": "R+", "requiredTerminalPosition": "top_front", "holdDownType": "b13", "coverClearanceMm": 185, "cableReachConfirmed": true, "shapeConfirmed": true},
+        "evidence": [
+          {"evidenceId": "EV-A8-1", "field": "candidate.terminalType", "value": "side_post", "unit": null, "confidence": "high", "sourceType": "supplier_catalogue", "sourceId": "SRC-A8-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A8-2", "field": "compartment.requiredTerminalType", "value": "top_post", "unit": null, "confidence": "high", "sourceType": "vehicle_manual", "sourceId": "SRC-A8-2", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {"outcome": "blocked", "blockingIssuesInclude": ["terminal type does not match"]}
+    },
+    {
+      "testId": "AUTO-EDGE-CONNECTOR-001",
+      "name": "Connector geometry mismatch blocks fit",
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {"lengthMm": 242, "widthMm": 175, "heightMm": 175, "terminalType": "top_post", "terminalLayout": "layout_1", "polarityOrientation": "R+", "terminalPosition": "top_front", "holdDownType": "b13", "connectorKeying": "variant_b"},
+        "compartment": {"maxLengthMm": 245, "maxWidthMm": 178, "maxHeightMm": 180, "requiredTerminalType": "top_post", "requiredTerminalLayout": "layout_0", "requiredPolarityOrientation": "R+", "requiredTerminalPosition": "top_front", "requiredConnectorKeying": "variant_a", "holdDownType": "b13", "coverClearanceMm": 185, "cableReachConfirmed": true, "shapeConfirmed": true},
+        "evidence": [
+          {"evidenceId": "EV-A9-1", "field": "candidate.terminalLayout", "value": "layout_1", "unit": null, "confidence": "high", "sourceType": "supplier_catalogue", "sourceId": "SRC-A9-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A9-2", "field": "compartment.requiredTerminalLayout", "value": "layout_0", "unit": null, "confidence": "high", "sourceType": "vehicle_manual", "sourceId": "SRC-A9-2", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A9-3", "field": "candidate.connectorKeying", "value": "variant_b", "unit": null, "confidence": "medium", "sourceType": "supplier_catalogue", "sourceId": "SRC-A9-3", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A9-4", "field": "compartment.requiredConnectorKeying", "value": "variant_a", "unit": null, "confidence": "medium", "sourceType": "terminal_photo", "sourceId": "SRC-A9-4", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {"outcome": "blocked", "blockingIssuesInclude": ["terminal layout does not match"]}
+    },
+    {
+      "testId": "AUTO-EDGE-HOLDDOWN-001",
+      "name": "Hold-down mismatch blocks fit",
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {"lengthMm": 242, "widthMm": 175, "heightMm": 175, "terminalType": "top_post", "terminalLayout": "layout_0", "polarityOrientation": "R+", "terminalPosition": "top_front", "holdDownType": "bottom_lip_small"},
+        "compartment": {"maxLengthMm": 245, "maxWidthMm": 178, "maxHeightMm": 180, "requiredTerminalType": "top_post", "requiredTerminalLayout": "layout_0", "requiredPolarityOrientation": "R+", "requiredTerminalPosition": "top_front", "holdDownType": "b13", "coverClearanceMm": 185, "cableReachConfirmed": true, "shapeConfirmed": true},
+        "evidence": [
+          {"evidenceId": "EV-A10-1", "field": "candidate.holdDownType", "value": "bottom_lip_small", "unit": null, "confidence": "high", "sourceType": "supplier_catalogue", "sourceId": "SRC-A10-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A10-2", "field": "compartment.holdDownType", "value": "b13", "unit": null, "confidence": "high", "sourceType": "compartment_photo", "sourceId": "SRC-A10-2", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {"outcome": "blocked", "blockingIssuesInclude": ["hold-down arrangement does not match"]}
+    },
+    {
+      "testId": "AUTO-EDGE-COVER-UNKNOWN-001",
+      "name": "Cover clearance unknown keeps result conditional",
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {"lengthMm": 242, "widthMm": 175, "heightMm": 175, "terminalType": "top_post", "terminalLayout": "layout_0", "polarityOrientation": "R+", "terminalPosition": "top_front", "holdDownType": "b13"},
+        "compartment": {"maxLengthMm": 245, "maxWidthMm": 178, "maxHeightMm": 180, "requiredTerminalType": "top_post", "requiredTerminalLayout": "layout_0", "requiredPolarityOrientation": "R+", "requiredTerminalPosition": "top_front", "holdDownType": "b13", "coverClearanceMm": null, "cableReachConfirmed": true, "shapeConfirmed": true},
+        "evidenceFlags": {"terminalViewPhotoProvided": true},
+        "evidence": [
+          {"evidenceId": "EV-A11-1", "field": "candidate.heightMm", "value": 175, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A11-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A11-2", "field": "compartment.maxHeightMm", "value": 180, "unit": "mm", "confidence": "medium", "sourceType": "direct_measurement", "sourceId": "SRC-A11-2", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {"outcome": "compatible_with_conditions", "conditionsInclude": ["Cover clearance still needs confirmation."]}
+    },
+    {
+      "testId": "AUTO-EDGE-FAMILY-001",
+      "name": "Same family but unresolved variant stays conditional",
+      "input": {
+        "categoryProfile": "automotive",
+        "candidate": {"standardCode": "DIN66", "lengthMm": 242, "widthMm": 175, "heightMm": 175, "terminalType": "top_post", "terminalLayout": "layout_0", "polarityOrientation": "R+", "terminalPosition": "top_front", "holdDownType": "b13", "sameFamilyMatch": true, "variantResolved": false},
+        "compartment": {"maxLengthMm": 245, "maxWidthMm": 178, "maxHeightMm": 180, "requiredTerminalType": "top_post", "requiredTerminalLayout": "layout_0", "requiredPolarityOrientation": "R+", "requiredTerminalPosition": "top_front", "holdDownType": "b13", "coverClearanceMm": 185, "cableReachConfirmed": true, "shapeConfirmed": true},
+        "evidence": [
+          {"evidenceId": "EV-A12-1", "field": "candidate.sameFamilyMatch", "value": true, "unit": null, "confidence": "low", "sourceType": "family_code_inference", "sourceId": "SRC-A12-1", "capturedAt": null, "notes": "Supportive only."},
+          {"evidenceId": "EV-A12-2", "field": "candidate.variantResolved", "value": false, "unit": null, "confidence": "medium", "sourceType": "catalogue_review", "sourceId": "SRC-A12-2", "capturedAt": null, "notes": "Variant suffix still unresolved."},
+          {"evidenceId": "EV-A12-3", "field": "candidate.heightMm", "value": 175, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-A12-3", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-A12-4", "field": "compartment.maxHeightMm", "value": 180, "unit": "mm", "confidence": "high", "sourceType": "direct_measurement", "sourceId": "SRC-A12-4", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {"outcome": "compatible_with_conditions", "conditionsInclude": ["exact physical variant still needs confirmation"]}
+    },
+    {
+      "testId": "COIN-EDGE-THICKNESS-001",
+      "name": "Same diameter but excessive thickness blocks coin-cell fit",
+      "input": {
+        "categoryProfile": "coin_cell",
+        "candidate": {"standardCode": "CR2032", "diameterMm": 20, "thicknessMm": 3.2, "contactArrangement": "top_bottom", "sameFamilyMatch": true},
+        "compartment": {"maxDiameterMm": 20, "maxThicknessMm": 2.5, "requiredContactArrangement": "top_bottom", "referenceThicknessMm": 2.5, "contactClearanceConfirmed": false, "contactPressureConfirmed": false},
+        "evidence": [
+          {"evidenceId": "EV-C1-1", "field": "candidate.diameterMm", "value": 20, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-C1-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-C1-2", "field": "candidate.thicknessMm", "value": 3.2, "unit": "mm", "confidence": "high", "sourceType": "manufacturer_datasheet", "sourceId": "SRC-C1-2", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-C1-3", "field": "compartment.maxDiameterMm", "value": 20, "unit": "mm", "confidence": "high", "sourceType": "device_manual", "sourceId": "SRC-C1-3", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-C1-4", "field": "compartment.maxThicknessMm", "value": 2.5, "unit": "mm", "confidence": "high", "sourceType": "device_manual", "sourceId": "SRC-C1-4", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {"outcome": "blocked", "blockingIssuesInclude": ["thicker than the available compartment space"]}
+    },
+    {
+      "testId": "COIN-EDGE-MISSING-MEASURE-001",
+      "name": "Missing compartment measurements produce insufficient evidence",
+      "input": {
+        "categoryProfile": "coin_cell",
+        "candidate": {"standardCode": "CR2032", "diameterMm": 20, "thicknessMm": 3.2, "contactArrangement": "top_bottom"},
+        "compartment": {"maxDiameterMm": null, "maxThicknessMm": null, "requiredContactArrangement": "top_bottom"},
+        "evidence": [
+          {"evidenceId": "EV-C2-1", "field": "candidate.diameterMm", "value": 20, "unit": "mm", "confidence": "medium", "sourceType": "label_photo", "sourceId": "SRC-C2-1", "capturedAt": null, "notes": ""},
+          {"evidenceId": "EV-C2-2", "field": "candidate.thicknessMm", "value": 3.2, "unit": "mm", "confidence": "medium", "sourceType": "label_photo", "sourceId": "SRC-C2-2", "capturedAt": null, "notes": ""}
+        ]
+      },
+      "expected": {"outcome": "insufficient_evidence", "unknownsInclude": ["Compartment diameter", "Compartment thickness"]}
+    }
+  ]
+}
