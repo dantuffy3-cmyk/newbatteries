@@ -457,12 +457,17 @@
       "categoryProfile": "automotive",
       "ruleType": "conditional",
       "name": "Cover clearance close to known limit",
-      "description": "Flags the candidate when confirmed cover clearance is present but tight.",
-      "inputs": ["derived.heightClearanceRemainingMm"],
-      "operator": "less_than_or_equal",
-      "comparisonValue": 5,
+      "description": "Flags the candidate when supplied evidence explicitly marks cover clearance as close to the known limit.",
+      "inputs": ["compartment.coverClearanceNearLimit"],
+      "operator": "boolean_true",
+      "appliesWhen": [
+        {
+          "inputs": ["compartment.coverClearanceNearLimit"],
+          "operator": "known"
+        }
+      ],
       "critical": false,
-      "requiredEvidence": ["candidate.heightMm", "compartment.coverClearanceMm"],
+      "requiredEvidence": ["compartment.coverClearanceNearLimit"],
       "outcomeOnFail": "compatible_with_conditions",
       "userMessage": "Cover clearance is close to the known limit and should be rechecked.",
       "technicalReason": "Tight top clearance can be sensitive to clamp hardware, covers or measurement error.",
@@ -600,12 +605,17 @@
       "categoryProfile": "automotive",
       "ruleType": "informational",
       "name": "Candidate has less unused clearance",
-      "description": "Adds a note when the confirmed clearances are small but still acceptable.",
-      "inputs": ["derived.minRemainingClearanceMm"],
-      "operator": "less_than_or_equal",
-      "comparisonValue": 10,
+      "description": "Adds a note when supplied evidence explicitly confirms that the candidate leaves less unused clearance.",
+      "inputs": ["candidate.lessUnusedClearanceConfirmed"],
+      "operator": "boolean_true",
+      "appliesWhen": [
+        {
+          "inputs": ["candidate.lessUnusedClearanceConfirmed"],
+          "operator": "known"
+        }
+      ],
       "critical": false,
-      "requiredEvidence": ["candidate.lengthMm", "candidate.widthMm", "candidate.heightMm", "compartment.maxLengthMm", "compartment.maxWidthMm", "compartment.maxHeightMm"],
+      "requiredEvidence": ["candidate.lessUnusedClearanceConfirmed"],
       "outcomeOnFail": "informational",
       "userMessage": "The battery fits within the confirmed dimensions but leaves less unused clearance.",
       "technicalReason": "Tighter remaining clearance can matter during installation even when no blocking conflict is found.",
