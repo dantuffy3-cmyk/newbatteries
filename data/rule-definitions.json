@@ -1,0 +1,78 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-07-25",
+  "supportedRuleTypes": ["blocking", "conditional", "informational"],
+  "supportedRuleResultStatuses": ["pass", "fail", "conditional", "unknown", "not_applicable"],
+  "supportedLayerOutcomes": ["compatible", "compatible_with_conditions", "uncertain", "blocked", "insufficient_evidence"],
+  "supportedOperators": [
+    "greater_than",
+    "greater_than_or_equal",
+    "less_than",
+    "less_than_or_equal",
+    "equals",
+    "not_equals",
+    "included_in",
+    "not_included_in",
+    "boolean_true",
+    "boolean_false",
+    "known",
+    "unknown"
+  ],
+  "aggregationPolicy": {
+    "deterministicOrder": [
+      "failed_blocking_rule => blocked",
+      "missing_required_critical_evidence => insufficient_evidence",
+      "unresolved_conditional_issue => compatible_with_conditions",
+      "all_required_checks_pass_with_adequate_evidence => compatible"
+    ],
+    "uncertainUsage": "Use only when the result cannot be placed confidently into blocked, insufficient_evidence, compatible_with_conditions or compatible."
+  },
+  "ruleDefinitionSchema": {
+    "requiredFields": [
+      "ruleId",
+      "version",
+      "layer",
+      "categoryProfile",
+      "ruleType",
+      "name",
+      "description",
+      "inputs",
+      "operator",
+      "critical",
+      "requiredEvidence",
+      "outcomeOnFail",
+      "userMessage",
+      "technicalReason",
+      "resolutionActions",
+      "supplierReviewAllowed",
+      "manualOverrideAllowed"
+    ],
+    "optionalFields": [
+      "comparisonValue",
+      "appliesWhen",
+      "unknownLabel",
+      "informationalNote",
+      "notes"
+    ]
+  },
+  "evidenceRecordSchema": {
+    "requiredFields": [
+      "evidenceId",
+      "field",
+      "value",
+      "unit",
+      "confidence",
+      "sourceType",
+      "sourceId",
+      "capturedAt",
+      "notes"
+    ],
+    "confidenceLevels": ["high", "medium", "low", "unverified"]
+  },
+  "notes": [
+    "Rules determine the outcome.",
+    "Evidence determines trust.",
+    "Unknowns determine the next action.",
+    "Missing critical evidence must not be converted into a blocking failure."
+  ]
+}

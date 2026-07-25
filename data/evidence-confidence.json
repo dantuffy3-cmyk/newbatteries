@@ -1,0 +1,69 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-07-25",
+  "levels": {
+    "high": {
+      "label": "High confidence",
+      "description": "Reliable evidence from a primary or strongly verified source.",
+      "examples": [
+        "Manufacturer technical documentation",
+        "Verified equipment specification",
+        "Recognised standard",
+        "Government or regulator source",
+        "Clear supplier evidence",
+        "Reliable direct measurement"
+      ]
+    },
+    "medium": {
+      "label": "Medium confidence",
+      "description": "Credible evidence that still benefits from confirmation.",
+      "examples": [
+        "Reputable distributor datasheet",
+        "Clear user measurement supported by photos",
+        "Standard-code inference supported by other evidence",
+        "Multiple credible secondary sources"
+      ]
+    },
+    "low": {
+      "label": "Low confidence",
+      "description": "Weak or approximate evidence that should not be treated as final proof.",
+      "examples": [
+        "Partial label",
+        "Approximate measurement",
+        "Image inference",
+        "Retail listing",
+        "Community-maintained information"
+      ]
+    },
+    "unverified": {
+      "label": "Unverified",
+      "description": "Unsupported information that cannot be trusted without stronger evidence.",
+      "examples": [
+        "AI inference alone",
+        "User recollection",
+        "Unsupported assumption",
+        "Unknown source",
+        "Shape or colour guess"
+      ]
+    }
+  },
+  "evidenceRecordSchema": {
+    "description": "Field-level evidence records used by the rule engine and physical-fit model.",
+    "shape": {
+      "evidenceId": "EV-001",
+      "field": "candidate.heightMm",
+      "value": 190,
+      "unit": "mm",
+      "confidence": "high",
+      "sourceType": "manufacturer_datasheet",
+      "sourceId": "SRC-001",
+      "capturedAt": null,
+      "notes": ""
+    }
+  },
+  "policyNotes": [
+    "Evidence confidence describes the reliability of an input fact.",
+    "Evidence confidence does not describe compatibility.",
+    "Missing evidence should trigger review, not a guessed pass or blocking fail."
+  ]
+}
