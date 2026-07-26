@@ -1,0 +1,98 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-07-26",
+  "recordFiles": [
+    {
+      "recordId": "gov-cr2032",
+      "file": "data/governed-records/cr2032.json",
+      "canonicalName": "CR2032",
+      "recordType": "standard_size",
+      "category": "coin_cell",
+      "criticalFields": [
+        "physical.diameterMm",
+        "physical.thicknessMm",
+        "electrical.nominalVoltage",
+        "chemistry.chemistryFamily",
+        "electrical.rechargeable"
+      ],
+      "requiredNullFields": [
+        "electrical.capacityAh",
+        "electrical.capacityMah",
+        "electrical.cca",
+        "electrical.reserveCapacityMinutes"
+      ],
+      "requiredRiskPhrases": [
+        "thickness",
+        "contact pressure"
+      ],
+      "prohibitedDirectEquivalentClaims": [
+        "CR2025",
+        "CR2016"
+      ],
+      "requiredRelationshipClassification": "insufficient_evidence"
+    },
+    {
+      "recordId": "gov-lr44",
+      "file": "data/governed-records/lr44.json",
+      "canonicalName": "LR44",
+      "recordType": "standard_size",
+      "category": "button_cell",
+      "criticalFields": [
+        "physical.diameterMm",
+        "physical.thicknessMm",
+        "electrical.nominalVoltage",
+        "chemistry.chemistryFamily",
+        "electrical.rechargeable"
+      ],
+      "requiredNullFields": [
+        "electrical.capacityAh",
+        "electrical.capacityMah",
+        "electrical.cca",
+        "electrical.reserveCapacityMinutes"
+      ],
+      "requiredRiskPhrases": [
+        "AG13",
+        "discharge profile"
+      ],
+      "prohibitedDirectEquivalentClaims": [
+        "AG13",
+        "SR44"
+      ],
+      "requiredRelationshipClassification": "insufficient_evidence"
+    },
+    {
+      "recordId": "gov-ln2-flooded-family",
+      "file": "data/governed-records/ln2-flooded.json",
+      "canonicalName": "LN2 Flooded Lead-Acid Family",
+      "recordType": "chemistry_specific_family",
+      "category": "automotive_12v",
+      "criticalFields": [
+        "physical.lengthMm",
+        "physical.widthMm",
+        "physical.heightMm",
+        "physical.terminalType",
+        "physical.terminalLayout",
+        "physical.polarityOrientation",
+        "physical.holdDownType",
+        "physical.baseProfile",
+        "electrical.nominalVoltage",
+        "chemistry.chemistryFamily"
+      ],
+      "requiredNullFields": [
+        "electrical.capacityAh",
+        "electrical.cca",
+        "electrical.reserveCapacityMinutes"
+      ],
+      "requiredRiskPhrases": [
+        "AGM",
+        "EFB",
+        "vehicle-specific",
+        "BMS"
+      ],
+      "prohibitedDirectEquivalentClaims": [
+        "DIN"
+      ],
+      "requiredRelationshipClassification": "insufficient_evidence"
+    }
+  ]
+}

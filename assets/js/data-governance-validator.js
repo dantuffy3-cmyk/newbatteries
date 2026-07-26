@@ -80,9 +80,20 @@
       return { valid: false, errors: ['Record must be an object'], warnings: [], unknowns: [], governanceStatus: 'draft' };
     }
 
-    ['identification.recordId', 'identification.canonicalCode', 'identification.category', 'recordGovernance.recordStatus'].forEach(function (path) {
+    [
+      'identification.recordId',
+      'identification.canonicalCode',
+      'identification.category',
+      'recordGovernance.recordStatus',
+      'recordGovernance.reviewDueAt',
+      'recordGovernance.approvedAt',
+      'recordGovernance.approvedBy',
+      'recordGovernance.reviewNotes',
+      'recordGovernance.publicEligibility',
+      'recordGovernance.compatibilityEngineEligibility'
+    ].forEach(function (path) {
       var v = getByPath(record, path);
-      if (v === undefined || v === null || v === '') errors.push('Missing required field: ' + path);
+      if (v === undefined || v === '') errors.push('Missing required field: ' + path);
     });
 
     var status = getByPath(record, 'recordGovernance.recordStatus');
@@ -94,8 +105,22 @@
       }
     }
 
-    if (status === 'draft' && (record.isVerified === true || record.publicVerificationLabel === 'approved')) {
-      errors.push('Draft record cannot be presented as approved/verified');
+    if ((status === 'draft' || status === 'under_review' || status === 'reviewed') && (record.isVerified === true || record.publicVerificationLabel === 'approved')) {
+      errors.push(status + ' record cannot be presented as approved/verified');
+    }
+
+    if (status !== 'approved') {
+      if (getByPath(record, 'recordGovernance.approvedAt')) errors.push('Non-approved record cannot include recordGovernance.approvedAt');
+      if (getByPath(record, 'recordGovernance.approvedBy')) errors.push('Non-approved record cannot include recordGovernance.approvedBy');
+    }
+
+    if (status === 'under_review') {
+      if (getByPath(record, 'recordGovernance.publicEligibility') !== false) {
+        errors.push('Under-review record must keep recordGovernance.publicEligibility=false');
+      }
+      if (getByPath(record, 'recordGovernance.compatibilityEngineEligibility') !== false) {
+        errors.push('Under-review record must keep recordGovernance.compatibilityEngineEligibility=false');
+      }
     }
 
     Object.keys(sourceMap).forEach(function (sourceId) {
@@ -148,8 +173,8 @@
         errors.push('Placeholder value disallowed at ' + path + ': ' + value);
       }
 
-      if (DIMENSION_PATHS.indexOf(path) !== -1 && value === 0) {
-        errors.push('Zero dimension placeholder disallowed at ' + path);
+      if (DIMENSION_PATHS.indexOf(path) !== -1 && typeof value === 'number' && value <= 0) {
+        errors.push('Non-positive dimension disallowed at ' + path);
       }
 
       if (VALID_CONFIDENCE.indexOf(confidence) === -1) {
@@ -167,6 +192,10 @@
 
       if (value !== null && Object.prototype.hasOwnProperty.call(UNIT_REQUIRED_PATHS, path) && !unit) {
         errors.push('Missing required unit at ' + path);
+      }
+
+      if (value !== null && sourceIds.length > 0 && confidence !== 'unknown' && !field.verifiedAt) {
+        errors.push('Supported technical field missing verifiedAt at ' + path);
       }
 
       var conflict = field.conflict;
@@ -190,7 +219,11 @@
         if (requiredField === undefined || requiredField === null) {
           errors.push('Missing category-required field: ' + requiredPath);
         } else if (isObject(requiredField) && requiredField.value === null) {
-          errors.push('Category-required field cannot be unknown: ' + requiredPath);
+          if (status === 'approved') {
+            errors.push('Category-required field cannot be unknown: ' + requiredPath);
+          } else {
+            warnings.push('Category-required field remains unknown under ' + status + ': ' + requiredPath);
+          }
         }
       });
     }

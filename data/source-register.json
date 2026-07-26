@@ -378,6 +378,137 @@
       "lastCheckedAt": null,
       "reviewStatus": "unverified",
       "notes": "Personal data/privacy and verification controls required."
+    },
+    {
+      "sourceId": "SRC-MAXELL-CR2032-2026-001",
+      "name": "Maxell CR2032 Datasheet",
+      "owner": "Maxell, Ltd.",
+      "jurisdiction": "multi_jurisdiction",
+      "sourceType": "manufacturer_technical_catalogue",
+      "categoriesCovered": [
+        "coin_cell"
+      ],
+      "authorityLevel": 1,
+      "accessMethod": "web",
+      "dataFormats": [
+        "pdf"
+      ],
+      "updateFrequency": "unknown",
+      "publiclyViewable": true,
+      "downloadable": true,
+      "automatedAccessAllowed": "unknown",
+      "usageRights": [
+        "publicly_viewable",
+        "downloadable",
+        "unknown"
+      ],
+      "commercialReuseStatus": "unknown",
+      "commercialReuseEvidence": null,
+      "attributionRequired": null,
+      "licenceRequired": "unknown",
+      "legalReviewRequired": true,
+      "recommendedAction": "reference",
+      "lastCheckedAt": "2026-07-26",
+      "reviewStatus": "unverified",
+      "notes": "Official manufacturer datasheet cited via web search: https://biz.maxell.com/en/primary_batteries/CR2032_DataSheet_20e.pdf . Used only for internal governed verification; reuse rights not established."
+    },
+    {
+      "sourceId": "SRC-MURATA-LR44-2026-001",
+      "name": "Murata LR44 Datasheet",
+      "owner": "Murata Manufacturing Co., Ltd.",
+      "jurisdiction": "multi_jurisdiction",
+      "sourceType": "manufacturer_technical_catalogue",
+      "categoriesCovered": [
+        "button_cell"
+      ],
+      "authorityLevel": 1,
+      "accessMethod": "web",
+      "dataFormats": [
+        "pdf"
+      ],
+      "updateFrequency": "unknown",
+      "publiclyViewable": true,
+      "downloadable": true,
+      "automatedAccessAllowed": "unknown",
+      "usageRights": [
+        "publicly_viewable",
+        "downloadable",
+        "unknown"
+      ],
+      "commercialReuseStatus": "unknown",
+      "commercialReuseEvidence": null,
+      "attributionRequired": null,
+      "licenceRequired": "unknown",
+      "legalReviewRequired": true,
+      "recommendedAction": "reference",
+      "lastCheckedAt": "2026-07-26",
+      "reviewStatus": "unverified",
+      "notes": "Official manufacturer datasheet cited via web search: https://www.murata.com/-/media/webrenewal/products/batteries/micro/overview/lr/standard/datasheet_lr44(120).ashx . Used only for internal governed verification; reuse rights not established."
+    },
+    {
+      "sourceId": "SRC-US-CPSC-BUTTON-BATTERY-2026-001",
+      "name": "CPSC Button Cell and Coin Battery Safety Guidance",
+      "owner": "U.S. Consumer Product Safety Commission",
+      "jurisdiction": "United States",
+      "sourceType": "government_product_safety_guidance",
+      "categoriesCovered": [
+        "coin_cell",
+        "button_cell"
+      ],
+      "authorityLevel": 2,
+      "accessMethod": "web",
+      "dataFormats": [
+        "html"
+      ],
+      "updateFrequency": "unknown",
+      "publiclyViewable": true,
+      "downloadable": null,
+      "automatedAccessAllowed": "unknown",
+      "usageRights": [
+        "publicly_viewable",
+        "unknown"
+      ],
+      "commercialReuseStatus": "unknown",
+      "commercialReuseEvidence": null,
+      "attributionRequired": null,
+      "licenceRequired": "unknown",
+      "legalReviewRequired": true,
+      "recommendedAction": "reference",
+      "lastCheckedAt": "2026-07-26",
+      "reviewStatus": "unverified",
+      "notes": "Government safety guidance cited via web search: https://www.cpsc.gov/Safety-Education/Safety-Education-Centers/Button-Cell-Coin-Battery-Information-Center . Use as safety reference only; no rights assumptions for republication."
+    },
+    {
+      "sourceId": "SRC-LEOCH-L2-FLOODED-2026-001",
+      "name": "Leoch DIN Series (MF) L2 Flooded Battery Catalogue",
+      "owner": "Leoch Battery",
+      "jurisdiction": "multi_jurisdiction",
+      "sourceType": "manufacturer_technical_catalogue",
+      "categoriesCovered": [
+        "automotive_12v"
+      ],
+      "authorityLevel": 1,
+      "accessMethod": "web",
+      "dataFormats": [
+        "html"
+      ],
+      "updateFrequency": "unknown",
+      "publiclyViewable": true,
+      "downloadable": null,
+      "automatedAccessAllowed": "unknown",
+      "usageRights": [
+        "publicly_viewable",
+        "unknown"
+      ],
+      "commercialReuseStatus": "unknown",
+      "commercialReuseEvidence": null,
+      "attributionRequired": null,
+      "licenceRequired": "unknown",
+      "legalReviewRequired": true,
+      "recommendedAction": "reference",
+      "lastCheckedAt": "2026-07-26",
+      "reviewStatus": "unverified",
+      "notes": "Official manufacturer catalogue cited via web search: https://www.leoch.com/product/starting/113.html . Used only for internal family-level flooded LN2/L2 dimensional and hold-down verification; rights not established."
     }
   ]
 }

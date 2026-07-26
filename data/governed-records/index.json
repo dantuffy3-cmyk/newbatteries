@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-07-26",
+  "records": [
+    {
+      "recordId": "gov-cr2032",
+      "canonicalName": "CR2032",
+      "recordType": "standard_size",
+      "category": "coin_cell",
+      "status": "under_review",
+      "publicEligibility": false,
+      "compatibilityEngineEligibility": false,
+      "lastReviewedDate": "2026-07-26",
+      "outstandingEvidenceCount": 5
+    },
+    {
+      "recordId": "gov-lr44",
+      "canonicalName": "LR44",
+      "recordType": "standard_size",
+      "category": "button_cell",
+      "status": "under_review",
+      "publicEligibility": false,
+      "compatibilityEngineEligibility": false,
+      "lastReviewedDate": "2026-07-26",
+      "outstandingEvidenceCount": 4
+    },
+    {
+      "recordId": "gov-ln2-flooded-family",
+      "canonicalName": "LN2 Flooded Lead-Acid Family",
+      "recordType": "chemistry_specific_family",
+      "category": "automotive_12v",
+      "status": "under_review",
+      "publicEligibility": false,
+      "compatibilityEngineEligibility": false,
+      "lastReviewedDate": "2026-07-26",
+      "outstandingEvidenceCount": 9
+    }
+  ]
+}

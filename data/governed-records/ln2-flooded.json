@@ -1,0 +1,856 @@
+{
+  "recordType": "chemistry_specific_family",
+  "canonicalName": "LN2 Flooded Lead-Acid Family",
+  "identification": {
+    "recordId": "gov-ln2-flooded-family",
+    "canonicalCode": "LN2 Flooded",
+    "aliases": [],
+    "manufacturer": null,
+    "manufacturerModel": null,
+    "standardFamily": "LN2 / L2 size family",
+    "category": "automotive_12v",
+    "subcategory": "flooded_lead_acid_family",
+    "applicationClasses": [
+      "automotive_starting_family"
+    ],
+    "marketRegions": []
+  },
+  "physical": {
+    "lengthMm": {
+      "value": 242,
+      "unit": "mm",
+      "evidenceConfidence": "medium",
+      "sourceIds": [
+        "SRC-LEOCH-L2-FLOODED-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Flooded L2/LN2 family dimension from manufacturer catalogue cited in source register.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": 242,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "widthMm": {
+      "value": 175,
+      "unit": "mm",
+      "evidenceConfidence": "medium",
+      "sourceIds": [
+        "SRC-LEOCH-L2-FLOODED-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Flooded L2/LN2 family dimension from manufacturer catalogue cited in source register.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": 175,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "heightMm": {
+      "value": 190,
+      "unit": "mm",
+      "evidenceConfidence": "medium",
+      "sourceIds": [
+        "SRC-LEOCH-L2-FLOODED-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Flooded L2/LN2 family dimension from manufacturer catalogue cited in source register.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": 190,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "diameterMm": {
+      "value": null,
+      "unit": "mm",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "thicknessMm": {
+      "value": null,
+      "unit": "mm",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "terminalType": {
+      "value": "standard_automotive_top_post",
+      "unit": null,
+      "evidenceConfidence": "medium",
+      "sourceIds": [
+        "SRC-LEOCH-L2-FLOODED-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Family-level catalogue support only; exact post dimensions and local naming still need review.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": "standard_automotive_top_post",
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "terminalLayout": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative family evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "polarityOrientation": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative family evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "connectorGeometry": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "connectorKeying": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "holdDownType": {
+      "value": "B13",
+      "unit": null,
+      "evidenceConfidence": "medium",
+      "sourceIds": [
+        "SRC-LEOCH-L2-FLOODED-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Family-level catalogue support only.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": "B13",
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "baseProfile": {
+      "value": "B13_bottom_ledge",
+      "unit": null,
+      "evidenceConfidence": "medium",
+      "sourceIds": [
+        "SRC-LEOCH-L2-FLOODED-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Family-level catalogue support only.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": "B13_bottom_ledge",
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "mountingProfile": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "weightKg": {
+      "value": null,
+      "unit": "kg",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    }
+  },
+  "electrical": {
+    "nominalVoltage": {
+      "value": 12,
+      "unit": "V",
+      "evidenceConfidence": "high",
+      "sourceIds": [
+        "SRC-LEOCH-L2-FLOODED-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Flooded L2/LN2 family nominal voltage from manufacturer catalogue cited in source register.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": 12,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "capacityAh": {
+      "value": null,
+      "unit": "Ah",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Left null in this sprint unless family-level evidence supports a clearly labelled range.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "capacityMah": {
+      "value": null,
+      "unit": "mAh",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not applicable or unknown for this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "capacityTestConditions": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "cca": {
+      "value": null,
+      "unit": "A",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Left null in this sprint unless family-level evidence supports a clearly labelled range.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "ccaTestStandard": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "reserveCapacityMinutes": {
+      "value": null,
+      "unit": "minutes",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Left null in this sprint unless family-level evidence supports a clearly labelled range.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "continuousDischargeA": {
+      "value": null,
+      "unit": "A",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "peakDischargeA": {
+      "value": null,
+      "unit": "A",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "rechargeable": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    }
+  },
+  "chemistry": {
+    "chemistryFamily": {
+      "value": "flooded_lead_acid",
+      "unit": null,
+      "evidenceConfidence": "high",
+      "sourceIds": [
+        "SRC-LEOCH-L2-FLOODED-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Manufacturer catalogue identifies flooded maintenance-free lead-acid family.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": "flooded_lead_acid",
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "chemistrySubtype": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "chargingProfile": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "bmsRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "batteryCommunicationRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    }
+  },
+  "australianContext": {
+    "australianAvailability": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "cecListingRelevant": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "cecListingStatus": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "eessRelevant": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "recallStatus": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "specialistInstallationRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "recyclingPathway": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "stateSpecificRequirementsPossible": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    }
+  },
+  "replacementPathway": {
+    "consumerReplaceable": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "supplierConfirmationRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "manufacturerConfirmationRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "qualifiedInstallerRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "specialistOnly": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    }
+  },
+  "recordGovernance": {
+    "recordStatus": "under_review",
+    "previousStatus": null,
+    "createdAt": "2026-07-26",
+    "updatedAt": "2026-07-26",
+    "reviewDueAt": "2026-08-30",
+    "approvedAt": null,
+    "approvedBy": null,
+    "reviewedAt": null,
+    "reviewedBy": null,
+    "disputeNotes": null,
+    "version": "0.1.0",
+    "reviewNotes": "Internal-only family record. Physical family identity is partially sourced, but family scope and fitment evidence remain incomplete.",
+    "publicEligibility": false,
+    "compatibilityEngineEligibility": false,
+    "changeHistory": [
+      {
+        "changedAt": "2026-07-26",
+        "changedBy": "copilot",
+        "changeSummary": "Initial governed record created for internal review only."
+      }
+    ]
+  },
+  "unknowns": [
+    {
+      "field": "physical.terminalLayout",
+      "reason": "Family-level flooded evidence reviewed in this sprint did not resolve layout variation to a single governed value."
+    },
+    {
+      "field": "physical.polarityOrientation",
+      "reason": "Family-level flooded evidence reviewed in this sprint did not resolve polarity variation to a single governed value."
+    },
+    {
+      "field": "electrical.capacityAh",
+      "reason": "No multi-source family-level range approved in this sprint."
+    },
+    {
+      "field": "electrical.cca",
+      "reason": "No multi-source family-level range approved in this sprint."
+    },
+    {
+      "field": "electrical.reserveCapacityMinutes",
+      "reason": "No multi-source family-level range approved in this sprint."
+    },
+    {
+      "field": "vehicleFitmentMappings",
+      "reason": "Vehicle fitment is intentionally out of scope for this sprint."
+    }
+  ],
+  "conflicts": [],
+  "assumptions": [
+    "Application classes describe internal taxonomy only and are not a fitment recommendation."
+  ],
+  "limitations": [
+    "This family record stays internal-only until manual review resolves family scope, layout, and polarity evidence.",
+    "No universal CCA, capacity, reserve-capacity, or vehicle-fitment values are asserted in this sprint."
+  ],
+  "nextEvidenceRequired": [
+    "Collect at least one additional authoritative flooded LN2 family source to confirm dimensions and hold-down details.",
+    "Resolve whether family-level terminal layout and polarity can be governed conservatively or must remain model-specific.",
+    "Obtain vehicle-specific evidence before creating any fitment mapping or public recommendation."
+  ],
+  "relationshipGovernance": {
+    "classification": "insufficient_evidence",
+    "candidateAliasNotes": [
+      {
+        "code": "L2",
+        "status": "family_scope_reference_only",
+        "notes": "Referenced only to explain family scope; not promoted to a direct-equivalent claim."
+      },
+      {
+        "code": "H5",
+        "status": "marketing_scope_reference_only",
+        "notes": "Referenced only as a common market label; not promoted to a direct-equivalent claim."
+      }
+    ],
+    "directEquivalentClaims": [],
+    "separateRecords": [],
+    "risks": [
+      "LN2 flooded is not automatically interchangeable with LN2 AGM or LN2 EFB.",
+      "DIN, L2, or H5 marketing labels do not by themselves establish a governed direct equivalence.",
+      "Vehicle-specific fitment still requires tray, cable reach, hold-down, cover-clearance, and polarity confirmation.",
+      "Start-stop vehicles may require a different chemistry or registration process.",
+      "BMS or battery-registration requirements remain vehicle-specific and are not inferred here."
+    ],
+    "verifiedAt": "2026-07-26",
+    "verifiedBy": null
+  },
+  "vehicleFitmentMappings": [],
+  "familyScope": {
+    "summary": "Family-level governed record only; not a manufacturer model, not a vehicle-fitment map, and not a chemistry-agnostic LN2 record.",
+    "sourceIds": [
+      "SRC-LEOCH-L2-FLOODED-2026-001"
+    ],
+    "verifiedAt": "2026-07-26",
+    "verifiedBy": null,
+    "notes": "Dimensions are held at family level only. Layout and polarity remain unresolved because family marketing labels do not guarantee identical terminal variants."
+  }
+}
