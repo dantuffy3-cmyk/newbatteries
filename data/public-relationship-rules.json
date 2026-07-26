@@ -1,0 +1,31 @@
+{
+  "version": "2.0.0",
+  "internalTypes": [
+    "manufacturer_alias",
+    "verified_direct_equivalent",
+    "same_standard_family",
+    "conditional_substitute",
+    "similar_specification",
+    "incompatible",
+    "insufficient_evidence"
+  ],
+  "publicTypes": [
+    "manufacturer_alias",
+    "same_standard_family",
+    "incompatible"
+  ],
+  "suppressedTypes": [
+    "verified_direct_equivalent",
+    "conditional_substitute",
+    "similar_specification",
+    "insufficient_evidence"
+  ],
+  "labels": {
+    "manufacturer_alias": "Manufacturer naming",
+    "same_standard_family": "Same standard family — this does not confirm compatibility",
+    "incompatible": "Known incompatibility"
+  },
+  "requiresApprovedStatus": true,
+  "requiresRightsCleared": true,
+  "suppressVerifiedDirectEquivalent": true
+}

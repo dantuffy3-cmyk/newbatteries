@@ -1,0 +1,155 @@
+{
+  "version": "2.0.0",
+  "cases": [
+    {
+      "id": 1,
+      "name": "approved, fully eligible standard-size record",
+      "expected": "eligible"
+    },
+    {
+      "id": 2,
+      "name": "under-review record",
+      "expected": "record_under_review"
+    },
+    {
+      "id": 3,
+      "name": "publicEligibility false",
+      "expected": "public_flag_false"
+    },
+    {
+      "id": 4,
+      "name": "missing critical field",
+      "expected": "critical_field_missing"
+    },
+    {
+      "id": 5,
+      "name": "critical field with unknown rights",
+      "expected": "critical_rights_not_cleared"
+    },
+    {
+      "id": 6,
+      "name": "non-critical field with unknown rights",
+      "expected": "withheld_rights"
+    },
+    {
+      "id": 7,
+      "name": "critical unresolved conflict",
+      "expected": "critical_conflict"
+    },
+    {
+      "id": 8,
+      "name": "non-critical unresolved conflict",
+      "expected": "withheld_conflict"
+    },
+    {
+      "id": 9,
+      "name": "invalid scope",
+      "expected": "scope_missing"
+    },
+    {
+      "id": 10,
+      "name": "manufacturer alias approved for display",
+      "expected": "manufacturer_alias"
+    },
+    {
+      "id": 11,
+      "name": "same-standard-family relationship",
+      "expected": "same_standard_family"
+    },
+    {
+      "id": 12,
+      "name": "conditional substitute suppressed",
+      "expected": "suppressed"
+    },
+    {
+      "id": 13,
+      "name": "insufficient-evidence relationship suppressed",
+      "expected": "suppressed"
+    },
+    {
+      "id": 14,
+      "name": "verified-direct-equivalent suppressed during early V2",
+      "expected": "suppressed"
+    },
+    {
+      "id": 15,
+      "name": "incompatible relationship displayed safely",
+      "expected": "incompatible"
+    },
+    {
+      "id": 16,
+      "name": "unknown code",
+      "expected": "unknown_code"
+    },
+    {
+      "id": 17,
+      "name": "multiple records",
+      "expected": "multiple_possible_records"
+    },
+    {
+      "id": 18,
+      "name": "retired record",
+      "expected": "record_retired"
+    },
+    {
+      "id": 19,
+      "name": "deprecated record",
+      "expected": "record_deprecated"
+    },
+    {
+      "id": 20,
+      "name": "malformed record",
+      "expected": "malformed_record"
+    },
+    {
+      "id": 21,
+      "name": "technical load failure",
+      "expected": "technical_failure"
+    },
+    {
+      "id": 22,
+      "name": "safety flag with valid provenance",
+      "expected": "public"
+    },
+    {
+      "id": 23,
+      "name": "safety flag without valid provenance",
+      "expected": "withheld"
+    },
+    {
+      "id": 24,
+      "name": "public result contains no raw evidence objects",
+      "expected": "none"
+    },
+    {
+      "id": 25,
+      "name": "identification always returns compatibilityStatus not_assessed",
+      "expected": "not_assessed"
+    },
+    {
+      "id": 26,
+      "name": "critical unknowns occur before next action in render order",
+      "expected": "ordered"
+    },
+    {
+      "id": 27,
+      "name": "source record is not mutated",
+      "expected": "unchanged"
+    },
+    {
+      "id": 28,
+      "name": "field-level rights withhold only the affected non-critical field",
+      "expected": "single_field_withheld"
+    },
+    {
+      "id": 29,
+      "name": "rights issue on critical field blocks verified eligibility",
+      "expected": "critical_rights_not_cleared"
+    },
+    {
+      "id": 30,
+      "name": "no prohibited compatibility wording appears",
+      "expected": "none"
+    }
+  ]
+}

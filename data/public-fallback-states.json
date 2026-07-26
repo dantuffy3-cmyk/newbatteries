@@ -1,0 +1,194 @@
+{
+  "version": "2.0.0",
+  "states": {
+    "approved_public_record": {
+      "title": "Verified battery record",
+      "message": "Verified public battery facts are available.",
+      "permittedFields": [
+        "identification",
+        "verifiedFacts",
+        "relationships",
+        "safetyFlags",
+        "criticalUnknowns",
+        "withheldFields",
+        "conflicts",
+        "limitations",
+        "nextAction",
+        "lastReviewed"
+      ],
+      "prohibitedFields": [
+        "rawEvidence",
+        "internalNotes",
+        "reviewerNames",
+        "sourceRightsNotes",
+        "disputeNotes"
+      ],
+      "nextAction": "Review the critical unknowns and limitations before taking further action.",
+      "reasonCode": "eligible"
+    },
+    "record_under_review": {
+      "title": "Record under review",
+      "message": "A possible record exists, but it has not yet completed NewBatteries’ evidence review.",
+      "permittedFields": [
+        "fallback",
+        "compatibilityStatus",
+        "notAssessed",
+        "limitations"
+      ],
+      "prohibitedFields": [
+        "verifiedFacts",
+        "relationships",
+        "safetyFlags",
+        "rawEvidence",
+        "conflicts"
+      ],
+      "nextAction": "Check back after governance review is complete.",
+      "reasonCode": "record_not_approved"
+    },
+    "record_rights_restricted": {
+      "title": "Record cannot be displayed publicly",
+      "message": "This record has evidence, but required public display rights are not cleared for key fields.",
+      "permittedFields": [
+        "criticalUnknowns",
+        "withheldFields",
+        "limitations",
+        "nextAction"
+      ],
+      "prohibitedFields": [
+        "rawEvidence",
+        "sourceRightsNotes",
+        "reviewNotes"
+      ],
+      "nextAction": "Await rights clearance for critical fields.",
+      "reasonCode": "critical_rights_not_cleared"
+    },
+    "record_incomplete": {
+      "title": "Record is incomplete",
+      "message": "This record is missing required verified information for safe public output.",
+      "permittedFields": [
+        "criticalUnknowns",
+        "withheldFields",
+        "limitations",
+        "nextAction"
+      ],
+      "prohibitedFields": [
+        "rawEvidence",
+        "reviewerNames"
+      ],
+      "nextAction": "Complete and verify required critical fields.",
+      "reasonCode": "critical_field_missing"
+    },
+    "record_disputed": {
+      "title": "Record disputed",
+      "message": "This record is currently disputed and cannot produce verified public output.",
+      "permittedFields": [
+        "limitations",
+        "nextAction"
+      ],
+      "prohibitedFields": [
+        "disputeNotes",
+        "rawEvidence"
+      ],
+      "nextAction": "Wait for dispute resolution.",
+      "reasonCode": "record_disputed"
+    },
+    "unknown_code": {
+      "title": "Code not found",
+      "message": "We could not identify this code in the current governed records.",
+      "permittedFields": [
+        "fallback",
+        "compatibilityStatus",
+        "notAssessed",
+        "nextAction"
+      ],
+      "prohibitedFields": [
+        "rawEvidence",
+        "internalNotes"
+      ],
+      "nextAction": "Check the code and try again, or provide a photo/label for manual review.",
+      "reasonCode": "scope_missing"
+    },
+    "technical_failure": {
+      "title": "Record unavailable",
+      "message": "The battery record could not be loaded. No compatibility conclusion has been made.",
+      "permittedFields": [
+        "fallback",
+        "compatibilityStatus",
+        "notAssessed",
+        "nextAction"
+      ],
+      "prohibitedFields": [
+        "rawErrors",
+        "stackTraces",
+        "jsonDump",
+        "internalNotes"
+      ],
+      "nextAction": "Try again later or contact support.",
+      "reasonCode": "malformed_record"
+    },
+    "multiple_possible_records": {
+      "title": "Multiple possible records",
+      "message": "More than one governed record may match. No single verified identification has been returned.",
+      "permittedFields": [
+        "fallback",
+        "compatibilityStatus",
+        "notAssessed",
+        "nextAction"
+      ],
+      "prohibitedFields": [
+        "verifiedFacts",
+        "compatibilityClaims"
+      ],
+      "nextAction": "Provide additional identifying details to narrow the result.",
+      "reasonCode": "scope_missing"
+    },
+    "record_deprecated": {
+      "title": "Record deprecated",
+      "message": "This record is deprecated and is not used for new verified public outputs.",
+      "permittedFields": [
+        "limitations",
+        "nextAction",
+        "lastReviewed"
+      ],
+      "prohibitedFields": [
+        "verifiedFacts",
+        "relationships",
+        "rawEvidence"
+      ],
+      "nextAction": "Use a current governed record where available.",
+      "reasonCode": "record_deprecated"
+    },
+    "record_retired": {
+      "title": "Record retired",
+      "message": "This record is retired and cannot produce a verified public output.",
+      "permittedFields": [
+        "limitations",
+        "nextAction"
+      ],
+      "prohibitedFields": [
+        "verifiedFacts",
+        "relationships",
+        "rawEvidence"
+      ],
+      "nextAction": "Use an active governed record.",
+      "reasonCode": "record_retired"
+    },
+    "malformed_record": {
+      "title": "Record unavailable",
+      "message": "The record data is incomplete or malformed and no public output can be produced.",
+      "permittedFields": [
+        "fallback",
+        "compatibilityStatus",
+        "notAssessed",
+        "nextAction"
+      ],
+      "prohibitedFields": [
+        "rawErrors",
+        "jsonDump",
+        "internalNotes"
+      ],
+      "nextAction": "Re-run record governance checks before publishing.",
+      "reasonCode": "malformed_record"
+    }
+  }
+}
