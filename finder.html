@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Battery Finder | NewBatteries</title>
-  <meta name="description" content="Identify the battery you need step by step and prepare a local request summary you can copy, print or save.">
+  <meta name="description" content="Identify a battery step by step and prepare a local identification summary you can copy, print or save.">
   <meta name="robots" content="noindex">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
@@ -33,8 +33,6 @@
 
   <main id="main-content" class="finder-main">
     <div class="container">
-
-      <!-- Progress indicator -->
       <div class="progress-bar-wrap progress-rail" id="progressWrap" aria-label="Finder progress">
         <div class="progress-label">
           <span>
@@ -51,122 +49,18 @@
         </div>
       </div>
 
-      <!-- Accessible submission status region -->
       <div id="submissionStatus" aria-live="assertive" aria-atomic="true" class="visually-hidden"></div>
 
-      <!-- Error summary (shown on validation failure) -->
-      <div class="error-summary" id="errorSummary" hidden aria-live="assertive" tabindex="-1" style="max-width:var(--form-width);margin:0 auto var(--sp-6)">
+      <div class="error-summary" id="errorSummary" hidden tabindex="-1" style="max-width:var(--form-width);margin:0 auto var(--sp-6)">
         <h2 id="errorSummaryHeading">There is a problem</h2>
         <ul id="errorSummaryList"></ul>
       </div>
 
-      <!-- ═══ STEP 1 – CATEGORY ════════════════════════════════ -->
       <div class="finder-card" id="step-category" data-step="1">
         <fieldset>
           <legend id="step-category-heading">What needs a new battery?</legend>
           <p class="form-hint">Select the type of equipment that needs a replacement battery.</p>
-          <div class="radio-cards" id="categoryGrid">
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-tool" value="tool">
-              <label for="cat-tool">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18h4l4-4-2-2-4 4v4z"/><path d="M13 9l2-2 3 3-2 2"/><path d="M19 7l1-1"/><rect x="2" y="17" width="20" height="5" rx="2"/></svg>
-                <span class="card-title">Power tool</span>
-                <span class="card-desc">Cordless and workshop battery systems</span>
-              </label>
-            </div>
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-car" value="car">
-              <label for="cat-car">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="6" rx="2"/><path d="M6 9l2-3h8l2 3"/><circle cx="7" cy="16.5" r="1.5"/><circle cx="17" cy="16.5" r="1.5"/></svg>
-                <span class="card-title">Car or vehicle</span>
-                <span class="card-desc">Passenger, 4WD and work vehicles</span>
-              </label>
-            </div>
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-caravan" value="caravan">
-              <label for="cat-caravan">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M19 10h2l1 2v5h-3"/><circle cx="8" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/></svg>
-                <span class="card-title">Caravan or camping equipment</span>
-                <span class="card-desc">Leisure, deep-cycle and off-grid setups</span>
-              </label>
-            </div>
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-moto" value="moto">
-              <label for="cat-moto">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="17" r="2"/><circle cx="18" cy="17" r="2"/><path d="M8 17h6l3-5h-4l-2-2h-3"/><path d="M13 12h-2"/></svg>
-                <span class="card-title">Motorcycle</span>
-                <span class="card-desc">Motorbike and powersports batteries</span>
-              </label>
-            </div>
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-marine" value="marine">
-              <label for="cat-marine">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15h18l-2 3H5l-2-3z"/><path d="M8 15V8h6v7"/><path d="M2 20c1-.8 2-.8 3 0s2 .8 3 0 2-.8 3 0 2 .8 3 0 2-.8 3 0"/></svg>
-                <span class="card-title">Boat or marine equipment</span>
-                <span class="card-desc">Starting and auxiliary marine systems</span>
-              </label>
-            </div>
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-garden" value="garden">
-              <label for="cat-garden">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="17" r="2"/><circle cx="18" cy="17" r="2"/><path d="M4 14h12l3-3"/><path d="M8 14V9h6"/><path d="M13 9l2-2"/></svg>
-                <span class="card-title">Mower or garden equipment</span>
-                <span class="card-desc">Ride-on, mower and garden power</span>
-              </label>
-            </div>
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-home" value="home">
-              <label for="cat-home">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-6 9 6"/><path d="M5 10v9h14v-9"/><path d="M9 14h6"/><path d="M12 11v6"/></svg>
-                <span class="card-title">Home or solar system</span>
-                <span class="card-desc">Backup, storage and solar battery banks</span>
-              </label>
-            </div>
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-electronics" value="electronics">
-              <label for="cat-electronics">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M9 20h6"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
-                <span class="card-title">Electronics</span>
-                <span class="card-desc">Portable and small device power packs</span>
-              </label>
-            </div>
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-mobility" value="mobility">
-              <label for="cat-mobility">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="17" r="2.5"/><circle cx="17" cy="17" r="2"/><path d="M8 9h6l3 6"/><path d="M10 6h2"/><path d="M12 9V6"/></svg>
-                <span class="card-title">Mobility equipment</span>
-                <span class="card-desc">Scooters, chairs and access devices</span>
-              </label>
-            </div>
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-security" value="security">
-              <label for="cat-security">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v2"/><path d="M10 16h4"/></svg>
-                <span class="card-title">Security or emergency equipment</span>
-                <span class="card-desc">Alarm, UPS and emergency backup systems</span>
-              </label>
-            </div>
-
-            <div class="radio-card">
-              <input type="radio" name="category" id="cat-other" value="other">
-              <label for="cat-other">
-                <svg class="card-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 9a2.5 2.5 0 1 1 4.5 1.5c-.7.8-1.8 1.4-1.8 2.5"/><circle cx="12" cy="17.5" r=".8"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
-                <span class="card-title">Something else</span>
-                <span class="card-desc">Specialist or uncommon battery requirements</span>
-              </label>
-            </div>
-
-          </div>
+          <div class="radio-cards" id="categoryGrid"></div>
           <div class="field-error" id="error-category" hidden role="alert">Please select a category to continue.</div>
         </fieldset>
 
@@ -175,225 +69,70 @@
         </div>
       </div>
 
-      <!-- ═══ STEP 2 – INFORMATION TYPE ═══════════════════════ -->
       <div class="finder-card" id="step-info-type" data-step="2" hidden>
         <fieldset>
           <legend id="step-info-type-heading" tabindex="-1">What information do you have?</legend>
-          <p class="form-hint">Choose the option that best matches what you can provide. You can always use the "I&apos;m not sure" option.</p>
-
-          <ul class="radio-list">
-            <li>
-              <input type="radio" name="infoType" id="info-equipment" value="equipment">
-              <label for="info-equipment">
-                Equipment brand and model
-                <span class="option-desc">Tell us about the device, vehicle, or equipment so we can identify the right battery</span>
-              </label>
-            </li>
-            <li>
-              <input type="radio" name="infoType" id="info-number" value="number">
-              <label for="info-number">
-                Existing battery number
-                <span class="option-desc">A code printed on a label on the battery itself (e.g. DIN66MF, NS70, LN2)</span>
-              </label>
-            </li>
-            <li>
-              <input type="radio" name="infoType" id="info-specs" value="specs">
-              <label for="info-specs">
-                Battery specifications
-                <span class="option-desc">You know details such as the voltage, size, or chemistry of the battery</span>
-              </label>
-            </li>
-            <li>
-              <input type="radio" name="infoType" id="info-photo" value="photo">
-              <label for="info-photo">
-                Photographs
-                <span class="option-desc">You can take photos of the battery label, terminals and equipment</span>
-              </label>
-            </li>
-            <li>
-              <input type="radio" name="infoType" id="info-notsure" value="notsure">
-              <label for="info-notsure">
-                I&apos;m not sure
-                <span class="option-desc">Describe your situation in your own words and we will help work it out</span>
-              </label>
-            </li>
-          </ul>
+          <p class="form-hint">Choose the option that best matches what you can provide.</p>
+          <ul class="radio-list"></ul>
           <div class="field-error" id="error-infoType" hidden role="alert">Please choose an option to continue.</div>
         </fieldset>
-
         <div class="step-actions">
           <button class="btn btn-primary" id="btn-continue-2" type="button">Continue</button>
           <button class="btn-back" id="btn-back-2" type="button">&#8592; Back</button>
         </div>
       </div>
 
-      <!-- ═══ STEP 3a – EQUIPMENT ROUTE ════════════════════════ -->
-      <div class="finder-card" id="step-equip-details" data-step="3" hidden>
-        <h1 id="step-equip-details-heading" tabindex="-1">Tell us about the equipment</h1>
-        <p class="step-hint">This helps identify the right battery type. Provide as much as you know — all fields are optional.</p>
-
-        <div class="form-group">
-          <label for="equipType">Equipment type</label>
-          <span class="form-hint" id="hint-equipType">e.g. ride-on mower, angle grinder, mobility scooter, alarm panel</span>
-          <input type="text" class="form-control" id="equipType" name="equipType"
-                 autocomplete="off" aria-describedby="hint-equipType" maxlength="100"
-                 placeholder="e.g. ride-on mower (optional)" style="max-width:420px">
-        </div>
-
-        <div class="form-group">
-          <label for="equipBrand">Brand</label>
-          <span class="form-hint" id="hint-equipBrand">e.g. Toyota, Honda, Makita, Ryobi, Deta</span>
-          <input type="text" class="form-control" id="equipBrand" name="equipBrand"
-                 autocomplete="off" aria-describedby="hint-equipBrand" maxlength="100"
-                 placeholder="Brand (optional)" style="max-width:340px">
-        </div>
-
-        <div class="form-group">
-          <label for="equipModel">Model</label>
-          <span class="form-hint" id="hint-equipModel">e.g. Corolla 2018, DHP484Z, ZS4800</span>
-          <input type="text" class="form-control" id="equipModel" name="equipModel"
-                 autocomplete="off" aria-describedby="hint-equipModel" maxlength="100"
-                 placeholder="Model (optional)" style="max-width:340px">
-        </div>
-
-        <div class="form-group">
-          <label for="equipYear">Approximate year</label>
-          <input type="text" class="form-control" id="equipYear" name="equipYear"
-                 autocomplete="off" inputmode="numeric" maxlength="4"
-                 placeholder="e.g. 2018 (optional)" style="max-width:140px">
-        </div>
-
-        <div class="form-group">
-          <label for="equipNotes">Additional notes <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <span class="form-hint" id="hint-equipNotes">Any other details that may help identify the correct battery</span>
-          <textarea class="form-control" id="equipNotes" name="equipNotes"
-                    aria-describedby="hint-equipNotes" rows="3" maxlength="500"
-                    placeholder="e.g. imported model, replaced once before, battery sits in an unusual position"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>
-            <input type="checkbox" id="equipNotSure" name="equipNotSure" style="margin-right:var(--sp-2)">
-            I&apos;m not sure about the details — please skip this step
-          </label>
-        </div>
-
-        <div class="field-error" id="error-equip" hidden role="alert">Please provide at least one equipment detail, or tick &ldquo;I&apos;m not sure&rdquo; to continue.</div>
-
-        <div class="step-actions">
-          <button class="btn btn-primary" id="btn-continue-equip" type="button">Continue</button>
-          <button class="btn-back" id="btn-back-equip" type="button">&#8592; Back</button>
-        </div>
-      </div>
-
-      <!-- ═══ STEP 3b – BATTERY NUMBER ROUTE ══════════════════ -->
       <div class="finder-card" id="step-batt-code" data-step="3" hidden>
         <h1 id="step-batt-code-heading" tabindex="-1">Enter the battery number</h1>
-        <p class="step-hint">The battery number or part number is printed on a label on the battery itself.</p>
-
-        <div class="notice notice--info" style="margin-bottom:var(--sp-6)">
-          <strong>Where to find it:</strong> Look for a code on the top or side label of your battery. Common formats include DIN66MF, NS70, N70ZZ, LN2, or a manufacturer part number.
-        </div>
-
-        <div class="form-group">
-          <label for="battBrand">Battery brand <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <span class="form-hint" id="hint-battBrand">e.g. Century, Exide, SuperCharge, Optima, Odyssey</span>
-          <input type="text" class="form-control" id="battBrand" name="battBrand"
-                 autocomplete="off" aria-describedby="hint-battBrand" maxlength="100"
-                 placeholder="Battery brand (optional)" style="max-width:300px">
-        </div>
+        <p class="step-hint">Known-code short path: enter a code, view preliminary identification, review unknowns, optionally add context, then prepare summary.</p>
 
         <div class="form-group">
           <label for="battCode">Battery model or part number</label>
           <span class="form-hint" id="hint-battCode">Enter exactly as it appears on the label</span>
-          <input type="text" class="form-control" id="battCode" name="battCode"
-                 autocomplete="off" aria-describedby="hint-battCode error-battCode" maxlength="50"
-                 placeholder="e.g. DIN66MF or NS70" style="max-width:300px">
+          <input type="text" class="form-control" id="battCode" name="battCode" autocomplete="off" aria-describedby="hint-battCode error-battCode" maxlength="50" placeholder="e.g. DIN66MF or NS70" style="max-width:300px">
           <div class="field-error" id="error-battCode" hidden role="alert">Please enter the battery model or part number, or tick to skip.</div>
         </div>
 
-        <div class="form-group">
-          <label for="battCodeNotes">Additional notes <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <textarea class="form-control" id="battCodeNotes" name="battCodeNotes" rows="2" maxlength="500"
-                    placeholder="e.g. label is partially damaged, battery was replaced previously"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>
-            <input type="checkbox" id="battCodeNotSure" name="battCodeNotSure" style="margin-right:var(--sp-2)">
-            I can&apos;t find or read the number — please skip this field
-          </label>
-        </div>
-
-        <button class="help-toggle" type="button" aria-expanded="false" aria-controls="help-battnumber">What do battery number formats look like?</button>
-        <div class="help-panel" id="help-battnumber">
-          <p>Common Australian formats include:</p>
-          <ul style="margin-top:var(--sp-2);padding-left:var(--sp-5)">
-            <li><strong>DIN/BCI numbers</strong> &mdash; e.g. DIN66MF, N70ZZ, NS40ZL</li>
-            <li><strong>Group numbers</strong> &mdash; e.g. 24, 27, 31, 34/78</li>
-            <li><strong>LN codes</strong> &mdash; e.g. LN0, LN2, LN3, LN4 (used in modern European vehicles)</li>
-            <li><strong>Manufacturer codes</strong> &mdash; vary by brand; enter exactly as printed</li>
-          </ul>
-        </div>
-
-        <!-- Battery identification result (shown after code lookup) -->
         <div id="battIdResult" hidden aria-live="polite" style="margin-top:var(--sp-6)">
-
-          <!-- Recognised code result -->
           <div id="battIdRecognised" hidden>
             <div class="notice notice--info">
-              <strong>Possible battery identification</strong>
-              <p style="margin:var(--sp-2) 0 0">This is a preliminary guide based on your code &mdash; not a guaranteed match. Dimensions, terminal configuration and fitment must be confirmed with a battery specialist before purchasing.</p>
+              <strong>Preliminary identification</strong>
+              <p style="margin:var(--sp-2) 0 0">Local reference-data match only. Compatibility and fitment still require verification.</p>
             </div>
             <div style="margin-top:var(--sp-4);padding:var(--sp-5) var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius);background:var(--color-surface)">
-              <p style="margin:0 0 var(--sp-1)"><strong>Code entered:</strong> <span id="biv-enteredCode">&mdash;</span></p>
-              <p style="margin:0 0 var(--sp-1)"><strong>Recognised as:</strong> <span id="biv-canonical">&mdash;</span></p>
-              <p style="margin:0 0 var(--sp-2)"><strong>Confidence:</strong> <span id="biv-confidence">&mdash;</span></p>
-              <p class="confidence-pill" id="biv-confidence-pill" data-confidence="medium">Confidence shown in text and colour</p>
-              <p style="margin:0 0 var(--sp-2)"><strong>Evidence used:</strong> <span id="biv-evidence">&mdash;</span></p>
-              <dl class="review-dl" id="biv-details" style="margin-bottom:0"></dl>
-              <div id="biv-unknowns-wrap" hidden style="margin-top:var(--sp-4)">
-                <p style="font-weight:600;margin:0 0 var(--sp-2)">Unknowns</p>
-                <ul id="biv-unknowns" style="margin:0;padding-left:var(--sp-5)"></ul>
-              </div>
-              <div id="biv-warnings-wrap" hidden style="margin-top:var(--sp-4)">
-                <p style="font-weight:600;margin:0 0 var(--sp-2)">Things to check with a supplier</p>
-                <ul id="biv-warnings" style="margin:0;padding-left:var(--sp-5)"></ul>
-              </div>
-              <div id="biv-verification-wrap" hidden style="margin-top:var(--sp-4)">
-                <p style="font-weight:600;margin:0 0 var(--sp-2)">Still needs supplier verification</p>
-                <ul id="biv-verification" style="margin:0;padding-left:var(--sp-5)"></ul>
-              </div>
-
-            <div class="biv-compare-link" id="biv-compare-wrap" hidden>
-              <a href="compatibility.html" id="biv-compare-link" class="btn-text-link">Compare this battery with another →</a>
+              <p><strong>Code entered:</strong> <span id="biv-enteredCode">&mdash;</span></p>
+              <p><strong>Recognised as:</strong> <span id="biv-canonical">&mdash;</span></p>
+              <p><strong>Confidence:</strong> <span id="biv-confidence">&mdash;</span></p>
+              <p><strong>Evidence used:</strong> <span id="biv-evidence">&mdash;</span></p>
+              <div id="biv-unknowns-wrap" hidden><p><strong>Critical unknowns and limitations</strong></p><ul id="biv-unknowns"></ul></div>
+              <div id="biv-warnings-wrap" hidden><p><strong>Checks still required</strong></p><ul id="biv-warnings"></ul></div>
+              <div id="biv-verification-wrap" hidden><p><strong>Needs supplier confirmation</strong></p><ul id="biv-verification"></ul></div>
+              <div id="biv-compare-wrap" hidden><a href="compatibility.html" id="biv-compare-link" class="btn-text-link">Check a possible replacement →</a></div>
             </div>
-            </div>
-            <p class="step-hint" style="margin-top:var(--sp-3)">Continue to include this preliminary identification in your request summary.</p>
           </div>
 
-          <!-- Unknown code result -->
           <div id="battIdUnknown" hidden>
             <div class="notice notice--warn">
-              <strong>Code not found in our reference database</strong>
+              <strong>Preliminary identification unavailable</strong>
               <p style="margin:var(--sp-2) 0 0"><span id="biv-unknownCode"></span></p>
             </div>
             <div id="battIdUnknownGuidance" style="margin-top:var(--sp-4);padding:var(--sp-5) var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius)">
-              <p style="margin:0 0 var(--sp-2)">This doesn&apos;t mean the code is wrong &mdash; manufacturer codes vary and may not be in our current reference database.</p>
-              <p style="font-weight:600;margin:0 0 var(--sp-2)">To improve identification, you can also:</p>
-              <ul style="margin:0;padding-left:var(--sp-5)">
-                <li>Go back to <strong>Step 1</strong> and add your equipment make and model</li>
-                <li>Continue and select <strong>Battery identification help</strong> as the service type</li>
-                <li>Capture the four photo views listed below for later reference</li>
-              </ul>
+              <p style="margin:0 0 var(--sp-2)">The code was not recognised in the current local reference data.</p>
             </div>
             <div id="battIdTechnicalGuidance" style="margin-top:var(--sp-4);padding:var(--sp-5) var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius)" hidden>
-              <p style="margin:0">This is a technical loading issue rather than a code-recognition result. Please refresh the page and try again, or continue to prepare your request summary using the details you already entered.</p>
+              <p style="margin:0">The battery reference data could not be loaded. No identification or compatibility conclusion has been made.</p>
             </div>
-            <p class="step-hint" id="battIdUnknownHint" style="margin-top:var(--sp-3)">Continue to include your code details in your request summary.</p>
+            <p class="step-hint" id="battIdUnknownHint" style="margin-top:var(--sp-3)">You can still prepare your identification summary.</p>
           </div>
+        </div>
 
-        </div><!-- /#battIdResult -->
+        <details class="optional-block" style="margin-top:var(--sp-6)">
+          <summary>Add equipment context — optional</summary>
+          <div class="form-group" style="margin-top:var(--sp-4)">
+            <label for="battCodeNotes">Notes (optional)</label>
+            <textarea class="form-control" id="battCodeNotes" name="battCodeNotes" rows="2" maxlength="500" placeholder="Optional context for your saved summary"></textarea>
+          </div>
+        </details>
 
         <div class="step-actions">
           <button class="btn btn-primary" id="btn-continue-batt-code" type="button">Continue</button>
@@ -401,236 +140,19 @@
         </div>
       </div>
 
-      <!-- ═══ STEP 3c – SPECIFICATIONS ROUTE ══════════════════ -->
-      <div class="finder-card" id="step-batt-specs" data-step="3" hidden>
-        <h1 id="step-batt-specs-heading" tabindex="-1">Battery specifications</h1>
-        <p class="step-hint">Enter specifications from the battery label or equipment manual. Leave any field blank if unknown &mdash; an &ldquo;I&apos;m not sure&rdquo; option is provided for each section.</p>
-
-        <div class="form-group">
-          <label for="specVoltage">Voltage</label>
-          <span class="form-hint" id="hint-specVoltage">Most automotive and marine batteries are 12&nbsp;V. Deep-cycle may be 6&nbsp;V or 12&nbsp;V.</span>
-          <select class="form-control" id="specVoltage" name="specVoltage" aria-describedby="hint-specVoltage" style="max-width:240px">
-            <option value="">&#8212; Select voltage / not sure &#8212;</option>
-            <option value="3.7V">3.7&nbsp;V (lithium cell)</option>
-            <option value="6V">6&nbsp;V</option>
-            <option value="12V">12&nbsp;V</option>
-            <option value="24V">24&nbsp;V</option>
-            <option value="36V">36&nbsp;V</option>
-            <option value="48V">48&nbsp;V</option>
-            <option value="other">Other / not sure</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="specAh">Amp-hours (Ah) <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <span class="form-hint" id="hint-specAh">Capacity rating usually printed on the top or side label (e.g. 70&nbsp;Ah)</span>
-          <input type="text" class="form-control" id="specAh" name="specAh"
-                 autocomplete="off" aria-describedby="hint-specAh" inputmode="decimal" maxlength="10"
-                 placeholder="e.g. 70 (optional)" style="max-width:160px">
-        </div>
-
-        <div class="form-group">
-          <fieldset>
-            <legend style="font-size:var(--text-base);font-weight:600;margin-bottom:var(--sp-2)">Chemistry / type <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></legend>
-            <ul class="radio-list" style="margin-top:var(--sp-2)">
-              <li><input type="radio" name="specChemistry" id="chem-fla" value="fla"><label for="chem-fla">Flooded lead-acid (FLA / wet cell)</label></li>
-              <li><input type="radio" name="specChemistry" id="chem-agm" value="agm"><label for="chem-agm">AGM &mdash; sealed, no-maintenance</label></li>
-              <li><input type="radio" name="specChemistry" id="chem-gel" value="gel"><label for="chem-gel">Gel cell</label></li>
-              <li><input type="radio" name="specChemistry" id="chem-li" value="lithium"><label for="chem-li">Lithium (LiFePO&#8324;)</label></li>
-              <li><input type="radio" name="specChemistry" id="chem-ns" value="notsure"><label for="chem-ns">Not sure</label></li>
-            </ul>
-          </fieldset>
-        </div>
-
-        <div class="form-group">
-          <p style="font-weight:600;margin-bottom:var(--sp-2)">Physical dimensions <span style="font-weight:400;font-size:var(--text-sm);color:var(--color-text-muted)">(optional &mdash; millimetres)</span></p>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:var(--sp-4)">
-            <div>
-              <label for="specLength">Length (mm)</label>
-              <input type="text" class="form-control" id="specLength" name="specLength"
-                     inputmode="decimal" placeholder="e.g. 275" maxlength="6">
-            </div>
-            <div>
-              <label for="specWidth">Width (mm)</label>
-              <input type="text" class="form-control" id="specWidth" name="specWidth"
-                     inputmode="decimal" placeholder="e.g. 175" maxlength="6">
-            </div>
-            <div>
-              <label for="specHeight">Height (mm)</label>
-              <input type="text" class="form-control" id="specHeight" name="specHeight"
-                     inputmode="decimal" placeholder="e.g. 175" maxlength="6">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="specTerminal">Terminal position <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <span class="form-hint" id="hint-specTerminal">Which side is the positive (+) terminal on when facing the battery label?</span>
-          <select class="form-control" id="specTerminal" name="specTerminal" aria-describedby="hint-specTerminal" style="max-width:320px">
-            <option value="">&#8212; Select / not sure &#8212;</option>
-            <option value="left">Left (LH positive)</option>
-            <option value="right">Right (RH positive)</option>
-            <option value="centre">Centre / both ends</option>
-            <option value="top">Top terminals (both on top)</option>
-            <option value="notsure">Not sure</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="specsNotes">Additional notes <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <textarea class="form-control" id="specsNotes" name="specsNotes" rows="2" maxlength="500"
-                    placeholder="Any other specifications or details you know"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>
-            <input type="checkbox" id="specsNotSure" name="specsNotSure" style="margin-right:var(--sp-2)">
-            I&apos;m not sure about the specifications &mdash; please skip this step
-          </label>
-        </div>
-
-        <div class="step-actions">
-          <button class="btn btn-primary" id="btn-continue-specs" type="button">Continue</button>
-          <button class="btn-back" id="btn-back-specs" type="button">&#8592; Back</button>
-        </div>
-      </div>
-
-      <!-- ═══ STEP 3d – PHOTO ROUTE ════════════════════════════ -->
-      <div class="finder-card" id="step-photo" data-step="3" hidden>
-        <h1 id="step-photo-heading" tabindex="-1">Battery photo guidance</h1>
-        <p class="step-hint">Complete the request with the information you have, then copy or save the request summary for your records.</p>
-
-        <div class="photo-guide" role="note" aria-label="Photo guidance">
-          <h2 class="photo-guide__heading">Photo guidance &mdash; four views that help most:</h2>
-          <div class="photo-guide-grid">
-            <article class="photo-guide-panel">
-              <h3>Full battery label</h3>
-              <p>Capture the entire label in one frame so all codes, ratings and text are readable.</p>
-            </article>
-            <article class="photo-guide-panel">
-              <h3>Terminal position</h3>
-              <p>Show both terminals and polarity so left/right orientation can be confirmed.</p>
-            </article>
-            <article class="photo-guide-panel">
-              <h3>Equipment model plate</h3>
-              <p>Photograph the compliance/model plate or serial sticker on the equipment.</p>
-            </article>
-            <article class="photo-guide-panel">
-              <h3>Battery compartment</h3>
-              <p>Show the battery bay and mounting area to help verify fit and clearance.</p>
-            </article>
-          </div>
-        </div>
-
-        <div class="notice notice--info" style="margin-bottom:var(--sp-6)">
-          Photo upload is not yet enabled. These views show the photographs that will be most useful when evidence upload becomes available.
-        </div>
-
-        <div class="form-group">
-          <label for="photoNotes">Additional notes <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <span class="form-hint" id="hint-photoNotes">Describe anything unusual &mdash; damage, unusual markings, the equipment context</span>
-          <textarea class="form-control" id="photoNotes" name="photoNotes"
-                    aria-describedby="hint-photoNotes" rows="3" maxlength="500"
-                    placeholder="Optional &mdash; describe the battery, equipment, or any other helpful details"></textarea>
-        </div>
-
-        <div class="step-actions">
-          <button class="btn btn-primary" id="btn-continue-photo" type="button">Continue</button>
-          <button class="btn-back" id="btn-back-photo" type="button">&#8592; Back</button>
-        </div>
-      </div>
-
-      <!-- ═══ STEP 3e – NOT SURE ROUTE ═════════════════════════ -->
-      <div class="finder-card" id="step-not-sure" data-step="3" hidden>
-        <h1 id="step-not-sure-heading" tabindex="-1">Tell us what you can</h1>
-        <p class="step-hint">Any detail helps. Describe the battery, the equipment, or the situation in your own words and we will do our best to help.</p>
-
-        <div class="form-group">
-          <label for="notSureNotes">Description</label>
-          <span class="form-hint" id="hint-notSureNotes">For example: &ldquo;AA batteries for a remote control&rdquo; or &ldquo;a big black battery in an old Land Rover that keeps going flat&rdquo;</span>
-          <textarea class="form-control" id="notSureNotes" name="notSureNotes"
-                    aria-describedby="hint-notSureNotes error-notSureNotes" rows="5" maxlength="1000"
-                    placeholder="Describe what you know about the battery or the equipment"></textarea>
-          <div class="field-error" id="error-notSureNotes" hidden role="alert">Please describe what you know so we can help you find the right battery.</div>
-        </div>
-
-        <div class="step-actions">
-          <button class="btn btn-primary" id="btn-continue-not-sure" type="button">Continue</button>
-          <button class="btn-back" id="btn-back-not-sure" type="button">&#8592; Back</button>
-        </div>
-      </div>
-
-      <!-- ═══ STEP 4 – HELP TYPE ════════════════════════════════ -->
-      <div class="finder-card" id="step-help-type" data-step="4" hidden>
-        <fieldset>
-          <legend id="step-help-type-heading" tabindex="-1">What kind of help do you need?</legend>
-          <p class="form-hint">Choose the option that best describes what you are looking for.</p>
-
-          <ul class="radio-list">
-            <li>
-              <input type="radio" name="helpType" id="help-supply" value="supply">
-              <label for="help-supply">
-                Supply only
-                <span class="option-desc">I want to purchase the battery and install it myself</span>
-              </label>
-            </li>
-            <li>
-              <input type="radio" name="helpType" id="help-install" value="install">
-              <label for="help-install">
-                Supply and installation
-                <span class="option-desc">I want the battery supplied and professionally fitted</span>
-              </label>
-            </li>
-            <li>
-              <input type="radio" name="helpType" id="help-mobile" value="mobile">
-              <label for="help-mobile">
-                Mobile replacement
-                <span class="option-desc">A technician comes to my location to replace the battery</span>
-              </label>
-            </li>
-            <li>
-              <input type="radio" name="helpType" id="help-identification" value="identification">
-              <label for="help-identification">
-                Battery identification help
-                <span class="option-desc">I just need help working out which battery I need before buying</span>
-              </label>
-            </li>
-            <li>
-              <input type="radio" name="helpType" id="help-recycle" value="recycle">
-              <label for="help-recycle">
-                Old battery recycling information
-                <span class="option-desc">I need guidance on how to safely dispose of or recycle the old battery</span>
-              </label>
-            </li>
-          </ul>
-          <div class="field-error" id="error-helpType" hidden role="alert">Please select the type of help you are looking for.</div>
-        </fieldset>
-
-        <div class="step-actions">
-          <button class="btn btn-primary" id="btn-continue-help" type="button">Continue</button>
-          <button class="btn-back" id="btn-back-help" type="button">&#8592; Back</button>
-        </div>
-      </div>
-
-      <!-- ═══ STEP 5 – LOCATION ═════════════════════════════════ -->
       <div class="finder-card" id="step-location" data-step="5" hidden>
-        <h1 id="step-location-heading" tabindex="-1">Where do you need it?</h1>
-        <p class="step-hint">Your location helps identify nearby suppliers or mobile services.</p>
+        <h1 id="step-location-heading" tabindex="-1">Location — optional</h1>
+        <p class="step-hint">Add your suburb or postcode only if you want it included in your saved summary for future supplier or mobile-service matching.</p>
 
         <div class="form-group">
-          <label for="suburb">Suburb <span aria-hidden="true" style="color:var(--color-error)">*</span></label>
-          <span class="form-hint" id="hint-suburb">Enter your suburb or nearest town</span>
-          <input type="text" class="form-control" id="suburb" name="suburb"
-                 autocomplete="address-level2" aria-describedby="hint-suburb error-suburb"
-                 aria-required="true" placeholder="e.g. Parramatta" maxlength="100" style="max-width:340px">
-          <div class="field-error" id="error-suburb" hidden role="alert">Please enter your suburb or town.</div>
+          <label for="suburb">Suburb (optional)</label>
+          <input type="text" class="form-control" id="suburb" name="suburb" autocomplete="address-level2" placeholder="e.g. Parramatta" maxlength="100" style="max-width:340px">
         </div>
 
         <div class="form-group">
-          <label for="state">State or territory <span aria-hidden="true" style="color:var(--color-error)">*</span></label>
-          <select class="form-control" id="state" name="state" aria-describedby="error-state"
-                  aria-required="true" style="max-width:280px">
-            <option value="">&#8212; Select state &#8212;</option>
+          <label for="state">State or territory (optional)</label>
+          <select class="form-control" id="state" name="state" style="max-width:280px">
+            <option value="">— Optional —</option>
             <option value="NSW">New South Wales</option>
             <option value="VIC">Victoria</option>
             <option value="QLD">Queensland</option>
@@ -640,27 +162,21 @@
             <option value="ACT">Australian Capital Territory</option>
             <option value="NT">Northern Territory</option>
           </select>
-          <div class="field-error" id="error-state" hidden role="alert">Please select your state or territory.</div>
         </div>
 
         <div class="form-group">
-          <label for="postcode">Postcode <span aria-hidden="true" style="color:var(--color-error)">*</span></label>
-          <span class="form-hint" id="hint-postcode">4-digit Australian postcode</span>
-          <input type="text" class="form-control" id="postcode" name="postcode"
-                 autocomplete="postal-code" aria-describedby="hint-postcode error-postcode"
-                 aria-required="true" inputmode="numeric" pattern="[0-9]{4}" maxlength="4"
-                 placeholder="e.g. 2150" style="max-width:120px">
-          <div class="field-error" id="error-postcode" hidden role="alert">Please enter a valid 4-digit Australian postcode.</div>
+          <label for="postcode">Postcode (optional)</label>
+          <input type="text" class="form-control" id="postcode" name="postcode" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="e.g. 2150" style="max-width:120px">
         </div>
 
         <div class="form-group">
-          <label for="urgency">Urgency</label>
+          <label for="urgency">Timing (optional)</label>
           <select class="form-control" id="urgency" name="urgency" style="max-width:360px">
-            <option value="">&#8212; Select urgency (optional) &#8212;</option>
-            <option value="urgent">Urgent &mdash; I need it as soon as possible</option>
+            <option value="">— Optional —</option>
+            <option value="urgent">Urgent — as soon as possible</option>
             <option value="week">Within a week</option>
             <option value="month">Within a month</option>
-            <option value="flexible">No urgency &mdash; I&apos;m planning ahead</option>
+            <option value="flexible">No urgency — planning ahead</option>
           </select>
         </div>
 
@@ -670,75 +186,20 @@
         </div>
       </div>
 
-      <!-- ═══ REVIEW ═════════════════════════════════════════════ -->
       <div class="finder-card" id="step-review" hidden style="max-width:680px">
-        <h1 id="step-review-heading" tabindex="-1">Review your battery request summary</h1>
-        <p class="step-hint" style="margin-bottom:var(--sp-4)">Check the information below before copying, printing or saving your summary.</p>
+        <h1 id="step-review-heading" tabindex="-1">Review summary</h1>
+        <p class="step-hint" style="margin-bottom:var(--sp-4)">Check your preliminary identification and summary details before preparing the saved output.</p>
 
-        <p class="step-hint" style="margin-bottom:var(--sp-8)">Request reference: <strong id="rv-request-ref" style="color:var(--battery-white,#1a201e)">&#8212;</strong></p>
-
-        <!-- Group 1: What needs power -->
-        <div class="review-section">
+        <div class="review-section" id="rv-location-section">
           <div class="review-section-header">
-            <h2>What needs power</h2>
-            <a href="#" class="change-link" data-goto="step-category" aria-label="Change: What needs power">Change</a>
-          </div>
-          <dl class="review-dl">
-            <dt>Equipment type</dt><dd id="rv-category">&#8212;</dd>
-          </dl>
-        </div>
-
-        <!-- Group 2: Battery identification -->
-        <div class="review-section">
-          <div class="review-section-header">
-            <h2>Battery identification</h2>
-            <a href="#" class="change-link" data-goto="step-info-type" aria-label="Change: Battery identification">Change</a>
-          </div>
-          <dl class="review-dl">
-            <dt>Method</dt><dd id="rv-identMethod">&#8212;</dd>
-            <dt>Details provided</dt><dd id="rv-identDetail">&#8212;</dd>
-          </dl>
-        </div>
-
-        <!-- Group 2b: Preliminary identification (battery number route, shown only when identification was run) -->
-        <div class="review-section" id="rv-batt-id-section" hidden>
-          <div class="review-section-header">
-            <h2>Preliminary identification</h2>
-            <a href="#" class="change-link" data-goto="step-batt-code" aria-label="Change: Battery code">Change</a>
-          </div>
-          <dl class="review-dl">
-            <dt>Recognised as</dt><dd id="rv-battCanonical">&#8212;</dd>
-            <dt>Confidence</dt><dd id="rv-battConfidence">&#8212;</dd>
-            <dt>Evidence</dt><dd id="rv-battEvidence">&#8212;</dd>
-            <dt>Unknowns</dt><dd id="rv-battUnknowns">&#8212;</dd>
-            <dt>Warnings</dt><dd id="rv-battWarnings">&#8212;</dd>
-            <dt>Needs supplier verification</dt><dd id="rv-battVerification">&#8212;</dd>
-          </dl>
-          <p class="step-hint" style="margin-top:var(--sp-3)">Preliminary identification only &mdash; compatibility still requires confirmation. No supplier inventory has been checked.</p>
-        </div>
-
-        <!-- Group 3: Help required -->
-        <div class="review-section">
-          <div class="review-section-header">
-            <h2>Help required</h2>
-            <a href="#" class="change-link" data-goto="step-help-type" aria-label="Change: Help required">Change</a>
-          </div>
-          <dl class="review-dl">
-            <dt>Service type</dt><dd id="rv-helpType">&#8212;</dd>
-          </dl>
-        </div>
-
-        <!-- Group 4: Location -->
-        <div class="review-section">
-          <div class="review-section-header">
-            <h2>Location</h2>
+            <h2>Location (optional)</h2>
             <a href="#" class="change-link" data-goto="step-location" aria-label="Change: Location">Change</a>
           </div>
           <dl class="review-dl">
-            <dt>Suburb</dt><dd id="rv-suburb">&#8212;</dd>
-            <dt>State</dt><dd id="rv-state">&#8212;</dd>
-            <dt>Postcode</dt><dd id="rv-postcode">&#8212;</dd>
-            <dt>Urgency</dt><dd id="rv-urgency">&#8212;</dd>
+            <dt>Suburb</dt><dd id="rv-suburb">Not provided</dd>
+            <dt>State</dt><dd id="rv-state">Not provided</dd>
+            <dt>Postcode</dt><dd id="rv-postcode">Not provided</dd>
+            <dt>Timing</dt><dd id="rv-urgency">Not provided</dd>
           </dl>
         </div>
 
@@ -748,22 +209,13 @@
         </div>
       </div>
 
-      <!-- ═══ CONFIRMATION ══════════════════════════════════════ -->
       <div class="finder-card" id="step-confirm" hidden>
-
-        <h1 id="step-confirm-heading" tabindex="-1">Your request summary is ready</h1>
-        <p class="step-hint">Online submission is not yet enabled. No information has been transmitted. You can copy, print or save your request summary while NewBatteries continues developing its review service.</p>
-
-        <!-- ── Shared: request reference and summary ─────────── -->
-        <p style="margin-top:var(--sp-6)">
-          Identification request summary reference: <strong id="confirm-request-ref">&#8212;</strong>
-        </p>
-        <p style="margin-top:var(--sp-2)">Identification request summary:</p>
+        <h1 id="step-confirm-heading" tabindex="-1">Your identification summary is ready</h1>
+        <p class="step-hint">Online submission is not enabled. No information has been transmitted. You can copy, print or save your identification summary.</p>
+        <p style="margin-top:var(--sp-2)">Identification summary:</p>
         <div id="confirmSummary" style="margin-top:var(--sp-4)"></div>
-
-        <!-- ── Action buttons ─────────────────────────────────── -->
         <div style="margin-top:var(--sp-8);display:flex;gap:var(--sp-4);flex-wrap:wrap">
-          <button class="btn btn-ghost" id="btn-copy-summary" type="button">Copy request summary</button>
+          <button class="btn btn-ghost" id="btn-copy-summary" type="button">Copy summary</button>
           <button class="btn btn-ghost" id="btn-print-summary" type="button">Print or save summary</button>
           <button class="btn btn-primary" id="btn-improve-identification" type="button">Improve identification</button>
           <button class="btn btn-ghost" id="btn-start-over" type="button">Start again</button>
@@ -771,7 +223,7 @@
         </div>
       </div>
 
-    </div><!-- /.container -->
+    </div>
   </main>
 
   <footer class="site-footer">
