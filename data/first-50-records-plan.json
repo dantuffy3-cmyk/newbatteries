@@ -1,0 +1,1314 @@
+{
+  "version": "1.0.0",
+  "planningOnly": true,
+  "notes": "Planning records only. No unverified technical specifications included.",
+  "allocation": {
+    "coin_button_hearing_aid": 15,
+    "automotive_motorcycle": 15,
+    "power_tool_platforms": 10,
+    "household": 5,
+    "caravan_marine": 5
+  },
+  "plannedRecords": [
+    {
+      "planId": "PLAN-001",
+      "category": "coin_cell",
+      "canonicalName": "CR2016",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-002",
+      "category": "coin_cell",
+      "canonicalName": "CR2025",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-003",
+      "category": "coin_cell",
+      "canonicalName": "CR2032",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-004",
+      "category": "coin_cell",
+      "canonicalName": "CR2430",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-005",
+      "category": "coin_cell",
+      "canonicalName": "CR2450",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-006",
+      "category": "coin_cell",
+      "canonicalName": "CR2477",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-007",
+      "category": "button_cell",
+      "canonicalName": "LR41",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-008",
+      "category": "button_cell",
+      "canonicalName": "LR44",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-009",
+      "category": "button_cell",
+      "canonicalName": "SR41",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-010",
+      "category": "button_cell",
+      "canonicalName": "SR44",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-011",
+      "category": "button_cell",
+      "canonicalName": "AG10",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-012",
+      "category": "button_cell",
+      "canonicalName": "AG13",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-013",
+      "category": "button_cell",
+      "canonicalName": "hearing aid size 10",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-014",
+      "category": "button_cell",
+      "canonicalName": "hearing aid size 13",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-015",
+      "category": "button_cell",
+      "canonicalName": "hearing aid size 312",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-016",
+      "category": "automotive_12v",
+      "canonicalName": "LN1",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-017",
+      "category": "automotive_12v",
+      "canonicalName": "LN2",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-018",
+      "category": "automotive_12v",
+      "canonicalName": "LN3",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-019",
+      "category": "automotive_12v",
+      "canonicalName": "DIN44",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-020",
+      "category": "automotive_12v",
+      "canonicalName": "DIN55",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-021",
+      "category": "automotive_12v",
+      "canonicalName": "DIN66",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-022",
+      "category": "automotive_12v",
+      "canonicalName": "DIN77",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-023",
+      "category": "automotive_12v",
+      "canonicalName": "DIN88",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-024",
+      "category": "automotive_12v",
+      "canonicalName": "NS40",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-025",
+      "category": "automotive_12v",
+      "canonicalName": "NS60",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-026",
+      "category": "automotive_12v",
+      "canonicalName": "N50",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-027",
+      "category": "automotive_12v",
+      "canonicalName": "N70",
+      "recordType": "code",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-028",
+      "category": "automotive_start_stop",
+      "canonicalName": "AGM LN2 family",
+      "recordType": "family",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-029",
+      "category": "automotive_start_stop",
+      "canonicalName": "EFB LN2 family",
+      "recordType": "family",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-030",
+      "category": "motorcycle",
+      "canonicalName": "YTX motorcycle family",
+      "recordType": "family",
+      "priority": "high",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-031",
+      "category": "power_tool_platform",
+      "canonicalName": "Makita 18V LXT",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-032",
+      "category": "power_tool_platform",
+      "canonicalName": "Makita 40V XGT",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-033",
+      "category": "power_tool_platform",
+      "canonicalName": "Milwaukee M18",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-034",
+      "category": "power_tool_platform",
+      "canonicalName": "Milwaukee M12",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-035",
+      "category": "power_tool_platform",
+      "canonicalName": "DeWalt 18V XR",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-036",
+      "category": "power_tool_platform",
+      "canonicalName": "Ryobi ONE+",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-037",
+      "category": "power_tool_platform",
+      "canonicalName": "Bosch Professional 18V",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-038",
+      "category": "power_tool_platform",
+      "canonicalName": "Hikoki Multi Volt",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-039",
+      "category": "power_tool_platform",
+      "canonicalName": "AEG 18V",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-040",
+      "category": "power_tool_platform",
+      "canonicalName": "Ozito PXC",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "high",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-041",
+      "category": "household_primary",
+      "canonicalName": "AA alkaline",
+      "recordType": "code",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-042",
+      "category": "household_primary",
+      "canonicalName": "AAA alkaline",
+      "recordType": "code",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-043",
+      "category": "household_rechargeable",
+      "canonicalName": "AA NiMH",
+      "recordType": "code",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-044",
+      "category": "household_rechargeable",
+      "canonicalName": "AAA NiMH",
+      "recordType": "code",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-045",
+      "category": "household_primary",
+      "canonicalName": "9V alkaline",
+      "recordType": "code",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "medium",
+      "commercialValue": "medium",
+      "safetyRisk": "medium",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-046",
+      "category": "caravan_marine",
+      "canonicalName": "12V AGM deep-cycle family",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "medium",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-047",
+      "category": "caravan_marine",
+      "canonicalName": "flooded deep-cycle family",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "medium",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-048",
+      "category": "caravan_marine",
+      "canonicalName": "LiFePO4 drop-in family",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "medium",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-049",
+      "category": "caravan_marine",
+      "canonicalName": "marine cranking family",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "medium",
+      "safetyRisk": "high",
+      "status": "planned"
+    },
+    {
+      "planId": "PLAN-050",
+      "category": "caravan_marine",
+      "canonicalName": "dual-purpose marine family",
+      "recordType": "family",
+      "priority": "medium",
+      "customerUseCase": "Identify safe replacement pathway without assuming unknown technical fit.",
+      "minimumRequiredEvidence": "See category-specific threshold in governance docs and schema metadata.",
+      "preferredSources": [
+        "manufacturer_technical_catalogue",
+        "oem_equipment_manual",
+        "manufacturer_authorised_fitment_guide"
+      ],
+      "knownRisks": [
+        "conflicting naming conventions",
+        "rights uncertainty for commercial reuse"
+      ],
+      "fieldsExpectedToRemainUnknown": [
+        "exact update frequency of external source data",
+        "commercial reuse permissions unless explicitly documented"
+      ],
+      "reviewComplexity": "high",
+      "commercialValue": "medium",
+      "safetyRisk": "high",
+      "status": "planned"
+    }
+  ]
+}

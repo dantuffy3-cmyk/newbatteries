@@ -1,0 +1,116 @@
+{
+  "version": "1.0.0",
+  "statuses": {
+    "draft": {
+      "publicVisibility": "internal_only",
+      "compatibilityEngineEligibility": "ineligible",
+      "verificationRequirements": [
+        "unknowns_allowed",
+        "must_not_be_presented_as_verified"
+      ],
+      "reviewerRequirements": [
+        "none"
+      ],
+      "permittedTransitions": [
+        "under_review",
+        "retired"
+      ]
+    },
+    "under_review": {
+      "publicVisibility": "limited_with_disclaimer",
+      "compatibilityEngineEligibility": "non_definitive_only",
+      "verificationRequirements": [
+        "evidence_collection_in_progress",
+        "cannot_produce_definitive_compatibility_claims"
+      ],
+      "reviewerRequirements": [
+        "assigned_reviewer"
+      ],
+      "permittedTransitions": [
+        "reviewed",
+        "disputed",
+        "deprecated",
+        "retired"
+      ]
+    },
+    "reviewed": {
+      "publicVisibility": "internal_or_limited",
+      "compatibilityEngineEligibility": "conditional",
+      "verificationRequirements": [
+        "evidence_checked",
+        "rights_considered"
+      ],
+      "reviewerRequirements": [
+        "technical_reviewer_completed"
+      ],
+      "permittedTransitions": [
+        "approved",
+        "disputed",
+        "deprecated",
+        "under_review",
+        "retired"
+      ]
+    },
+    "approved": {
+      "publicVisibility": "public_verified",
+      "compatibilityEngineEligibility": "eligible",
+      "verificationRequirements": [
+        "adequate_evidence",
+        "conflicts_resolved_or_disclosed",
+        "version_assigned",
+        "review_date_recorded",
+        "no_ai_inference_only_values"
+      ],
+      "reviewerRequirements": [
+        "technical_reviewer",
+        "governance_reviewer"
+      ],
+      "permittedTransitions": [
+        "disputed",
+        "deprecated",
+        "retired"
+      ]
+    },
+    "disputed": {
+      "publicVisibility": "public_with_conflict_notice",
+      "compatibilityEngineEligibility": "ineligible_for_definitive_claims",
+      "verificationRequirements": [
+        "conflict_exposed",
+        "resolution_path_recorded"
+      ],
+      "reviewerRequirements": [
+        "technical_reviewer"
+      ],
+      "permittedTransitions": [
+        "under_review",
+        "reviewed",
+        "deprecated",
+        "retired"
+      ]
+    },
+    "deprecated": {
+      "publicVisibility": "public_traceable",
+      "compatibilityEngineEligibility": "not_for_new_recommendations",
+      "verificationRequirements": [
+        "deprecation_reason_recorded"
+      ],
+      "reviewerRequirements": [
+        "technical_reviewer"
+      ],
+      "permittedTransitions": [
+        "retired"
+      ]
+    },
+    "retired": {
+      "publicVisibility": "audit_only_or_archived",
+      "compatibilityEngineEligibility": "ineligible",
+      "verificationRequirements": [
+        "audit_retention_required"
+      ],
+      "reviewerRequirements": [
+        "governance_reviewer"
+      ],
+      "permittedTransitions": []
+    }
+  }
+}
