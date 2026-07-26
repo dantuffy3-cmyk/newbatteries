@@ -136,6 +136,7 @@
   return {
     render: render,
     outcomeLabels: OUTCOME_LABELS,
-    outcomeClasses: OUTCOME_CLASSES
+    outcomeClasses: OUTCOME_CLASSES,
+    resultLead: createResultLead
   };
 }));
