@@ -1,0 +1,151 @@
+{
+  "version": "1.0.0",
+  "rules": {
+    "authorityLevelNotEqualToCommercialReusePermission": true,
+    "categoryProfilesMayAdjustSourcePriority": true,
+    "aiInferenceAloneCannotCreateVerifiedTechnicalFact": true,
+    "conflictsRemainUnresolvedUntilReview": true,
+    "marketingCopyNotAutomaticallyTechnicalEvidence": true
+  },
+  "levels": [
+    {
+      "authorityLevel": 1,
+      "name": "Manufacturer/OEM technical documentation",
+      "description": "Primary technical documentation published by the manufacturer or OEM.",
+      "allowedEvidenceUses": [
+        "technical_specification",
+        "fitment_reference",
+        "identity_confirmation"
+      ],
+      "limitations": [
+        "Reuse rights must be reviewed separately."
+      ],
+      "defaultEvidenceConfidence": "high",
+      "verificationRequired": true
+    },
+    {
+      "authorityLevel": 2,
+      "name": "Government regulator / approved-product database / recognised standards body",
+      "description": "Government or recognised oversight sources for compliance and approvals.",
+      "allowedEvidenceUses": [
+        "compliance_reference",
+        "recall_status",
+        "approved_list_reference"
+      ],
+      "limitations": [
+        "Jurisdiction and licensing constraints may apply."
+      ],
+      "defaultEvidenceConfidence": "high",
+      "verificationRequired": true
+    },
+    {
+      "authorityLevel": 3,
+      "name": "Recognised technical standard or accredited certification source",
+      "description": "Recognised standards/certification references.",
+      "allowedEvidenceUses": [
+        "standard_family_reference",
+        "certification_reference"
+      ],
+      "limitations": [
+        "Full standards text may be licensed."
+      ],
+      "defaultEvidenceConfidence": "high",
+      "verificationRequired": true
+    },
+    {
+      "authorityLevel": 4,
+      "name": "Manufacturer-authorised distributor or official fitment guide",
+      "description": "Authorised distributor content or official fitment guidance.",
+      "allowedEvidenceUses": [
+        "fitment_guidance",
+        "product_reference"
+      ],
+      "limitations": [
+        "Must verify edition/version and scope."
+      ],
+      "defaultEvidenceConfidence": "medium",
+      "verificationRequired": true
+    },
+    {
+      "authorityLevel": 5,
+      "name": "Reputable specialist distributor with traceable technical evidence",
+      "description": "Specialist distributor data with traceable technical references.",
+      "allowedEvidenceUses": [
+        "supplementary_specification",
+        "catalogue_reference"
+      ],
+      "limitations": [
+        "Confirm alignment with higher-authority sources."
+      ],
+      "defaultEvidenceConfidence": "medium",
+      "verificationRequired": true
+    },
+    {
+      "authorityLevel": 6,
+      "name": "Supplier confirmation supported by documentation/measurements/photos",
+      "description": "Supplier-provided evidence package.",
+      "allowedEvidenceUses": [
+        "draft_supporting_evidence",
+        "follow_up_verification"
+      ],
+      "limitations": [
+        "Not sufficient alone for high-risk approval."
+      ],
+      "defaultEvidenceConfidence": "medium",
+      "verificationRequired": true
+    },
+    {
+      "authorityLevel": 7,
+      "name": "Clear user measurements/photos/equipment evidence",
+      "description": "User-contributed evidence with clear traceability.",
+      "allowedEvidenceUses": [
+        "draft_context",
+        "conflict_investigation"
+      ],
+      "limitations": [
+        "Requires independent confirmation before approval."
+      ],
+      "defaultEvidenceConfidence": "low",
+      "verificationRequired": true
+    },
+    {
+      "authorityLevel": 8,
+      "name": "Retail listing",
+      "description": "Retail listing information.",
+      "allowedEvidenceUses": [
+        "candidate_identification"
+      ],
+      "limitations": [
+        "Marketing content is not technical evidence by default."
+      ],
+      "defaultEvidenceConfidence": "low",
+      "verificationRequired": true
+    },
+    {
+      "authorityLevel": 9,
+      "name": "Community-maintained information",
+      "description": "Community-maintained references.",
+      "allowedEvidenceUses": [
+        "lead_generation"
+      ],
+      "limitations": [
+        "Must be verified by higher authority before approval."
+      ],
+      "defaultEvidenceConfidence": "low",
+      "verificationRequired": true
+    },
+    {
+      "authorityLevel": 10,
+      "name": "AI inference alone or unsupported assumption",
+      "description": "Unverified AI-only or assumption-based output.",
+      "allowedEvidenceUses": [
+        "draft_hypothesis"
+      ],
+      "limitations": [
+        "Cannot create verified technical fact."
+      ],
+      "defaultEvidenceConfidence": "low",
+      "verificationRequired": true
+    }
+  ]
+}
