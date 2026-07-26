@@ -72,7 +72,7 @@
       "unit": "mm",
       "evidenceConfidence": "high",
       "sourceIds": [
-        "SRC-MAXELL-CR2032-2026-001"
+        "SRC-ENERGIZER-CR2032-2026-001"
       ],
       "verifiedAt": "2026-07-26",
       "verifiedBy": null,
@@ -91,7 +91,7 @@
       "unit": "mm",
       "evidenceConfidence": "high",
       "sourceIds": [
-        "SRC-MAXELL-CR2032-2026-001"
+        "SRC-ENERGIZER-CR2032-2026-001"
       ],
       "verifiedAt": "2026-07-26",
       "verifiedBy": null,
@@ -265,7 +265,7 @@
       "unit": "V",
       "evidenceConfidence": "high",
       "sourceIds": [
-        "SRC-MAXELL-CR2032-2026-001"
+        "SRC-ENERGIZER-CR2032-2026-001"
       ],
       "verifiedAt": "2026-07-26",
       "verifiedBy": null,
@@ -420,7 +420,7 @@
       "unit": null,
       "evidenceConfidence": "high",
       "sourceIds": [
-        "SRC-MAXELL-CR2032-2026-001"
+        "SRC-ENERGIZER-CR2032-2026-001"
       ],
       "verifiedAt": "2026-07-26",
       "verifiedBy": null,
@@ -441,7 +441,7 @@
       "unit": null,
       "evidenceConfidence": "high",
       "sourceIds": [
-        "SRC-MAXELL-CR2032-2026-001"
+        "SRC-ENERGIZER-CR2032-2026-001"
       ],
       "verifiedAt": "2026-07-26",
       "verifiedBy": null,
@@ -761,7 +761,7 @@
     "reviewedBy": null,
     "disputeNotes": null,
     "version": "0.1.0",
-    "reviewNotes": "Internal governed seed record with source-backed size and chemistry fields; public release blocked pending manual evidence review.",
+    "reviewNotes": "Internal governed seed record. Technical fields are backed by the Energizer CR2032 manufacturer datasheet (SRC-ENERGIZER-CR2032-2026-001). Public release blocked: a second independent manufacturer source and Australian safety-source verification are still required. Performance fields remain manufacturer-specific or null. Record may not be approved until all evidence-acquisition blockers listed in nextEvidenceRequired are resolved.",
     "publicEligibility": false,
     "compatibilityEngineEligibility": false,
     "changeHistory": [
@@ -795,8 +795,10 @@
     "Public exposure remains blocked until manual review confirms evidence coverage and rights posture."
   ],
   "nextEvidenceRequired": [
-    "Add a second independent authoritative source or recognized standard cross-check for core dimensional fields.",
-    "Complete manual review of any device-specific compartment and closure guidance before public release."
+    "A second independent manufacturer source (not Energizer) is still required for core dimensional and electrical fields before any public or approval consideration.",
+    "Australian safety-source verification (e.g. ACCC product-safety or Standards Australia) is still required.",
+    "Complete manual review of device-specific compartment and closure guidance before public release.",
+    "Reuse rights for SRC-ENERGIZER-CR2032-2026-001 must be confirmed before publicEligibility can be considered."
   ],
   "relationshipGovernance": {
     "classification": "insufficient_evidence",
