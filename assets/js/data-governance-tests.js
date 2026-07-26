@@ -260,6 +260,21 @@
       }())
     });
 
+    tests.push({
+      name: 'unknown public-display rights block public eligibility',
+      expected: 'contains unknown-rights public eligibility error',
+      actual: (function () {
+        var rec = baseRecord();
+        rec.recordGovernance.previousStatus = 'reviewed';
+        rec.recordGovernance.recordStatus = 'approved';
+        rec.recordGovernance.approvedAt = '2026-07-26';
+        rec.recordGovernance.approvedBy = 'reviewer@example.com';
+        rec.recordGovernance.publicEligibility = true;
+        var r = validateBatteryRecord(rec, governanceData);
+        return r.errors.join(' | ');
+      }())
+    });
+
     var withStatus = tests.map(function (t) {
       var pass = false;
       if (t.expected === 'valid=true') pass = t.actual === 'valid=true';
@@ -272,6 +287,7 @@
       else if (t.expected.indexOf('missing category-required field') !== -1) pass = /Category-required field cannot be unknown|Missing category-required field/.test(t.actual);
       else if (t.expected.indexOf('rights/evidence error') !== -1) pass = /commercially reusable without explicit evidence/.test(t.actual);
       else if (t.expected.indexOf('verifiedAt error') !== -1) pass = /missing verifiedAt/.test(t.actual);
+      else if (t.expected.indexOf('unknown-rights public eligibility error') !== -1) pass = /Public eligibility cannot be true while source reuse rights are unknown/.test(t.actual);
 
       return {
         Test: t.name,

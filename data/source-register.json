@@ -380,6 +380,72 @@
       "notes": "Personal data/privacy and verification controls required."
     },
     {
+      "sourceId": "SRC-ENERGIZER-CR2032-2026-001",
+      "name": "Energizer CR2032 Technical Datasheet",
+      "owner": "Energizer Holdings, Inc.",
+      "jurisdiction": "multi_jurisdiction",
+      "sourceType": "manufacturer_technical_catalogue",
+      "categoriesCovered": [
+        "coin_cell"
+      ],
+      "authorityLevel": 1,
+      "accessMethod": "web",
+      "dataFormats": [
+        "pdf"
+      ],
+      "updateFrequency": "unknown",
+      "publiclyViewable": true,
+      "downloadable": true,
+      "automatedAccessAllowed": "unknown",
+      "usageRights": [
+        "publicly_viewable",
+        "downloadable",
+        "unknown"
+      ],
+      "commercialReuseStatus": "unknown",
+      "commercialReuseEvidence": null,
+      "attributionRequired": null,
+      "licenceRequired": "unknown",
+      "legalReviewRequired": true,
+      "recommendedAction": "reference",
+      "lastCheckedAt": "2026-07-26",
+      "reviewStatus": "unverified",
+      "notes": "Official Energizer manufacturer datasheet for CR2032. Used only for internal governed verification; commercial reuse rights not established. A second independent manufacturer source is still required before any public release."
+    },
+    {
+      "sourceId": "SRC-ANSMANN-LR44-2026-001",
+      "name": "Ansmann LR44 Technical Datasheet",
+      "owner": "Ansmann AG",
+      "jurisdiction": "multi_jurisdiction",
+      "sourceType": "manufacturer_technical_catalogue",
+      "categoriesCovered": [
+        "button_cell"
+      ],
+      "authorityLevel": 1,
+      "accessMethod": "web",
+      "dataFormats": [
+        "pdf"
+      ],
+      "updateFrequency": "unknown",
+      "publiclyViewable": true,
+      "downloadable": true,
+      "automatedAccessAllowed": "unknown",
+      "usageRights": [
+        "publicly_viewable",
+        "downloadable",
+        "unknown"
+      ],
+      "commercialReuseStatus": "unknown",
+      "commercialReuseEvidence": null,
+      "attributionRequired": null,
+      "licenceRequired": "unknown",
+      "legalReviewRequired": true,
+      "recommendedAction": "reference",
+      "lastCheckedAt": "2026-07-26",
+      "reviewStatus": "unverified",
+      "notes": "Official Ansmann manufacturer datasheet for LR44/LR1154/AG13. Used only for internal governed verification; commercial reuse rights not established. Directly supports LR44, LR1154, and AG13 designations; does not classify 357 as a universal alias."
+    },
+    {
       "sourceId": "SRC-MAXELL-CR2032-2026-001",
       "name": "Maxell CR2032 Datasheet",
       "owner": "Maxell, Ltd.",

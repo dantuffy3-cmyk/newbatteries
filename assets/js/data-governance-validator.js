@@ -151,6 +151,7 @@
     ];
 
     var hasApprovedEvidence = false;
+    var referencedSourceIds = [];
 
     techPaths.forEach(function (path) {
       var field = getByPath(record, path);
@@ -188,6 +189,9 @@
         if (/^SRC-FAKE/i.test(sourceId)) {
           errors.push('Fake source ID disallowed at ' + path + ': ' + sourceId);
         }
+        if (referencedSourceIds.indexOf(sourceId) === -1) {
+          referencedSourceIds.push(sourceId);
+        }
       });
 
       if (value !== null && Object.prototype.hasOwnProperty.call(UNIT_REQUIRED_PATHS, path) && !unit) {
@@ -210,6 +214,16 @@
 
       if (hasMeaningfulEvidence(field)) hasApprovedEvidence = true;
     });
+
+    var publicEligibility = getByPath(record, 'recordGovernance.publicEligibility');
+    if (publicEligibility === true) {
+      referencedSourceIds.forEach(function (sourceId) {
+        var source = sourceMap[sourceId];
+        if (source && Array.isArray(source.usageRights) && source.usageRights.indexOf('unknown') !== -1) {
+          errors.push('Public eligibility cannot be true while source reuse rights are unknown: ' + sourceId);
+        }
+      });
+    }
 
     var category = getByPath(record, 'identification.category');
     var profile = categoryProfiles[category];

@@ -72,7 +72,7 @@
       "unit": "mm",
       "evidenceConfidence": "high",
       "sourceIds": [
-        "SRC-MURATA-LR44-2026-001"
+        "SRC-ANSMANN-LR44-2026-001"
       ],
       "verifiedAt": "2026-07-26",
       "verifiedBy": null,
@@ -91,7 +91,7 @@
       "unit": "mm",
       "evidenceConfidence": "high",
       "sourceIds": [
-        "SRC-MURATA-LR44-2026-001"
+        "SRC-ANSMANN-LR44-2026-001"
       ],
       "verifiedAt": "2026-07-26",
       "verifiedBy": null,
@@ -265,7 +265,7 @@
       "unit": "V",
       "evidenceConfidence": "high",
       "sourceIds": [
-        "SRC-MURATA-LR44-2026-001"
+        "SRC-ANSMANN-LR44-2026-001"
       ],
       "verifiedAt": "2026-07-26",
       "verifiedBy": null,
@@ -420,7 +420,7 @@
       "unit": null,
       "evidenceConfidence": "high",
       "sourceIds": [
-        "SRC-MURATA-LR44-2026-001"
+        "SRC-ANSMANN-LR44-2026-001"
       ],
       "verifiedAt": "2026-07-26",
       "verifiedBy": null,
@@ -441,7 +441,7 @@
       "unit": null,
       "evidenceConfidence": "high",
       "sourceIds": [
-        "SRC-MURATA-LR44-2026-001"
+        "SRC-ANSMANN-LR44-2026-001"
       ],
       "verifiedAt": "2026-07-26",
       "verifiedBy": null,
@@ -761,7 +761,7 @@
     "reviewedBy": null,
     "disputeNotes": null,
     "version": "0.1.0",
-    "reviewNotes": "Internal governed seed record with source-backed size and chemistry fields; alias governance review remains outstanding.",
+    "reviewNotes": "Internal governed seed record. Technical fields are backed by the Ansmann LR44 manufacturer datasheet (SRC-ANSMANN-LR44-2026-001), which directly supports LR44, LR1154, and AG13 designations. 357 is not classified as a universal LR44 alias. A76 is unresolved pending a direct manufacturer source. SR44 remains a separate chemistry record. Record remains under_review with publicEligibility false.",
     "publicEligibility": false,
     "compatibilityEngineEligibility": false,
     "changeHistory": [
@@ -791,16 +791,34 @@
     "Public exposure remains blocked until alias governance is manually approved."
   ],
   "nextEvidenceRequired": [
-    "Review authorized catalogue evidence before promoting any marketing alias to a governed alias.",
-    "Collect chemistry-specific evidence for any future LR44/SR44 relationship analysis."
+    "Confirm LR1154 and AG13 alias status against a second independent manufacturer source beyond Ansmann.",
+    "Collect a direct manufacturer source for A76 before it can be resolved to any alias status.",
+    "Collect chemistry-specific evidence for any future LR44/SR44 relationship analysis; SR44 must not be treated as a direct LR44 equivalent.",
+    "357 must not be promoted to a universal LR44 alias without multi-manufacturer direct evidence.",
+    "Reuse rights for SRC-ANSMANN-LR44-2026-001 must be confirmed before publicEligibility can be considered."
   ],
   "relationshipGovernance": {
     "classification": "insufficient_evidence",
     "candidateAliasNotes": [
       {
+        "code": "LR1154",
+        "status": "manufacturer_supported_alias",
+        "notes": "Directly supported by the Ansmann manufacturer datasheet (SRC-ANSMANN-LR44-2026-001). Retained as a candidate alias; not yet promoted to a governed universal alias pending a second independent source."
+      },
+      {
         "code": "AG13",
         "status": "marketing_or_cross_reference_only",
-        "notes": "Not promoted to a governed alias or direct equivalent in this sprint."
+        "notes": "Appears in the Ansmann datasheet as a cross-reference designation. Not promoted to a governed alias or direct equivalent; treated as marketing or cross-reference only."
+      },
+      {
+        "code": "357",
+        "status": "not_a_universal_lr44_alias",
+        "notes": "357 is a silver-oxide SR44 designation and is NOT a universal LR44 alias. It must not be treated as interchangeable with LR44 across all devices. No direct manufacturer evidence supports classifying 357 as a universal LR44 alias. Remains unresolved and must not be promoted."
+      },
+      {
+        "code": "A76",
+        "status": "unresolved_pending_manufacturer_source",
+        "notes": "A76 is referenced in secondary sources as an LR44 cross-reference but no direct manufacturer source has been acquired. Status remains unresolved until a direct manufacturer source is added."
       }
     ],
     "directEquivalentClaims": [],
@@ -809,7 +827,9 @@
     ],
     "risks": [
       "AG13 may appear as a marketing or cross-reference label and is not treated as a governed direct equivalent.",
-      "SR44 remains a separate chemistry-specific record and is not declared directly equivalent here.",
+      "SR44 remains a separate chemistry-specific record and is not declared directly equivalent here; LR44 and SR44 have different discharge profiles that are device-dependent.",
+      "357 is a silver-oxide designation and must not be classified as a universal LR44 alias.",
+      "A76 remains unresolved pending a direct manufacturer source.",
       "Substitutions depend on device requirements and discharge profile; no live relationship record is created in this sprint."
     ],
     "verifiedAt": "2026-07-26",

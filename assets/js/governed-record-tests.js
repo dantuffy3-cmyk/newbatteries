@@ -188,6 +188,65 @@
     tests.push(assert('LN2 flooded has no universal capacity or CCA', ln2.electrical.capacityAh.value === null && ln2.electrical.cca.value === null && ln2.electrical.reserveCapacityMinutes.value === null, JSON.stringify({ capacityAh: ln2.electrical.capacityAh.value, cca: ln2.electrical.cca.value, reserveCapacityMinutes: ln2.electrical.reserveCapacityMinutes.value })));
     tests.push(assert('LN2 flooded has no direct DIN equivalence claim', !hasAnyDirectEquivalent(ln2, 'DIN'), JSON.stringify(ln2.relationshipGovernance.directEquivalentClaims)));
 
+    tests.push(assert(
+      '357 is not a universal LR44 alias',
+      (lr44.identification.aliases || []).indexOf('357') === -1 &&
+      !hasAnyDirectEquivalent(lr44, '357') &&
+      (function () {
+        var notes = lr44.relationshipGovernance.candidateAliasNotes || [];
+        var entry = notes.filter(function (n) { return n.code === '357'; })[0];
+        return !entry || entry.status === 'not_a_universal_lr44_alias';
+      }()),
+      JSON.stringify({
+        inAliases: (lr44.identification.aliases || []).indexOf('357') !== -1,
+        inDirectEquivalents: hasAnyDirectEquivalent(lr44, '357'),
+        candidateStatus: (function () {
+          var notes = lr44.relationshipGovernance.candidateAliasNotes || [];
+          var e = notes.filter(function (n) { return n.code === '357'; })[0];
+          return e ? e.status : 'not_present';
+        }())
+      })
+    ));
+
+    tests.push(assert(
+      'SR44 is not a direct LR44 equivalent',
+      !hasAnyDirectEquivalent(lr44, 'SR44') && (lr44.relationshipGovernance.separateRecords || []).indexOf('SR44') !== -1,
+      JSON.stringify({ directEquivalents: lr44.relationshipGovernance.directEquivalentClaims, separateRecords: lr44.relationshipGovernance.separateRecords })
+    ));
+
+    tests.push(assert(
+      'LN2 secondary-source-only fields cannot pass approval when publicEligibility is true',
+      (function () {
+        var mutated = clone(ln2);
+        mutated.recordGovernance.recordStatus = 'approved';
+        mutated.recordGovernance.previousStatus = 'reviewed';
+        mutated.recordGovernance.approvedAt = '2026-07-26';
+        mutated.recordGovernance.approvedBy = 'reviewer@example.com';
+        mutated.recordGovernance.publicEligibility = true;
+        var result = validateBatteryRecord(mutated, govData);
+        return result.valid === false && result.errors.some(function (e) { return /Public eligibility cannot be true while source reuse rights are unknown/.test(e); });
+      }()),
+      'Validator must reject publicEligibility=true when LN2 sources have unknown reuse rights'
+    ));
+
+    tests.push(assert(
+      'unknown public-display rights block public eligibility',
+      (function () {
+        var records = loadRecords();
+        return records.every(function (record) {
+          var mutated = clone(record);
+          mutated.recordGovernance.previousStatus = 'reviewed';
+          mutated.recordGovernance.recordStatus = 'approved';
+          mutated.recordGovernance.approvedAt = '2026-07-26';
+          mutated.recordGovernance.approvedBy = 'reviewer@example.com';
+          mutated.recordGovernance.publicEligibility = true;
+          var result = validateBatteryRecord(mutated, govData);
+          return result.valid === false && result.errors.some(function (e) { return /Public eligibility cannot be true while source reuse rights are unknown/.test(e); });
+        });
+      }()),
+      'All governed records must fail validation when publicEligibility=true because sources have unknown reuse rights'
+    ));
+
     if (typeof console !== 'undefined' && console.table) {
       console.table(tests);
     }

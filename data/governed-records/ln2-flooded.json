@@ -813,9 +813,12 @@
     "No universal CCA, capacity, reserve-capacity, or vehicle-fitment values are asserted in this sprint."
   ],
   "nextEvidenceRequired": [
-    "Collect at least one additional authoritative flooded LN2 family source to confirm dimensions and hold-down details.",
+    "Collect at least one additional direct manufacturer source (beyond Leoch) to confirm family dimensions and hold-down details before any approval consideration.",
     "Resolve whether family-level terminal layout and polarity can be governed conservatively or must remain model-specific.",
-    "Obtain vehicle-specific evidence before creating any fitment mapping or public recommendation."
+    "Obtain vehicle-specific evidence before creating any fitment mapping or public recommendation.",
+    "H5/LN2 cross-standard mapping must not be asserted as a universal rule until supported by multiple independent manufacturer sources.",
+    "Reuse rights for SRC-LEOCH-L2-FLOODED-2026-001 must be confirmed before publicEligibility can be considered.",
+    "Capacity, CCA, reserve capacity, vehicle fitment, start-stop suitability and BMS/registration fields must remain null until direct multi-source family evidence is acquired."
   ],
   "relationshipGovernance": {
     "classification": "insufficient_evidence",
@@ -827,8 +830,8 @@
       },
       {
         "code": "H5",
-        "status": "marketing_scope_reference_only",
-        "notes": "Referenced only as a common market label; not promoted to a direct-equivalent claim."
+        "status": "manufacturer_supported_terminology_not_universal_mapping",
+        "notes": "H5 is used as a common market label by some manufacturers (including within the Leoch catalogue) and is treated here as manufacturer-supported terminology only. H5/LN2 is not yet established as a universal cross-standard mapping rule. No direct-equivalent claim is created and no cross-standard mapping is asserted from this source alone."
       }
     ],
     "directEquivalentClaims": [],

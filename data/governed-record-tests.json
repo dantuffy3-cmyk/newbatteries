@@ -52,11 +52,13 @@
       ],
       "requiredRiskPhrases": [
         "AG13",
-        "discharge profile"
+        "discharge profile",
+        "357"
       ],
       "prohibitedDirectEquivalentClaims": [
         "AG13",
-        "SR44"
+        "SR44",
+        "357"
       ],
       "requiredRelationshipClassification": "insufficient_evidence"
     },
