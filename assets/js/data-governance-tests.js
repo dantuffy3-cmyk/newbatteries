@@ -47,19 +47,20 @@
           'physical.diameterMm',
           'physical.thicknessMm',
           'electrical.nominalVoltage',
-          'chemistry.chemistryFamily'
+          'chemistry.chemistryFamily',
+          'electrical.rechargeable'
         ]
       }
     }
   };
 
-  function tf(value, unit, sourceIds, confidence, conflictStatus) {
+  function tf(value, unit, sourceIds, confidence, verifiedAt, conflictStatus) {
     return {
       value: value,
       unit: unit,
       evidenceConfidence: confidence || 'unknown',
       sourceIds: sourceIds || [],
-      verifiedAt: null,
+      verifiedAt: verifiedAt || null,
       verifiedBy: null,
       notes: '',
       conflict: {
@@ -82,28 +83,33 @@
         aliases: []
       },
       physical: {
-        diameterMm: tf(20, 'mm', ['SRC-CLASS-MFG-CATALOGUE-001'], 'high'),
-        thicknessMm: tf(3.2, 'mm', ['SRC-CLASS-MFG-CATALOGUE-001'], 'high'),
+        diameterMm: tf(20, 'mm', ['SRC-CLASS-MFG-CATALOGUE-001'], 'high', '2026-07-26'),
+        thicknessMm: tf(3.2, 'mm', ['SRC-CLASS-MFG-CATALOGUE-001'], 'high', '2026-07-26'),
         lengthMm: tf(null, 'mm', [], 'unknown'),
         widthMm: tf(null, 'mm', [], 'unknown'),
         heightMm: tf(null, 'mm', [], 'unknown')
       },
       electrical: {
-        nominalVoltage: tf(3, 'V', ['SRC-CLASS-MFG-CATALOGUE-001'], 'high')
+        nominalVoltage: tf(3, 'V', ['SRC-CLASS-MFG-CATALOGUE-001'], 'high', '2026-07-26'),
+        rechargeable: tf(false, null, ['SRC-CLASS-MFG-CATALOGUE-001'], 'high', '2026-07-26')
       },
       chemistry: {
-        chemistryFamily: tf('lithium_primary', null, ['SRC-CLASS-MFG-CATALOGUE-001'], 'medium')
+        chemistryFamily: tf('lithium_primary', null, ['SRC-CLASS-MFG-CATALOGUE-001'], 'medium', '2026-07-26')
       },
       australianContext: {},
       replacementPathway: {},
       recordGovernance: {
-        recordStatus: 'draft',
+        recordStatus: 'under_review',
         previousStatus: null,
         createdAt: '2026-07-26',
         updatedAt: '2026-07-26',
+        reviewDueAt: '2026-08-30',
         version: '0.1.0',
         approvedAt: null,
-        approvedBy: null
+        approvedBy: null,
+        reviewNotes: 'Internal under-review seed record.',
+        publicEligibility: false,
+        compatibilityEngineEligibility: false
       }
     };
   }
@@ -112,7 +118,7 @@
     var tests = [];
 
     tests.push({
-      name: 'valid draft with unknown fields',
+      name: 'valid under-review with unknown non-critical fields',
       expected: 'valid=true',
       actual: (function () {
         var r = validateBatteryRecord(baseRecord(), governanceData);
@@ -208,16 +214,22 @@
         var rec = baseRecord();
         rec.recordGovernance.previousStatus = 'retired';
         rec.recordGovernance.recordStatus = 'approved';
+        rec.recordGovernance.approvedAt = '2026-07-26';
+        rec.recordGovernance.approvedBy = 'reviewer@example.com';
         var r = validateBatteryRecord(rec, governanceData);
         return r.errors.join(' | ');
       }())
     });
 
     tests.push({
-      name: 'missing category-required fields',
+      name: 'missing category-required fields block approval',
       expected: 'contains missing category-required field error',
       actual: (function () {
         var rec = baseRecord();
+        rec.recordGovernance.recordStatus = 'approved';
+        rec.recordGovernance.previousStatus = 'reviewed';
+        rec.recordGovernance.approvedAt = '2026-07-26';
+        rec.recordGovernance.approvedBy = 'reviewer@example.com';
         rec.physical.diameterMm.value = null;
         var r = validateBatteryRecord(rec, governanceData);
         return r.errors.join(' | ');
@@ -237,17 +249,29 @@
       }())
     });
 
+    tests.push({
+      name: 'supported value missing verifiedAt',
+      expected: 'contains verifiedAt error',
+      actual: (function () {
+        var rec = baseRecord();
+        rec.electrical.nominalVoltage.verifiedAt = null;
+        var r = validateBatteryRecord(rec, governanceData);
+        return r.errors.join(' | ');
+      }())
+    });
+
     var withStatus = tests.map(function (t) {
       var pass = false;
       if (t.expected === 'valid=true') pass = t.actual === 'valid=true';
       else if (t.expected === 'valid=false') pass = t.actual === 'valid=false';
       else if (t.expected.indexOf('unknown source error') !== -1) pass = /Unknown sourceId/.test(t.actual);
       else if (t.expected.indexOf('unsupported confidence') !== -1) pass = /Unsupported evidence confidence/.test(t.actual);
-      else if (t.expected.indexOf('placeholder/zero-dimension') !== -1) pass = /Placeholder value disallowed|Zero dimension placeholder/.test(t.actual);
+      else if (t.expected.indexOf('placeholder/zero-dimension') !== -1) pass = /Placeholder value disallowed|Non-positive dimension disallowed/.test(t.actual);
       else if (t.expected.indexOf('unresolved source conflict') !== -1) pass = /Unresolved source conflict/.test(t.actual);
       else if (t.expected.indexOf('transition error') !== -1) pass = /Prohibited status transition/.test(t.actual);
       else if (t.expected.indexOf('missing category-required field') !== -1) pass = /Category-required field cannot be unknown|Missing category-required field/.test(t.actual);
       else if (t.expected.indexOf('rights/evidence error') !== -1) pass = /commercially reusable without explicit evidence/.test(t.actual);
+      else if (t.expected.indexOf('verifiedAt error') !== -1) pass = /missing verifiedAt/.test(t.actual);
 
       return {
         Test: t.name,

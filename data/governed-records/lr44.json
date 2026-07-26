@@ -1,0 +1,819 @@
+{
+  "recordType": "standard_size",
+  "canonicalName": "LR44",
+  "identification": {
+    "recordId": "gov-lr44",
+    "canonicalCode": "LR44",
+    "aliases": [],
+    "manufacturer": null,
+    "manufacturerModel": null,
+    "standardFamily": "IEC LR button cell",
+    "category": "button_cell",
+    "subcategory": "alkaline_button_cell",
+    "applicationClasses": [
+      "consumer_button_cell"
+    ],
+    "marketRegions": []
+  },
+  "physical": {
+    "lengthMm": {
+      "value": null,
+      "unit": "mm",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative family evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "widthMm": {
+      "value": null,
+      "unit": "mm",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative family evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "heightMm": {
+      "value": null,
+      "unit": "mm",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative family evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "diameterMm": {
+      "value": 11.6,
+      "unit": "mm",
+      "evidenceConfidence": "high",
+      "sourceIds": [
+        "SRC-MURATA-LR44-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Manufacturer datasheet cited in source register.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": 11.6,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "thicknessMm": {
+      "value": 5.4,
+      "unit": "mm",
+      "evidenceConfidence": "high",
+      "sourceIds": [
+        "SRC-MURATA-LR44-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Manufacturer datasheet cited in source register.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": 5.4,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "terminalType": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative family evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "terminalLayout": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative family evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "polarityOrientation": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative family evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "connectorGeometry": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "connectorKeying": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "holdDownType": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative family evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "baseProfile": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Unknown in this sprint unless directly supported by authoritative family evidence.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "mountingProfile": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "weightKg": {
+      "value": null,
+      "unit": "kg",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    }
+  },
+  "electrical": {
+    "nominalVoltage": {
+      "value": 1.5,
+      "unit": "V",
+      "evidenceConfidence": "high",
+      "sourceIds": [
+        "SRC-MURATA-LR44-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Manufacturer datasheet cited in source register.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": 1.5,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "capacityAh": {
+      "value": null,
+      "unit": "Ah",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Left null in this sprint unless family-level evidence supports a clearly labelled range.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "capacityMah": {
+      "value": null,
+      "unit": "mAh",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not applicable or unknown for this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "capacityTestConditions": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "cca": {
+      "value": null,
+      "unit": "A",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Left null in this sprint unless family-level evidence supports a clearly labelled range.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "ccaTestStandard": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "reserveCapacityMinutes": {
+      "value": null,
+      "unit": "minutes",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Left null in this sprint unless family-level evidence supports a clearly labelled range.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "continuousDischargeA": {
+      "value": null,
+      "unit": "A",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "peakDischargeA": {
+      "value": null,
+      "unit": "A",
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "rechargeable": {
+      "value": false,
+      "unit": null,
+      "evidenceConfidence": "high",
+      "sourceIds": [
+        "SRC-MURATA-LR44-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "LR44 governed as a primary, non-rechargeable button cell in manufacturer documentation.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": false,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    }
+  },
+  "chemistry": {
+    "chemistryFamily": {
+      "value": "alkaline_manganese_dioxide",
+      "unit": null,
+      "evidenceConfidence": "high",
+      "sourceIds": [
+        "SRC-MURATA-LR44-2026-001"
+      ],
+      "verifiedAt": "2026-07-26",
+      "verifiedBy": null,
+      "notes": "Manufacturer datasheet cited in source register.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": "alkaline_manganese_dioxide",
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "chemistrySubtype": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "chargingProfile": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "bmsRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "batteryCommunicationRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    }
+  },
+  "australianContext": {
+    "australianAvailability": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "cecListingRelevant": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "cecListingStatus": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "eessRelevant": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "recallStatus": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "specialistInstallationRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "recyclingPathway": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "stateSpecificRequirementsPossible": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    }
+  },
+  "replacementPathway": {
+    "consumerReplaceable": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "supplierConfirmationRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "manufacturerConfirmationRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "qualifiedInstallerRequired": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    },
+    "specialistOnly": {
+      "value": null,
+      "unit": null,
+      "evidenceConfidence": "unknown",
+      "sourceIds": [],
+      "verifiedAt": null,
+      "verifiedBy": null,
+      "notes": "Not populated in this sprint.",
+      "conflict": {
+        "status": "none",
+        "acceptedValue": null,
+        "competingValues": [],
+        "resolutionNotes": null,
+        "reviewer": null,
+        "resolvedAt": null
+      }
+    }
+  },
+  "recordGovernance": {
+    "recordStatus": "under_review",
+    "previousStatus": null,
+    "createdAt": "2026-07-26",
+    "updatedAt": "2026-07-26",
+    "reviewDueAt": "2026-08-30",
+    "approvedAt": null,
+    "approvedBy": null,
+    "reviewedAt": null,
+    "reviewedBy": null,
+    "disputeNotes": null,
+    "version": "0.1.0",
+    "reviewNotes": "Internal governed seed record with source-backed size and chemistry fields; alias governance review remains outstanding.",
+    "publicEligibility": false,
+    "compatibilityEngineEligibility": false,
+    "changeHistory": [
+      {
+        "changedAt": "2026-07-26",
+        "changedBy": "copilot",
+        "changeSummary": "Initial governed record created for internal review only."
+      }
+    ]
+  },
+  "unknowns": [
+    {
+      "field": "typicalApplications",
+      "reason": "Not populated without direct authoritative support."
+    },
+    {
+      "field": "relationshipGovernance.directEquivalentClaims",
+      "reason": "No authoritative direct-equivalent evidence gathered in this sprint."
+    }
+  ],
+  "conflicts": [],
+  "assumptions": [
+    "Application classes describe internal taxonomy only and are not asserted as sourced typical applications."
+  ],
+  "limitations": [
+    "This record does not approve LR44-to-SR44 substitution.",
+    "Public exposure remains blocked until alias governance is manually approved."
+  ],
+  "nextEvidenceRequired": [
+    "Review authorized catalogue evidence before promoting any marketing alias to a governed alias.",
+    "Collect chemistry-specific evidence for any future LR44/SR44 relationship analysis."
+  ],
+  "relationshipGovernance": {
+    "classification": "insufficient_evidence",
+    "candidateAliasNotes": [
+      {
+        "code": "AG13",
+        "status": "marketing_or_cross_reference_only",
+        "notes": "Not promoted to a governed alias or direct equivalent in this sprint."
+      }
+    ],
+    "directEquivalentClaims": [],
+    "separateRecords": [
+      "SR44"
+    ],
+    "risks": [
+      "AG13 may appear as a marketing or cross-reference label and is not treated as a governed direct equivalent.",
+      "SR44 remains a separate chemistry-specific record and is not declared directly equivalent here.",
+      "Substitutions depend on device requirements and discharge profile; no live relationship record is created in this sprint."
+    ],
+    "verifiedAt": "2026-07-26",
+    "verifiedBy": null
+  },
+  "vehicleFitmentMappings": []
+}

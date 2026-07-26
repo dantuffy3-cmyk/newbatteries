@@ -252,7 +252,13 @@
         "recordStatus",
         "createdAt",
         "updatedAt",
-        "version"
+        "version",
+        "reviewDueAt",
+        "approvedAt",
+        "approvedBy",
+        "reviewNotes",
+        "publicEligibility",
+        "compatibilityEngineEligibility"
       ],
       "properties": {
         "recordStatus": {
@@ -334,6 +340,15 @@
           "items": {
             "type": "object"
           }
+        },
+        "reviewNotes": {
+          "type": "string"
+        },
+        "publicEligibility": {
+          "type": "boolean"
+        },
+        "compatibilityEngineEligibility": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false
@@ -492,7 +507,8 @@
         "physical.diameterMm",
         "physical.thicknessMm",
         "electrical.nominalVoltage",
-        "chemistry.chemistryFamily"
+        "chemistry.chemistryFamily",
+        "electrical.rechargeable"
       ],
       "optionalFields": [
         "physical.weightKg",
@@ -521,7 +537,8 @@
         "physical.diameterMm",
         "physical.thicknessMm",
         "electrical.nominalVoltage",
-        "chemistry.chemistryFamily"
+        "chemistry.chemistryFamily",
+        "electrical.rechargeable"
       ],
       "optionalFields": [
         "physical.weightKg"
@@ -601,9 +618,12 @@
         "physical.lengthMm",
         "physical.widthMm",
         "physical.heightMm",
+        "physical.terminalType",
         "physical.terminalLayout",
+        "physical.polarityOrientation",
+        "physical.holdDownType",
+        "physical.baseProfile",
         "electrical.nominalVoltage",
-        "electrical.cca",
         "chemistry.chemistryFamily"
       ],
       "optionalFields": [
