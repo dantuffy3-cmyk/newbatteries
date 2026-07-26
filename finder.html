@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Battery Finder | NewBatteries</title>
-  <meta name="description" content="Identify the battery you need step by step. Tell us about your equipment and NewBatteries will show you where to buy, have it installed, or get specialist help.">
+  <meta name="description" content="Identify the battery you need step by step and prepare a local request summary you can copy, print or save.">
   <meta name="robots" content="noindex">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
@@ -38,17 +38,16 @@
       <div class="progress-bar-wrap progress-rail" id="progressWrap" aria-label="Finder progress">
         <div class="progress-label">
           <span>
-            <span id="progressText">Step 1 of 6</span>
+            <span id="progressText">Step 1 of 5</span>
             <strong id="progressStepName"></strong>
           </span>
         </div>
-        <div class="progress-track" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="6" aria-labelledby="progressText">
+        <div class="progress-track" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-labelledby="progressText">
           <span class="progress-segment is-current" data-step="1" aria-hidden="true"></span>
           <span class="progress-segment" data-step="2" aria-hidden="true"></span>
           <span class="progress-segment" data-step="3" aria-hidden="true"></span>
           <span class="progress-segment" data-step="4" aria-hidden="true"></span>
           <span class="progress-segment" data-step="5" aria-hidden="true"></span>
-          <span class="progress-segment" data-step="6" aria-hidden="true"></span>
         </div>
       </div>
 
@@ -370,7 +369,7 @@
               <a href="compatibility.html" id="biv-compare-link" class="btn-text-link">Compare this battery with another →</a>
             </div>
             </div>
-            <p class="step-hint" style="margin-top:var(--sp-3)">Click <strong>Continue with enquiry</strong> below to request supply, installation or specialist help.</p>
+            <p class="step-hint" style="margin-top:var(--sp-3)">Continue to include this preliminary identification in your request summary.</p>
           </div>
 
           <!-- Unknown code result -->
@@ -379,16 +378,19 @@
               <strong>Code not found in our reference database</strong>
               <p style="margin:var(--sp-2) 0 0"><span id="biv-unknownCode"></span></p>
             </div>
-            <div style="margin-top:var(--sp-4);padding:var(--sp-5) var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius)">
-              <p style="margin:0 0 var(--sp-2)">This doesn&apos;t mean the code is wrong &mdash; manufacturer codes vary and may not be in our current reference database. Our supplier network may still be able to identify your battery from the code you&apos;ve entered.</p>
+            <div id="battIdUnknownGuidance" style="margin-top:var(--sp-4);padding:var(--sp-5) var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius)">
+              <p style="margin:0 0 var(--sp-2)">This doesn&apos;t mean the code is wrong &mdash; manufacturer codes vary and may not be in our current reference database.</p>
               <p style="font-weight:600;margin:0 0 var(--sp-2)">To improve identification, you can also:</p>
               <ul style="margin:0;padding-left:var(--sp-5)">
                 <li>Go back to <strong>Step 1</strong> and add your equipment make and model</li>
                 <li>Continue and select <strong>Battery identification help</strong> as the service type</li>
-                <li>Take and submit photos of the battery label</li>
+                <li>Capture the four photo views listed below for later reference</li>
               </ul>
             </div>
-            <p class="step-hint" style="margin-top:var(--sp-3)">Click <strong>Continue with enquiry</strong> below to proceed &mdash; a specialist can identify your battery from the code or from additional information you provide.</p>
+            <div id="battIdTechnicalGuidance" style="margin-top:var(--sp-4);padding:var(--sp-5) var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius)" hidden>
+              <p style="margin:0">This is a technical loading issue rather than a code-recognition result. Please refresh the page and try again, or continue to prepare your request summary using the details you already entered.</p>
+            </div>
+            <p class="step-hint" id="battIdUnknownHint" style="margin-top:var(--sp-3)">Continue to include your code details in your request summary.</p>
           </div>
 
         </div><!-- /#battIdResult -->
@@ -521,7 +523,7 @@
         </div>
 
         <div class="notice notice--info" style="margin-bottom:var(--sp-6)">
-          Photo upload is not yet enabled. Complete the request with the information you have, then copy or save the request summary for your records.
+          Photo upload is not yet enabled. These views show the photographs that will be most useful when evidence upload becomes available.
         </div>
 
         <div class="form-group">
@@ -663,61 +665,15 @@
         </div>
 
         <div class="step-actions">
-          <button class="btn btn-primary" id="btn-continue-location" type="button">Continue</button>
+          <button class="btn btn-primary" id="btn-continue-location" type="button">Review summary</button>
           <button class="btn-back" id="btn-back-location" type="button">&#8592; Back</button>
-        </div>
-      </div>
-
-      <!-- ═══ STEP 6 – CONTACT ══════════════════════════════════ -->
-      <div class="finder-card" id="step-contact" data-step="6" hidden>
-        <h1 id="step-contact-heading" tabindex="-1">Contact details</h1>
-        <p class="step-hint">Your contact details allow NewBatteries to follow up on your request.</p>
-
-        <div class="form-group">
-          <label for="contactName">Full name <span aria-hidden="true" style="color:var(--color-error)">*</span></label>
-          <input type="text" class="form-control" id="contactName" name="contactName"
-                 autocomplete="name" aria-describedby="error-contactName"
-                 aria-required="true" maxlength="100" placeholder="Your name" style="max-width:380px">
-          <div class="field-error" id="error-contactName" hidden role="alert">Please enter your name.</div>
-        </div>
-
-        <div class="form-group">
-          <label for="contactEmail">Email address <span aria-hidden="true" style="color:var(--color-error)">*</span></label>
-          <span class="form-hint" id="hint-contactEmail">Used to contact you about your battery request</span>
-          <input type="email" class="form-control" id="contactEmail" name="contactEmail"
-                 autocomplete="email" aria-describedby="hint-contactEmail error-contactEmail"
-                 aria-required="true" maxlength="254" placeholder="you@example.com" style="max-width:380px">
-          <div class="field-error" id="error-contactEmail" hidden role="alert">Please enter a valid email address.</div>
-        </div>
-
-        <div class="form-group">
-          <label for="contactPhone">Phone number <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <span class="form-hint" id="hint-contactPhone">Mobile preferred for any follow-up</span>
-          <input type="tel" class="form-control" id="contactPhone" name="contactPhone"
-                 autocomplete="tel" aria-describedby="hint-contactPhone" maxlength="20"
-                 placeholder="e.g. 0412 345 678" style="max-width:280px">
-        </div>
-
-        <div class="form-group">
-          <label for="contactMethod">Preferred contact method <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
-          <select class="form-control" id="contactMethod" name="contactMethod" style="max-width:280px">
-            <option value="">&#8212; No preference &#8212;</option>
-            <option value="Email">Email</option>
-            <option value="Phone or text">Phone or text</option>
-            <option value="Either is fine">Either is fine</option>
-          </select>
-        </div>
-
-        <div class="step-actions">
-          <button class="btn btn-primary" id="btn-continue-contact" type="button">Review enquiry</button>
-          <button class="btn-back" id="btn-back-contact" type="button">&#8592; Back</button>
         </div>
       </div>
 
       <!-- ═══ REVIEW ═════════════════════════════════════════════ -->
       <div class="finder-card" id="step-review" hidden style="max-width:680px">
-        <h1 id="step-review-heading" tabindex="-1">Review your enquiry</h1>
-        <p class="step-hint" style="margin-bottom:var(--sp-4)">Check your details below. Use the Change links to go back and correct anything before submitting.</p>
+        <h1 id="step-review-heading" tabindex="-1">Review your battery request summary</h1>
+        <p class="step-hint" style="margin-bottom:var(--sp-4)">Check the information below before copying, printing or saving your summary.</p>
 
         <p class="step-hint" style="margin-bottom:var(--sp-8)">Request reference: <strong id="rv-request-ref" style="color:var(--battery-white,#1a201e)">&#8212;</strong></p>
 
@@ -786,39 +742,8 @@
           </dl>
         </div>
 
-        <!-- Group 5: Contact details -->
-        <div class="review-section">
-          <div class="review-section-header">
-            <h2>Contact details</h2>
-            <a href="#" class="change-link" data-goto="step-contact" aria-label="Change: Contact details">Change</a>
-          </div>
-          <dl class="review-dl">
-            <dt>Name</dt><dd id="rv-name">&#8212;</dd>
-            <dt>Email</dt><dd id="rv-email">&#8212;</dd>
-            <dt>Phone</dt><dd id="rv-phone">&#8212;</dd>
-            <dt>Preferred contact</dt><dd id="rv-contactMethod">&#8212;</dd>
-          </dl>
-        </div>
-
-        <!-- Honeypot: hidden from real users; bots fill this field and Formspree rejects the submission -->
-        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-        <!-- Privacy consent -->
-        <div class="form-group consent-group" style="margin-top:var(--sp-6);padding:var(--sp-5);background:rgba(7,9,8,.4);border:1px solid rgba(245,247,245,.18);border-radius:var(--radius)">
-          <div style="display:flex;gap:var(--sp-3);align-items:flex-start">
-            <input type="checkbox" id="consentPrivacy" name="consentPrivacy"
-                   aria-describedby="error-consentPrivacy"
-                   style="margin-top:3px;width:20px;height:20px;flex-shrink:0;cursor:pointer">
-            <label for="consentPrivacy" style="cursor:pointer;line-height:1.5">
-              I understand that online submission is not yet enabled and no information will be transmitted from this page.
-              <a href="privacy.html" style="color:var(--energy-cyan,#45DCE8)">Privacy policy</a>
-            </label>
-          </div>
-          <div class="field-error" id="error-consentPrivacy" hidden role="alert" style="margin-top:var(--sp-2)">Please confirm that you understand no information will be transmitted.</div>
-        </div>
-
         <div class="step-actions" style="margin-top:var(--sp-6)">
-          <button class="btn btn-primary" id="btn-submit" type="button">Prepare request summary</button>
+          <button class="btn btn-primary" id="btn-submit" type="button">Prepare summary</button>
           <button class="btn-back" id="btn-back-review" type="button">&#8592; Back</button>
         </div>
       </div>
@@ -826,20 +751,14 @@
       <!-- ═══ CONFIRMATION ══════════════════════════════════════ -->
       <div class="finder-card" id="step-confirm" hidden>
 
-        <h1 id="step-confirm-heading" tabindex="-1" class="visually-hidden">Enquiry summary</h1>
-
-        <div id="confirm-summary">
-          <div class="confirm-banner">
-            <h2>Your request summary is ready</h2>
-            <p>Online submission is not yet enabled. No information has been transmitted. You can copy or save the request summary for your records.</p>
-          </div>
-        </div>
+        <h1 id="step-confirm-heading" tabindex="-1">Your request summary is ready</h1>
+        <p class="step-hint">Online submission is not yet enabled. No information has been transmitted. You can copy, print or save your request summary while NewBatteries continues developing its review service.</p>
 
         <!-- ── Shared: request reference and summary ─────────── -->
         <p style="margin-top:var(--sp-6)">
-          Summary reference: <strong id="confirm-request-ref">&#8212;</strong>
+          Identification request summary reference: <strong id="confirm-request-ref">&#8212;</strong>
         </p>
-        <p style="margin-top:var(--sp-2)">Summary of information provided:</p>
+        <p style="margin-top:var(--sp-2)">Identification request summary:</p>
         <div id="confirmSummary" style="margin-top:var(--sp-4)"></div>
 
         <!-- ── Action buttons ─────────────────────────────────── -->
@@ -848,6 +767,7 @@
           <button class="btn btn-ghost" id="btn-print-summary" type="button">Print or save summary</button>
           <button class="btn btn-primary" id="btn-improve-identification" type="button">Improve identification</button>
           <button class="btn btn-ghost" id="btn-start-over" type="button">Start again</button>
+          <a class="btn btn-ghost" href="index.html">Return home</a>
         </div>
       </div>
 

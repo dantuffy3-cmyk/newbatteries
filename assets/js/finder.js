@@ -1,7 +1,7 @@
 /* =============================================================
    NewBatteries – finder.js (v2)
    Finder-first battery identification service.
-   8-step enquiry flow: no fake results, no fake suppliers.
+   Local request-summary flow: no fake results, no fake suppliers.
    ============================================================= */
 
 (function () {
@@ -11,22 +11,34 @@
 
   /* ── Battery identification module ─────────────────────────── */
   var batteryData = null; /* loaded on demand from data/batteries.json */
+  var batteryDataLoadFailed = false;
 
   function normaliseBattCode(code) {
     return code.replace(/[\s\-\.]/g, '').toUpperCase();
   }
 
   function loadBatteryData(cb) {
-    if (batteryData !== null) { cb(batteryData); return; }
+    if (batteryData !== null) { cb(null, batteryData); return; }
+    if (batteryDataLoadFailed) { cb(new Error('load_failed'), []); return; }
     fetch('data/batteries.json')
-      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        if (!r.ok) throw new Error('load_failed');
+        return r.json();
+      })
       .then(function (d) {
-        batteryData = Array.isArray(d.batteries) ? d.batteries : [];
-        cb(batteryData);
+        if (!d || !Array.isArray(d.batteries)) {
+          batteryDataLoadFailed = true;
+          batteryData = [];
+          cb(new Error('load_failed'), []);
+          return;
+        }
+        batteryData = d.batteries;
+        cb(null, batteryData);
       })
       .catch(function () {
+        batteryDataLoadFailed = true;
         batteryData = [];
-        cb([]);
+        cb(new Error('load_failed'), []);
       });
   }
 
@@ -68,6 +80,7 @@
   }
 
   function confidenceLabel(conf) {
+    if (conf === 'technical_failure') return 'Unavailable \u2014 the identification data could not be loaded';
     if (conf === 'exact')  return 'High \u2014 exact code recognised in reference database';
     if (conf === 'family') return 'Medium \u2014 recognised battery family; exact variant requires supplier verification';
     return 'Low \u2014 code not found in reference database';
@@ -86,7 +99,7 @@
         chemistryOptions:     [],
         warnings:             [],
         verificationRequired: [],
-        evidence:             'Code not recognised in current reference data',
+        evidence:             'The code was not recognised in the current reference data.',
         unknowns:             ['Battery family', 'Variant details', 'Fitment checks']
       };
     }
@@ -128,6 +141,23 @@
     };
   }
 
+  function buildTechnicalFailureResult(enteredCode) {
+    return {
+      confidence:           'technical_failure',
+      enteredCode:          enteredCode,
+      canonical:            null,
+      family:               null,
+      category:             null,
+      nominalVoltage:       '',
+      typicalApplications:  [],
+      chemistryOptions:     [],
+      warnings:             [],
+      verificationRequired: [],
+      evidence:             'The identification data could not be loaded.',
+      unknowns:             ['Please refresh and try again']
+    };
+  }
+
   function setText(id, text) {
     var el = $(id);
     if (el) el.textContent = text || '\u2014';
@@ -141,14 +171,33 @@
 
     wrap.hidden = false;
 
-    if (result.confidence === 'unknown') {
+    if (result.confidence === 'unknown' || result.confidence === 'technical_failure') {
       recog.hidden   = true;
       unknown.hidden = false;
       var compareWrapUnknown = $('biv-compare-wrap');
       if (compareWrapUnknown) compareWrapUnknown.hidden = true;
+      var unknownHeading = unknown.querySelector('strong');
+      if (unknownHeading) {
+        unknownHeading.textContent = result.confidence === 'technical_failure'
+          ? 'Identification data unavailable'
+          : 'Code not found in our reference database';
+      }
+      var unknownGuidance = $('battIdUnknownGuidance');
+      var technicalGuidance = $('battIdTechnicalGuidance');
+      var unknownHint = $('battIdUnknownHint');
+      var isTechnical = result.confidence === 'technical_failure';
+      if (unknownGuidance) unknownGuidance.hidden = isTechnical;
+      if (technicalGuidance) technicalGuidance.hidden = !isTechnical;
+      if (unknownHint) {
+        unknownHint.textContent = isTechnical
+          ? 'You can continue to prepare your request summary now.'
+          : 'Continue to include your code details in your request summary.';
+      }
       var unknCode = $('biv-unknownCode');
       if (unknCode) {
-        unknCode.textContent = '\u201c' + result.enteredCode + '\u201d is not in our current reference database.';
+        unknCode.textContent = isTechnical
+          ? 'The identification data could not be loaded.'
+          : 'The code was not recognised in the current reference data.';
       }
       return;
     }
@@ -286,7 +335,7 @@
     };
     renderIdentResult(result);
     var btn = $('btn-continue-batt-code');
-    if (btn) btn.textContent = 'Continue with enquiry \u2192';
+    if (btn) btn.textContent = 'Continue to summary \u2192';
   }
 
   /* ── Label maps ─────────────────────────────────────────── */
@@ -346,28 +395,26 @@
     'step-not-sure':      { num: 3, label: 'Your situation' },
     'step-help-type':     { num: 4, label: 'Help required' },
     'step-location':      { num: 5, label: 'Your location' },
-    'step-contact':       { num: 6, label: 'Contact details' },
     'step-review':        { num: null, label: 'Review' },
     'step-confirm':       { num: null, label: 'Done' }
   };
 
-  var TOTAL_STEPS = 6;
+  var TOTAL_STEPS = 5;
 
   /* All step element IDs (used for hide-all) */
   var ALL_STEPS = [
     'step-category', 'step-info-type',
     'step-equip-details', 'step-batt-code', 'step-batt-specs',
     'step-photo', 'step-not-sure',
-    'step-help-type', 'step-location', 'step-contact',
+    'step-help-type', 'step-location',
     'step-review', 'step-confirm'
   ];
 
   /* ── State ──────────────────────────────────────────────── */
   /* state: non-sensitive flow data (category, info type, battery details, help type).
-     locationState and contactState: kept in-memory only and never persisted. */
+     locationState: kept in-memory only and never persisted. */
   var state = loadState();
   var locationState = {};
-  var contactState = {};
   var currentStepId = 'step-category';
 
   function loadState() {
@@ -379,12 +426,11 @@
   }
 
   function saveState() {
-    /* Only persist non-location, non-contact flow data */
+    /* Only persist non-location flow data */
     try {
       var toSave = {};
       var exclude = {
-        suburb: 1, state: 1, postcode: 1, urgency: 1,
-        contactName: 1, contactEmail: 1, contactPhone: 1
+        suburb: 1, state: 1, postcode: 1, urgency: 1
       };
       Object.keys(state).forEach(function (k) {
         if (!exclude[k]) toSave[k] = state[k];
@@ -396,12 +442,8 @@
   function clearState() {
     state = {};
     locationState = {};
-    contactState = {};
     try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
   }
-
-  /* ── Submission helpers ─────────────────────────────────────── */
-  var submissionInFlight = false;
 
   function pad2(n) { return n < 10 ? '0' + n : '' + n; }
 
@@ -411,112 +453,20 @@
     return 'NB-' + now.getFullYear() + pad2(now.getMonth() + 1) + pad2(now.getDate()) + '-' + rand;
   }
 
-  function buildSubmissionPayload() {
-    var loc = [locationState.suburb, locationState.state, locationState.postcode].filter(Boolean).join(', ');
-    var payload = {};
-
-    payload.request_reference      = state.requestRef || '';
-    payload.equipment_category     = CATEGORY_LABELS[state.category]   || state.category   || '';
-    payload.identification_pathway = INFO_LABELS[state.infoType]       || '';
-    payload.help_required          = HELP_LABELS[state.helpType]       || '';
-    payload.location               = loc;
-    if (locationState.urgency) {
-      payload.urgency = URGENCY_LABELS[locationState.urgency] || locationState.urgency;
-    }
-    payload.full_name = contactState.contactName  || '';
-    payload.email     = contactState.contactEmail || '';
-    if (contactState.contactPhone)  payload.phone                    = contactState.contactPhone;
-    if (contactState.contactMethod) payload.preferred_contact_method = contactState.contactMethod;
-
-    /* Pathway-specific fields */
-    if (state.infoType === 'equipment') {
-      var ep = [];
-      if (!state.equipNotSure) {
-        if (state.equipType)  ep.push('Type: '  + state.equipType);
-        if (state.equipBrand) ep.push('Brand: ' + state.equipBrand);
-        if (state.equipModel) ep.push('Model: ' + state.equipModel);
-        if (state.equipYear)  ep.push('Year: '  + state.equipYear);
-      }
-      if (state.equipNotes) ep.push('Notes: ' + state.equipNotes);
-      payload.equipment_brand_model = ep.join('; ') || 'Details not available';
-    }
-
-    if (state.infoType === 'number') {
-      if (state.battBrand) payload.battery_brand = state.battBrand;
-      payload.battery_number = state.battCodeNotSure ? 'Not available' : (state.battCode || '');
-      if (state.battCodeNotes) payload.notes = state.battCodeNotes;
-    }
-
-    if (state.infoType === 'specs') {
-      var sp = [];
-      if (state.specVoltage && state.specVoltage !== 'other') sp.push('Voltage: ' + state.specVoltage);
-      if (state.specAh) sp.push('Capacity: ' + state.specAh + ' Ah');
-      if (state.specChemistry && state.specChemistry !== 'notsure') {
-        sp.push('Chemistry: ' + (CHEMISTRY_LABELS[state.specChemistry] || state.specChemistry));
-      }
-      var dims = [state.specLength, state.specWidth, state.specHeight].filter(Boolean);
-      if (dims.length === 3) sp.push('Size: ' + dims.join(' x ') + ' mm');
-      else if (dims.length)  sp.push('Dimensions (partial): ' + dims.join(', ') + ' mm');
-      if (state.specTerminal && state.specTerminal !== 'notsure') sp.push('Terminal: ' + state.specTerminal);
-      payload.specifications = sp.join('; ') || 'Not provided';
-      if (state.specsNotes) payload.notes = state.specsNotes;
-    }
-
-    if (state.infoType === 'photo' && state.photoNotes)    payload.notes = state.photoNotes;
-    if (state.infoType === 'notsure' && state.notSureNotes) payload.notes = state.notSureNotes;
-
-    /* Identification results (number pathway) */
-    if (state.battIdDone) {
-      payload.preliminary_identification = state.battIdCanonical || 'Not recognised';
-      payload.confidence                 = confidenceLabel(state.battIdConf || 'unknown');
-      payload.evidence                   = state.battIdEvidence || '';
-      if (state.battIdUnknowns   && state.battIdUnknowns.length)   payload.unknowns = state.battIdUnknowns.join(', ');
-      if (state.battIdWarnings   && state.battIdWarnings.length)   payload.warnings = state.battIdWarnings.join(', ');
-      if (state.battIdVerification && state.battIdVerification.length) payload.supplier_verification_required = state.battIdVerification.join(', ');
-    }
-
-    payload.submission_timestamp = new Date().toISOString();
-    payload.source_page          = window.location.href;
-
-    return payload;
-  }
-
   function setSubmissionStatus(text) {
     var el = $('submissionStatus');
     if (el) el.textContent = text || '';
   }
 
-  function setConfirmState() {
-    var heading = $('step-confirm-heading');
-    if (heading) {
-      heading.textContent = 'Your request summary is ready';
-      heading.className   = 'visually-hidden';
-    }
-    setSubmissionStatus('Your request summary is ready. No information has been transmitted.');
-  }
-
   function submitRequest() {
-    if (submissionInFlight) return;
-
-    /* Validate privacy consent */
-    if (!isChecked('consentPrivacy')) {
-      showFieldError('error-consentPrivacy', true);
-      var cb = $('consentPrivacy');
-      if (cb) setTimeout(function () { cb.focus(); }, 60);
-      return;
-    }
-    showFieldError('error-consentPrivacy', false);
-
     /* Ensure request reference exists */
     if (!state.requestRef) {
       state.requestRef = generateRequestRef();
       saveState();
     }
 
-    state.submittedAt = null;
-    saveState();
     showStep('step-confirm');
-    setConfirmState();
+    setSubmissionStatus('Your request summary is ready. No information has been transmitted.');
   }
 
   /* ── DOM helpers ────────────────────────────────────────── */
@@ -761,11 +711,6 @@
     } catch (e) { /* ignore */ }
   }
 
-  /* ── Email validation ───────────────────────────────────── */
-  function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-
   /* ── Review page ────────────────────────────────────────── */
   function setReviewField(id, text) {
     var el = $(id);
@@ -817,7 +762,7 @@
       if (state.specsNotes) details.push('Notes: ' + state.specsNotes);
       if (state.specsNotSure && !details.length) details.push('Specifications not available');
     } else if (state.infoType === 'photo') {
-      details.push('Photos to be provided after submission');
+      details.push('Photo upload not yet enabled');
       if (state.photoNotes) details.push('Notes: ' + state.photoNotes);
     } else if (state.infoType === 'notsure') {
       if (state.notSureNotes) details.push(state.notSureNotes);
@@ -831,10 +776,10 @@
       var showBattId = state.infoType === 'number' && state.battIdDone;
       rvBattIdSec.hidden = !showBattId;
       if (showBattId) {
-        if (state.battIdConf === 'unknown') {
-          setReviewField('rv-battCanonical',    'Not found in reference database');
-          setReviewField('rv-battConfidence',   confidenceLabel('unknown'));
-          setReviewField('rv-battEvidence',     state.battIdEvidence || 'Code not recognised in current reference data');
+        if (state.battIdConf === 'unknown' || state.battIdConf === 'technical_failure') {
+          setReviewField('rv-battCanonical',    state.battIdConf === 'technical_failure' ? 'Identification data unavailable' : 'Not found in reference database');
+          setReviewField('rv-battConfidence',   confidenceLabel(state.battIdConf || 'unknown'));
+          setReviewField('rv-battEvidence',     state.battIdEvidence || (state.battIdConf === 'technical_failure' ? 'The identification data could not be loaded.' : 'The code was not recognised in the current reference data.'));
           setReviewField('rv-battUnknowns',     (state.battIdUnknowns || []).join(' \u00b7 ') || 'Variant and fitment details');
           setReviewField('rv-battWarnings',     '\u2014');
           setReviewField('rv-battVerification', '\u2014');
@@ -858,10 +803,6 @@
     setReviewField('rv-state',          locationState.state);
     setReviewField('rv-postcode',       locationState.postcode);
     setReviewField('rv-urgency',        URGENCY_LABELS[locationState.urgency] || locationState.urgency || 'Not specified');
-    setReviewField('rv-name',           contactState.contactName   || '');
-    setReviewField('rv-email',          contactState.contactEmail  || '');
-    setReviewField('rv-phone',          contactState.contactPhone  || 'Not provided');
-    setReviewField('rv-contactMethod',  contactState.contactMethod || 'No preference');
   }
 
   /* ── Confirmation summary ───────────────────────────────── */
@@ -885,19 +826,17 @@
       ['Identification method',INFO_LABELS[state.infoType]      || '\u2014']
     ];
 
-    if (state.battIdDone && state.battIdConf !== 'unknown' && state.battIdCanonical) {
+    if (state.battIdDone && state.battIdConf !== 'unknown' && state.battIdConf !== 'technical_failure' && state.battIdCanonical) {
       rows.push(['Possible identification', state.battIdCanonical + (state.battIdCategory ? ' \u2014 ' + state.battIdCategory : '')]);
       rows.push(['Confidence',              confidenceLabel(state.battIdConf || 'unknown')]);
+    } else if (state.battIdDone && state.battIdConf === 'technical_failure') {
+      rows.push(['Preliminary identification', 'The identification data could not be loaded.']);
     } else if (state.battIdDone) {
       rows.push(['Preliminary identification', 'Not recognised in reference database \u2014 compatibility still requires confirmation']);
     }
 
     rows.push(['Help required', HELP_LABELS[state.helpType]     || '\u2014']);
     rows.push(['Location',      location || '\u2014']);
-    rows.push(['Name',          contactState.contactName  || '\u2014']);
-    rows.push(['Email',         contactState.contactEmail || '\u2014']);
-    if (contactState.contactPhone)  rows.push(['Phone',             contactState.contactPhone]);
-    if (contactState.contactMethod) rows.push(['Preferred contact', contactState.contactMethod]);
 
     rows.forEach(function (row) {
       var dt = document.createElement('dt');
@@ -1042,7 +981,14 @@
         }
 
         /* Run battery-code identification before proceeding */
-        loadBatteryData(function (batteries) {
+        loadBatteryData(function (loadErr, batteries) {
+          if (loadErr) {
+            var failureResult = buildTechnicalFailureResult(code);
+            renderIdentResult(failureResult);
+            saveIdentToState(failureResult);
+            btnCode.textContent = 'Continue to summary \u2192';
+            return;
+          }
           var normalised = normaliseBattCode(code);
           var match      = lookupBattery(normalised, batteries);
           var result     = buildIdentResult(match, code);
@@ -1050,7 +996,7 @@
           saveIdentToState(result);
 
           /* Update button for the next click */
-          btnCode.textContent = 'Continue with enquiry \u2192';
+          btnCode.textContent = 'Continue to summary \u2192';
 
           /* Scroll the result panel into view and focus the result heading */
           var wrap = $('battIdResult');
@@ -1165,43 +1111,11 @@
         locationState.state    = stateVal;
         locationState.postcode = postcode;
         locationState.urgency  = urgency;
-        showStep('step-contact');
+        showStep('step-review');
       });
     }
     var backLocation = $('btn-back-location');
     if (backLocation) backLocation.addEventListener('click', function () { showStep('step-help-type'); });
-
-    /* Step 6: Contact ───────────────────────────────────── */
-    var btnContact = $('btn-continue-contact');
-    if (btnContact) {
-      btnContact.addEventListener('click', function () {
-        var name   = getVal('contactName').trim();
-        var email  = getVal('contactEmail').trim();
-        var phone  = getVal('contactPhone').trim();
-        var method = getVal('contactMethod');
-
-        clearFieldErrors(['contactName', 'contactEmail']);
-        var errors = [];
-        if (!name) {
-          showFieldError('error-contactName', true);
-          errors.push({ id: 'contactName', message: 'Please enter your name' });
-        }
-        if (!email || !isValidEmail(email)) {
-          showFieldError('error-contactEmail', true);
-          errors.push({ id: 'contactEmail', message: 'Please enter a valid email address' });
-        }
-        if (errors.length) { showErrorSummary(errors); return; }
-
-        /* Store contact data separately — never persisted to sessionStorage */
-        contactState.contactName   = name;
-        contactState.contactEmail  = email;
-        contactState.contactPhone  = phone;
-        contactState.contactMethod = method;
-        showStep('step-review');
-      });
-    }
-    var backContact = $('btn-back-contact');
-    if (backContact) backContact.addEventListener('click', function () { showStep('step-location'); });
 
     /* Review: Submit ────────────────────────────────────── */
     var btnSubmit = $('btn-submit');
@@ -1211,14 +1125,13 @@
 
     /* Review: Back ──────────────────────────────────────── */
     var backReview = $('btn-back-review');
-    if (backReview) backReview.addEventListener('click', function () { showStep('step-contact'); });
+    if (backReview) backReview.addEventListener('click', function () { showStep('step-location'); });
 
     /* Confirmation: Start over ──────────────────────────── */
     var btnOver = $('btn-start-over');
     if (btnOver) {
       btnOver.addEventListener('click', function () {
         clearState();
-        submissionInFlight = false;
         /* Reset all form controls */
         qsa('input[type="radio"]').forEach(function (r)    { r.checked = false; });
         qsa('input[type="checkbox"]').forEach(function (c) { c.checked = false; });
@@ -1235,7 +1148,7 @@
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.removeAttribute('aria-busy');
-          submitBtn.textContent = 'Prepare request summary';
+          submitBtn.textContent = 'Prepare summary';
         }
         setSubmissionStatus('');
         showStep('step-category');
@@ -1275,6 +1188,7 @@
 
     /* Determine starting step */
     var stepToShow = state.currentStep || 'step-category';
+    if (stepToShow === 'step-contact') stepToShow = 'step-location';
     if (!$(stepToShow) || stepToShow === 'step-confirm') {
       stepToShow = 'step-category';
     }
@@ -1294,6 +1208,10 @@
     if (stepToShow === 'step-batt-code') restoreBattIdPanel();
   }
 
-  init();
+  try {
+    init();
+  } catch (e) {
+    showErrorSummary([{ id: 'main-content', message: 'The identification data could not be loaded.' }]);
+  }
 
 })();
