@@ -126,6 +126,15 @@
     var inputB  = document.getElementById('inputB');
     var result  = document.getElementById('compatResult');
     var loading = document.getElementById('compatLoading');
+    var TECHNICAL_FALLBACK_MESSAGE = 'This compatibility check could not be completed. No information has been submitted. Please refresh the page or return to the Battery Finder.';
+
+    function showTechnicalFallback() {
+      loading.hidden = true;
+      result.innerHTML = '<p class="compat-error">' + TECHNICAL_FALLBACK_MESSAGE + '</p>';
+      result.hidden = false;
+      result.setAttribute('tabindex', '-1');
+      result.focus();
+    }
 
     function getParam(name) {
       try {
@@ -265,7 +274,7 @@
       html += '<ul class="compat-actions-list" role="list">';
       html += '<li><button type="button" class="btn-text-link" id="btn-check-another">Check another pair</button></li>';
       html += '<li><a href="finder.html?path=number">Use the main battery finder</a></li>';
-      html += '<li><a href="finder.html">Create a battery identification request</a></li>';
+      html += '<li><a href="finder.html">Create a battery request summary</a></li>';
       html += '<li><a href="finder.html?path=photo">Provide a model number or photo</a></li>';
       html += '</ul>';
       html += '</div>';
@@ -310,9 +319,8 @@
     }
 
     function runCheck(a, b) {
-      if (!window.NBCompatEngine) {
-        result.innerHTML = '<p class="compat-error">Compatibility engine not available. Please try refreshing the page.</p>';
-        result.hidden = false;
+      if (!window.NBCompatEngine || typeof window.NBCompatEngine.assess !== 'function') {
+        showTechnicalFallback();
         return;
       }
 
@@ -325,23 +333,30 @@
       window.NBCompatEngine.assess(a.trim(), b.trim(), function (err, data) {
         loading.hidden = true;
         if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); }
+        if (err || !data || typeof data !== 'object' || !data.classification) {
+          showTechnicalFallback();
+          return;
+        }
         renderResult(data);
       });
     }
 
-    if (form) {
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (!validate()) {
-          if (!inputA.value.trim()) { inputA.focus(); return; }
-          if (!inputB.value.trim()) { inputB.focus(); return; }
-          return;
-        }
-        runCheck(inputA.value, inputB.value);
-      });
+    try {
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (!validate()) {
+            if (!inputA.value.trim()) { inputA.focus(); return; }
+            if (!inputB.value.trim()) { inputB.focus(); return; }
+            return;
+          }
+          runCheck(inputA.value, inputB.value);
+        });
+      }
+      applyUrlParams();
+    } catch (e) {
+      showTechnicalFallback();
     }
-
-    applyUrlParams();
   })();
   </script>
 </body>

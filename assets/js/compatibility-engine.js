@@ -392,6 +392,10 @@
     }
 
     BatteryData.loadAll(function (errors, data) {
+      if (errors && errors.length) {
+        cb(new Error('compatibility_data_unavailable'), null);
+        return;
+      }
       var batteries  = (data && data.batteries)  || [];
       var ruleProfiles = (data && data.ruleProfiles) || {};
       function locateMatch(normCode) {
