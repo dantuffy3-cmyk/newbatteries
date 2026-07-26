@@ -60,14 +60,33 @@
                 type="button"
                 class="lp-id-control__photo"
                 id="homePhotoBtn"
-                aria-label="Use photo guidance for battery identification"
-                title="Use photo guidance"
+                aria-label="Open battery photo guidance"
+                title="Open battery photo guidance"
+                aria-expanded="false"
+                aria-controls="homePhotoGuidance"
               >
                 📷
               </button>
               <button type="submit" class="lp-id-control__submit">Start Battery Finder</button>
             </div>
           </form>
+
+          <div id="homePhotoGuidance" class="photo-guidance-panel" hidden role="dialog" aria-modal="false" aria-labelledby="homePhotoGuidanceTitle" aria-describedby="homePhotoGuidanceBody" tabindex="-1">
+            <h2 id="homePhotoGuidanceTitle">Photos that help identify a battery</h2>
+            <div id="homePhotoGuidanceBody">
+              <p>Take clear photos of:</p>
+              <ul>
+                <li>the full battery</li>
+                <li>the printed battery code</li>
+                <li>the label and specifications</li>
+                <li>the positive and negative terminals</li>
+                <li>the battery compartment or tray</li>
+                <li>the equipment model plate</li>
+              </ul>
+              <p>Photo upload is not yet enabled. These photos can help you collect the information needed for identification.</p>
+            </div>
+            <button type="button" class="btn btn-ghost btn-sm" id="homePhotoGuidanceClose">Close</button>
+          </div>
 
           <p class="lp-scope">Tools · vehicles · devices · equipment · solar · mobility · almost anything</p>
           <p class="lp-hero__outcome">Evidence shown. Unknowns made visible. Compatibility never guessed.</p>
@@ -83,7 +102,7 @@
             <h2 id="compat-card-heading" class="lp-compat-card__heading">Check a possible replacement</h2>
             <p class="lp-compat-card__text">Compare two battery codes and see what matches, what differs and what still needs confirmation.</p>
           </div>
-          <a href="compatibility.html" class="btn btn-lp-primary">Check compatibility</a>
+          <a href="compatibility.html" class="btn btn-lp-primary">Check a possible replacement</a>
         </div>
       </div>
     </section>
