@@ -1,0 +1,102 @@
+{
+  "version": "2.0.0",
+  "underReviewStatuses": [
+    "draft",
+    "under_review",
+    "reviewed",
+    "reviewed_not_approved"
+  ],
+  "scopeValues": [
+    "standard_size",
+    "family",
+    "chemistry_specific_family",
+    "exact_model",
+    "platform",
+    "application_family",
+    "specialist_only_pathway"
+  ],
+  "scopeLabels": {
+    "standard_size": "Standard-size record",
+    "family": "Battery family record",
+    "chemistry_specific_family": "Chemistry-specific family record",
+    "exact_model": "Exact model record",
+    "platform": "Battery platform record",
+    "application_family": "Application-family record",
+    "specialist_only_pathway": "Specialist-only pathway"
+  },
+  "reasonCodes": [
+    "eligible",
+    "record_not_approved",
+    "public_flag_false",
+    "critical_field_missing",
+    "critical_provenance_invalid",
+    "critical_rights_not_cleared",
+    "critical_conflict",
+    "record_disputed",
+    "record_deprecated",
+    "record_retired",
+    "scope_missing",
+    "malformed_record"
+  ],
+  "rightsValues": [
+    "cleared",
+    "restricted",
+    "unknown",
+    "not_applicable"
+  ],
+  "fieldStatuses": [
+    "public",
+    "withheld_unverified",
+    "withheld_rights",
+    "withheld_conflict",
+    "withheld_scope_unknown",
+    "withheld_malformed"
+  ],
+  "criticalCodeSuppression": [
+    "CR2032"
+  ],
+  "publicFactFields": [
+    "physical.diameterMm",
+    "physical.thicknessMm",
+    "physical.lengthMm",
+    "physical.widthMm",
+    "physical.heightMm",
+    "electrical.nominalVoltage",
+    "chemistry.chemistryFamily",
+    "electrical.rechargeable"
+  ],
+  "unitRequiredPaths": [
+    "physical.lengthMm",
+    "physical.widthMm",
+    "physical.heightMm",
+    "physical.diameterMm",
+    "physical.thicknessMm",
+    "electrical.nominalVoltage"
+  ],
+  "categoryAuthorityRequirements": {
+    "default": {
+      "maxAuthorityLevel": 10
+    },
+    "coin_cell": {
+      "maxAuthorityLevel": 4
+    },
+    "button_cell": {
+      "maxAuthorityLevel": 4
+    },
+    "automotive_12v": {
+      "maxAuthorityLevel": 5
+    }
+  },
+  "prohibitedCompatibilityWording": [
+    "compatible",
+    "suitable",
+    "recommended",
+    "safe replacement",
+    "direct substitute",
+    "universal fit"
+  ],
+  "requiredNotAssessedWording": "Device-specific compatibility has not been assessed.",
+  "requiredScopeNotice": "This record identifies a battery scope. It does not by itself confirm compatibility with a particular device or vehicle.",
+  "conflictNotice": "Some information is withheld while conflicting evidence is reviewed.",
+  "underReviewMessage": "A possible record exists, but it has not yet completed NewBatteries’ evidence review."
+}
