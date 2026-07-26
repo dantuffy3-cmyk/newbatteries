@@ -12,6 +12,8 @@
 }(typeof self !== 'undefined' ? self : this, function (PhysicalFitEngine, PhysicalFitResult) {
   'use strict';
 
+  var initialised = false;
+
   function fetchJson(url) {
     return fetch(url).then(function (response) {
       if (!response.ok) throw new Error('HTTP ' + response.status + ' loading ' + url);
@@ -147,6 +149,86 @@
       });
     }
     return result;
+  }
+
+  /* Compact renderer for the homepage preview — shows only the fields
+     required by the preview spec; does not render detailed rule lists. */
+  function renderScenarioPreview(testCase, rules, container) {
+    if (!container || !testCase || !PhysicalFitEngine || !PhysicalFitResult) return;
+
+    var result = PhysicalFitEngine.evaluatePhysicalFit(testCase.input, rules);
+    var labels = PhysicalFitResult.outcomeLabels;
+    var classes = PhysicalFitResult.outcomeClasses;
+    var lead = PhysicalFitResult.resultLead ? PhysicalFitResult.resultLead(result) : '';
+
+    container.innerHTML = '';
+    container.className = 'lp-rule-demo__result lp-rule-demo__result--preview';
+    container.removeAttribute('hidden');
+
+    /* Outcome badge */
+    var badge = document.createElement('p');
+    badge.className = 'compat-demo__badge ' + (classes[result.outcome] || 'compat-demo__badge--uncertain');
+    badge.textContent = labels[result.outcome] || result.outcome;
+    container.appendChild(badge);
+
+    /* One-sentence reason */
+    if (lead) {
+      var reasonEl = document.createElement('p');
+      reasonEl.className = 'lp-rule-demo__summary';
+      reasonEl.textContent = lead;
+      container.appendChild(reasonEl);
+    }
+
+    /* Evidence confidence */
+    var confidence = document.createElement('p');
+    confidence.className = 'lp-rule-demo__confidence';
+    confidence.textContent =
+      (result.evidenceSummary.overallConfidence || 'unverified') +
+      ' confidence · ' +
+      result.evidenceSummary.completenessLabel;
+    container.appendChild(confidence);
+
+    /* Most important unknown */
+    if (result.unknowns && result.unknowns.length) {
+      var ukLabel = document.createElement('p');
+      ukLabel.className = 'lp-rule-demo__label';
+      ukLabel.textContent = 'Key unknown';
+      container.appendChild(ukLabel);
+      var ukItem = document.createElement('p');
+      ukItem.className = 'lp-rule-demo__context';
+      ukItem.textContent = result.unknowns[0];
+      container.appendChild(ukItem);
+    }
+
+    /* One next action */
+    if (result.requiredNextActions && result.requiredNextActions.length) {
+      var actLabel = document.createElement('p');
+      actLabel.className = 'lp-rule-demo__label';
+      actLabel.textContent = 'Next action';
+      container.appendChild(actLabel);
+      var actItem = document.createElement('p');
+      actItem.className = 'lp-rule-demo__context';
+      actItem.textContent = result.requiredNextActions[0];
+      container.appendChild(actItem);
+    }
+
+    /* What has not been assessed */
+    if (result.areasNotAssessed && result.areasNotAssessed.length) {
+      var naLabel = document.createElement('p');
+      naLabel.className = 'lp-rule-demo__label';
+      naLabel.textContent = 'Not assessed';
+      container.appendChild(naLabel);
+      var naItem = document.createElement('p');
+      naItem.className = 'lp-rule-demo__confidence';
+      naItem.textContent = result.areasNotAssessed[0];
+      container.appendChild(naItem);
+    }
+
+    /* Confirmation note */
+    var note = document.createElement('p');
+    note.className = 'lp-rule-demo__supplier-note';
+    note.textContent = 'Physical fit only. Electrical, chemistry and charging-system compatibility have not been assessed. Confirm before purchase or installation.';
+    container.appendChild(note);
   }
 
   function setActiveCategory(profile) {
@@ -308,11 +390,67 @@
     renderControlledResult(rules);
   }
 
-  function init() {
-    var rootEl = byId('physicalFitDemo');
+  /* Preview mode: initialises only the compact scenario selector on the homepage. */
+  function initPreview(rootEl) {
+    var select = rootEl.querySelector('#compatDemoScenarioSelect') || byId('compatDemoScenarioSelect');
+    var resultContainer = rootEl.querySelector('#compatScenarioResult') || byId('compatScenarioResult');
+
+    if (!select) {
+      console.error('[Physical Fit Demo] Preview: scenario selector not found.');
+      return;
+    }
+
+    Promise.all([
+      fetchJson('data/physical-fit-rules.json'),
+      fetchJson('data/physical-fit-test-cases.json')
+    ]).then(function (data) {
+      var rules = data[0];
+      var testCaseData = data[1];
+      var testCases = (testCaseData && testCaseData.testCases) || [];
+      var demoCases = testCases.filter(function (item) { return item.demo; });
+
+      while (select.firstChild) select.removeChild(select.firstChild);
+      demoCases.forEach(function (testCase, index) {
+        var option = document.createElement('option');
+        option.value = String(index);
+        option.textContent = testCase.name;
+        select.appendChild(option);
+      });
+
+      select.addEventListener('change', function () {
+        var idx = Number(select.value) || 0;
+        renderScenarioPreview(demoCases[idx], rules, resultContainer);
+      });
+
+      if (demoCases.length) {
+        renderScenarioPreview(demoCases[0], rules, resultContainer);
+      } else if (resultContainer) {
+        resultContainer.removeAttribute('hidden');
+        resultContainer.textContent = 'No demo scenarios are available at this time.';
+      }
+    }).catch(function (error) {
+      console.error('[Physical Fit Demo] Unable to initialise preview.', error);
+      /* Customer-safe fallback — no raw error shown to users */
+      while (select.firstChild) select.removeChild(select.firstChild);
+      var opt = document.createElement('option');
+      opt.textContent = 'Preview unavailable';
+      select.appendChild(opt);
+      select.disabled = true;
+      if (resultContainer) {
+        resultContainer.removeAttribute('hidden');
+        resultContainer.textContent = 'The physical-fit demonstration is temporarily unavailable.';
+      }
+    });
+  }
+
+  /* Lab mode: initialises detailed controls, test harness and full results. */
+  function initLab(rootEl) {
     var select = byId('compatDemoScenarioSelect');
 
-    if (!rootEl || !select || !PhysicalFitEngine || !PhysicalFitResult) return;
+    if (!select) {
+      console.error('[Physical Fit Demo] Lab: scenario selector not found.');
+      return;
+    }
 
     Promise.all([
       fetchJson('data/physical-fit-rules.json'),
@@ -342,12 +480,28 @@
       report = runTests(rules, testCases);
       renderTestReport(report);
     }).catch(function (error) {
-      console.error('[Physical Fit Demo] Unable to initialise demo.', error);
+      console.error('[Physical Fit Demo] Unable to initialise lab.', error);
       var status = byId('compatTestReportStatus');
       var summary = byId('compatScenarioResult');
       if (status) status.textContent = 'The live physical-fit test report could not be loaded in this browser session.';
       if (summary) summary.textContent = 'The physical-fit demonstration could not be loaded in this browser session.';
     });
+  }
+
+  function init() {
+    if (initialised) return;
+    initialised = true;
+
+    var rootEl = byId('physicalFitDemo');
+    if (!rootEl || !PhysicalFitEngine || !PhysicalFitResult) return;
+
+    var mode = rootEl.getAttribute('data-physical-fit-mode') || 'lab';
+
+    if (mode === 'preview') {
+      initPreview(rootEl);
+    } else {
+      initLab(rootEl);
+    }
   }
 
   if (typeof document !== 'undefined') {
