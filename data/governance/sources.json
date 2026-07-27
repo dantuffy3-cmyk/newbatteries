@@ -26,9 +26,9 @@
       "archiveReference": null,
       "reviewExpiry": null,
       "reviewPolicyStatus": "not_reviewed",
-      "sourceStatus": "candidate",
+      "sourceStatus": "identified_not_acquired",
       "approvalStatus": "not_approved",
-      "notes": "Standards body content requires purchase or licence. Only designation metadata may be referenced without licence."
+      "notes": "Standards body content requires purchase or licence. Document not yet acquired. Future evidence source only. Must not support active fields or rules until acquired and reviewed."
     },
     {
       "sourceId": "SRC-V2-PANASONIC-CR2032-001",
