@@ -1,0 +1,230 @@
+{
+  "version": "2.0.0",
+  "recordType": "internal_governed_v2",
+  "batteryCode": "CR2032",
+  "description": "Conservative internal V2 governed record for CR2032. No approval marks. No public exposure. Manufacturer-specific performance data withheld. Panasonic-only corroboration for some fields. Energizer-only for specific chemistry and related codes. IEC 60086 removed (identified_not_acquired).",
+  "createdAt": "2026-07-27",
+  "technicalIdentity": {
+    "canonicalDesignation": {
+      "value": null,
+      "valueStatus": "withheld",
+      "sourceIds": [],
+      "corroborationStatus": "not_started",
+      "conflictStatus": "none",
+      "manufacturerSpecific": false,
+      "publicDisplayStatus": "withheld",
+      "apiStatus": "withheld",
+      "rationale": "IEC 60086 removed (identified_not_acquired). Standards-authority designation requires acquired IEC source or corroborated manufacturer designation. Withheld pending acquisition."
+    },
+    "manufacturerProductClass": {
+      "value": "lithium coin",
+      "valueStatus": "candidate",
+      "sourceIds": ["SRC-V2-PANASONIC-CR2032-001"],
+      "corroborationStatus": "incomplete",
+      "conflictStatus": "none",
+      "manufacturerSpecific": false,
+      "publicDisplayStatus": "withheld",
+      "apiStatus": "withheld",
+      "rationale": "Manufacturer corroboration only. Panasonic identifies product class."
+    },
+    "nominalVoltage": {
+      "value": 3.0,
+      "unit": "V",
+      "valueStatus": "candidate",
+      "sourceIds": ["SRC-V2-PANASONIC-CR2032-001", "SRC-V2-ENERGIZER-CR2032-001"],
+      "corroborationStatus": "incomplete",
+      "conflictStatus": "none",
+      "manufacturerSpecific": false,
+      "publicDisplayStatus": "withheld",
+      "apiStatus": "withheld"
+    },
+    "diameter": {
+      "value": 20.0,
+      "unit": "mm",
+      "valueStatus": "candidate",
+      "sourceIds": ["SRC-V2-PANASONIC-CR2032-001", "SRC-V2-ENERGIZER-CR2032-001"],
+      "corroborationStatus": "incomplete",
+      "conflictStatus": "none",
+      "manufacturerSpecific": false,
+      "publicDisplayStatus": "withheld",
+      "apiStatus": "withheld"
+    },
+    "height": {
+      "value": 3.2,
+      "unit": "mm",
+      "valueStatus": "candidate",
+      "sourceIds": ["SRC-V2-PANASONIC-CR2032-001", "SRC-V2-ENERGIZER-CR2032-001"],
+      "corroborationStatus": "incomplete",
+      "conflictStatus": "none",
+      "manufacturerSpecific": false,
+      "publicDisplayStatus": "withheld",
+      "apiStatus": "withheld"
+    },
+    "broadLithiumClassification": {
+      "value": "lithium_primary",
+      "valueStatus": "candidate",
+      "sourceIds": ["SRC-V2-PANASONIC-CR2032-001"],
+      "corroborationStatus": "incomplete",
+      "conflictStatus": "none",
+      "manufacturerSpecific": false,
+      "publicDisplayStatus": "withheld",
+      "apiStatus": "withheld",
+      "rationale": "Manufacturer evidence only. Panasonic datasheet identifies chemistry. IEC 60086 removed (identified_not_acquired)."
+    },
+    "primaryStatus": {
+      "value": "primary",
+      "valueStatus": "candidate",
+      "sourceIds": ["SRC-V2-PANASONIC-CR2032-001"],
+      "corroborationStatus": "incomplete",
+      "conflictStatus": "none",
+      "manufacturerSpecific": true,
+      "corroborationNote": "Panasonic-only. Corroboration incomplete.",
+      "publicDisplayStatus": "withheld",
+      "apiStatus": "withheld"
+    },
+    "polarity": {
+      "value": null,
+      "valueStatus": "withheld",
+      "sourceIds": [],
+      "corroborationStatus": "not_started",
+      "conflictStatus": "none",
+      "manufacturerSpecific": false,
+      "publicDisplayStatus": "withheld",
+      "apiStatus": "withheld"
+    }
+  },
+  "manufacturerSpecificSubrecords": {
+    "note": "Manufacturer-specific performance data is retained as internal subrecords only. Must never be exposed publicly or treated as standard-wide values.",
+    "panasonic": {
+      "sourceId": "SRC-V2-PANASONIC-CR2032-001",
+      "specificChemistry": {
+        "value": null,
+        "valueStatus": "withheld_manufacturer_specific",
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld"
+      },
+      "capacity": {
+        "value": null,
+        "unit": "mAh",
+        "valueStatus": "withheld_manufacturer_specific",
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld"
+      },
+      "weight": {
+        "value": null,
+        "unit": "g",
+        "valueStatus": "withheld_manufacturer_specific",
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld"
+      },
+      "operatingTemperature": {
+        "value": null,
+        "unit": "°C",
+        "valueStatus": "withheld_manufacturer_specific",
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld"
+      },
+      "dischargeData": {
+        "value": null,
+        "valueStatus": "withheld_manufacturer_specific",
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld"
+      }
+    },
+    "energizer": {
+      "sourceId": "SRC-V2-ENERGIZER-CR2032-001",
+      "specificChemistry": {
+        "value": "Li/MnO2",
+        "valueStatus": "candidate_manufacturer_specific",
+        "manufacturerSpecific": true,
+        "generalisationProhibited": true,
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld",
+        "note": "Energizer-only. Must not be generalised to all CR2032 products."
+      },
+      "relatedCodes": {
+        "value": [],
+        "valueStatus": "candidate_manufacturer_specific",
+        "manufacturerSpecific": true,
+        "generalisationProhibited": true,
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld",
+        "note": "Energizer-only. Must not be generalised to all CR2032 products."
+      },
+      "capacity": {
+        "value": null,
+        "unit": "mAh",
+        "valueStatus": "withheld_manufacturer_specific",
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld"
+      },
+      "weight": {
+        "value": null,
+        "unit": "g",
+        "valueStatus": "withheld_manufacturer_specific",
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld"
+      },
+      "operatingTemperature": {
+        "value": null,
+        "unit": "°C",
+        "valueStatus": "withheld_manufacturer_specific",
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld"
+      },
+      "dischargeData": {
+        "value": null,
+        "valueStatus": "withheld_manufacturer_specific",
+        "publicDisplayStatus": "withheld",
+        "apiStatus": "withheld"
+      }
+    }
+  },
+  "regulatoryEvidence": {
+    "contextSeparationEnforced": true,
+    "looseCell": {
+      "applicableSources": ["SRC-V2-AU-ACCC-BUTTON-001"],
+      "publicDisplayStatus": "withheld",
+      "apiStatus": "withheld"
+    },
+    "productContaining": {
+      "applicableSources": ["SRC-V2-AU-ACCC-BUTTON-001"],
+      "note": "Obligations in this context apply to device manufacturers, not to the loose battery.",
+      "publicDisplayStatus": "withheld",
+      "apiStatus": "withheld"
+    }
+  },
+  "derivedRules": {
+    "R1": {
+      "status": "not_applied",
+      "reason": "Dependencies present as candidates but not yet verified.",
+      "inputEvidenceIds": ["R1-DEP-1", "R1-DEP-2", "R1-DEP-3"]
+    },
+    "R2": {
+      "status": "not_applied",
+      "reason": "R2-DEP-1 (broadLithiumClassification) depends on Panasonic only. IEC 60086 removed (identified_not_acquired). Rule awaits verification of all acquired dependencies.",
+      "inputEvidenceIds": ["R2-DEP-1", "R2-DEP-2", "R2-DEP-3"]
+    },
+    "R3": {
+      "status": "not_applied",
+      "reason": "Context separation enforced structurally. Rule not yet activated.",
+      "inputEvidenceIds": ["R3-DEP-1"]
+    }
+  },
+  "eligibility": {
+    "technicalIdentityEligibility": "partially_validated",
+    "safetyContentEligibility": "under_review",
+    "stewardshipContentEligibility": "no_evidence",
+    "compatibilityStatus": "not_assessed",
+    "publicEligibility": false,
+    "rationale": "IEC 60086 removal does not change eligibility state. All gates remain conservative. publicEligibility requires all three gates (technical, safety, stewardship) to reach reviewed/approved AND compatibilityStatus must be not_assessed. Current state: technical=partially_validated (incomplete manufacturer corroboration), safety=under_review (sources uncleared), stewardship=no_evidence. publicEligibility = false."
+  },
+  "governanceFlags": {
+    "approvedForPublic": false,
+    "approvedForApi": false,
+    "sourceOmissionTreatedAsConflict": false,
+    "compatibilityInferred": false,
+    "equivalenceInferred": false,
+    "manufacturerPerformanceExposed": false
+  }
+}
