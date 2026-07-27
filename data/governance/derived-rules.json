@@ -1,0 +1,105 @@
+{
+  "version": "2.0.0",
+  "description": "V2 derived rules for CR2032. Fail-closed: missing, expired, retired, or conflicting dependency causes rule to return not_applied. Derived output is never a direct source fact. No compatibility claims.",
+  "lastUpdated": "2026-07-27",
+  "rules": [
+    {
+      "ruleId": "R1",
+      "ruleName": "CR2032 button/coin category applicability",
+      "description": "Determines whether the CR2032 meets the physical criteria for the button/coin battery regulatory category based on diameter and height, cross-referenced against the ACCC category definition.",
+      "dependencies": [
+        {
+          "dependencyId": "R1-DEP-1",
+          "dependencyType": "technical_evidence_field",
+          "fieldName": "diameter",
+          "evidenceSourceId": "SRC-V2-PANASONIC-CR2032-001",
+          "requiredStatus": "candidate_or_better",
+          "failCondition": "missing_or_expired_or_retired_or_conflicting"
+        },
+        {
+          "dependencyId": "R1-DEP-2",
+          "dependencyType": "technical_evidence_field",
+          "fieldName": "height",
+          "evidenceSourceId": "SRC-V2-PANASONIC-CR2032-001",
+          "requiredStatus": "candidate_or_better",
+          "failCondition": "missing_or_expired_or_retired_or_conflicting"
+        },
+        {
+          "dependencyId": "R1-DEP-3",
+          "dependencyType": "regulatory_source",
+          "fieldName": "regulatoryCategory",
+          "evidenceSourceId": "SRC-V2-AU-ACCC-BUTTON-001",
+          "requiredStatus": "candidate_or_better",
+          "failCondition": "missing_or_expired_or_retired_or_conflicting"
+        }
+      ],
+      "derivedOutputType": "category_applicability_assessment",
+      "derivedOutputIsSourceFact": false,
+      "createsCompatibilityClaim": false,
+      "currentStatus": "not_applied",
+      "currentStatusReason": "Dependencies present as candidates but sources not yet reviewed or rights cleared. Rule held in not_applied until all dependencies verified.",
+      "inputEvidenceIds": ["R1-DEP-1", "R1-DEP-2", "R1-DEP-3"],
+      "note": "Rule output is a derived assessment, not a direct regulatory determination. Missing or unverified dependency causes not_applied."
+    },
+    {
+      "ruleId": "R2",
+      "ruleName": "Lithium ≥20 mm marking-rule applicability",
+      "description": "Determines whether the CR2032 meets the diameter threshold (≥20 mm) for the ACCC lithium button battery marking rule.",
+      "dependencies": [
+        {
+          "dependencyId": "R2-DEP-1",
+          "dependencyType": "technical_evidence_field",
+          "fieldName": "broadLithiumClassification",
+          "evidenceSourceId": "SRC-V2-IEC-60086-001",
+          "requiredStatus": "candidate_or_better",
+          "failCondition": "missing_or_expired_or_retired_or_conflicting"
+        },
+        {
+          "dependencyId": "R2-DEP-2",
+          "dependencyType": "technical_evidence_field",
+          "fieldName": "diameter",
+          "evidenceSourceId": "SRC-V2-PANASONIC-CR2032-001",
+          "requiredStatus": "candidate_or_better",
+          "failCondition": "missing_or_expired_or_retired_or_conflicting"
+        },
+        {
+          "dependencyId": "R2-DEP-3",
+          "dependencyType": "regulatory_threshold",
+          "fieldName": "markingRuleApplicability",
+          "evidenceSourceId": "SRC-V2-AU-ACCC-THRESHOLD-001",
+          "requiredStatus": "candidate_or_better",
+          "failCondition": "missing_or_expired_or_retired_or_conflicting"
+        }
+      ],
+      "derivedOutputType": "marking_rule_threshold_assessment",
+      "derivedOutputIsSourceFact": false,
+      "createsCompatibilityClaim": false,
+      "currentStatus": "not_applied",
+      "currentStatusReason": "Dependencies present as candidates but threshold source not yet reviewed or rights cleared. Rule held in not_applied until all dependencies verified.",
+      "inputEvidenceIds": ["R2-DEP-1", "R2-DEP-2", "R2-DEP-3"],
+      "note": "Threshold value (20 mm diameter) is derived from regulator source. Rule output is a derived applicability assessment only."
+    },
+    {
+      "ruleId": "R3",
+      "ruleName": "Loose-cell versus product-containing context separation",
+      "description": "Enforces separation of regulatory obligations: obligations applicable to product-containing contexts must never be applied to loose battery contexts, and vice versa.",
+      "dependencies": [
+        {
+          "dependencyId": "R3-DEP-1",
+          "dependencyType": "regulatory_context_field",
+          "fieldName": "affectedContext",
+          "evidenceSourceId": "SRC-V2-AU-ACCC-BUTTON-001",
+          "requiredStatus": "present",
+          "failCondition": "missing_or_conflicting_context_assignment"
+        }
+      ],
+      "derivedOutputType": "context_separation_enforcement",
+      "derivedOutputIsSourceFact": false,
+      "createsCompatibilityClaim": false,
+      "currentStatus": "not_applied",
+      "currentStatusReason": "Context separation is enforced structurally in regulatory-evidence.json. Rule engine validates the separation at evaluation time. Not yet activated pending rights review.",
+      "inputEvidenceIds": ["R3-DEP-1"],
+      "note": "This rule does not generate a positive regulatory claim. It enforces that product-containing obligations are never surfaced in loose_battery context output."
+    }
+  ]
+}

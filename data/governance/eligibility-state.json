@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0",
+  "description": "V2 eligibility state for CR2032. Conservatively calculated. All gates must be explicitly satisfied before any value is elevated. publicEligibility must remain false until all required gates pass.",
+  "lastUpdated": "2026-07-27",
+  "batteryCode": "CR2032",
+  "eligibilityState": {
+    "technicalIdentityEligibility": "partially_validated",
+    "technicalIdentityEligibilityReason": "Canonical designation, nominal voltage, diameter, height, and broad lithium classification are present as candidate values from manufacturer sources. Corroboration is incomplete (Panasonic-only for primary status). No field has cleared source rights. Cannot advance beyond partially_validated.",
+    "safetyContentEligibility": "under_review",
+    "safetyContentEligibilityReason": "Regulatory context sources (ACCC overview) are present as candidates but rights have not been reviewed. Hazard context identified but not cleared for public display. Held at under_review.",
+    "stewardshipContentEligibility": "no_evidence",
+    "stewardshipContentEligibilityReason": "No stewardship evidence (recycling, disposal, end-of-life guidance) has been sourced. No sources with cleared rights for stewardship content. Remains at no_evidence.",
+    "compatibilityStatus": "not_assessed",
+    "compatibilityStatusReason": "No compatibility or equivalence assessment has been performed. No inference from source omission. Compatibility remains not_assessed.",
+    "publicEligibility": false,
+    "publicEligibilityReason": "publicEligibility requires all required gates to be explicitly satisfied. At minimum, technicalIdentityEligibility must reach reviewed or approved, and source rights must be cleared. Current state: technically partially_validated, safety under_review, stewardship no_evidence, compatibility not_assessed. publicEligibility cannot be true.",
+    "allowedEnums": ["no_evidence", "under_review", "partially_validated", "reviewed", "approved"],
+    "gateRequirements": {
+      "technicalIdentityEligibility": {
+        "minimumToContribute": "partially_validated",
+        "minimumForPublicEligibility": "reviewed"
+      },
+      "safetyContentEligibility": {
+        "minimumToContribute": "under_review",
+        "minimumForPublicEligibility": "reviewed"
+      },
+      "stewardshipContentEligibility": {
+        "minimumToContribute": "under_review",
+        "minimumForPublicEligibility": "reviewed"
+      },
+      "compatibilityStatus": {
+        "allowedValues": ["not_assessed"],
+        "note": "Must remain not_assessed. No compatibility assessment permitted in Sprint 1."
+      }
+    },
+    "calculatedAt": "2026-07-27",
+    "calculationMethod": "conservative_fail_closed"
+  }
+}

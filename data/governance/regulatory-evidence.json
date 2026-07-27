@@ -1,0 +1,103 @@
+{
+  "version": "2.0.0",
+  "description": "V2 regulatory evidence for CR2032. Context-separated records. Hazard facts are not legal obligations. Product-containing obligations never applied to loose cells. Only includes sources in the V2 source register.",
+  "lastUpdated": "2026-07-27",
+  "batteryCode": "CR2032",
+  "regulatoryContexts": {
+    "loose_battery": {
+      "description": "Regulatory facts applying to CR2032 as a loose, unpackaged coin cell. Does not apply product-containing device obligations.",
+      "fields": [
+        {
+          "fieldName": "buttonCoinHazardCategory",
+          "sourceIds": ["SRC-V2-AU-ACCC-BUTTON-001"],
+          "sourceFact": "Button batteries can be hazardous if swallowed. Regulator has published consumer safety information.",
+          "legalScope": "Australia",
+          "affectedContext": "loose_battery",
+          "batteryCategoryRelevance": "directly_relevant",
+          "recordRelevance": "relevant",
+          "relevanceType": "hazard_context_only",
+          "rightsStatus": "unknown",
+          "publicDisplayStatus": "withheld",
+          "apiStatus": "withheld",
+          "governedAction": "withhold_pending_rights_clearance",
+          "note": "Hazard fact only. Not a legal obligation. Do not reproduce source text without rights clearance."
+        },
+        {
+          "fieldName": "regulatoryCategory",
+          "sourceIds": ["SRC-V2-AU-ACCC-BUTTON-001"],
+          "sourceFact": "ACCC overview describes button and coin batteries as a category with specific safety concerns.",
+          "legalScope": "Australia",
+          "affectedContext": "loose_battery",
+          "batteryCategoryRelevance": "directly_relevant",
+          "recordRelevance": "relevant",
+          "relevanceType": "category_definition_reference",
+          "rightsStatus": "unknown",
+          "publicDisplayStatus": "withheld",
+          "apiStatus": "withheld",
+          "governedAction": "withhold_pending_rights_clearance",
+          "note": "Overview is not the legislative instrument. Do not treat as legal obligation."
+        }
+      ]
+    },
+    "product_containing": {
+      "description": "Regulatory facts applying to products that contain CR2032. These obligations apply to device manufacturers, not to loose cells. NEVER apply these to the loose battery context.",
+      "fields": [
+        {
+          "fieldName": "productContainingObligation",
+          "sourceIds": ["SRC-V2-AU-ACCC-BUTTON-001"],
+          "sourceFact": "ACCC overview references requirements for products containing button batteries including secure battery compartments.",
+          "legalScope": "Australia",
+          "affectedContext": "product_containing",
+          "batteryCategoryRelevance": "applies_to_device_not_cell",
+          "recordRelevance": "relevant_context_restricted",
+          "relevanceType": "device_manufacturer_obligation",
+          "rightsStatus": "unknown",
+          "publicDisplayStatus": "withheld",
+          "apiStatus": "withheld",
+          "governedAction": "withhold_and_restrict_to_product_context_only",
+          "note": "Must never be applied to loose_battery context. Device-manufacturer obligation only."
+        }
+      ]
+    },
+    "consumer_handling": {
+      "description": "Consumer safety handling guidance. Based only on regulator overview facts. Does not constitute legal advice.",
+      "fields": [
+        {
+          "fieldName": "consumerSafetyGuidance",
+          "sourceIds": ["SRC-V2-AU-ACCC-BUTTON-001"],
+          "sourceFact": "ACCC overview includes consumer safety guidance for button batteries.",
+          "legalScope": "Australia",
+          "affectedContext": "consumer_handling",
+          "batteryCategoryRelevance": "directly_relevant",
+          "recordRelevance": "relevant",
+          "relevanceType": "consumer_safety_guidance",
+          "rightsStatus": "unknown",
+          "publicDisplayStatus": "withheld",
+          "apiStatus": "withheld",
+          "governedAction": "withhold_pending_rights_clearance",
+          "note": "Consumer guidance only. Not legal advice. Withheld until source rights are cleared."
+        }
+      ]
+    },
+    "supplier_compliance": {
+      "description": "Supplier/business compliance context. Penalties and recall obligations belong here only. Not for consumer-facing output.",
+      "fields": [
+        {
+          "fieldName": "supplierComplianceContext",
+          "sourceIds": ["SRC-V2-AU-ACCC-BUTTON-001"],
+          "sourceFact": "ACCC overview references supplier responsibilities for products containing button batteries.",
+          "legalScope": "Australia",
+          "affectedContext": "supplier_compliance",
+          "batteryCategoryRelevance": "relevant_to_suppliers",
+          "recordRelevance": "relevant_context_restricted",
+          "relevanceType": "supplier_obligation_reference",
+          "rightsStatus": "unknown",
+          "publicDisplayStatus": "withheld",
+          "apiStatus": "withheld",
+          "governedAction": "withhold_and_restrict_to_supplier_compliance_context_only",
+          "note": "Penalties and recall information belongs in this context only. Not for public consumer output. Do not reproduce regulator text."
+        }
+      ]
+    }
+  }
+}
