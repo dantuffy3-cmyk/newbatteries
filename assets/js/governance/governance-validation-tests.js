@@ -549,6 +549,141 @@
       'T30: safe fallback — CR2032 fallback contains identification, under-review status, not_assessed compatibility, evidencePending=true'
     ));
 
+    // TEST 31: identified_not_acquired source cannot be used in validation — IEC 60086 fails validation
+    tests.push(assert(
+      (function () {
+        var iecSource = makeSource({
+          sourceId: 'SRC-V2-IEC-60086-001',
+          sourceStatus: 'identified_not_acquired',
+          organisation: 'International Electrotechnical Commission'
+        });
+        var result = validateSourceRegister([iecSource]);
+        return !result.valid && result.errors.some(function (e) { return /identified_not_acquired/.test(e) || /not_acquired/.test(e); });
+      }()),
+      'T31: IEC 60086 as identified_not_acquired — source cannot be validated (not yet acquired)'
+    ));
+
+    // TEST 32: identified_not_acquired source in field fails field validation — field referencing IEC 60086 fails
+    tests.push(assert(
+      (function () {
+        var field = makeTechField({
+          fieldName: 'canonicalDesignation',
+          sourceIds: ['SRC-V2-IEC-60086-001'],
+          valueStatus: 'candidate'
+        });
+        var sm = {
+          'SRC-V2-IEC-60086-001': makeSource({
+            sourceId: 'SRC-V2-IEC-60086-001',
+            sourceStatus: 'identified_not_acquired'
+          })
+        };
+        var result = validateTechnicalEvidence([field], sm);
+        return !result.valid;
+      }()),
+      'T32: field references identified_not_acquired source — field validation fails because IEC not acquired'
+    ));
+
+    // TEST 33: canonicalDesignation withheld after IEC removal — field value null, sourceIds empty
+    tests.push(assert(
+      (function () {
+        var field = makeTechField({
+          fieldName: 'canonicalDesignation',
+          value: null,
+          valueStatus: 'withheld',
+          sourceIds: [],
+          sourceFactStatus: 'no_source',
+          corroborationStatus: 'not_started'
+        });
+        return field.value === null &&
+               field.valueStatus === 'withheld' &&
+               field.sourceIds.length === 0 &&
+               field.sourceFactStatus === 'no_source';
+      }()),
+      'T33: canonicalDesignation withheld — IEC 60086 removed, field now has no source and is withheld'
+    ));
+
+    // TEST 34: manufacturerProductClass Panasonic-only after IEC removal — single manufacturer source
+    tests.push(assert(
+      (function () {
+        var field = makeTechField({
+          fieldName: 'manufacturerProductClass',
+          value: 'lithium coin',
+          sourceIds: ['SRC-V2-PANASONIC-CR2032-001'],
+          manufacturerSpecificStatus: false,
+          valueStatus: 'candidate'
+        });
+        return field.sourceIds.length === 1 &&
+               field.sourceIds[0] === 'SRC-V2-PANASONIC-CR2032-001' &&
+               field.value === 'lithium coin';
+      }()),
+      'T34: manufacturerProductClass Panasonic-only — IEC removed, retained Panasonic corroboration only'
+    ));
+
+    // TEST 35: broadLithiumClassification Panasonic-only after IEC removal — manufacturer source only
+    tests.push(assert(
+      (function () {
+        var field = makeTechField({
+          fieldName: 'broadLithiumClassification',
+          value: 'lithium_primary',
+          sourceIds: ['SRC-V2-PANASONIC-CR2032-001'],
+          valueStatus: 'candidate'
+        });
+        return field.sourceIds.length === 1 &&
+               field.sourceIds[0] === 'SRC-V2-PANASONIC-CR2032-001' &&
+               field.value === 'lithium_primary';
+      }()),
+      'T35: broadLithiumClassification Panasonic-only — IEC removed, manufacturer evidence only'
+    ));
+
+    // TEST 36: R2 dependency fails when IEC source missing — R2-DEP-1 depends on broadLithiumClassification from Panasonic
+    tests.push(assert(
+      (function () {
+        var fields = [];
+        var sm = {
+          'SRC-V2-PANASONIC-CR2032-001': makeSource({ sourceId: 'SRC-V2-PANASONIC-CR2032-001' })
+        };
+        var result = evaluateR2(fields, sm);
+        return result.status === 'not_applied' && /broadLithiumClassification/.test(result.reason);
+      }()),
+      'T36: R2 fails when broadLithiumClassification missing — dependency without IEC falls back to not_applied'
+    ));
+
+    // TEST 37: eligibility gate technicalIdentityEligibility remains partially_validated — no change after IEC removal
+    tests.push(assert(
+      (function () {
+        var eligState = makeEligibilityState();
+        return eligState.technicalIdentityEligibility === 'partially_validated';
+      }()),
+      'T37: technicalIdentityEligibility remains partially_validated — IEC removal does not affect gate'
+    ));
+
+    // TEST 38: eligibility gate safetyContentEligibility remains under_review — no change after IEC removal
+    tests.push(assert(
+      (function () {
+        var eligState = makeEligibilityState();
+        return eligState.safetyContentEligibility === 'under_review';
+      }()),
+      'T38: safetyContentEligibility remains under_review — IEC removal does not affect gate'
+    ));
+
+    // TEST 39: eligibility gate stewardshipContentEligibility remains no_evidence — no change after IEC removal
+    tests.push(assert(
+      (function () {
+        var eligState = makeEligibilityState();
+        return eligState.stewardshipContentEligibility === 'no_evidence';
+      }()),
+      'T39: stewardshipContentEligibility remains no_evidence — IEC removal does not affect gate'
+    ));
+
+    // TEST 40: CR2032 compatibilityStatus remains not_assessed after IEC removal
+    tests.push(assert(
+      (function () {
+        var eligState = makeEligibilityState();
+        return eligState.compatibilityStatus === 'not_assessed';
+      }()),
+      'T40: compatibilityStatus remains not_assessed — IEC removal preserves invariant'
+    ));
+
     if (typeof console !== 'undefined') {
       var passed = tests.filter(function (t) { return t.pass; }).length;
       var failed = tests.filter(function (t) { return !t.pass; }).length;
