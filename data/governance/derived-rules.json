@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "description": "V2 derived rules for CR2032. Fail-closed: missing, expired, retired, or conflicting dependency causes rule to return not_applied. Derived output is never a direct source fact. No compatibility claims.",
+  "description": "V2 derived rules for CR2032. Fail-closed: missing, expired, retired, or conflicting dependency causes rule to return not_applied. Derived output is never a direct source fact. No compatibility claims. IEC 60086 removed (identified_not_acquired).",
   "lastUpdated": "2026-07-27",
   "rules": [
     {
@@ -50,9 +50,10 @@
           "dependencyId": "R2-DEP-1",
           "dependencyType": "technical_evidence_field",
           "fieldName": "broadLithiumClassification",
-          "evidenceSourceId": "SRC-V2-IEC-60086-001",
+          "evidenceSourceId": "SRC-V2-PANASONIC-CR2032-001",
           "requiredStatus": "candidate_or_better",
-          "failCondition": "missing_or_expired_or_retired_or_conflicting"
+          "failCondition": "missing_or_expired_or_retired_or_conflicting",
+          "rationale": "IEC 60086 is identified_not_acquired. Lithium classification must come from acquired manufacturer source. Using Panasonic datasheet only. If Panasonic does not explicitly establish broadLithiumClassification, dependency is unresolved and R2 fails closed."
         },
         {
           "dependencyId": "R2-DEP-2",
@@ -75,9 +76,9 @@
       "derivedOutputIsSourceFact": false,
       "createsCompatibilityClaim": false,
       "currentStatus": "not_applied",
-      "currentStatusReason": "Dependencies present as candidates but threshold source not yet reviewed or rights cleared. Rule held in not_applied until all dependencies verified.",
+      "currentStatusReason": "R2-DEP-1 (broadLithiumClassification from Panasonic) must be validated. IEC 60086 removed (identified_not_acquired). Rule held in not_applied until all acquired dependencies verified.",
       "inputEvidenceIds": ["R2-DEP-1", "R2-DEP-2", "R2-DEP-3"],
-      "note": "Threshold value (20 mm diameter) is derived from regulator source. Rule output is a derived applicability assessment only."
+      "note": "Threshold value (20 mm diameter) is derived from regulator source. Rule output is a derived applicability assessment only. Do not substitute sources merely to keep the rule active."
     },
     {
       "ruleId": "R3",
