@@ -1,27 +1,28 @@
 {
   "version": "2.0.0",
-  "description": "V2 technical evidence register for CR2032. Conservative internal record only. No approval marks. No public exposure. Manufacturer-specific performance data withheld.",
+  "description": "V2 technical evidence register for CR2032. Conservative internal record only. No approval marks. No public exposure. Manufacturer-specific performance data withheld. IEC 60086 removed (identified_not_acquired).",
   "lastUpdated": "2026-07-27",
   "batteryCode": "CR2032",
   "fields": [
     {
       "fieldName": "canonicalDesignation",
       "recordScope": "standard_designation",
-      "value": "CR2032",
+      "value": null,
       "unit": null,
-      "valueStatus": "candidate",
-      "sourceIds": ["SRC-V2-IEC-60086-001"],
-      "sourceFactStatus": "unverified",
-      "corroborationStatus": "incomplete",
+      "valueStatus": "withheld",
+      "sourceIds": [],
+      "sourceFactStatus": "no_source",
+      "corroborationStatus": "not_started",
       "conflictStatus": "none",
       "manufacturerSpecificStatus": false,
-      "standardRecordSuitability": "candidate",
+      "standardRecordSuitability": "withheld",
       "rightsStatus": "unknown",
       "publicDisplayStatus": "withheld",
       "apiStatus": "withheld",
-      "technicalEligibilityEffect": "contributes_to_partial",
-      "publicEligibilityEffect": "none_rights_not_cleared",
-      "nextAction": "verify_source_rights"
+      "technicalEligibilityEffect": "none_withheld",
+      "publicEligibilityEffect": "none_withheld",
+      "nextAction": "obtain_standards_confirmation_from_acquired_source",
+      "rationale": "IEC 60086 is identified_not_acquired. Standards-authority canonical designation requires either acquired IEC source or corroborated manufacturer designation. Currently no source acquired for standards confirmation. Withheld pending IEC acquisition and rights clearance or corroboration from additional manufacturer sources."
     },
     {
       "fieldName": "manufacturerProductClass",
@@ -29,7 +30,7 @@
       "value": "lithium coin",
       "unit": null,
       "valueStatus": "candidate",
-      "sourceIds": ["SRC-V2-IEC-60086-001", "SRC-V2-PANASONIC-CR2032-001"],
+      "sourceIds": ["SRC-V2-PANASONIC-CR2032-001"],
       "sourceFactStatus": "unverified",
       "corroborationStatus": "incomplete",
       "conflictStatus": "none",
@@ -40,7 +41,8 @@
       "apiStatus": "withheld",
       "technicalEligibilityEffect": "contributes_to_partial",
       "publicEligibilityEffect": "none_rights_not_cleared",
-      "nextAction": "verify_source_rights"
+      "nextAction": "verify_source_rights",
+      "rationale": "Manufacturer corroboration only. Panasonic datasheet describes product as lithium coin cell. IEC 60086 removed (not acquired). Corroboration incomplete—needs second manufacturer source."
     },
     {
       "fieldName": "nominalVoltage",
@@ -105,7 +107,7 @@
       "value": "lithium_primary",
       "unit": null,
       "valueStatus": "candidate",
-      "sourceIds": ["SRC-V2-IEC-60086-001", "SRC-V2-PANASONIC-CR2032-001"],
+      "sourceIds": ["SRC-V2-PANASONIC-CR2032-001"],
       "sourceFactStatus": "unverified",
       "corroborationStatus": "incomplete",
       "conflictStatus": "none",
@@ -116,7 +118,8 @@
       "apiStatus": "withheld",
       "technicalEligibilityEffect": "contributes_to_partial",
       "publicEligibilityEffect": "none_rights_not_cleared",
-      "nextAction": "verify_source_rights"
+      "nextAction": "verify_source_rights",
+      "rationale": "Manufacturer evidence only. Panasonic datasheet identifies product chemistry as lithium primary. IEC 60086 removed (identified_not_acquired). ACCC overview is regulatory context, not technical chemistry proof. Corroboration incomplete."
     },
     {
       "fieldName": "primaryStatus",
