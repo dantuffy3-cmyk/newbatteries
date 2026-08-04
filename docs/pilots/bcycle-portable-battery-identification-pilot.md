@@ -92,8 +92,8 @@ NewBatteries seeks an initial discussion with the Battery Stewardship Council to
 * whether B-cycle would provide limited technical feedback on the test design; and
 * whether there may be value in a small co-designed validation exercise.
 
-**Prepared by:** Dan Sonsie
-**Organisation:** Sonsie Enterprises Pty Ltd
-**Project:** NewBatteries
-**Website:** newbatteries.com
+**Prepared by:** Dan Sonsie  
+**Organisation:** Sonsie Enterprises Pty Ltd  
+**Project:** NewBatteries  
+**Website:** newbatteries.com  
 **Pilot status:** Early-stage concept for technical discussion and validation
