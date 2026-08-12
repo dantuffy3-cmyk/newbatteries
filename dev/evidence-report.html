@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Development Evidence Report | NewBatteries</title>
+  <meta name="description" content="Development-only governed evidence report for synthetic NewBatteries fixtures.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body class="finder-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content" class="finder-main">
+    <div class="container">
+      <div class="finder-card dev-evidence-section">
+        <p class="eyebrow">Hidden development route</p>
+        <h1>Development Evidence Report</h1>
+        <p class="lead">Synthetic fixture data — not a public compatibility recommendation</p>
+        <p class="small">This page is development-only, isolated from the public finder flow, and excluded from indexing.</p>
+      </div>
+
+      <div class="finder-card dev-evidence-section">
+        <h2>Development scenario selector</h2>
+        <p class="small">Synthetic test cases only.</p>
+        <div class="step-actions">
+          <select id="scenarioSelect" class="form-control" style="max-width:420px"></select>
+          <button class="btn btn-primary" id="loadScenarioButton" type="button">Load scenario</button>
+          <button class="btn btn-ghost" id="loadSnapshotButton" type="button">Load latest finder snapshot</button>
+        </div>
+        <div id="reportStatus" class="small" aria-live="polite"></div>
+      </div>
+
+      <div id="devEvidenceReportRoot"></div>
+    </div>
+  </main>
+
+  <script src="../assets/js/governed-core/controlled-vocabulary.js"></script>
+  <script src="../assets/js/governed-core/public-safety.js"></script>
+  <script src="../assets/js/governed-core/validation.js"></script>
+  <script src="../assets/js/governed-core/observation-adapter.js"></script>
+  <script src="../assets/js/governed-core/evidence-engine.js"></script>
+  <script src="../assets/js/governed-core/report-page.js"></script>
+</body>
+</html>

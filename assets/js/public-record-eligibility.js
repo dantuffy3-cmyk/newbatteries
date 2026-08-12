@@ -159,6 +159,21 @@
     var scope = resolveScope(record);
     var profile = categoryProfiles[category] || {};
     var criticalFields = Array.isArray(profile.requiredFields) ? profile.requiredFields : [];
+    var fixtureMeta = record.developmentFixture || null;
+
+    if (fixtureMeta && (
+      fixtureMeta.fixtureStatus === 'engineering_fixture' ||
+      fixtureMeta.access === 'development_only' ||
+      fixtureMeta.publicRecommendationStatus === 'not_for_public_recommendation'
+    )) {
+      return {
+        eligible: false,
+        reasonCode: 'development_fixture_blocked',
+        blockingIssues: [{ issue: 'development_fixture_blocked' }],
+        withheldFields: [],
+        warnings: []
+      };
+    }
 
     if (status === 'disputed' || getByPath(record, 'recordGovernance.disputeNotes')) {
       return { eligible: false, reasonCode: 'record_disputed', blockingIssues: [{ issue: 'record_disputed' }], withheldFields: [], warnings: [] };

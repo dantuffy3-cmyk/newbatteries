@@ -120,6 +120,15 @@
     var r7 = sanitizeGovernedRecordForPublic(c7, governanceData());
     assertCase(rows, cases[6].name, cases[6].expected, r7.eligibility.reasonCode === 'critical_conflict', r7.eligibility.reasonCode);
 
+    var c7b = approvedRecord();
+    c7b.developmentFixture = {
+      fixtureStatus: 'engineering_fixture',
+      access: 'development_only',
+      publicRecommendationStatus: 'not_for_public_recommendation'
+    };
+    var r7b = sanitizeGovernedRecordForPublic(c7b, governanceData());
+    assertCase(rows, 'Development fixture remains blocked from public output', 'development_fixture_blocked', r7b.eligibility.reasonCode === 'development_fixture_blocked', r7b.eligibility.reasonCode);
+
     var c8 = approvedRecord();
     c8.physical.lengthMm.value = 1;
     c8.physical.lengthMm.unit = 'mm';

@@ -1,0 +1,362 @@
+{
+  "version": "0.2.0",
+  "notice": "Synthetic engineering fixtures for the hidden development evidence route only.",
+  "fixtures": [
+    {
+      "recordType": "standard_size",
+      "canonicalName": "CR2032",
+      "identification": {
+        "recordId": "dev-fixture-cr2032",
+        "canonicalCode": "CR2032",
+        "aliases": ["DL2032", "ECR2032"],
+        "standardFamily": "IEC CR coin cell",
+        "category": "coin_cell",
+        "subcategory": "lithium_primary_coin_cell",
+        "applicationClasses": ["consumer_coin_cell"],
+        "marketRegions": [],
+        "scope": "exact_identity"
+      },
+      "physical": {
+        "diameterMm": { "value": 20, "unit": "mm", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-CR2032"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 20, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "thicknessMm": { "value": 3.2, "unit": "mm", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-CR2032"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 3.2, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "electrical": {
+        "nominalVoltage": { "value": "3V", "unit": "V", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-CR2032"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "3V", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "rechargeable": { "value": false, "unit": null, "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-CR2032"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": false, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "chemistry": {
+        "chemistryFamily": { "value": "lithium_primary", "unit": null, "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-CR2032"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "lithium_primary", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "australianContext": {},
+      "replacementPathway": {},
+      "recordGovernance": {
+        "recordStatus": "under_review",
+        "previousStatus": null,
+        "createdAt": "2026-08-01",
+        "updatedAt": "2026-08-01",
+        "reviewDueAt": "2026-09-01",
+        "approvedAt": null,
+        "approvedBy": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "disputeNotes": null,
+        "version": "0.2.0",
+        "changeHistory": [],
+        "reviewNotes": "Synthetic engineering fixture for development-only evidence reporting.",
+        "publicEligibility": false,
+        "compatibilityEngineEligibility": false
+      },
+      "developmentFixture": {
+        "fixtureStatus": "engineering_fixture",
+        "access": "development_only",
+        "publicRecommendationStatus": "not_for_public_recommendation"
+      },
+      "compatibilityProfile": {
+        "identityKind": "exact_battery_identity",
+        "applicationProfile": "consumer_memory_backup",
+        "startStopCompatible": false,
+        "polarityOrientation": "coin_cell_standard",
+        "terminalType": "coin_cell_face_contact",
+        "requiresChargerConfirmation": false
+      }
+    },
+    {
+      "recordType": "standard_size",
+      "canonicalName": "LIR2032",
+      "identification": {
+        "recordId": "dev-fixture-lir2032",
+        "canonicalCode": "LIR2032",
+        "aliases": [],
+        "standardFamily": "2032 rechargeable coin cell",
+        "category": "coin_cell",
+        "subcategory": "lithium_ion_coin_cell",
+        "applicationClasses": ["rechargeable_coin_cell"],
+        "marketRegions": [],
+        "scope": "exact_identity"
+      },
+      "physical": {
+        "diameterMm": { "value": 20, "unit": "mm", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LIR2032"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 20, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "thicknessMm": { "value": 3.2, "unit": "mm", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LIR2032"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 3.2, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "electrical": {
+        "nominalVoltage": { "value": "3.6V", "unit": "V", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LIR2032"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "3.6V", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "rechargeable": { "value": true, "unit": null, "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LIR2032"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": true, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "chemistry": {
+        "chemistryFamily": { "value": "lithium_ion", "unit": null, "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LIR2032"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "lithium_ion", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "australianContext": {},
+      "replacementPathway": {},
+      "recordGovernance": {
+        "recordStatus": "under_review",
+        "previousStatus": null,
+        "createdAt": "2026-08-01",
+        "updatedAt": "2026-08-01",
+        "reviewDueAt": "2026-09-01",
+        "approvedAt": null,
+        "approvedBy": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "disputeNotes": null,
+        "version": "0.2.0",
+        "changeHistory": [],
+        "reviewNotes": "Synthetic engineering fixture for development-only evidence reporting.",
+        "publicEligibility": false,
+        "compatibilityEngineEligibility": false
+      },
+      "developmentFixture": {
+        "fixtureStatus": "engineering_fixture",
+        "access": "development_only",
+        "publicRecommendationStatus": "not_for_public_recommendation"
+      },
+      "compatibilityProfile": {
+        "identityKind": "exact_battery_identity",
+        "applicationProfile": "rechargeable_coin_cell_holder",
+        "startStopCompatible": false,
+        "polarityOrientation": "coin_cell_standard",
+        "terminalType": "coin_cell_face_contact",
+        "requiresChargerConfirmation": true
+      }
+    },
+    {
+      "recordType": "standard_size",
+      "canonicalName": "LR44",
+      "identification": {
+        "recordId": "dev-fixture-lr44",
+        "canonicalCode": "LR44",
+        "aliases": ["AG13", "LR1154"],
+        "standardFamily": "IEC 11.6 x 5.4 mm button cell",
+        "category": "button_cell",
+        "subcategory": "alkaline_button_cell",
+        "applicationClasses": ["consumer_button_cell"],
+        "marketRegions": [],
+        "scope": "exact_identity"
+      },
+      "physical": {
+        "diameterMm": { "value": 11.6, "unit": "mm", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LR44"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 11.6, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "thicknessMm": { "value": 5.4, "unit": "mm", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LR44"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 5.4, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "electrical": {
+        "nominalVoltage": { "value": "1.5V", "unit": "V", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LR44"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "1.5V", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "rechargeable": { "value": false, "unit": null, "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LR44"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": false, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "chemistry": {
+        "chemistryFamily": { "value": "alkaline", "unit": null, "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LR44"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "alkaline", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "australianContext": {},
+      "replacementPathway": {},
+      "recordGovernance": {
+        "recordStatus": "under_review",
+        "previousStatus": null,
+        "createdAt": "2026-08-01",
+        "updatedAt": "2026-08-01",
+        "reviewDueAt": "2026-09-01",
+        "approvedAt": null,
+        "approvedBy": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "disputeNotes": null,
+        "version": "0.2.0",
+        "changeHistory": [],
+        "reviewNotes": "Synthetic engineering fixture for development-only evidence reporting.",
+        "publicEligibility": false,
+        "compatibilityEngineEligibility": false
+      },
+      "developmentFixture": {
+        "fixtureStatus": "engineering_fixture",
+        "access": "development_only",
+        "publicRecommendationStatus": "not_for_public_recommendation"
+      },
+      "compatibilityProfile": {
+        "identityKind": "exact_battery_identity",
+        "applicationProfile": "general_button_cell",
+        "startStopCompatible": false,
+        "polarityOrientation": "button_cell_standard",
+        "terminalType": "button_cell_face_contact",
+        "requiresChargerConfirmation": false
+      }
+    },
+    {
+      "recordType": "standard_size",
+      "canonicalName": "SR44",
+      "identification": {
+        "recordId": "dev-fixture-sr44",
+        "canonicalCode": "SR44",
+        "aliases": ["357"],
+        "standardFamily": "IEC 11.6 x 5.4 mm button cell",
+        "category": "button_cell",
+        "subcategory": "silver_oxide_button_cell",
+        "applicationClasses": ["consumer_button_cell"],
+        "marketRegions": [],
+        "scope": "exact_identity"
+      },
+      "physical": {
+        "diameterMm": { "value": 11.6, "unit": "mm", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-SR44"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 11.6, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "thicknessMm": { "value": 5.4, "unit": "mm", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-SR44"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 5.4, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "electrical": {
+        "nominalVoltage": { "value": "1.55V", "unit": "V", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-SR44"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "1.55V", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "rechargeable": { "value": false, "unit": null, "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-SR44"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": false, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "chemistry": {
+        "chemistryFamily": { "value": "silver_oxide", "unit": null, "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-SR44"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "silver_oxide", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "australianContext": {},
+      "replacementPathway": {},
+      "recordGovernance": {
+        "recordStatus": "under_review",
+        "previousStatus": null,
+        "createdAt": "2026-08-01",
+        "updatedAt": "2026-08-01",
+        "reviewDueAt": "2026-09-01",
+        "approvedAt": null,
+        "approvedBy": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "disputeNotes": null,
+        "version": "0.2.0",
+        "changeHistory": [],
+        "reviewNotes": "Synthetic engineering fixture for development-only evidence reporting.",
+        "publicEligibility": false,
+        "compatibilityEngineEligibility": false
+      },
+      "developmentFixture": {
+        "fixtureStatus": "engineering_fixture",
+        "access": "development_only",
+        "publicRecommendationStatus": "not_for_public_recommendation"
+      },
+      "compatibilityProfile": {
+        "identityKind": "exact_battery_identity",
+        "applicationProfile": "precision_button_cell",
+        "startStopCompatible": false,
+        "polarityOrientation": "button_cell_standard",
+        "terminalType": "button_cell_face_contact",
+        "requiresChargerConfirmation": false
+      }
+    },
+    {
+      "recordType": "chemistry_specific_family",
+      "canonicalName": "LN2 Flooded Lead-Acid Family",
+      "identification": {
+        "recordId": "dev-fixture-ln2-flooded",
+        "canonicalCode": "LN2",
+        "aliases": ["L2", "DIN53"],
+        "standardFamily": "LN2 / L2 case family",
+        "category": "automotive_12v",
+        "subcategory": "flooded_lead_acid_family",
+        "applicationClasses": ["automotive_starting_family"],
+        "marketRegions": [],
+        "scope": "family_identification"
+      },
+      "physical": {
+        "lengthMm": { "value": 242, "unit": "mm", "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-FLOODED"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 242, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "widthMm": { "value": 175, "unit": "mm", "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-FLOODED"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 175, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "heightMm": { "value": 190, "unit": "mm", "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-FLOODED"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 190, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "polarityOrientation": { "value": "positive_left", "unit": null, "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-FLOODED"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "positive_left", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "terminalType": { "value": "standard_automotive_top_post", "unit": null, "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-FLOODED"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "standard_automotive_top_post", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "electrical": {
+        "nominalVoltage": { "value": "12V", "unit": "V", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LN2-FLOODED"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "12V", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "rechargeable": { "value": true, "unit": null, "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-FLOODED"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": true, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "chemistry": {
+        "chemistryFamily": { "value": "flooded_lead_acid", "unit": null, "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-FLOODED"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "flooded_lead_acid", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "chargingProfile": { "value": "lead_acid_standard", "unit": null, "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-FLOODED"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "lead_acid_standard", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "australianContext": {},
+      "replacementPathway": {},
+      "recordGovernance": {
+        "recordStatus": "under_review",
+        "previousStatus": null,
+        "createdAt": "2026-08-01",
+        "updatedAt": "2026-08-01",
+        "reviewDueAt": "2026-09-01",
+        "approvedAt": null,
+        "approvedBy": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "disputeNotes": null,
+        "version": "0.2.0",
+        "changeHistory": [],
+        "reviewNotes": "Synthetic engineering fixture for development-only evidence reporting.",
+        "publicEligibility": false,
+        "compatibilityEngineEligibility": false
+      },
+      "developmentFixture": {
+        "fixtureStatus": "engineering_fixture",
+        "access": "development_only",
+        "publicRecommendationStatus": "not_for_public_recommendation"
+      },
+      "compatibilityProfile": {
+        "identityKind": "family_identification",
+        "applicationProfile": "starting_battery",
+        "startStopCompatible": false,
+        "polarityOrientation": "positive_left",
+        "terminalType": "standard_automotive_top_post",
+        "requiresChargerConfirmation": false
+      }
+    },
+    {
+      "recordType": "chemistry_specific_family",
+      "canonicalName": "LN2 AGM Start-Stop Family",
+      "identification": {
+        "recordId": "dev-fixture-ln2-agm",
+        "canonicalCode": "LN2 AGM",
+        "aliases": ["L2 AGM", "DIN53 AGM"],
+        "standardFamily": "LN2 / L2 case family",
+        "category": "automotive_start_stop",
+        "subcategory": "agm_start_stop_family",
+        "applicationClasses": ["automotive_start_stop_family"],
+        "marketRegions": [],
+        "scope": "family_identification"
+      },
+      "physical": {
+        "lengthMm": { "value": 242, "unit": "mm", "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-AGM"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 242, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "widthMm": { "value": 175, "unit": "mm", "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-AGM"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 175, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "heightMm": { "value": 190, "unit": "mm", "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-AGM"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": 190, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "polarityOrientation": { "value": "positive_left", "unit": null, "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-AGM"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "positive_left", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "terminalType": { "value": "standard_automotive_top_post", "unit": null, "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-AGM"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "standard_automotive_top_post", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "electrical": {
+        "nominalVoltage": { "value": "12V", "unit": "V", "evidenceConfidence": "high", "sourceIds": ["FIXTURE-SYNTH-LN2-AGM"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "12V", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "rechargeable": { "value": true, "unit": null, "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-AGM"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": true, "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "chemistry": {
+        "chemistryFamily": { "value": "agm", "unit": null, "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-AGM"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "agm", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } },
+        "chargingProfile": { "value": "agm_charging_required", "unit": null, "evidenceConfidence": "medium", "sourceIds": ["FIXTURE-SYNTH-LN2-AGM"], "verifiedAt": "2026-08-01", "verifiedBy": null, "notes": "Synthetic fixture value.", "conflict": { "status": "none", "acceptedValue": "agm_charging_required", "competingValues": [], "resolutionNotes": null, "reviewer": null, "resolvedAt": null } }
+      },
+      "australianContext": {},
+      "replacementPathway": {},
+      "recordGovernance": {
+        "recordStatus": "under_review",
+        "previousStatus": null,
+        "createdAt": "2026-08-01",
+        "updatedAt": "2026-08-01",
+        "reviewDueAt": "2026-09-01",
+        "approvedAt": null,
+        "approvedBy": null,
+        "reviewedAt": null,
+        "reviewedBy": null,
+        "disputeNotes": null,
+        "version": "0.2.0",
+        "changeHistory": [],
+        "reviewNotes": "Synthetic engineering fixture for development-only evidence reporting.",
+        "publicEligibility": false,
+        "compatibilityEngineEligibility": false
+      },
+      "developmentFixture": {
+        "fixtureStatus": "engineering_fixture",
+        "access": "development_only",
+        "publicRecommendationStatus": "not_for_public_recommendation"
+      },
+      "compatibilityProfile": {
+        "identityKind": "family_identification",
+        "applicationProfile": "starting_battery",
+        "startStopCompatible": true,
+        "polarityOrientation": "positive_left",
+        "terminalType": "standard_automotive_top_post",
+        "requiresChargerConfirmation": true
+      }
+    }
+  ]
+}

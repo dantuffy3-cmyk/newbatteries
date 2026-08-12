@@ -3121,3 +3121,8 @@ select:-webkit-autofill {
     scroll-behavior: auto !important;
   }
 }
+.dev-evidence-section{max-width:900px;margin:0 auto var(--sp-6)}
+.dev-evidence-banner{padding:var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius);background:var(--color-surface);margin-bottom:var(--sp-6)}
+.dev-evidence-list{margin:0;padding-left:1.2rem}
+.dev-evidence-list li{margin-bottom:var(--sp-3)}
+.dev-only-link{margin-top:var(--sp-4)}

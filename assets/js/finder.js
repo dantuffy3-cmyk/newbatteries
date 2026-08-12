@@ -4,6 +4,7 @@
   var STORAGE_KEY = 'nb_finder_state_v2';
   var batteryData = null;
   var batteryDataLoadFailed = false;
+  var observationAdapter = typeof NBGovernedObservationAdapter !== 'undefined' ? NBGovernedObservationAdapter : null;
 
   var state = loadState();
   var locationState = {};
@@ -16,6 +17,44 @@
       if (raw) return JSON.parse(raw);
     } catch (e) {}
     return {};
+  }
+
+  function getSearchParam(name) {
+    if (typeof window === 'undefined' || !window.location || !window.location.search || typeof URLSearchParams === 'undefined') return '';
+    return new URLSearchParams(window.location.search).get(name) || '';
+  }
+
+  function isDevelopmentMode() {
+    return !!(observationAdapter && observationAdapter.isDevelopmentMode(typeof window !== 'undefined' && window.location ? window.location.search : ''));
+  }
+
+  function updateDevelopmentLink() {
+    var wrap = $('confirmSummary') ? $('confirmSummary').parentNode : null;
+    if (!wrap) return;
+    var existing = $('btn-dev-evidence-report');
+    if (!isDevelopmentMode()) {
+      if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+      return;
+    }
+    if (existing) return;
+    var button = document.createElement('a');
+    button.id = 'btn-dev-evidence-report';
+    button.className = 'btn btn-ghost dev-only-link';
+    button.href = 'dev/evidence-report.html';
+    button.textContent = 'Open development evidence report';
+    wrap.appendChild(button);
+  }
+
+  function storeDevelopmentSnapshot() {
+    if (!observationAdapter) return;
+    if (getSearchParam('nb_dev') === 'true') observationAdapter.enableDevelopmentMode();
+    var snapshot = observationAdapter.buildFinderObservationSnapshot(state, {
+      rawBatteryCode: $('battCode') ? $('battCode').value : state.battCode,
+      notes: $('battCodeNotes') ? $('battCodeNotes').value : '',
+      entryPath: getSearchParam('path')
+    });
+    observationAdapter.saveObservationSnapshot(snapshot);
+    updateDevelopmentLink();
   }
 
   function saveState() {
@@ -268,6 +307,7 @@
           state.battIdCanonical = resolved.canonical;
           state.battIdConfidence = resolved.confidence;
           saveState();
+          storeDevelopmentSnapshot();
           renderIdentResult(resolved);
           btnCode.textContent = 'Continue to review summary →';
           if (!err || err) {
@@ -321,6 +361,8 @@
       showStep('step-category');
     });
 
+    if (getSearchParam('nb_dev') === 'true' && observationAdapter) observationAdapter.enableDevelopmentMode();
+    updateDevelopmentLink();
     showStep(state.currentStep || 'step-batt-code');
   }
 

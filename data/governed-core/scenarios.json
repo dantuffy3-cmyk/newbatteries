@@ -1,0 +1,123 @@
+{
+  "version": "0.2.0",
+  "notice": "Synthetic test scenarios for the hidden development evidence route only.",
+  "scenarios": [
+    {
+      "id": "exact-cr2032-identity",
+      "title": "Exact CR2032 identity",
+      "description": "Synthetic test case — exact primary coin-cell code supplied.",
+      "candidateFixtureIds": ["dev-fixture-cr2032"],
+      "observation": {
+        "raw_input": { "battery_code": "CR2032", "chemistry": "CR lithium", "nominal_voltage": "3V" },
+        "normalised_observations": { "battery_code": "CR2032", "chemistry": "lithium_primary", "nominal_voltage": "3V" },
+        "unknown_fields": [],
+        "observation_source": "synthetic_test_scenario",
+        "record_status": "development"
+      }
+    },
+    {
+      "id": "cr2032-vs-lir2032-conflict",
+      "title": "CR2032 versus LIR2032 chemistry conflict",
+      "description": "Synthetic test case — a CR2032-style size with rechargeable chemistry evidence.",
+      "candidateFixtureIds": ["dev-fixture-cr2032", "dev-fixture-lir2032"],
+      "observation": {
+        "raw_input": { "battery_code": "CR2032", "chemistry": "rechargeable", "nominal_voltage": "3.6V" },
+        "normalised_observations": { "battery_code": "CR2032", "chemistry": "lithium_ion", "nominal_voltage": "3.6V" },
+        "unknown_fields": [],
+        "observation_source": "synthetic_test_scenario",
+        "record_status": "development"
+      }
+    },
+    {
+      "id": "lr44-sr44-ambiguity",
+      "title": "LR44 versus SR44 ambiguity",
+      "description": "Synthetic test case — only a partial 44 code is known.",
+      "candidateFixtureIds": ["dev-fixture-lr44", "dev-fixture-sr44"],
+      "observation": {
+        "raw_input": { "partial_battery_code": "44", "equipment_category": "small_device" },
+        "normalised_observations": { "partial_battery_code": "44", "equipment_category": "small_device" },
+        "unknown_fields": ["battery_code", "chemistry", "nominal_voltage"],
+        "observation_source": "synthetic_test_scenario",
+        "record_status": "development"
+      }
+    },
+    {
+      "id": "ln2-chemistry-unknown",
+      "title": "LN2 family identified but chemistry unknown",
+      "description": "Synthetic test case — LN2 family entered without chemistry evidence.",
+      "candidateFixtureIds": ["dev-fixture-ln2-flooded", "dev-fixture-ln2-agm"],
+      "observation": {
+        "raw_input": { "battery_code": "LN2", "nominal_voltage": "12V" },
+        "normalised_observations": { "battery_code": "LN2", "nominal_voltage": "12V" },
+        "unknown_fields": ["chemistry", "polarity", "start_stop_status", "charger_information"],
+        "observation_source": "synthetic_test_scenario",
+        "record_status": "development"
+      }
+    },
+    {
+      "id": "agm-unresolved-charging",
+      "title": "AGM battery with unresolved charging compatibility",
+      "description": "Synthetic test case — AGM and start-stop are observed but charger evidence is missing.",
+      "candidateFixtureIds": ["dev-fixture-ln2-agm"],
+      "observation": {
+        "raw_input": { "battery_code": "LN2 AGM", "chemistry": "AGM", "nominal_voltage": "12V", "start_stop_status": "yes" },
+        "normalised_observations": { "battery_code": "LN2AGM", "chemistry": "agm", "nominal_voltage": "12V", "start_stop_status": true },
+        "unknown_fields": ["charger_information"],
+        "observation_source": "synthetic_test_scenario",
+        "record_status": "development"
+      }
+    },
+    {
+      "id": "reversed-polarity-automotive",
+      "title": "Reversed-polarity automotive battery",
+      "description": "Synthetic test case — polarity evidence conflicts with the candidate fixture.",
+      "candidateFixtureIds": ["dev-fixture-ln2-flooded"],
+      "observation": {
+        "raw_input": { "battery_code": "LN2", "chemistry": "flooded", "nominal_voltage": "12V", "polarity": "positive_right" },
+        "normalised_observations": { "battery_code": "LN2", "chemistry": "flooded_lead_acid", "nominal_voltage": "12V", "polarity": "positive_right" },
+        "unknown_fields": ["charger_information"],
+        "observation_source": "synthetic_test_scenario",
+        "record_status": "development"
+      }
+    },
+    {
+      "id": "starting-used-for-deep-cycle",
+      "title": "Starting battery used for deep-cycle application",
+      "description": "Synthetic test case — intended use conflicts with a starting-battery family.",
+      "candidateFixtureIds": ["dev-fixture-ln2-flooded"],
+      "observation": {
+        "raw_input": { "battery_code": "LN2", "chemistry": "flooded", "nominal_voltage": "12V", "intended_application": "deep cycle" },
+        "normalised_observations": { "battery_code": "LN2", "chemistry": "flooded_lead_acid", "nominal_voltage": "12V", "intended_application": "deep_cycle" },
+        "unknown_fields": ["polarity", "charger_information"],
+        "observation_source": "synthetic_test_scenario",
+        "record_status": "development"
+      }
+    },
+    {
+      "id": "modified-dual-battery-installation",
+      "title": "Modified dual-battery installation",
+      "description": "Synthetic test case — modification evidence forces professional escalation.",
+      "candidateFixtureIds": ["dev-fixture-ln2-flooded"],
+      "observation": {
+        "raw_input": { "battery_code": "LN2", "chemistry": "flooded", "nominal_voltage": "12V", "modification_status": "modified dual battery installation" },
+        "normalised_observations": { "battery_code": "LN2", "chemistry": "flooded_lead_acid", "nominal_voltage": "12V", "modification_status": "modified_dual_battery_installation" },
+        "unknown_fields": ["polarity", "charger_information"],
+        "observation_source": "synthetic_test_scenario",
+        "record_status": "development"
+      }
+    },
+    {
+      "id": "unknown-code-withheld",
+      "title": "Unknown code with conclusion withheld",
+      "description": "Synthetic test case — no governed candidate can be safely identified.",
+      "candidateFixtureIds": [],
+      "observation": {
+        "raw_input": { "battery_code": "XYZ999" },
+        "normalised_observations": { "battery_code": "XYZ999" },
+        "unknown_fields": ["chemistry", "nominal_voltage", "dimensions", "polarity", "terminal_type", "charger_information"],
+        "observation_source": "synthetic_test_scenario",
+        "record_status": "development"
+      }
+    }
+  ]
+}
