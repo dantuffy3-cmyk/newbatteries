@@ -63,7 +63,7 @@
       if (src.summaryUseApproved !== false && src.summaryUseApproved !== true) {
         errors.push('Source ' + src.sourceId + ': summaryUseApproved must be boolean');
       }
-      if (src.sourceStatus === 'retired' || src.sourceStatus === 'expired') {
+      if (src.sourceStatus === 'retired' || src.sourceStatus === 'expired' || src.sourceStatus === 'identified_not_acquired') {
         errors.push('Source ' + src.sourceId + ': source is ' + src.sourceStatus + ' and must not be used as evidence');
       }
     });
@@ -97,6 +97,12 @@
         field.sourceIds.forEach(function (sid) {
           if (sourceMap && !sourceMap[sid]) {
             errors.push('Technical field ' + field.fieldName + ': sourceId not in register: ' + sid);
+          } else if (sourceMap && sourceMap[sid] && (
+            sourceMap[sid].sourceStatus === 'retired' ||
+            sourceMap[sid].sourceStatus === 'expired' ||
+            sourceMap[sid].sourceStatus === 'identified_not_acquired'
+          )) {
+            errors.push('Technical field ' + field.fieldName + ': sourceId not usable: ' + sid + ' (' + sourceMap[sid].sourceStatus + ')');
           }
         });
       }

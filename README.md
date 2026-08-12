@@ -163,3 +163,81 @@ Records should move from `draft` to `reviewed` to `approved` using the process i
 - Source IDs are placeholders until evidence is linked per record.
 - Relationship coverage is intentionally narrow.
 - The engine does not guarantee fitment, safety or supplier availability.
+
+## Sprint 2C development evidence route
+
+Sprint 2C adds a hidden development-only governed evidence route without changing the public homepage or replacing the existing finder.
+
+### Hidden route
+
+- URL: `dev/evidence-report.html`
+- Search indexing: blocked with `noindex,nofollow`
+- Navigation: not linked from the homepage, footer, sitemap, or the normal finder flow
+
+### Integrated governed-core structure
+
+- `assets/js/governed-core/controlled-vocabulary.js` — development-only labels and governed dimension definitions
+- `assets/js/governed-core/public-safety.js` — fixture blocking and public-output guard helpers
+- `assets/js/governed-core/validation.js` — observation-record validation
+- `assets/js/governed-core/observation-adapter.js` — finder-state to governed observation adapter and session snapshot storage
+- `assets/js/governed-core/evidence-engine.js` — development-only governed assessment engine
+- `assets/js/governed-core/report-page.js` — hidden development-route UI controller
+- `assets/js/governed-core/dev-evidence-tests.js` — Sprint 2C integration coverage
+- `data/governed-core/identity-fixtures.json` — synthetic engineering identity fixtures
+- `data/governed-core/scenarios.json` — synthetic development scenarios
+
+### Finder adapter
+
+The public finder still performs its existing local code lookup. After a finder code is entered, the Sprint 2C adapter stores a separate development-only observation snapshot in `sessionStorage` under `nb_dev_observation_snapshot_v1`.
+
+- Only finder evidence actually supplied by the user is mapped.
+- Raw values are preserved in `raw_input`.
+- Normalised values are stored separately in `normalised_observations`.
+- Missing values remain in `unknown_fields`.
+- Location fields are deliberately excluded from the development snapshot.
+
+### Synthetic scenarios
+
+If no finder snapshot is available, the hidden report can load synthetic scenarios including:
+
+- exact CR2032 identity
+- CR2032 versus LIR2032 chemistry conflict
+- LR44 versus SR44 ambiguity
+- LN2 family identified but chemistry unknown
+- AGM battery with unresolved charging compatibility
+- reversed-polarity automotive battery
+- starting battery used for deep-cycle application
+- modified dual-battery installation
+- unknown code with conclusion withheld
+
+### Public-output gate
+
+Sprint 2C keeps fixture output blocked from public rendering.
+
+- `engineering_fixture` records stay blocked
+- `development_only` records stay blocked
+- `not_for_public_recommendation` records stay blocked
+- non-approved records stay blocked
+- records with `publicEligibility !== true` stay blocked
+
+Future governed production records must differ from these fixtures by being non-synthetic, evidence-complete, approved, and explicitly cleared for public output.
+
+### Deliberately excluded
+
+- no public API
+- no ecommerce or supplier pricing
+- no OCR or computer vision
+- no external AI services
+- no public compatibility guarantees
+
+### Running tests
+
+Run the governed and Sprint 2C suites with:
+
+```bash
+node assets/js/governed-core/dev-evidence-tests.js
+node assets/js/data-governance-tests.js
+node assets/js/governed-record-tests.js
+node assets/js/public-output-tests.js
+node assets/js/governance/governance-validation-tests.js
+```

@@ -409,11 +409,14 @@
     var hasSafetyConflict = evaluations.some(function (item) { return item.conflicts.some(function (conflict) { return conflict.severity === 'safety' || conflict.severity === 'blocking'; }); });
     var hasEscalation = evaluations.some(function (item) { return item.escalation.length > 0; });
     var viable = evaluations.filter(function (item) { return item.conflicts.length === 0; });
+    var actionableWithheld = viable[0] ? viable[0].withheld.filter(function (item) {
+      return item.label !== 'Public rendering blocked';
+    }) : [];
 
     if (hasSafetyConflict) return 'conflict_detected';
     if (hasEscalation) return 'professional_verification_required';
     if (viable.length > 1) return 'multiple_candidates';
-    if (viable[0] && viable[0].withheld.length > 0) return viable[0].candidateIdentity.scope === 'exact_identity' ? 'conclusion_withheld' : 'likely_identity';
+    if (viable[0] && actionableWithheld.length > 0) return viable[0].candidateIdentity.scope === 'exact_identity' ? 'conclusion_withheld' : 'likely_identity';
     if (viable[0] && viable[0].candidateIdentity.scope === 'exact_identity') return 'identity_supported';
     if (viable[0]) return 'likely_identity';
     return 'insufficient_evidence';
