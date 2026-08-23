@@ -265,23 +265,20 @@
    *
    * Scenario C — exact match but required physical evidence is missing.
    *
-   * Only triggers when identResult.unknowns contains a dimension-related
-   * entry AND a category rule exists for a measurement request.
+   * Only triggers when identResult.unknowns explicitly contains the field
+   * name 'physical.heightMm' AND a category measurement rule exists.
+   * Generic dimension/size words in unknowns are NOT sufficient — the
+   * structured field name must be present to avoid false height requests.
    *
    * Returns null when no specific measurement can be requested
    * (avoids a generic "provide more information" request).
    */
   function requestForMissingPhysicalEvidence(identResult) {
     var unknowns = identResult.unknowns || [];
-    var hasDimensionUnknown = unknowns.some(function (u) {
-      var low = String(u).toLowerCase();
-      return low.indexOf('dimension') !== -1 ||
-             low.indexOf('height') !== -1 ||
-             low.indexOf('length') !== -1 ||
-             low.indexOf('width') !== -1 ||
-             low.indexOf('size') !== -1;
+    var hasHeightUnknown = unknowns.some(function (u) {
+      return String(u) === 'physical.heightMm';
     });
-    if (!hasDimensionUnknown) return null;
+    if (!hasHeightUnknown) return null;
 
     var rule = getCategoryMeasurementRule(identResult.category);
     if (!rule) return null;
