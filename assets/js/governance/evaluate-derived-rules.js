@@ -26,6 +26,15 @@
     if (!src) return { available: false, reason: 'source_not_registered' };
     if (src.sourceStatus === 'retired') return { available: false, reason: 'source_retired' };
     if (src.sourceStatus === 'expired') return { available: false, reason: 'source_expired' };
+    /*
+     * identified_not_acquired: source is known to exist but has not been
+     * obtained. It must remain in the register for discovery, but it cannot
+     * support any claim or derived rule at runtime.
+     * Do not delete such sources from the register.
+     */
+    if (src.sourceStatus === 'identified_not_acquired') {
+      return { available: false, reason: 'source_not_acquired' };
+    }
     if (src.approvalStatus === 'not_approved' || src.approvalStatus === undefined) {
       return { available: true, reason: 'source_candidate', warning: 'source_not_yet_approved' };
     }
