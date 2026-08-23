@@ -1,25 +1,19 @@
 /*
  * finder-devmode-integration-tests.js
  *
- * Page/runtime integration tests for the finder development-mode snapshot pathway.
+ * Unit-level tests for the finder development-mode snapshot pathway logic.
  *
- * These tests prove the full wiring:
- *   finder-core.js → observation-adapter.js → finder.js storeDevelopmentSnapshot()
+ * NOTE: These are unit-level tests that exercise the pathway logic directly
+ * in Node.js using real modules (finder-core.js, observation-adapter.js).
+ * They do NOT exercise the actual browser page. Real browser integration tests
+ * (HTML → script tags → finder.js → observation-adapter.js → sessionStorage)
+ * are covered by the Playwright suite in /tmp/playwright-tests/browser-integration.test.js.
  *
- * They do NOT call saveObservationSnapshot() directly. They simulate the pathway
- * that the real finder invokes after a battery lookup.
- *
- * Case A — Public mode:
- *   Adapter loaded, no ?nb_dev=true → storeDevelopmentSnapshot() must NOT write
- *   the sessionStorage key.
- *
- * Case B — Development mode:
- *   Adapter loaded, ?nb_dev=true present → storeDevelopmentSnapshot() must write
- *   the sessionStorage key.
- *
- * If finder.html stops loading observation-adapter.js, or if finder runtime no
- * longer wires the adapter, Case B will fail because NBObservationAdapter will
- * be undefined and no write can occur.
+ * What these tests verify:
+ *   T-INT-1/2: storeDevelopmentSnapshot pathway logic (real adapter, simulated dev flag)
+ *   T-INT-3:   observation-adapter.js module loads and exports correctly
+ *   T-INT-4:   null-adapter guard in the storeDevelopmentSnapshot caller
+ *   T-INT-5/6/7: finder.js fallback implementations match finder-core.js (divergence guards)
  *
  * Finder-core fallback divergence guard:
  *   finder.js contains fallback copies of lookupBattery, buildIdentResult, and
@@ -294,7 +288,7 @@
           return { Test: t.name, Result: t.pass ? 'PASS' : 'FAIL' };
         }));
       }
-      console.log('Finder Dev-Mode Integration Tests: ' + passed + ' passed, ' + failed + ' failed out of ' + tests.length + ' total');
+      console.log('Finder Dev-Mode Unit Tests: ' + passed + ' passed, ' + failed + ' failed out of ' + tests.length + ' total');
       if (failed > 0) {
         tests.forEach(function (t) {
           if (!t.pass) console.error('FAIL: ' + t.name);

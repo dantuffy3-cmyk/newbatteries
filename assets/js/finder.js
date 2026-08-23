@@ -322,6 +322,7 @@
         loadBatteryData(function (err, batteries) {
           var rawMatch = err ? null : lookupBattery(code, batteries);
           var resolved = resolveIdentificationResult(rawMatch, { enteredCode: code, loadFailed: !!err });
+          storeDevelopmentSnapshot(resolved);
           state.battIdDone = true;
           state.battIdCanonical = resolved.canonical;
           state.battIdConfidence = resolved.confidence;
