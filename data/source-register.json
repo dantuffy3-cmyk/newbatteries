@@ -576,5 +576,6 @@
       "reviewStatus": "unverified",
       "notes": "Official manufacturer catalogue cited via web search: https://www.leoch.com/product/starting/113.html . Used only for internal family-level flooded LN2/L2 dimensional and hold-down verification; rights not established."
     }
-  ]
+  ],
+  "_canonicalRole": "V2 CANONICAL GLOBAL SOURCE REGISTER. This is the authoritative source of truth for: source identity, source authority, acquisition status, rights, publication permissions, and freshness/review status. New governed evidence claims must resolve source authority from this file."
 }

@@ -51,7 +51,7 @@
 
   function safeFallbackForCR2032() {
     return {
-      recordId: 'CR2032-internal-v2',
+      recordId: 'gov-cr2032',
       publicEligibility: false,
       identification: {
         possibleCode: 'CR2032',

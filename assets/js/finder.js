@@ -5,6 +5,46 @@
   var batteryData = null;
   var batteryDataLoadFailed = false;
 
+  /*
+   * observationAdapter is wired to NBObservationAdapter when available.
+   * If the governed-core script is not loaded, this remains null and the
+   * storeDevelopmentSnapshot() caller gate will return early.
+   */
+  var observationAdapter = (typeof NBObservationAdapter !== 'undefined')
+    ? NBObservationAdapter : null;
+
+  /*
+   * isDevelopmentMode
+   *
+   * Returns true only when ?nb_dev=true is present in the URL.
+   * Used as the caller gate for development-only features.
+   */
+  function isDevelopmentMode() {
+    try {
+      return window.location.search.indexOf('nb_dev=true') !== -1;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /*
+   * storeDevelopmentSnapshot
+   *
+   * Caller gate (defence-in-depth layer 1):
+   *   - Returns immediately if no observationAdapter is available.
+   *   - Returns immediately if development mode is not active.
+   *
+   * The storage function itself (observationAdapter.saveObservationSnapshot)
+   * is also gated (defence-in-depth layer 2).
+   *
+   * Required invariant: ?nb_dev=true absent → no snapshot write.
+   */
+  function storeDevelopmentSnapshot(snapshotData) {
+    if (!observationAdapter) return;
+    if (!isDevelopmentMode()) return;
+    observationAdapter.saveObservationSnapshot(snapshotData);
+  }
+
   var state = loadState();
   var locationState = {};
 

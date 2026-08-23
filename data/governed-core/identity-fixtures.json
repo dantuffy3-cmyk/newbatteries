@@ -1,0 +1,34 @@
+{
+  "_fixtureRole": "ENGINEERING FIXTURE — DEVELOPMENT ONLY",
+  "_fixtureWarning": "This file is NOT a canonical identity register. It contains deliberately simplified or adversarial values for test purposes. Do not treat these as authoritative. Do not expose them publicly. Production runtime lookup must never consume this file. Eligibility gates continue to reject these fixtures.",
+  "_canonicalInspiredBy": "Where noted, fixtures were conceptually inspired by real canonical records (e.g. gov-cr2032) but may contain intentionally modified values to challenge production logic.",
+  "version": "1.0.0",
+  "fixtureType": "engineering_fixture",
+  "environment": "development_only",
+  "fixtures": [
+    {
+      "fixtureId": "FX-CR2032-MINIMAL",
+      "canonicalInspiredBy": "gov-cr2032",
+      "description": "Minimal CR2032 fixture — simplified values for unit testing. Not authoritative.",
+      "recordType": "standard_size",
+      "canonicalCode": "CR2032",
+      "eligibility": {
+        "publicEligibility": false,
+        "compatibilityEngineEligibility": false
+      },
+      "_note": "This fixture intentionally omits fields required by the real canonical record. Its purpose is to test that eligibility gates reject incomplete records."
+    },
+    {
+      "fixtureId": "FX-UNKNOWN-ADVERSARIAL",
+      "canonicalInspiredBy": null,
+      "description": "Adversarial fixture — unknown code used to test fallback paths.",
+      "recordType": "standard_size",
+      "canonicalCode": "ZZZ-FIXTURE-ADVERSARIAL",
+      "eligibility": {
+        "publicEligibility": false,
+        "compatibilityEngineEligibility": false
+      },
+      "_note": "This fixture should never match any real battery code. Used to verify unknown-code fallback behaviour."
+    }
+  ]
+}
