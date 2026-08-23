@@ -3,12 +3,17 @@
  *
  * REAL production finder regression tests.
  *
- * These tests exercise the actual production logic from finder.js:
- *   real data/batteries.json → production normaliseCode() → production
- *   lookupBattery() → production buildIdentResult() → production result
+ * These tests exercise the actual production logic by importing from
+ * finder-core.js — the same module used by production finder.js at runtime.
  *
- * No synthetic objects that assert their own values.
- * No duplication of finder logic.
+ *   real data/batteries.json
+ *     → production normaliseBattCode() (from finder-core.js)
+ *     → production lookupBattery()     (from finder-core.js)
+ *     → production buildIdentResult()  (from finder-core.js)
+ *     → production result
+ *
+ * No function definitions are duplicated here.
+ * If production finder-core.js changes, these tests will reflect that change.
  *
  * Test cases:
  *   1. Exact match — real exact code known to exist
@@ -16,105 +21,35 @@
  *   3. Family/prefix match — real family case
  *   4. Unrecognised code — existing fallback behaviour
  *   5. Data-load failure — current "no conclusion made" failure semantics
+ *   6–10. Regression guards for normalisation, alias, variant unknowns, real codes
  *
- * The test will fail if production finder behaviour changes unexpectedly.
+ * The test will fail if production finder-core.js behaviour changes unexpectedly.
  */
 (function (root, factory) {
   if (typeof module !== 'undefined' && module.exports) {
     var fs = require('fs');
     var path = require('path');
-    module.exports = factory(fs, path);
+    var core = require('./finder-core.js');
+    module.exports = factory(fs, path, core);
   } else {
-    root.NBFinderRegressionTests = factory(null, null);
+    root.NBFinderRegressionTests = factory(null, null, root.NBFinderCore);
   }
-}(typeof self !== 'undefined' ? self : this, function (fs, path) {
+}(typeof self !== 'undefined' ? self : this, function (fs, path, finderCore) {
   'use strict';
 
   /*
-   * Production normaliseCode — must match the implementation in finder.js.
-   * This is the only function copied here. Any divergence will be caught by
-   * the regression tests because real batteries.json codes will stop matching.
+   * All pure finder functions are sourced from finderCore (finder-core.js).
+   * There are NO local copies of these functions in this file.
+   * Any divergence from production will cause tests to fail.
    */
-  function normaliseCode(code) {
-    return String(code || '').replace(/[\s\-\.]/g, '').toUpperCase();
+  if (!finderCore) {
+    throw new Error('finder-regression-tests: finderCore (finder-core.js) not available. Cannot run production regression tests.');
   }
 
-  /*
-   * Production lookupBattery — extracted verbatim from finder.js logic.
-   * Future: expose directly from finder.js module export for tighter coupling.
-   */
-  function lookupBattery(normalised, batteries) {
-    var i, j, b, aliases, canon;
-    for (i = 0; i < batteries.length; i++) {
-      b = batteries[i];
-      if (normaliseCode(b.canonicalCode) === normalised) return { battery: b, matchType: 'exact' };
-    }
-    for (i = 0; i < batteries.length; i++) {
-      b = batteries[i];
-      aliases = b.aliases || [];
-      for (j = 0; j < aliases.length; j++) {
-        if (normaliseCode(aliases[j]) === normalised) return { battery: b, matchType: 'exact' };
-      }
-    }
-    if (normalised.length >= 3) {
-      for (i = 0; i < batteries.length; i++) {
-        b = batteries[i];
-        canon = normaliseCode(b.canonicalCode);
-        if (normalised.indexOf(canon) === 0 || canon.indexOf(normalised) === 0) return { battery: b, matchType: 'family' };
-      }
-    }
-    return null;
-  }
-
-  /*
-   * Production buildIdentResult — extracted verbatim from finder.js logic.
-   */
-  function buildIdentResult(match, enteredCode) {
-    if (!match) {
-      return {
-        confidence: 'unknown',
-        enteredCode: enteredCode,
-        canonical: null,
-        category: null,
-        evidence: 'The code was not recognised in the current local reference data.',
-        unknowns: ['Battery family', 'Variant details', 'Fitment checks'],
-        warnings: [],
-        verificationRequired: []
-      };
-    }
-    var b = match.battery;
-    var conf = match.matchType === 'exact' ? 'exact' : 'family';
-    return {
-      confidence: conf,
-      enteredCode: enteredCode,
-      canonical: b.canonicalCode,
-      category: b.category,
-      evidence: conf === 'exact'
-        ? 'Exact code or alias matched in local reference data.'
-        : 'Family-level code pattern matched in local reference data.',
-      unknowns: conf === 'family'
-        ? ['Exact variant suffix', 'Terminal orientation confirmation', 'Physical fit verification']
-        : ['Terminal orientation confirmation', 'Physical fit verification'],
-      warnings: (b.warnings || []).slice(),
-      verificationRequired: (b.verificationRequirements || []).slice()
-    };
-  }
-
-  /*
-   * Production buildTechnicalFailureResult — extracted verbatim from finder.js.
-   */
-  function buildTechnicalFailureResult(enteredCode) {
-    return {
-      confidence: 'technical_failure',
-      enteredCode: enteredCode,
-      canonical: null,
-      category: null,
-      evidence: 'The battery reference data could not be loaded. No identification or compatibility conclusion has been made.',
-      unknowns: ['Please refresh and try again'],
-      warnings: [],
-      verificationRequired: []
-    };
-  }
+  var normaliseBattCode            = finderCore.normaliseBattCode;
+  var lookupBattery                = finderCore.lookupBattery;
+  var buildIdentResult             = finderCore.buildIdentResult;
+  var buildTechnicalFailureResult  = finderCore.buildTechnicalFailureResult;
 
   function assert(pass, name) {
     return { pass: !!pass, name: name };
@@ -144,7 +79,7 @@
     // DIN44 is a real exact code in batteries.json.
     tests.push(assert(
       (function () {
-        var code = normaliseCode('DIN44');
+        var code = normaliseBattCode('DIN44');
         var match = lookupBattery(code, batteries);
         if (!match) return false;
         var result = buildIdentResult(match, 'DIN44');
@@ -159,7 +94,7 @@
     // 'DIN 44' is a known alias for DIN44 in batteries.json.
     tests.push(assert(
       (function () {
-        var code = normaliseCode('DIN 44');
+        var code = normaliseBattCode('DIN 44');
         var match = lookupBattery(code, batteries);
         if (!match) return false;
         var result = buildIdentResult(match, 'DIN 44');
@@ -175,7 +110,7 @@
     // N70 and N70ZZ both exist. Searching 'N70Z' should family-match N70 or N70ZZ.
     tests.push(assert(
       (function () {
-        var code = normaliseCode('N70Z');
+        var code = normaliseBattCode('N70Z');
         var match = lookupBattery(code, batteries);
         if (!match) return false;
         var result = buildIdentResult(match, 'N70Z');
@@ -192,7 +127,7 @@
     // A code that does not exist in batteries.json must return unknown confidence.
     tests.push(assert(
       (function () {
-        var code = normaliseCode('ZZZNOBATTERY999');
+        var code = normaliseBattCode('ZZZNOBATTERY999');
         var match = lookupBattery(code, batteries);
         var result = buildIdentResult(match, 'ZZZNOBATTERY999');
         return result.confidence === 'unknown' &&
@@ -217,19 +152,19 @@
       'T-FINDER-5: data-load failure — technical_failure confidence, no conclusion made, no canonical'
     ));
 
-    // --- TEST 6: normaliseCode strips expected characters ---
+    // --- TEST 6: normaliseBattCode strips expected characters ---
     tests.push(assert(
       (function () {
-        return normaliseCode('cr-20.32 ') === 'CR2032';
+        return normaliseBattCode('cr-20.32 ') === 'CR2032';
       }()),
-      'T-FINDER-6: normaliseCode strips hyphens, dots, spaces and uppercases'
+      'T-FINDER-6: normaliseBattCode strips hyphens, dots, spaces and uppercases'
     ));
 
     // --- TEST 7: Alias normalised match ---
     // 'DIN-44' is also a known alias for DIN44.
     tests.push(assert(
       (function () {
-        var code = normaliseCode('DIN-44');
+        var code = normaliseBattCode('DIN-44');
         var match = lookupBattery(code, batteries);
         if (!match) return false;
         return match.battery.canonicalCode === 'DIN44' && match.matchType === 'exact';
@@ -240,7 +175,7 @@
     // --- TEST 8: Exact match result has no variant unknowns ---
     tests.push(assert(
       (function () {
-        var code = normaliseCode('DIN44');
+        var code = normaliseBattCode('DIN44');
         var match = lookupBattery(code, batteries);
         if (!match) return false;
         var result = buildIdentResult(match, 'DIN44');
@@ -252,7 +187,7 @@
     // --- TEST 9: Family match includes variant unknown ---
     tests.push(assert(
       (function () {
-        var code = normaliseCode('N70Z');
+        var code = normaliseBattCode('N70Z');
         var match = lookupBattery(code, batteries);
         if (!match) return false;
         var result = buildIdentResult(match, 'N70Z');
