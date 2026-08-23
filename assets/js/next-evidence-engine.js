@@ -90,26 +90,31 @@
    * 'evidenceBasisRequested' — what kind of evidence is being requested
    * 'priority' — HIGH / MEDIUM / LOW
    */
-  var CATEGORY_RULES = [
-    // Automotive / starting batteries — height is commonly the distinguishing field
-    {
-      pattern: /automotive|starting|motorcycle/,
-      field: 'physical.heightMm',
-      reasonCode: REASON.MISSING_BLOCKING_EVIDENCE,
-      title: 'Measure the battery height',
-      instruction: 'Measure from the base of the case to the highest fixed point (excluding cable terminals). Record the value in millimetres.',
-      whyItMatters: 'Height is required to distinguish the remaining battery variants in this size group.',
-      evidenceBasisRequested: EVIDENCE_BASIS.MEASUREMENT,
-      priority: PRIORITY.HIGH
-    },
-    // Automotive — also useful: check exact suffix on label
+  /*
+   * CATEGORY_RULES
+   *
+   * Two distinct rule sets:
+   *
+   *  CATEGORY_FAMILY_RULES  — used by requestForFamilyMatch.
+   *    Family match path: always prefers the complete code / suffix
+   *    observation unless the category has no code-based distinguisher.
+   *    Never makes hard claims about physical dimensions being "required";
+   *    uses "may help identify" language throughout.
+   *
+   *  CATEGORY_MEASUREMENT_RULES — used by requestForMissingPhysicalEvidence.
+   *    Only triggered for exact matches where identResult.unknowns explicitly
+   *    contains a dimension-related field name.  Uses softer "may help
+   *    confirm" language; the claim is always conditional on what was
+   *    actually observed, not a hard assertion.
+   */
+  var CATEGORY_FAMILY_RULES = [
+    // Automotive / starting / motorcycle — complete code or suffix first
     {
       pattern: /automotive|starting|motorcycle/,
       field: 'identity.exactVariantSuffix',
-      reasonCode: REASON.FAMILY_MATCH_AMBIGUOUS,
-      title: 'Check the battery label for an exact code',
-      instruction: 'Look for the full code printed or stamped on the battery case. Note every character including any trailing letters or digits.',
-      whyItMatters: 'The suffix may identify the exact variant and distinguish it from similar batteries in the same family.',
+      title: 'Check the battery label for the complete code',
+      instruction: 'Look for the full code printed or stamped on the battery case, including any trailing letters or digits.',
+      whyItMatters: 'The complete code or suffix may help identify the exact variant within this battery family.',
       evidenceBasisRequested: EVIDENCE_BASIS.OBSERVATION,
       priority: PRIORITY.HIGH
     },
@@ -117,10 +122,9 @@
     {
       pattern: /coin|button/,
       field: 'identity.exactVariantSuffix',
-      reasonCode: REASON.FAMILY_MATCH_AMBIGUOUS,
       title: 'Check the battery label for the complete code',
       instruction: 'Look for the full code on the battery face or blister pack, including any trailing letters.',
-      whyItMatters: 'The complete code distinguishes chemistry and size variants within this family.',
+      whyItMatters: 'The complete code may help identify chemistry and size variants within this family.',
       evidenceBasisRequested: EVIDENCE_BASIS.OBSERVATION,
       priority: PRIORITY.HIGH
     },
@@ -128,10 +132,9 @@
     {
       pattern: /household/,
       field: 'identity.chemistryMarking',
-      reasonCode: REASON.FAMILY_MATCH_AMBIGUOUS,
       title: 'Check the chemistry marking on the battery',
       instruction: 'Look for a chemistry label on the battery case such as Alkaline, NiMH, Lithium, or Carbon Zinc.',
-      whyItMatters: 'Chemistry marking may help distinguish variants within the same size family.',
+      whyItMatters: 'The chemistry marking may help identify the variant within the same size family.',
       evidenceBasisRequested: EVIDENCE_BASIS.OBSERVATION,
       priority: PRIORITY.MEDIUM
     },
@@ -139,26 +142,59 @@
     {
       pattern: /power.tool/,
       field: 'identity.platformLabel',
-      reasonCode: REASON.FAMILY_MATCH_AMBIGUOUS,
       title: 'Check the platform label on the battery or tool',
       instruction: 'Look for the platform or voltage marking printed on the battery pack or tool body.',
-      whyItMatters: 'Platform label may identify the exact battery pack variant required.',
+      whyItMatters: 'The platform label may help identify the exact battery pack variant required.',
       evidenceBasisRequested: EVIDENCE_BASIS.OBSERVATION,
       priority: PRIORITY.MEDIUM
     }
   ];
 
   /*
-   * getCategoryRule
+   * CATEGORY_MEASUREMENT_RULES
    *
-   * Returns the first matching CATEGORY_RULES entry for the given category
-   * string, or null if no rule applies.
+   * Used only when an exact match has an explicit dimension unknown.
+   * Language is conditional — "may help confirm" — never a hard claim.
    */
-  function getCategoryRule(category) {
+  var CATEGORY_MEASUREMENT_RULES = [
+    // Automotive — height measurement when explicitly unknown
+    {
+      pattern: /automotive|starting|motorcycle/,
+      field: 'physical.heightMm',
+      title: 'Measure the battery height',
+      instruction: 'Measure from the base of the case to the highest fixed point (excluding cable terminals). Record the value in millimetres.',
+      whyItMatters: 'A height measurement may help confirm the exact variant within this size group.',
+      evidenceBasisRequested: EVIDENCE_BASIS.MEASUREMENT,
+      priority: PRIORITY.HIGH
+    }
+  ];
+
+  /*
+   * getCategoryFamilyRule
+   *
+   * Returns the first matching CATEGORY_FAMILY_RULES entry for the given
+   * category string, or null if no rule applies.
+   */
+  function getCategoryFamilyRule(category) {
     if (!category) return null;
     var lower = String(category).toLowerCase();
-    for (var i = 0; i < CATEGORY_RULES.length; i++) {
-      if (CATEGORY_RULES[i].pattern.test(lower)) return CATEGORY_RULES[i];
+    for (var i = 0; i < CATEGORY_FAMILY_RULES.length; i++) {
+      if (CATEGORY_FAMILY_RULES[i].pattern.test(lower)) return CATEGORY_FAMILY_RULES[i];
+    }
+    return null;
+  }
+
+  /*
+   * getCategoryMeasurementRule
+   *
+   * Returns the first matching CATEGORY_MEASUREMENT_RULES entry for the given
+   * category string, or null if no rule applies.
+   */
+  function getCategoryMeasurementRule(category) {
+    if (!category) return null;
+    var lower = String(category).toLowerCase();
+    for (var i = 0; i < CATEGORY_MEASUREMENT_RULES.length; i++) {
+      if (CATEGORY_MEASUREMENT_RULES[i].pattern.test(lower)) return CATEGORY_MEASUREMENT_RULES[i];
     }
     return null;
   }
@@ -200,7 +236,7 @@
    * when no category rule applies.
    */
   function requestForFamilyMatch(identResult) {
-    var rule = getCategoryRule(identResult.category);
+    var rule = getCategoryFamilyRule(identResult.category);
     if (rule) {
       return {
         field: rule.field,
@@ -218,7 +254,7 @@
       reasonCode: REASON.FAMILY_MATCH_AMBIGUOUS,
       title: 'Check the battery label for the complete code',
       instruction: 'Look for the complete code on the battery label, including any trailing characters or suffix.',
-      whyItMatters: 'The full code is required to distinguish the exact variant from others in the same family.',
+      whyItMatters: 'The full code may help identify the exact variant from others in the same family.',
       evidenceBasisRequested: EVIDENCE_BASIS.OBSERVATION,
       priority: PRIORITY.HIGH
     };
@@ -247,11 +283,8 @@
     });
     if (!hasDimensionUnknown) return null;
 
-    var rule = getCategoryRule(identResult.category);
+    var rule = getCategoryMeasurementRule(identResult.category);
     if (!rule) return null;
-
-    // Only return a measurement request (not an observation request here)
-    if (rule.evidenceBasisRequested !== EVIDENCE_BASIS.MEASUREMENT) return null;
 
     return {
       field: rule.field,
