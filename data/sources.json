@@ -149,5 +149,7 @@
       ],
       "lastReviewed": "2026-07-23"
     }
-  ]
+  ],
+  "_deprecationNotice": "DEPRECATED (V1 legacy). This file is the legacy V1 source list. Do not add new governed evidence claims that resolve authority from this file. New governed evidence must reference the V2 canonical source register at data/source-register.json. This file must not be deleted until all existing runtime references have been confirmed removed.",
+  "_replacedBy": "data/source-register.json"
 }

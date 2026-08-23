@@ -33,7 +33,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_LENGTHMM-001",
+      "evidenceBasis": "DOCUMENT_SUPPORTED"
     },
     "widthMm": {
       "value": 175,
@@ -52,7 +54,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_WIDTHMM-001",
+      "evidenceBasis": "DOCUMENT_SUPPORTED"
     },
     "heightMm": {
       "value": 190,
@@ -71,7 +75,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_HEIGHTMM-001",
+      "evidenceBasis": "DOCUMENT_SUPPORTED"
     },
     "diameterMm": {
       "value": null,
@@ -88,7 +94,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_DIAMETERMM-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "thicknessMm": {
       "value": null,
@@ -105,7 +113,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_THICKNESSMM-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "terminalType": {
       "value": "standard_automotive_top_post",
@@ -124,7 +134,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_TERMINALTYPE-001",
+      "evidenceBasis": "DOCUMENT_SUPPORTED"
     },
     "terminalLayout": {
       "value": null,
@@ -141,7 +153,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_TERMINALLAYOUT-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "polarityOrientation": {
       "value": null,
@@ -158,7 +172,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_POLARITYORIENTATION-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "connectorGeometry": {
       "value": null,
@@ -175,7 +191,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_CONNECTORGEOMETRY-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "connectorKeying": {
       "value": null,
@@ -192,7 +210,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_CONNECTORKEYING-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "holdDownType": {
       "value": "B13",
@@ -211,7 +231,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_HOLDDOWNTYPE-001",
+      "evidenceBasis": "DOCUMENT_SUPPORTED"
     },
     "baseProfile": {
       "value": "B13_bottom_ledge",
@@ -230,7 +252,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_BASEPROFILE-001",
+      "evidenceBasis": "DOCUMENT_SUPPORTED"
     },
     "mountingProfile": {
       "value": null,
@@ -247,7 +271,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_MOUNTINGPROFILE-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "weightKg": {
       "value": null,
@@ -264,7 +290,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-PHYSICAL_WEIGHTKG-001",
+      "evidenceBasis": "UNKNOWN"
     }
   },
   "electrical": {
@@ -285,7 +313,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-ELECTRICAL_NOMINALVOLTAGE-001",
+      "evidenceBasis": "DOCUMENT_SUPPORTED"
     },
     "capacityAh": {
       "value": null,
@@ -302,7 +332,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-ELECTRICAL_CAPACITYAH-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "capacityMah": {
       "value": null,
@@ -319,7 +351,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-ELECTRICAL_CAPACITYMAH-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "capacityTestConditions": {
       "value": null,
@@ -336,7 +370,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-ELECTRICAL_CAPACITYTESTCONDITIONS-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "cca": {
       "value": null,
@@ -353,7 +389,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-ELECTRICAL_CCA-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "ccaTestStandard": {
       "value": null,
@@ -370,7 +408,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-ELECTRICAL_CCATESTSTANDARD-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "reserveCapacityMinutes": {
       "value": null,
@@ -387,7 +427,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-ELECTRICAL_RESERVECAPACITYMINUTES-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "continuousDischargeA": {
       "value": null,
@@ -404,7 +446,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-ELECTRICAL_CONTINUOUSDISCHARGEA-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "peakDischargeA": {
       "value": null,
@@ -421,7 +465,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-ELECTRICAL_PEAKDISCHARGEA-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "rechargeable": {
       "value": null,
@@ -438,7 +484,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-ELECTRICAL_RECHARGEABLE-001",
+      "evidenceBasis": "UNKNOWN"
     }
   },
   "chemistry": {
@@ -459,7 +507,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-CHEMISTRY_CHEMISTRYFAMILY-001",
+      "evidenceBasis": "DOCUMENT_SUPPORTED"
     },
     "chemistrySubtype": {
       "value": null,
@@ -476,7 +526,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-CHEMISTRY_CHEMISTRYSUBTYPE-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "chargingProfile": {
       "value": null,
@@ -493,7 +545,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-CHEMISTRY_CHARGINGPROFILE-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "bmsRequired": {
       "value": null,
@@ -510,7 +564,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-CHEMISTRY_BMSREQUIRED-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "batteryCommunicationRequired": {
       "value": null,
@@ -527,7 +583,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-CHEMISTRY_BATTERYCOMMUNICATIONREQUIRED-001",
+      "evidenceBasis": "UNKNOWN"
     }
   },
   "australianContext": {
@@ -546,7 +604,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-AUSTRALIANCONTEXT_AUSTRALIANAVAILABILITY-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "cecListingRelevant": {
       "value": null,
@@ -563,7 +623,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-AUSTRALIANCONTEXT_CECLISTINGRELEVANT-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "cecListingStatus": {
       "value": null,
@@ -580,7 +642,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-AUSTRALIANCONTEXT_CECLISTINGSTATUS-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "eessRelevant": {
       "value": null,
@@ -597,7 +661,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-AUSTRALIANCONTEXT_EESSRELEVANT-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "recallStatus": {
       "value": null,
@@ -614,7 +680,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-AUSTRALIANCONTEXT_RECALLSTATUS-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "specialistInstallationRequired": {
       "value": null,
@@ -631,7 +699,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-AUSTRALIANCONTEXT_SPECIALISTINSTALLATIONREQUIRED-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "recyclingPathway": {
       "value": null,
@@ -648,7 +718,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-AUSTRALIANCONTEXT_RECYCLINGPATHWAY-001",
+      "evidenceBasis": "UNKNOWN"
     },
     "stateSpecificRequirementsPossible": {
       "value": null,
@@ -665,7 +737,9 @@
         "resolutionNotes": null,
         "reviewer": null,
         "resolvedAt": null
-      }
+      },
+      "claimId": "CLM-LN2FLOODED-AUSTRALIANCONTEXT_STATESPECIFICREQUIREMENTSPOSSIBLE-001",
+      "evidenceBasis": "UNKNOWN"
     }
   },
   "replacementPathway": {

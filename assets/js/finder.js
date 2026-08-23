@@ -5,6 +5,53 @@
   var batteryData = null;
   var batteryDataLoadFailed = false;
 
+  /*
+   * finderCore provides the pure lookup functions shared with regression tests.
+   * finder-core.js must be loaded before finder.js in the browser.
+   * In a Node test environment finder-core.js is required directly.
+   */
+  var finderCore = (typeof NBFinderCore !== 'undefined') ? NBFinderCore : null;
+
+  /*
+   * observationAdapter is wired to NBObservationAdapter when available.
+   * If the governed-core script is not loaded, this remains null and the
+   * storeDevelopmentSnapshot() caller gate will return early.
+   */
+  var observationAdapter = (typeof NBObservationAdapter !== 'undefined')
+    ? NBObservationAdapter : null;
+
+  /*
+   * isDevelopmentMode
+   *
+   * Returns true only when ?nb_dev=true is present in the URL.
+   * Used as the caller gate for development-only features.
+   */
+  function isDevelopmentMode() {
+    try {
+      return window.location.search.indexOf('nb_dev=true') !== -1;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /*
+   * storeDevelopmentSnapshot
+   *
+   * Caller gate (defence-in-depth layer 1):
+   *   - Returns immediately if no observationAdapter is available.
+   *   - Returns immediately if development mode is not active.
+   *
+   * The storage function itself (observationAdapter.saveObservationSnapshot)
+   * is also gated (defence-in-depth layer 2).
+   *
+   * Required invariant: ?nb_dev=true absent → no snapshot write.
+   */
+  function storeDevelopmentSnapshot(snapshotData) {
+    if (!observationAdapter) return;
+    if (!isDevelopmentMode()) return;
+    observationAdapter.saveObservationSnapshot(snapshotData);
+  }
+
   var state = loadState();
   var locationState = {};
 
@@ -22,8 +69,14 @@
     try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
   }
 
+  /*
+   * normaliseBattCode, lookupBattery, buildIdentResult,
+   * buildTechnicalFailureResult are delegated to finderCore so that the
+   * regression tests exercise the exact same implementations.
+   * finder-core.js must be loaded before this script in the browser.
+   */
   function normaliseBattCode(code) {
-    return String(code || '').replace(/[\s\-\.]/g, '').toUpperCase();
+    return finderCore ? finderCore.normaliseBattCode(code) : String(code || '').replace(/[\s\-\.]/g, '').toUpperCase();
   }
 
   function loadBatteryData(cb) {
@@ -44,6 +97,8 @@
   }
 
   function lookupBattery(normalised, batteries) {
+    if (finderCore) return finderCore.lookupBattery(normalised, batteries);
+    // fallback (should not occur when finder-core.js is loaded)
     var i, j, b, aliases, canon;
     for (i = 0; i < batteries.length; i++) {
       b = batteries[i];
@@ -67,6 +122,8 @@
   }
 
   function buildIdentResult(match, enteredCode) {
+    if (finderCore) return finderCore.buildIdentResult(match, enteredCode);
+    // fallback (should not occur when finder-core.js is loaded)
     if (!match) {
       return {
         confidence: 'unknown',
@@ -79,7 +136,6 @@
         verificationRequired: []
       };
     }
-
     var b = match.battery;
     var conf = match.matchType === 'exact' ? 'exact' : 'family';
     return {
@@ -97,6 +153,8 @@
   }
 
   function buildTechnicalFailureResult(enteredCode) {
+    if (finderCore) return finderCore.buildTechnicalFailureResult(enteredCode);
+    // fallback (should not occur when finder-core.js is loaded)
     return {
       confidence: 'technical_failure',
       enteredCode: enteredCode,
@@ -264,6 +322,7 @@
         loadBatteryData(function (err, batteries) {
           var rawMatch = err ? null : lookupBattery(code, batteries);
           var resolved = resolveIdentificationResult(rawMatch, { enteredCode: code, loadFailed: !!err });
+          storeDevelopmentSnapshot(resolved);
           state.battIdDone = true;
           state.battIdCanonical = resolved.canonical;
           state.battIdConfidence = resolved.confidence;

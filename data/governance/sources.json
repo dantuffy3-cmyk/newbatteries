@@ -9,7 +9,7 @@
       "sourceType": "international_standard",
       "sourceRole": "technical_designation_authority",
       "authorityTier": 1,
-      "officialTitle": "IEC 60086 — Primary batteries",
+      "officialTitle": "IEC 60086 \u2014 Primary batteries",
       "documentIdentifier": "IEC 60086",
       "documentDateLabel": "Multiple parts; see individual part dates",
       "publicationDate": null,
@@ -17,7 +17,12 @@
       "jurisdiction": "international",
       "officialDomain": "iec.ch",
       "officialDomainStatus": "unverified",
-      "fieldsSupported": ["canonicalDesignation", "broadChemistryClass", "nominalVoltage", "dimensions"],
+      "fieldsSupported": [
+        "canonicalDesignation",
+        "broadChemistryClass",
+        "nominalVoltage",
+        "dimensions"
+      ],
       "evidenceLocations": [],
       "rightsStatus": "unknown",
       "publicDisplayStatus": "withheld",
@@ -44,7 +49,13 @@
       "jurisdiction": "international",
       "officialDomain": "panasonic.com",
       "officialDomainStatus": "unverified",
-      "fieldsSupported": ["nominalVoltage", "diameter", "height", "broadChemistryClass", "primaryStatus"],
+      "fieldsSupported": [
+        "nominalVoltage",
+        "diameter",
+        "height",
+        "broadChemistryClass",
+        "primaryStatus"
+      ],
       "evidenceLocations": [],
       "rightsStatus": "unknown",
       "publicDisplayStatus": "withheld",
@@ -71,7 +82,13 @@
       "jurisdiction": "international",
       "officialDomain": "energizer.com",
       "officialDomainStatus": "unverified",
-      "fieldsSupported": ["specificChemistry", "relatedCodes", "nominalVoltage", "diameter", "height"],
+      "fieldsSupported": [
+        "specificChemistry",
+        "relatedCodes",
+        "nominalVoltage",
+        "diameter",
+        "height"
+      ],
       "evidenceLocations": [],
       "rightsStatus": "unknown",
       "publicDisplayStatus": "withheld",
@@ -98,7 +115,11 @@
       "jurisdiction": "Australia",
       "officialDomain": "accc.gov.au",
       "officialDomainStatus": "unverified",
-      "fieldsSupported": ["regulatoryCategory", "hazardContext", "consumerHandling"],
+      "fieldsSupported": [
+        "regulatoryCategory",
+        "hazardContext",
+        "consumerHandling"
+      ],
       "evidenceLocations": [],
       "rightsStatus": "unknown",
       "publicDisplayStatus": "withheld",
@@ -109,7 +130,7 @@
       "reviewPolicyStatus": "not_reviewed",
       "sourceStatus": "candidate",
       "approvalStatus": "not_approved",
-      "notes": "Regulator overview only — not the legislative instrument. Hazard facts described here are not legal obligations. Do not apply product-containing obligations to loose cells."
+      "notes": "Regulator overview only \u2014 not the legislative instrument. Hazard facts described here are not legal obligations. Do not apply product-containing obligations to loose cells."
     },
     {
       "sourceId": "SRC-V2-AU-ACCC-THRESHOLD-001",
@@ -117,7 +138,7 @@
       "sourceType": "regulator_threshold_definition",
       "sourceRole": "derived_rule_dependency",
       "authorityTier": 1,
-      "officialTitle": "ACCC Button Battery Diameter Threshold Rule (≥20 mm)",
+      "officialTitle": "ACCC Button Battery Diameter Threshold Rule (\u226520 mm)",
       "documentIdentifier": "ACCC-THRESHOLD-20MM",
       "documentDateLabel": "See ACCC publication date",
       "publicationDate": null,
@@ -125,7 +146,10 @@
       "jurisdiction": "Australia",
       "officialDomain": "accc.gov.au",
       "officialDomainStatus": "unverified",
-      "fieldsSupported": ["markingRuleApplicability", "diameterThreshold"],
+      "fieldsSupported": [
+        "markingRuleApplicability",
+        "diameterThreshold"
+      ],
       "evidenceLocations": [],
       "rightsStatus": "unknown",
       "publicDisplayStatus": "withheld",
@@ -138,5 +162,6 @@
       "approvalStatus": "not_approved",
       "notes": "Used as dependency for R2 derived rule. Rule applicability depends on this source remaining active and non-expired."
     }
-  ]
+  ],
+  "_roleNote": "GOVERNED BUNDLE REFERENCE ONLY. This file may serve as a governed bundle or reference structure for the governance engine. It must NOT be treated as an independently authoritative global source register. The canonical global source register is data/source-register.json."
 }
