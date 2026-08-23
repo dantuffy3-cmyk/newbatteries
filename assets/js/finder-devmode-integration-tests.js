@@ -7,7 +7,7 @@
  * in Node.js using real modules (finder-core.js, observation-adapter.js).
  * They do NOT exercise the actual browser page. Real browser integration tests
  * (HTML → script tags → finder.js → observation-adapter.js → sessionStorage)
- * are covered by the Playwright suite in /tmp/playwright-tests/browser-integration.test.js.
+ * are covered by the Playwright suite in tests/browser-integration.spec.js.
  *
  * What these tests verify:
  *   T-INT-1/2: storeDevelopmentSnapshot pathway logic (real adapter, simulated dev flag)
