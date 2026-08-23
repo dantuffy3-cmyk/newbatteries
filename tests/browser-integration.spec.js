@@ -97,19 +97,7 @@ test('T-BROWSER-1: public mode — battery code entry must NOT write snapshot', 
   // Load page without ?nb_dev=true
   await page.goto(`${baseURL}/finder.html`);
 
-  // Proceed through step 1 (category selection) to reach the battery code step.
-  // Step 1 presents a category fieldset; pick the first radio option.
-  const firstCategoryRadio = page.locator('#step-category input[type="radio"]').first();
-  await firstCategoryRadio.waitFor({ state: 'visible', timeout: 5000 });
-  await firstCategoryRadio.check();
-
-  // Click the continue button for step 1.
-  const btnContinueCategory = page.locator('#step-category button[id^="btn-continue"], #step-category input[type="submit"], #btn-continue-category').first();
-  if (await btnContinueCategory.count() > 0) {
-    await btnContinueCategory.click();
-  }
-
-  // Wait for the battery code input to appear.
+  // The finder defaults to step-batt-code; wait for the battery code input directly.
   const battCodeInput = page.locator('#battCode');
   await battCodeInput.waitFor({ state: 'visible', timeout: 5000 });
   await battCodeInput.fill('CR2032');
@@ -133,17 +121,7 @@ test('T-BROWSER-2: dev mode — battery code entry MUST write snapshot with ente
   // Load page WITH ?nb_dev=true to activate development mode.
   await page.goto(`${baseURL}/finder.html?nb_dev=true`);
 
-  // Proceed through step 1 (category selection).
-  const firstCategoryRadio = page.locator('#step-category input[type="radio"]').first();
-  await firstCategoryRadio.waitFor({ state: 'visible', timeout: 5000 });
-  await firstCategoryRadio.check();
-
-  const btnContinueCategory = page.locator('#step-category button[id^="btn-continue"], #step-category input[type="submit"], #btn-continue-category').first();
-  if (await btnContinueCategory.count() > 0) {
-    await btnContinueCategory.click();
-  }
-
-  // Wait for the battery code input.
+  // The finder defaults to step-batt-code; wait for the battery code input directly.
   const battCodeInput = page.locator('#battCode');
   await battCodeInput.waitFor({ state: 'visible', timeout: 5000 });
   await battCodeInput.fill('CR2032');
