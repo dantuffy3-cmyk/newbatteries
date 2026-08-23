@@ -124,6 +124,13 @@
             </div>
             <p class="step-hint" id="battIdUnknownHint" style="margin-top:var(--sp-3)">You can still prepare your identification summary.</p>
           </div>
+
+          <div id="biv-next-evidence-wrap" hidden aria-live="polite" style="margin-top:var(--sp-5);padding:var(--sp-5) var(--sp-6);border:1px solid var(--color-border);border-radius:var(--radius)">
+            <p style="margin:0 0 var(--sp-1);font-weight:600">What to check next</p>
+            <p style="margin:0 0 var(--sp-2);font-weight:500" id="biv-next-evidence-title"></p>
+            <p style="margin:0 0 var(--sp-2)" id="biv-next-evidence-instruction"></p>
+            <p style="margin:0;color:var(--color-muted)" id="biv-next-evidence-why"></p>
+          </div>
         </div>
 
         <details class="optional-block" style="margin-top:var(--sp-6)">
@@ -245,6 +252,7 @@
   </footer>
 
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/next-evidence-engine.js"></script>
   <script src="assets/js/finder-core.js"></script>
   <script src="assets/js/governed-core/observation-adapter.js"></script>
   <script src="assets/js/finder.js"></script>
