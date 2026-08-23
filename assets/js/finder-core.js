@@ -14,11 +14,11 @@
  */
 (function (root, factory) {
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = factory();
+    module.exports = factory(require('./next-evidence-engine.js'));
   } else {
-    root.NBFinderCore = factory();
+    root.NBFinderCore = factory(root.NBNextEvidenceEngine);
   }
-}(typeof self !== 'undefined' ? self : this, function () {
+}(typeof self !== 'undefined' ? self : this, function (nextEvidenceEngine) {
   'use strict';
 
   /*
@@ -70,10 +70,14 @@
    *
    * Converts a raw lookup match into a structured identification result.
    * Returns an unknown-confidence result when match is null.
+   *
+   * BER-1: attaches nextEvidenceRequest from next-evidence-engine.js.
+   * Unknown cannot improve an identification result.
    */
   function buildIdentResult(match, enteredCode) {
+    var result;
     if (!match) {
-      return {
+      result = {
         confidence: 'unknown',
         enteredCode: enteredCode,
         canonical: null,
@@ -83,22 +87,26 @@
         warnings: [],
         verificationRequired: []
       };
+    } else {
+      var b = match.battery;
+      var conf = match.matchType === 'exact' ? 'exact' : 'family';
+      result = {
+        confidence: conf,
+        enteredCode: enteredCode,
+        canonical: b.canonicalCode,
+        category: b.category,
+        evidence: conf === 'exact' ? 'Exact code or alias matched in local reference data.' : 'Family-level code pattern matched in local reference data.',
+        unknowns: conf === 'family'
+          ? ['Exact variant suffix', 'Terminal orientation confirmation', 'Physical fit verification']
+          : ['Terminal orientation confirmation', 'Physical fit verification'],
+        warnings: (b.warnings || []).slice(),
+        verificationRequired: (b.verificationRequirements || []).slice()
+      };
     }
-
-    var b = match.battery;
-    var conf = match.matchType === 'exact' ? 'exact' : 'family';
-    return {
-      confidence: conf,
-      enteredCode: enteredCode,
-      canonical: b.canonicalCode,
-      category: b.category,
-      evidence: conf === 'exact' ? 'Exact code or alias matched in local reference data.' : 'Family-level code pattern matched in local reference data.',
-      unknowns: conf === 'family'
-        ? ['Exact variant suffix', 'Terminal orientation confirmation', 'Physical fit verification']
-        : ['Terminal orientation confirmation', 'Physical fit verification'],
-      warnings: (b.warnings || []).slice(),
-      verificationRequired: (b.verificationRequirements || []).slice()
-    };
+    result.nextEvidenceRequest = nextEvidenceEngine
+      ? nextEvidenceEngine.selectNextEvidenceRequest(result)
+      : null;
+    return result;
   }
 
   /*
@@ -106,9 +114,11 @@
    *
    * Returns a structured result for data-load failure.
    * Conveys that no identification or compatibility conclusion has been made.
+   *
+   * BER-1: technical_failure never produces a next-evidence request.
    */
   function buildTechnicalFailureResult(enteredCode) {
-    return {
+    var result = {
       confidence: 'technical_failure',
       enteredCode: enteredCode,
       canonical: null,
@@ -118,6 +128,10 @@
       warnings: [],
       verificationRequired: []
     };
+    result.nextEvidenceRequest = nextEvidenceEngine
+      ? nextEvidenceEngine.selectNextEvidenceRequest(result)
+      : null;
+    return result;
   }
 
   return {

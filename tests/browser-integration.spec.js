@@ -163,3 +163,128 @@ test('T-BROWSER-2: dev mode — battery code entry MUST write snapshot with ente
   expect(parsed).toHaveProperty('enteredCode');
   expect(typeof parsed.enteredCode).toBe('string');
 });
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * BER-1 browser tests
+ *
+ * The Finder renders the identification result and then transitions to
+ * step-review within 20 ms. These tests check element attributes directly
+ * via page.evaluate rather than relying on Playwright visibility (which
+ * also requires parent elements to be visible).
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/**
+ * Helper: navigate to finder, enter a battery code, wait for data load.
+ * The step transitions to step-review after ~20 ms, so we wait a short
+ * time for the async fetch to complete, then check rendered state.
+ */
+async function enterBatteryCodeAndWait(page, baseURL, code) {
+  await page.goto(`${baseURL}/finder.html`);
+  const battCodeInput = page.locator('#battCode');
+  await battCodeInput.waitFor({ state: 'visible', timeout: 5000 });
+  await battCodeInput.fill(code);
+  await page.locator('#btn-continue-batt-code').click();
+  // Wait for the async data fetch to complete and render
+  await page.waitForTimeout(1000);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * T-BER1-BROWSER-1: Exact known battery — correct state stored,
+ * "What to check next" section not shown (no blocking evidence for CR2032).
+ * ────────────────────────────────────────────────────────────────────────── */
+test('T-BER1-BROWSER-1: exact known battery — correct state and next-evidence section not shown', async ({ page }) => {
+  await enterBatteryCodeAndWait(page, baseURL, 'CR2032');
+
+  // Check session state captured confidence and canonical
+  const state = await page.evaluate(() => {
+    try { return JSON.parse(sessionStorage.getItem('nb_finder_state_v2') || '{}'); } catch (e) { return {}; }
+  });
+  expect(state.battIdConfidence).toBe('exact');
+  expect(state.battIdCanonical).toBe('CR2032');
+
+  // "What to check next" must not be rendered (hidden attribute present)
+  const nextEvidenceHidden = await page.evaluate(() => {
+    var el = document.getElementById('biv-next-evidence-wrap');
+    return !el || el.hidden;
+  });
+  expect(nextEvidenceHidden).toBe(true);
+});
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * T-BER1-BROWSER-2: Unknown battery — no identity invented,
+ * "What to check next" section rendered with guidance.
+ * ────────────────────────────────────────────────────────────────────────── */
+test('T-BER1-BROWSER-2: unknown battery — no identity invented, next-evidence section shown', async ({ page }) => {
+  await enterBatteryCodeAndWait(page, baseURL, 'XXXXXUNKNOWNCODE99999');
+
+  // Session state must have unknown confidence and no canonical
+  const state = await page.evaluate(() => {
+    try { return JSON.parse(sessionStorage.getItem('nb_finder_state_v2') || '{}'); } catch (e) { return {}; }
+  });
+  expect(state.battIdConfidence).toBe('unknown');
+  expect(state.battIdCanonical).toBeFalsy();
+
+  // "What to check next" must be shown (hidden=false)
+  const nextEvidenceState = await page.evaluate(() => {
+    var el = document.getElementById('biv-next-evidence-wrap');
+    if (!el) return { found: false };
+    return {
+      found: true,
+      hidden: el.hidden,
+      title: (document.getElementById('biv-next-evidence-title') || {}).textContent || '',
+      instruction: (document.getElementById('biv-next-evidence-instruction') || {}).textContent || ''
+    };
+  });
+  expect(nextEvidenceState.found).toBe(true);
+  expect(nextEvidenceState.hidden).toBe(false);
+  expect(nextEvidenceState.title.trim().length).toBeGreaterThan(0);
+  expect(nextEvidenceState.instruction.trim().length).toBeGreaterThan(0);
+});
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * T-BER1-BROWSER-3: Family match (N70Z) — next-evidence section shown
+ * with distinguishing evidence guidance. No console errors.
+ * ────────────────────────────────────────────────────────────────────────── */
+test('T-BER1-BROWSER-3: family match N70Z — next-evidence section shown, no console errors', async ({ page }) => {
+  const consoleErrors = [];
+  page.on('console', msg => { if (msg.type() === 'error') consoleErrors.push(msg.text()); });
+
+  await enterBatteryCodeAndWait(page, baseURL, 'N70Z');
+
+  // Session state must have family confidence
+  const state = await page.evaluate(() => {
+    try { return JSON.parse(sessionStorage.getItem('nb_finder_state_v2') || '{}'); } catch (e) { return {}; }
+  });
+  expect(state.battIdConfidence).toBe('family');
+
+  // "What to check next" must be shown
+  const nextEvidenceState = await page.evaluate(() => {
+    var el = document.getElementById('biv-next-evidence-wrap');
+    if (!el) return { found: false };
+    return {
+      found: true,
+      hidden: el.hidden,
+      title: (document.getElementById('biv-next-evidence-title') || {}).textContent || ''
+    };
+  });
+  expect(nextEvidenceState.found).toBe(true);
+  expect(nextEvidenceState.hidden).toBe(false);
+  expect(nextEvidenceState.title.trim().length).toBeGreaterThan(0);
+
+  // No console errors
+  expect(consoleErrors).toHaveLength(0);
+});
+
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * BER-1 browser tests
+ *
+ * These tests verify the "What to check next" section (BER-1).
+ * The finder starts directly on step-batt-code (default step).
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/**
+ * Helper: navigate to finder, enter a battery code, wait for result.
+ */
+
+

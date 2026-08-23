@@ -1,0 +1,23 @@
+{
+  "name": "newbatteries",
+  "version": "1.0.0",
+  "description": "An Australian battery identification and supplier connection platform helping people find the right replacement battery without the guesswork. GitHub Pages deployment enabled.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://localhost:26831/dantuffy3-cmyk/newbatteries"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}

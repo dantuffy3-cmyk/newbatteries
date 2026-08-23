@@ -13,6 +13,13 @@
   var finderCore = (typeof NBFinderCore !== 'undefined') ? NBFinderCore : null;
 
   /*
+   * nextEvidenceEngine provides selectNextEvidenceRequest for the fallback
+   * branch (when finderCore is absent). When finderCore is present the
+   * engine is already wired inside finder-core.js.
+   */
+  var nextEvidenceEngine = (typeof NBNextEvidenceEngine !== 'undefined') ? NBNextEvidenceEngine : null;
+
+  /*
    * observationAdapter is wired to NBObservationAdapter when available.
    * If the governed-core script is not loaded, this remains null and the
    * storeDevelopmentSnapshot() caller gate will return early.
@@ -124,8 +131,9 @@
   function buildIdentResult(match, enteredCode) {
     if (finderCore) return finderCore.buildIdentResult(match, enteredCode);
     // fallback (should not occur when finder-core.js is loaded)
+    var result;
     if (!match) {
-      return {
+      result = {
         confidence: 'unknown',
         enteredCode: enteredCode,
         canonical: null,
@@ -135,27 +143,32 @@
         warnings: [],
         verificationRequired: []
       };
+    } else {
+      var b = match.battery;
+      var conf = match.matchType === 'exact' ? 'exact' : 'family';
+      result = {
+        confidence: conf,
+        enteredCode: enteredCode,
+        canonical: b.canonicalCode,
+        category: b.category,
+        evidence: conf === 'exact' ? 'Exact code or alias matched in local reference data.' : 'Family-level code pattern matched in local reference data.',
+        unknowns: conf === 'family'
+          ? ['Exact variant suffix', 'Terminal orientation confirmation', 'Physical fit verification']
+          : ['Terminal orientation confirmation', 'Physical fit verification'],
+        warnings: (b.warnings || []).slice(),
+        verificationRequired: (b.verificationRequirements || []).slice()
+      };
     }
-    var b = match.battery;
-    var conf = match.matchType === 'exact' ? 'exact' : 'family';
-    return {
-      confidence: conf,
-      enteredCode: enteredCode,
-      canonical: b.canonicalCode,
-      category: b.category,
-      evidence: conf === 'exact' ? 'Exact code or alias matched in local reference data.' : 'Family-level code pattern matched in local reference data.',
-      unknowns: conf === 'family'
-        ? ['Exact variant suffix', 'Terminal orientation confirmation', 'Physical fit verification']
-        : ['Terminal orientation confirmation', 'Physical fit verification'],
-      warnings: (b.warnings || []).slice(),
-      verificationRequired: (b.verificationRequirements || []).slice()
-    };
+    result.nextEvidenceRequest = nextEvidenceEngine
+      ? nextEvidenceEngine.selectNextEvidenceRequest(result)
+      : null;
+    return result;
   }
 
   function buildTechnicalFailureResult(enteredCode) {
     if (finderCore) return finderCore.buildTechnicalFailureResult(enteredCode);
     // fallback (should not occur when finder-core.js is loaded)
-    return {
+    var result = {
       confidence: 'technical_failure',
       enteredCode: enteredCode,
       canonical: null,
@@ -165,6 +178,10 @@
       warnings: [],
       verificationRequired: []
     };
+    result.nextEvidenceRequest = nextEvidenceEngine
+      ? nextEvidenceEngine.selectNextEvidenceRequest(result)
+      : null;
+    return result;
   }
 
   /*
@@ -205,6 +222,7 @@
         if (unknownGuidance) unknownGuidance.hidden = false;
         if (technicalGuidance) technicalGuidance.hidden = true;
       }
+      renderNextEvidenceRequest(result.nextEvidenceRequest);
       return;
     }
 
@@ -245,6 +263,43 @@
       compareLink.href = 'compatibility.html?code=' + encodeURIComponent(result.canonical);
       compareWrap.hidden = false;
     }
+
+    renderNextEvidenceRequest(result.nextEvidenceRequest);
+  }
+
+  /*
+   * renderNextEvidenceRequest
+   *
+   * BER-1 — renders the "What to check next" bounded section.
+   *
+   * Called with the nextEvidenceRequest field from an identResult.
+   * Hides the section when no deterministic request exists.
+   *
+   * Trust controls enforced in copy:
+   *   - No safety or compatibility guarantees.
+   *   - Uses "may help identify", "required to distinguish", "could resolve".
+   *   - No internal terminology exposed (BER, evidence graph, claim, engine).
+   *   - No percentages or scores.
+   */
+  function renderNextEvidenceRequest(req) {
+    var wrap = $('biv-next-evidence-wrap');
+    if (!wrap) return;
+
+    // Hide section when no deterministic request exists
+    if (!req || req.reasonCode === 'NO_DETERMINISTIC_NEXT_EVIDENCE') {
+      wrap.hidden = true;
+      return;
+    }
+
+    var titleEl = $('biv-next-evidence-title');
+    var instructionEl = $('biv-next-evidence-instruction');
+    var whyEl = $('biv-next-evidence-why');
+
+    if (titleEl) titleEl.textContent = req.title || '';
+    if (instructionEl) instructionEl.textContent = req.instruction || '';
+    if (whyEl) whyEl.textContent = req.whyItMatters || '';
+
+    wrap.hidden = false;
   }
 
   function showErrorSummary(errors) {
