@@ -202,3 +202,76 @@ test('physical fit lab loads live scenarios and renders the public test harness 
   expect(summary.statusText.trim().length).toBeGreaterThan(0);
   expect(consoleErrors).toHaveLength(0);
 });
+
+test('production pages serve all referenced assets without any same-origin 404', async ({ page }) => {
+  const productionPages = [
+    '/index.html',
+    '/finder.html',
+    '/compatibility.html',
+    '/physical-fit-lab.html'
+  ];
+
+  for (const pagePath of productionPages) {
+    const notFound = [];
+
+    page.on('response', (response) => {
+      const url = response.url();
+      if (url.startsWith(baseURL) && response.status() === 404) {
+        notFound.push(`${response.status()} ${url}`);
+      }
+    });
+
+    await page.goto(`${baseURL}${pagePath}`);
+    await page.waitForLoadState('networkidle');
+
+    expect(notFound, `Page ${pagePath} produced 404s: ${notFound.join(', ')}`).toHaveLength(0);
+
+    page.removeAllListeners('response');
+  }
+});
+
+test('finder resolves CR2032 to the exact governed public identification state', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await enterBatteryCodeAndWait(page, 'CR2032');
+
+  const state = await page.evaluate(() => {
+    try {
+      return JSON.parse(sessionStorage.getItem('nb_finder_state_v2') || '{}');
+    } catch (e) {
+      return {};
+    }
+  });
+
+  expect(state.battIdConfidence).toBe('exact');
+  expect(state.battIdCanonical).toBe('CR2032');
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('compatibility engine returns not_recommended for AA vs AAA — critical blocking incompatibility cannot resolve to direct_equivalent', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await page.goto(`${baseURL}/compatibility.html`);
+  await page.waitForFunction(() => typeof window.NBBatteryData === 'object' && typeof window.NBCompatEngine === 'object');
+
+  const result = await page.evaluate(() => new Promise((resolve, reject) => {
+    window.NBCompatEngine.assess('AA', 'AAA', (error, assessment) => {
+      if (error) {
+        reject(String(error));
+        return;
+      }
+      resolve({
+        classification: assessment.classification,
+        headline: assessment.headline,
+        warnings: assessment.warnings
+      });
+    });
+  }));
+
+  // AA (household_primary, 1.5V, canonicalCode "AA") vs AAA (household_primary, 1.5V, canonicalCode "AAA"):
+  // physical_size_designation blocking check fires because "AA" !== "AAA" → must not produce direct_equivalent
+  expect(result.classification).toBe('not_recommended');
+  expect(result.classification).not.toBe('direct_equivalent');
+  expect(result.warnings.some((w) => /BLOCKING/i.test(w))).toBe(true);
+  expect(consoleErrors).toHaveLength(0);
+});
