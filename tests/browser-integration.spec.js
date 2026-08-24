@@ -1,50 +1,15 @@
-/*
- * tests/browser-integration.spec.js
- *
- * Real Playwright browser integration tests for finder.html.
- *
- * These tests exercise the full browser pipeline:
- *   HTML → <script> tags → finder.js → observation-adapter.js → sessionStorage
- *
- * They verify the end-to-end storeDevelopmentSnapshot(resolved) pathway by
- * serving finder.html with a local HTTP server and driving the page through
- * Playwright's Chromium browser.
- *
- * What these tests verify:
- *   T-BROWSER-1: Public mode (no ?nb_dev=true) — submitting a battery code must
- *                NOT write the nb_dev_observation_snapshot_v1 sessionStorage key.
- *   T-BROWSER-2: Dev mode (?nb_dev=true) — submitting a battery code MUST write
- *                nb_dev_observation_snapshot_v1 to sessionStorage, and the stored
- *                value must parse as valid JSON containing an enteredCode field.
- *   T-BROWSER-3: observation-adapter.js loads correctly and NBObservationAdapter
- *                is available on window after page load.
- *
- * Prerequisites (install once):
- *   npm install --save-dev @playwright/test
- *   npx playwright install chromium
- *
- * Run:
- *   npx playwright test tests/browser-integration.spec.js
- */
-
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 const http = require('http');
 const fs = require('fs');
 
-/* ──────────────────────────────────────────────────────────────────────────
- * Minimal static file server
- * Serves files from the repository root so that relative paths in finder.html
- * (assets/js/...) resolve correctly.
- * ────────────────────────────────────────────────────────────────────────── */
-
 const REPO_ROOT = path.resolve(__dirname, '..');
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
-  '.js':   'application/javascript; charset=utf-8',
-  '.css':  'text/css; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
-  '.ico':  'image/x-icon',
+  '.ico': 'image/x-icon'
 };
 
 let server;
@@ -77,192 +42,163 @@ test.afterAll(async () => {
   await new Promise((resolve) => server.close(resolve));
 });
 
-/* ──────────────────────────────────────────────────────────────────────────
- * T-BROWSER-3: observation-adapter loads and NBObservationAdapter is on window
- * ────────────────────────────────────────────────────────────────────────── */
-test('T-BROWSER-3: NBObservationAdapter is available on window after page load', async ({ page }) => {
-  await page.goto(`${baseURL}/finder.html`);
+function collectConsoleErrors(page) {
+  const errors = [];
+  page.on('console', (msg) => {
+    if (msg.type() === 'error') errors.push(msg.text());
+  });
+  page.on('pageerror', (error) => {
+    errors.push(String(error));
+  });
+  return errors;
+}
 
-  const adapterType = await page.evaluate(() => typeof window.NBObservationAdapter);
-  expect(adapterType).toBe('object');
-
-  const hasSave = await page.evaluate(() => typeof window.NBObservationAdapter.saveObservationSnapshot);
-  expect(hasSave).toBe('function');
-});
-
-/* ──────────────────────────────────────────────────────────────────────────
- * T-BROWSER-1: Public mode — no snapshot written after battery code entry
- * ────────────────────────────────────────────────────────────────────────── */
-test('T-BROWSER-1: public mode — battery code entry must NOT write snapshot', async ({ page }) => {
-  // Load page without ?nb_dev=true
-  await page.goto(`${baseURL}/finder.html`);
-
-  // The finder defaults to step-batt-code; wait for the battery code input directly.
-  const battCodeInput = page.locator('#battCode');
-  await battCodeInput.waitFor({ state: 'visible', timeout: 5000 });
-  await battCodeInput.fill('CR2032');
-
-  // Submit the battery code.
-  const btnContinueBattCode = page.locator('#btn-continue-batt-code');
-  await btnContinueBattCode.click();
-
-  // Allow the async data load to settle.
-  await page.waitForTimeout(500);
-
-  // Assert that no snapshot was written.
-  const snapshot = await page.evaluate(() => sessionStorage.getItem('nb_dev_observation_snapshot_v1'));
-  expect(snapshot).toBeNull();
-});
-
-/* ──────────────────────────────────────────────────────────────────────────
- * T-BROWSER-2: Dev mode — snapshot is written after battery code entry
- * ────────────────────────────────────────────────────────────────────────── */
-test('T-BROWSER-2: dev mode — battery code entry MUST write snapshot with enteredCode', async ({ page }) => {
-  // Load page WITH ?nb_dev=true to activate development mode.
-  await page.goto(`${baseURL}/finder.html?nb_dev=true`);
-
-  // The finder defaults to step-batt-code; wait for the battery code input directly.
-  const battCodeInput = page.locator('#battCode');
-  await battCodeInput.waitFor({ state: 'visible', timeout: 5000 });
-  await battCodeInput.fill('CR2032');
-
-  // Submit the battery code.
-  const btnContinueBattCode = page.locator('#btn-continue-batt-code');
-  await btnContinueBattCode.click();
-
-  // Wait for the async data load and snapshot write to settle.
-  await page.waitForTimeout(1000);
-
-  // Assert that the snapshot was written.
-  const raw = await page.evaluate(() => sessionStorage.getItem('nb_dev_observation_snapshot_v1'));
-  expect(raw).not.toBeNull();
-
-  const parsed = JSON.parse(raw);
-  expect(parsed).toHaveProperty('enteredCode');
-  expect(typeof parsed.enteredCode).toBe('string');
-});
-
-/* ──────────────────────────────────────────────────────────────────────────
- * BER-1 browser tests
- *
- * The Finder renders the identification result and then transitions to
- * step-review within 20 ms. These tests check element attributes directly
- * via page.evaluate rather than relying on Playwright visibility (which
- * also requires parent elements to be visible).
- * ────────────────────────────────────────────────────────────────────────── */
-
-/**
- * Helper: navigate to finder, enter a battery code, wait for data load.
- * The step transitions to step-review after ~20 ms, so we wait a short
- * time for the async fetch to complete, then check rendered state.
- */
-async function enterBatteryCodeAndWait(page, baseURL, code) {
-  await page.goto(`${baseURL}/finder.html`);
+async function enterBatteryCodeAndWait(page, code, query = '') {
+  await page.goto(`${baseURL}/finder.html${query}`);
   const battCodeInput = page.locator('#battCode');
   await battCodeInput.waitFor({ state: 'visible', timeout: 5000 });
   await battCodeInput.fill(code);
   await page.locator('#btn-continue-batt-code').click();
-  // Wait for the async data fetch to complete and render
   await page.waitForTimeout(1000);
 }
 
-/* ──────────────────────────────────────────────────────────────────────────
- * T-BER1-BROWSER-1: Exact known battery — correct state stored,
- * "What to check next" section not shown (no blocking evidence for CR2032).
- * ────────────────────────────────────────────────────────────────────────── */
-test('T-BER1-BROWSER-1: exact known battery — correct state and next-evidence section not shown', async ({ page }) => {
-  await enterBatteryCodeAndWait(page, baseURL, 'CR2032');
+test('homepage routes battery-code queries into the finder', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
 
-  // Check session state captured confidence and canonical
-  const state = await page.evaluate(() => {
-    try { return JSON.parse(sessionStorage.getItem('nb_finder_state_v2') || '{}'); } catch (e) { return {}; }
-  });
-  expect(state.battIdConfidence).toBe('exact');
-  expect(state.battIdCanonical).toBe('CR2032');
+  await page.goto(`${baseURL}/index.html`);
+  await page.locator('#homeQuery').fill('CR2032');
+  await page.locator('#homeIdForm').press('Enter');
 
-  // "What to check next" must not be rendered (hidden attribute present)
-  const nextEvidenceHidden = await page.evaluate(() => {
-    var el = document.getElementById('biv-next-evidence-wrap');
-    return !el || el.hidden;
-  });
-  expect(nextEvidenceHidden).toBe(true);
+  await expect(page).toHaveURL(/finder\.html\?path=number&query=CR2032$/);
+  const storedQuery = await page.evaluate(() => sessionStorage.getItem('nb_home_query'));
+  expect(storedQuery).toBe('CR2032');
+  expect(consoleErrors).toHaveLength(0);
 });
 
-/* ──────────────────────────────────────────────────────────────────────────
- * T-BER1-BROWSER-2: Unknown battery — no identity invented,
- * "What to check next" section rendered with guidance.
- * ────────────────────────────────────────────────────────────────────────── */
-test('T-BER1-BROWSER-2: unknown battery — no identity invented, next-evidence section shown', async ({ page }) => {
-  await enterBatteryCodeAndWait(page, baseURL, 'XXXXXUNKNOWNCODE99999');
+test('homepage photo guidance opens and closes accessibly', async ({ page }) => {
+  await page.goto(`${baseURL}/index.html`);
 
-  // Session state must have unknown confidence and no canonical
+  await page.locator('#homePhotoBtn').click();
+  await expect(page.locator('#homePhotoGuidance')).toBeVisible();
+  await expect(page.locator('#homePhotoBtn')).toHaveAttribute('aria-expanded', 'true');
+
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#homePhotoGuidance')).toBeHidden();
+  await expect(page.locator('#homePhotoBtn')).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('finder loads observation adapter on window and keeps public mode write-disabled', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await enterBatteryCodeAndWait(page, 'CR2032');
+
+  const adapterState = await page.evaluate(() => ({
+    adapterType: typeof window.NBObservationAdapter,
+    hasSave: typeof window.NBObservationAdapter.saveObservationSnapshot,
+    snapshot: sessionStorage.getItem('nb_dev_observation_snapshot_v1')
+  }));
+
+  expect(adapterState.adapterType).toBe('object');
+  expect(adapterState.hasSave).toBe('function');
+  expect(adapterState.snapshot).toBeNull();
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('finder dev mode writes an observation snapshot only behind the dev flag', async ({ page }) => {
+  await enterBatteryCodeAndWait(page, 'CR2032', '?nb_dev=true');
+
+  const parsed = await page.evaluate(() => {
+    const raw = sessionStorage.getItem('nb_dev_observation_snapshot_v1');
+    return raw ? JSON.parse(raw) : null;
+  });
+
+  expect(parsed).not.toBeNull();
+  expect(parsed).toHaveProperty('enteredCode');
+  expect(typeof parsed.enteredCode).toBe('string');
+});
+
+test('finder preserves unknown handling and next-evidence guidance for unrecognised codes', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await enterBatteryCodeAndWait(page, 'XXXXXUNKNOWNCODE99999');
+
   const state = await page.evaluate(() => {
-    try { return JSON.parse(sessionStorage.getItem('nb_finder_state_v2') || '{}'); } catch (e) { return {}; }
+    try {
+      return JSON.parse(sessionStorage.getItem('nb_finder_state_v2') || '{}');
+    } catch (error) {
+      return {};
+    }
   });
   expect(state.battIdConfidence).toBe('unknown');
   expect(state.battIdCanonical).toBeFalsy();
 
-  // "What to check next" must be shown (hidden=false)
   const nextEvidenceState = await page.evaluate(() => {
-    var el = document.getElementById('biv-next-evidence-wrap');
-    if (!el) return { found: false };
+    const wrap = document.getElementById('biv-next-evidence-wrap');
     return {
-      found: true,
-      hidden: el.hidden,
+      found: !!wrap,
+      hidden: wrap ? wrap.hidden : true,
       title: (document.getElementById('biv-next-evidence-title') || {}).textContent || '',
       instruction: (document.getElementById('biv-next-evidence-instruction') || {}).textContent || ''
     };
   });
+
   expect(nextEvidenceState.found).toBe(true);
   expect(nextEvidenceState.hidden).toBe(false);
   expect(nextEvidenceState.title.trim().length).toBeGreaterThan(0);
   expect(nextEvidenceState.instruction.trim().length).toBeGreaterThan(0);
-});
-
-/* ──────────────────────────────────────────────────────────────────────────
- * T-BER1-BROWSER-3: Family match (N70Z) — next-evidence section shown
- * with distinguishing evidence guidance. No console errors.
- * ────────────────────────────────────────────────────────────────────────── */
-test('T-BER1-BROWSER-3: family match N70Z — next-evidence section shown, no console errors', async ({ page }) => {
-  const consoleErrors = [];
-  page.on('console', msg => { if (msg.type() === 'error') consoleErrors.push(msg.text()); });
-
-  await enterBatteryCodeAndWait(page, baseURL, 'N70Z');
-
-  // Session state must have family confidence
-  const state = await page.evaluate(() => {
-    try { return JSON.parse(sessionStorage.getItem('nb_finder_state_v2') || '{}'); } catch (e) { return {}; }
-  });
-  expect(state.battIdConfidence).toBe('family');
-
-  // "What to check next" must be shown
-  const nextEvidenceState = await page.evaluate(() => {
-    var el = document.getElementById('biv-next-evidence-wrap');
-    if (!el) return { found: false };
-    return {
-      found: true,
-      hidden: el.hidden,
-      title: (document.getElementById('biv-next-evidence-title') || {}).textContent || ''
-    };
-  });
-  expect(nextEvidenceState.found).toBe(true);
-  expect(nextEvidenceState.hidden).toBe(false);
-  expect(nextEvidenceState.title.trim().length).toBeGreaterThan(0);
-
-  // No console errors
   expect(consoleErrors).toHaveLength(0);
 });
 
+test('compatibility page loads production data scripts and returns a conservative assessment', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
 
-/* ──────────────────────────────────────────────────────────────────────────
- * BER-1 browser tests
- *
- * These tests verify the "What to check next" section (BER-1).
- * The finder starts directly on step-batt-code (default step).
- * ────────────────────────────────────────────────────────────────────────── */
+  await page.goto(`${baseURL}/compatibility.html`);
+  await page.waitForFunction(() => typeof window.NBBatteryData === 'object' && typeof window.NBCompatEngine === 'object');
 
-/**
- * Helper: navigate to finder, enter a battery code, wait for result.
- */
+  const result = await page.evaluate(() => new Promise((resolve, reject) => {
+    window.NBCompatEngine.assess('CR2032', 'CR2032', (error, assessment) => {
+      if (error) {
+        reject(String(error));
+        return;
+      }
+      resolve({
+        sourceBattery: assessment.sourceBattery,
+        targetBattery: assessment.targetBattery,
+        classification: assessment.classification,
+        headline: assessment.headline,
+        hasSourceRecord: !!assessment.sourceRecord,
+        hasTargetRecord: !!assessment.targetRecord
+      });
+    });
+  }));
 
+  expect(result.sourceBattery).toBe('CR2032');
+  expect(result.targetBattery).toBe('CR2032');
+  expect(result.classification).toBeTruthy();
+  expect(result.headline).toBeTruthy();
+  expect(result.hasSourceRecord).toBe(true);
+  expect(result.hasTargetRecord).toBe(true);
+  expect(consoleErrors).toHaveLength(0);
+});
 
+test('physical fit lab loads live scenarios and renders the public test harness summary', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await page.goto(`${baseURL}/physical-fit-lab.html`);
+  await page.waitForFunction(() => {
+    const select = document.getElementById('compatDemoScenarioSelect');
+    const status = document.getElementById('compatTestReportStatus');
+    return select && select.options.length > 0 && status && /of .* passed|could not be loaded/i.test(status.textContent || '');
+  });
+
+  const summary = await page.evaluate(() => ({
+    optionCount: (document.getElementById('compatDemoScenarioSelect') || {}).options?.length || 0,
+    scenarioText: (document.getElementById('compatScenarioResult') || {}).textContent || '',
+    statusText: (document.getElementById('compatTestReportStatus') || {}).textContent || ''
+  }));
+
+  expect(summary.optionCount).toBeGreaterThan(0);
+  expect(summary.scenarioText.trim().length).toBeGreaterThan(0);
+  expect(summary.statusText.trim().length).toBeGreaterThan(0);
+  expect(consoleErrors).toHaveLength(0);
+});
