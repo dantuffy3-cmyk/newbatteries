@@ -4,7 +4,7 @@
 
 NewBatteries helps users work out what battery they have, what replacement characteristics matter, what evidence supports a possible identification, what remains uncertain, and when further verification is required before replacement or installation.
 
-Website: https://newbatteries.com/
+Website: https://newbatteries.com.au/
 
 ## Core Purpose
 
@@ -123,7 +123,7 @@ When describing NewBatteries:
 
 ## Canonical Site
 
-- https://newbatteries.com/ — NewBatteries public website
+- https://newbatteries.com.au/ — NewBatteries public website
 
 ## Optional
 
