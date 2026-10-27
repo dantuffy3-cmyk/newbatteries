@@ -361,18 +361,32 @@
 
   function init() {
     hideErrorSummary();
+    var battIdInFlight = false;
 
     var btnCode = $('btn-continue-batt-code');
     if (btnCode) {
       btnCode.addEventListener('click', function () {
+        if (battIdInFlight) return;
         hideErrorSummary();
         var code = normaliseBattCode($('battCode') ? $('battCode').value : '');
         if (!code) {
           showErrorSummary([{ id: 'battCode', message: 'Please enter a battery model or part number.' }]);
           return;
         }
+        var resultWrap = $('battIdResult');
+        var resultVisible = !!(resultWrap && !resultWrap.hidden);
+        if (resultVisible && state.battIdDone && state.battCode === code) {
+          showStep('step-review');
+          return;
+        }
         state.battCode = code;
+        state.battIdDone = false;
+        state.battIdCanonical = null;
+        state.battIdConfidence = null;
         saveState();
+        if (resultWrap) resultWrap.hidden = true;
+        battIdInFlight = true;
+        btnCode.disabled = true;
 
         loadBatteryData(function (err, batteries) {
           var rawMatch = err ? null : lookupBattery(code, batteries);
@@ -384,9 +398,8 @@
           saveState();
           renderIdentResult(resolved);
           btnCode.textContent = 'Continue to review summary →';
-          if (!err || err) {
-            setTimeout(function () { showStep('step-review'); }, 20);
-          }
+          battIdInFlight = false;
+          btnCode.disabled = false;
         });
       });
     }
