@@ -158,11 +158,30 @@ test('finder preserves unknown handling and next-evidence guidance for unrecogni
 test('finder recognised battery exposes compatibility handoff link with canonical code', async ({ page }) => {
   const consoleErrors = collectConsoleErrors(page);
 
-  await enterBatteryCodeAndWait(page, 'CR2032');
+  await page.goto(`${baseURL}/finder.html`);
+  await page.locator('#battCode').waitFor({ state: 'visible', timeout: 5000 });
+  await page.locator('#battCode').fill('CR2032');
+  await page.locator('#btn-continue-batt-code').click();
+  await page.waitForTimeout(1000);
 
   const link = page.locator('#biv-compare-link');
   await expect(link).toBeVisible();
   await expect(link).toHaveAttribute('href', /compatibility\.html\?code=CR2032$/);
+
+  await expect(page.locator('#step-batt-code')).toBeVisible();
+  await expect(page.locator('#step-review')).toBeHidden();
+  await expect(page.locator('#btn-continue-batt-code')).toHaveText('Continue to review summary →');
+
+  await page.locator('#battCode').fill('CR2025');
+  await page.locator('#btn-continue-batt-code').click();
+  await page.waitForTimeout(1000);
+  await expect(page.locator('#step-batt-code')).toBeVisible();
+  await expect(page.locator('#step-review')).toBeHidden();
+  await expect(page.locator('#biv-enteredCode')).toContainText('CR2025');
+
+  await page.locator('#btn-continue-batt-code').click();
+  await expect(page.locator('#step-review')).toBeVisible();
+
   expect(consoleErrors).toHaveLength(0);
 });
 
