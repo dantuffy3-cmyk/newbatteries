@@ -62,6 +62,12 @@ async function enterBatteryCodeAndWait(page, code, query = '') {
   await page.waitForTimeout(1000);
 }
 
+async function openCompatibility(page, query = '') {
+  await page.goto(`${baseURL}/compatibility.html${query}`);
+  await page.locator('#compatForm').waitFor({ state: 'visible', timeout: 5000 });
+  await page.waitForFunction(() => typeof window.NBCompatEngine === 'object' && typeof window.NBCompatEngine.assess === 'function');
+}
+
 test('homepage routes battery-code queries into the finder', async ({ page }) => {
   const consoleErrors = collectConsoleErrors(page);
 
@@ -149,11 +155,210 @@ test('finder preserves unknown handling and next-evidence guidance for unrecogni
   expect(consoleErrors).toHaveLength(0);
 });
 
+test('finder recognised battery exposes compatibility handoff link with canonical code', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await enterBatteryCodeAndWait(page, 'CR2032');
+
+  const link = page.locator('#biv-compare-link');
+  await expect(link).toBeVisible();
+  await expect(link).toHaveAttribute('href', /compatibility\.html\?code=CR2032$/);
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('compatibility query pre-fills current battery but does not auto-run compatibility', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await page.addInitScript(() => {
+    window.__nbAutoAssessCalls = 0;
+    var compatValue;
+    Object.defineProperty(window, 'NBCompatEngine', {
+      configurable: true,
+      get: function () { return compatValue; },
+      set: function (value) {
+        compatValue = value;
+        if (value && typeof value.assess === 'function' && !value.__nbWrapped) {
+          var original = value.assess;
+          value.assess = function (a, b, cb) {
+            window.__nbAutoAssessCalls += 1;
+            return original.call(value, a, b, cb);
+          };
+          value.__nbWrapped = true;
+        }
+      }
+    });
+  });
+
+  await openCompatibility(page, '?code=CR2032');
+
+  await expect(page.locator('#inputA')).toHaveValue('CR2032');
+  await expect(page.locator('#inputB')).toHaveValue('');
+
+  const autoRunState = await page.evaluate(() => {
+    const result = document.getElementById('compatResult');
+    return {
+      resultHidden: !!result && result.hidden,
+      resultText: (result && result.textContent) ? result.textContent.trim() : '',
+      loadingHidden: !!document.getElementById('compatLoading') && document.getElementById('compatLoading').hidden,
+      assessCalls: window.__nbAutoAssessCalls
+    };
+  });
+  expect(autoRunState.resultHidden).toBe(true);
+  expect(autoRunState.resultText).toBe('');
+  expect(autoRunState.loadingHidden).toBe(true);
+  expect(autoRunState.assessCalls).toBe(0);
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('compatibility submit invokes existing engine and renders classification/headline', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await openCompatibility(page, '?code=CR2032');
+
+  const expected = await page.evaluate(() => new Promise((resolve, reject) => {
+    window.NBCompatEngine.assess('CR2032', 'CR2025', (error, assessment) => {
+      if (error) return reject(String(error));
+      resolve({ classification: assessment.classification, headline: assessment.headline });
+    });
+  }));
+
+  await page.evaluate(() => {
+    window.__nbCompatCallCount = 0;
+    window.__nbCompatCalls = [];
+    const original = window.NBCompatEngine.assess;
+    window.NBCompatEngine.assess = function (a, b, cb) {
+      window.__nbCompatCallCount += 1;
+      window.__nbCompatCalls.push([a, b]);
+      return original.call(window.NBCompatEngine, a, b, cb);
+    };
+  });
+
+  await page.locator('#inputB').fill('CR2025');
+  await page.locator('#compatForm').press('Enter');
+
+  await expect(page.locator('#compatResult')).toBeVisible();
+  await expect(page.locator('#compatResult h2')).toContainText(expected.headline);
+  await expect(page.locator('#compatResult')).toContainText(expected.classification.replace(/_/g, ' '));
+
+  const callState = await page.evaluate(() => ({
+    count: window.__nbCompatCallCount,
+    firstCall: window.__nbCompatCalls[0]
+  }));
+
+  expect(callState.count).toBe(1);
+  expect(callState.firstCall).toEqual(['CR2032', 'CR2025']);
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('compatibility result keeps matches and differences distinct and unknowns visible', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await openCompatibility(page);
+  await page.locator('#inputA').fill('CR2032');
+  await page.locator('#inputB').fill('CR2025');
+  await page.locator('#btn-check').click();
+
+  await expect(page.locator('#compatResult')).toBeVisible();
+  await expect(page.locator('#compatResult .compat-section--matches')).toBeVisible();
+  await expect(page.locator('#compatResult .compat-section--diffs')).toBeVisible();
+  await expect(page.locator('#compatResult .compat-section--unknowns')).toBeVisible();
+
+  const rendered = await page.evaluate(() => {
+    function readItems(selector) {
+      return Array.from(document.querySelectorAll(selector)).map((el) => (el.textContent || '').trim()).filter(Boolean);
+    }
+    return {
+      matches: readItems('.compat-section--matches .compat-list li'),
+      differences: readItems('.compat-section--diffs .compat-list li')
+    };
+  });
+
+  expect(rendered.matches.length).toBeGreaterThan(0);
+  expect(rendered.differences.length).toBeGreaterThan(0);
+  rendered.matches.forEach((item) => {
+    expect(rendered.differences).not.toContain(item);
+  });
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('blocking incompatibility is prominent and AA vs AAA cannot render direct equivalent', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await openCompatibility(page);
+  await page.locator('#inputA').fill('AA');
+  await page.locator('#inputB').fill('AAA');
+  await page.locator('#btn-check').click();
+
+  await expect(page.locator('#compatResult')).toBeVisible();
+  await expect(page.locator('#compatResult .notice.notice--warn')).toBeVisible();
+  await expect(page.locator('#compatResult .notice.notice--warn')).toContainText('Blocking incompatibility warning');
+  await expect(page.locator('#compatResult')).toContainText('not recommended');
+  await expect(page.locator('#compatResult')).not.toContainText('direct equivalent');
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('unknown battery code does not fabricate a supported relationship', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await openCompatibility(page);
+  await page.locator('#inputA').fill('UNKNOWNBATTERYCODE999');
+  await page.locator('#inputB').fill('CR2032');
+  await page.locator('#btn-check').click();
+
+  await expect(page.locator('#compatResult')).toBeVisible();
+  await expect(page.locator('#compatResult')).toContainText('Source battery "UNKNOWNBATTERYCODE999" was not found');
+  await expect(page.locator('#compatResult')).toContainText('No explicit relationship record found between these two batteries.');
+  await expect(page.locator('#compatResult')).not.toContainText('direct equivalent');
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('engine failure shows technical failure and clears stale prior result on repeat submit', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await openCompatibility(page);
+  await page.locator('#inputA').fill('CR2032');
+  await page.locator('#inputB').fill('CR2025');
+  await page.locator('#btn-check').click();
+  await expect(page.locator('#compatResult h2')).toContainText(/possible|same family|verified|insufficient|not recommended/i);
+
+  const priorResult = await page.locator('#compatResult').textContent();
+  expect(priorResult).toBeTruthy();
+
+  await page.evaluate(() => {
+    window.NBCompatEngine.assess = function (a, b, cb) {
+      cb(new Error('compatibility_data_unavailable'), null);
+    };
+  });
+
+  await page.locator('#inputB').fill('CR2032');
+  await page.locator('#btn-check').click();
+
+  await expect(page.locator('#compatResult .notice.notice--warn')).toBeVisible();
+  await expect(page.locator('#compatResult')).toContainText('Technical failure');
+  await expect(page.locator('#compatResult')).not.toContainText('Evidence summary');
+  await expect(page.locator('#compatResult')).not.toContainText('Classification:');
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('compatibility form supports keyboard submission and blocks empty required fields', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+
+  await openCompatibility(page, '?code=CR2032');
+  await page.locator('#inputB').press('Enter');
+  await expect(page.locator('#error-inputB')).toBeVisible();
+
+  await page.locator('#inputB').fill('CR2032');
+  await page.locator('#inputB').press('Enter');
+
+  await expect(page.locator('#compatResult')).toBeVisible();
+  await expect(page.locator('#compatResult h2')).toContainText(/verified direct equivalent|possible|same family|not recommended|insufficient/i);
+  expect(consoleErrors).toHaveLength(0);
+});
+
 test('compatibility page loads production data scripts and returns a conservative assessment', async ({ page }) => {
   const consoleErrors = collectConsoleErrors(page);
 
-  await page.goto(`${baseURL}/compatibility.html`);
-  await page.waitForFunction(() => typeof window.NBBatteryData === 'object' && typeof window.NBCompatEngine === 'object');
+  await openCompatibility(page);
 
   const result = await page.evaluate(() => new Promise((resolve, reject) => {
     window.NBCompatEngine.assess('CR2032', 'CR2032', (error, assessment) => {
@@ -251,8 +456,7 @@ test('finder resolves CR2032 to the exact governed public identification state',
 test('compatibility engine returns not_recommended for AA vs AAA — critical blocking incompatibility cannot resolve to direct_equivalent', async ({ page }) => {
   const consoleErrors = collectConsoleErrors(page);
 
-  await page.goto(`${baseURL}/compatibility.html`);
-  await page.waitForFunction(() => typeof window.NBBatteryData === 'object' && typeof window.NBCompatEngine === 'object');
+  await openCompatibility(page);
 
   const result = await page.evaluate(() => new Promise((resolve, reject) => {
     window.NBCompatEngine.assess('AA', 'AAA', (error, assessment) => {
