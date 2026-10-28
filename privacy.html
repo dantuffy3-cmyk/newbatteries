@@ -39,7 +39,7 @@
       <div class="container content-prose">
 
         <div class="notice notice--warn" style="margin-bottom:var(--sp-8)">
-          <strong>⚠ Prototype notice:</strong> This is an early-stage prototype. No personal information submitted through the finder is stored, transmitted, or shared with any third party. See the detailed notice below.
+          <strong>⚠ Prototype notice:</strong> This is an early-stage prototype. Finder working state stays in browser session storage, and Battery Record is saved only if you explicitly choose Save Battery Record. No finder or Battery Record data is transmitted or shared with third parties.
         </div>
 
         <h2>1. About this notice</h2>
@@ -53,13 +53,28 @@
           <li>Optional supporting details such as voltage, chemistry, dimensions, and start-stop requirements</li>
           <li>Optional supplier request details (service type, location, and contact details) only if you choose “Find a supplier” after seeing a preliminary result</li>
         </ul>
+        <p>If you explicitly choose <strong>Save Battery Record</strong>, NewBatteries saves a local snapshot of the identification output in your browser local storage.</p>
 
         <h2>3. How information is currently handled (prototype)</h2>
-        <p>In this prototype stage:</p>
+        <p>In this prototype stage, information handling has two separate browser-local modes:</p>
+
+        <h3>Finder working state (sessionStorage)</h3>
         <ul>
           <li>Battery match processing is performed in your browser only.</li>
-          <li>Information entered into the finder is stored only in your browser's session storage for the duration of your browser session.</li>
-          <li>Session storage is cleared when you close your browser tab.</li>
+          <li>Finder working state is stored only in your browser's session storage.</li>
+          <li>Finder session storage is temporary and is cleared when the tab or browser session ends.</li>
+        </ul>
+
+        <h3>Battery Record (localStorage)</h3>
+        <ul>
+          <li>A Battery Record is stored only after you explicitly choose <strong>Save Battery Record</strong>.</li>
+          <li>Saved Battery Record data is stored only in your browser local storage on that browser/device.</li>
+          <li>The saved Battery Record remains until you delete it from the Battery Record page or clear browser/site data.</li>
+          <li>No account, cloud profile, or NewBatteries database record is created by saving a Battery Record.</li>
+        </ul>
+
+        <h3>Transmission and sharing</h3>
+        <ul>
           <li>No information is transmitted to any server, supplier, or third party.</li>
           <li>No email is sent, no enquiry is logged, and no database record is created.</li>
           <li>Photos described in the finder are not uploaded or stored.</li>
@@ -72,7 +87,7 @@
         <p>NewBatteries does not currently share any finder information with any third party. Supplier connection and contact details are optional prototype fields and are still not transmitted in this stage.</p>
 
         <h2>6. Your rights</h2>
-        <p>Under Australian privacy law, you have the right to access, correct, and request deletion of personal information held about you. As no data is currently stored by this prototype, there is nothing to access, correct, or delete.</p>
+        <p>Under Australian privacy law, you have the right to access, correct, and request deletion of personal information held about you. In this prototype, finder and Battery Record data are browser-local only and are not stored by NewBatteries systems. You can delete saved Battery Record data directly from the Battery Record page or by clearing browser/site data.</p>
 
         <h2>7. Changes to this notice</h2>
         <p>This notice will be updated as the platform develops. The current version applies only to the prototype and does not constitute a full privacy policy for a commercial service.</p>

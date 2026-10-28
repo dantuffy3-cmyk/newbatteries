@@ -24,6 +24,7 @@
       <nav id="primaryNav" class="primary-nav" aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="finder.html" aria-current="page">Identify</a>
+        <a href="battery-record.html">Battery Record</a>
         <a href="suppliers.html">For suppliers</a>
         <a href="about.html">About</a>
         <a class="btn btn-ghost btn-sm" href="index.html">&#8592; Return home</a>
@@ -130,6 +131,12 @@
             <p style="margin:0 0 var(--sp-2);font-weight:500" id="biv-next-evidence-title"></p>
             <p style="margin:0 0 var(--sp-2)" id="biv-next-evidence-instruction"></p>
             <p style="margin:0;color:var(--color-muted)" id="biv-next-evidence-why"></p>
+          </div>
+
+          <div id="battery-record-actions" hidden style="margin-top:var(--sp-5);display:flex;gap:var(--sp-3);align-items:center;flex-wrap:wrap">
+            <button class="btn btn-primary" id="btn-save-battery-record" type="button">Save Battery Record</button>
+            <a class="btn btn-ghost" id="link-view-battery-record" href="battery-record.html" hidden>View Battery Record</a>
+            <span id="battery-record-save-status" aria-live="polite"></span>
           </div>
         </div>
 
@@ -242,6 +249,7 @@
       <nav aria-label="Footer">
         <a href="index.html">Home</a>
         <a href="finder.html">Identify</a>
+        <a href="battery-record.html">Battery Record</a>
         <a href="about.html">About</a>
         <a href="suppliers.html">For Suppliers</a>
         <a href="privacy.html">Privacy</a>
@@ -255,6 +263,7 @@
   <script src="assets/js/next-evidence-engine.js"></script>
   <script src="assets/js/finder-core.js"></script>
   <script src="assets/js/governed-core/observation-adapter.js"></script>
+  <script src="assets/js/battery-record-store.js"></script>
   <script src="assets/js/finder.js"></script>
 </body>
 </html>
