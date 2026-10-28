@@ -26,6 +26,8 @@
    */
   var observationAdapter = (typeof NBObservationAdapter !== 'undefined')
     ? NBObservationAdapter : null;
+  var batteryRecordStore = (typeof NBBatteryRecordStore !== 'undefined')
+    ? NBBatteryRecordStore : null;
 
   /*
    * isDevelopmentMode
@@ -61,6 +63,7 @@
 
   var state = loadState();
   var locationState = {};
+  var latestIdentificationResult = null;
 
   function $(id) { return document.getElementById(id); }
 
@@ -74,6 +77,17 @@
 
   function saveState() {
     try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function resetForFreshRunIfRequested() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      if (!params.has('fresh')) return;
+      state = {};
+      locationState = {};
+      latestIdentificationResult = null;
+      sessionStorage.removeItem(STORAGE_KEY);
+    } catch (e) {}
   }
 
   /*
@@ -302,6 +316,30 @@
     wrap.hidden = false;
   }
 
+  function setBatteryRecordStatus(message) {
+    var status = $('battery-record-save-status');
+    if (status) status.textContent = message || '';
+  }
+
+  function renderBatteryRecordActions(result, wasSaved) {
+    var actionWrap = $('battery-record-actions');
+    var saveBtn = $('btn-save-battery-record');
+    var viewLink = $('link-view-battery-record');
+    if (!actionWrap || !saveBtn || !viewLink) return;
+
+    if (!result || !batteryRecordStore || !batteryRecordStore.isSaveEligible(result)) {
+      actionWrap.hidden = true;
+      setBatteryRecordStatus('');
+      viewLink.hidden = true;
+      return;
+    }
+
+    actionWrap.hidden = false;
+    saveBtn.disabled = false;
+    viewLink.hidden = !wasSaved;
+    setBatteryRecordStatus(wasSaved ? 'Battery Record saved to this browser.' : '');
+  }
+
   function showErrorSummary(errors) {
     var summary = $('errorSummary');
     var list = $('errorSummaryList');
@@ -360,6 +398,7 @@
   }
 
   function init() {
+    resetForFreshRunIfRequested();
     hideErrorSummary();
     var battIdInFlight = false;
 
@@ -383,8 +422,10 @@
         state.battIdDone = false;
         state.battIdCanonical = null;
         state.battIdConfidence = null;
+        latestIdentificationResult = null;
         saveState();
         if (resultWrap) resultWrap.hidden = true;
+        renderBatteryRecordActions(null, false);
         battIdInFlight = true;
         btnCode.disabled = true;
 
@@ -395,8 +436,10 @@
           state.battIdDone = true;
           state.battIdCanonical = resolved.canonical;
           state.battIdConfidence = resolved.confidence;
+          latestIdentificationResult = resolved;
           saveState();
           renderIdentResult(resolved);
+          renderBatteryRecordActions(resolved, false);
           btnCode.textContent = 'Continue to review summary →';
           battIdInFlight = false;
           btnCode.disabled = false;
@@ -437,6 +480,7 @@
     if (btnRestart) btnRestart.addEventListener('click', function () {
       state = {};
       locationState = {};
+      latestIdentificationResult = null;
       try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
       if ($('battCode')) $('battCode').value = '';
       if ($('postcode')) $('postcode').value = '';
@@ -445,8 +489,38 @@
       if ($('urgency')) $('urgency').value = '';
       if ($('battIdResult')) $('battIdResult').hidden = true;
       if (btnCode) btnCode.textContent = 'Continue';
+      renderBatteryRecordActions(null, false);
       showStep('step-category');
     });
+
+    var btnImproveIdentification = $('btn-improve-identification');
+    if (btnImproveIdentification) {
+      btnImproveIdentification.addEventListener('click', function () {
+        state = {};
+        locationState = {};
+        latestIdentificationResult = null;
+        try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        if ($('battCode')) $('battCode').value = '';
+        if ($('battIdResult')) $('battIdResult').hidden = true;
+        if (btnCode) btnCode.textContent = 'Continue';
+        renderBatteryRecordActions(null, false);
+        showStep('step-batt-code');
+      });
+    }
+
+    var btnSaveBatteryRecord = $('btn-save-battery-record');
+    if (btnSaveBatteryRecord) {
+      btnSaveBatteryRecord.addEventListener('click', function () {
+        if (!batteryRecordStore || !latestIdentificationResult) return;
+        if (!batteryRecordStore.isSaveEligible(latestIdentificationResult)) return;
+        try {
+          batteryRecordStore.saveFromIdentification(latestIdentificationResult);
+          renderBatteryRecordActions(latestIdentificationResult, true);
+        } catch (e) {
+          setBatteryRecordStatus('Could not save Battery Record in this browser.');
+        }
+      });
+    }
 
     showStep(state.currentStep || 'step-batt-code');
   }

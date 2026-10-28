@@ -68,6 +68,24 @@ async function openCompatibility(page, query = '') {
   await page.waitForFunction(() => typeof window.NBCompatEngine === 'object' && typeof window.NBCompatEngine.assess === 'function');
 }
 
+async function identifyAndSaveBatteryRecord(page, code, query = '') {
+  await enterBatteryCodeAndWait(page, code, query);
+  await expect(page.locator('#btn-save-battery-record')).toBeVisible();
+  await page.locator('#btn-save-battery-record').click();
+  await expect(page.locator('#link-view-battery-record')).toBeVisible();
+}
+
+async function getSavedRecordRaw(page) {
+  return page.evaluate(() => localStorage.getItem('nb_saved_identity_record_v1'));
+}
+
+async function getSavedRecordParsed(page) {
+  return page.evaluate(() => {
+    const raw = localStorage.getItem('nb_saved_identity_record_v1');
+    return raw ? JSON.parse(raw) : null;
+  });
+}
+
 test('homepage routes battery-code queries into the finder', async ({ page }) => {
   const consoleErrors = collectConsoleErrors(page);
 
@@ -432,7 +450,8 @@ test('production pages serve all referenced assets without any same-origin 404',
     '/index.html',
     '/finder.html',
     '/compatibility.html',
-    '/physical-fit-lab.html'
+    '/physical-fit-lab.html',
+    '/battery-record.html'
   ];
 
   for (const pagePath of productionPages) {
@@ -497,4 +516,243 @@ test('compatibility engine returns not_recommended for AA vs AAA — critical bl
   expect(result.classification).not.toBe('direct_equivalent');
   expect(result.warnings.some((w) => /BLOCKING/i.test(w))).toBe(true);
   expect(consoleErrors).toHaveLength(0);
+});
+
+test('battery record saves recognised identification with strict key whitelist and renders on Battery Record page', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await identifyAndSaveBatteryRecord(page, 'CR2032');
+
+  const saved = await getSavedRecordParsed(page);
+  expect(saved).not.toBeNull();
+  expect(saved.schemaVersion).toBe(1);
+  expect(saved.savedAt).toBeTruthy();
+  expect(saved.canonicalCode).toBe('CR2032');
+
+  const expectedKeys = [
+    'schemaVersion',
+    'savedAt',
+    'enteredCode',
+    'canonicalCode',
+    'category',
+    'identificationConfidence',
+    'evidenceSummary',
+    'unknowns',
+    'warnings',
+    'verificationRequired',
+    'nextEvidence'
+  ];
+  expect(Object.keys(saved).sort()).toEqual(expectedKeys.slice().sort());
+
+  if (saved.nextEvidence) {
+    expect(Object.keys(saved.nextEvidence).sort()).toEqual(['instruction', 'title', 'whyItMatters']);
+  }
+
+  [
+    'classification',
+    'headline',
+    'recordGovernance',
+    'source',
+    'sourceRecord',
+    'targetRecord',
+    'relationships',
+    'postcode',
+    'suburb',
+    'state',
+    'urgency',
+    'contact',
+    'notes',
+    'uploads',
+    'supplierData',
+    'history'
+  ].forEach((forbiddenKey) => {
+    expect(Object.prototype.hasOwnProperty.call(saved, forbiddenKey)).toBe(false);
+  });
+
+  await page.goto(`${baseURL}/battery-record.html`);
+  await expect(page.locator('#state-valid-record')).toBeVisible();
+  await expect(page.locator('#saved-record-canonical')).toContainText('CR2032');
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('battery record can save unresolved identification and does not expose compatibility handoff', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await identifyAndSaveBatteryRecord(page, 'UNKNOWNBATTERYCODE999');
+
+  const saved = await getSavedRecordParsed(page);
+  expect(saved).not.toBeNull();
+  expect(saved.identificationConfidence).toBe('unknown');
+  expect(saved.canonicalCode).toBeNull();
+
+  await page.goto(`${baseURL}/battery-record.html`);
+  await expect(page.locator('#saved-record-unresolved')).toBeVisible();
+  await expect(page.locator('#saved-record-compat-wrap')).toBeHidden();
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('finder technical failure result cannot be saved as a Battery Record', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.route('**/data/batteries.json', (route) => {
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ batteries: null })
+    });
+  });
+
+  await enterBatteryCodeAndWait(page, 'CR2032');
+  await expect(page.locator('#battIdTechnicalGuidance')).toBeVisible();
+  await expect(page.locator('#battery-record-actions')).toBeHidden();
+
+  const raw = await getSavedRecordRaw(page);
+  expect(raw).toBeNull();
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('saving a second Battery Record fully replaces the first record with no merge carry-over', async ({ page }) => {
+  await identifyAndSaveBatteryRecord(page, 'CR2032');
+  const firstSaved = await getSavedRecordParsed(page);
+
+  await page.evaluate(() => {
+    const raw = localStorage.getItem('nb_saved_identity_record_v1');
+    const parsed = raw ? JSON.parse(raw) : null;
+    if (!parsed) return;
+    parsed.legacyCarryOver = 'DO_NOT_KEEP';
+    parsed.nextEvidence = Object.assign({}, parsed.nextEvidence || {}, { leakedKey: 'NO' });
+    localStorage.setItem('nb_saved_identity_record_v1', JSON.stringify(parsed));
+  });
+
+  await identifyAndSaveBatteryRecord(page, 'CR2025', '?fresh=1');
+
+  const secondRaw = await getSavedRecordRaw(page);
+  const secondSaved = JSON.parse(secondRaw);
+  expect(secondSaved.enteredCode).toBe('CR2025');
+  expect(secondSaved.canonicalCode).toBe('CR2025');
+  expect(secondSaved.savedAt).not.toBe(firstSaved.savedAt);
+  expect(Object.prototype.hasOwnProperty.call(secondSaved, 'legacyCarryOver')).toBe(false);
+  if (secondSaved.nextEvidence) {
+    expect(Object.prototype.hasOwnProperty.call(secondSaved.nextEvidence, 'leakedKey')).toBe(false);
+  }
+});
+
+test('Battery Record schema or invalid payload fails closed without deleting stored value', async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto(`${baseURL}/battery-record.html`);
+  const invalidPayloads = [
+    {
+      schemaVersion: 2,
+      savedAt: '2026-01-01T00:00:00.000Z',
+      enteredCode: 'CR2032',
+      canonicalCode: 'CR2032'
+    },
+    {
+      schemaVersion: 1,
+      savedAt: '2026-01-01T00:00:00.000Z',
+      enteredCode: 'CR2032',
+      canonicalCode: 'CR2032',
+      category: 'coin_cell',
+      identificationConfidence: 'direct_equivalent',
+      evidenceSummary: 'invalid confidence value',
+      unknowns: [],
+      warnings: [],
+      verificationRequired: [],
+      nextEvidence: null
+    },
+    {
+      schemaVersion: 1,
+      savedAt: '2026-01-01T00:00:00.000Z',
+      enteredCode: 'CR2032',
+      canonicalCode: 'CR2032',
+      category: 'coin_cell',
+      identificationConfidence: 'exact',
+      evidenceSummary: 'invalid array item',
+      unknowns: ['ok', { bad: true }],
+      warnings: [],
+      verificationRequired: [],
+      nextEvidence: null
+    },
+    {
+      schemaVersion: 1,
+      savedAt: 'not-a-real-timestamp',
+      enteredCode: 'CR2032',
+      canonicalCode: 'CR2032',
+      category: 'coin_cell',
+      identificationConfidence: 'exact',
+      evidenceSummary: 'malformed timestamp',
+      unknowns: ['ok'],
+      warnings: [],
+      verificationRequired: [],
+      nextEvidence: null
+    }
+  ];
+
+  for (const payload of invalidPayloads) {
+    await page.evaluate((record) => {
+      localStorage.setItem('nb_saved_identity_record_v1', JSON.stringify(record));
+    }, payload);
+
+    const before = await getSavedRecordRaw(page);
+    await page.goto(`${baseURL}/battery-record.html`);
+
+    await expect(page.locator('#state-invalid-record')).toBeVisible();
+    await expect(page.locator('#state-valid-record')).toBeHidden();
+    await expect(page.locator('#saved-record-compat-wrap')).toBeHidden();
+
+    const after = await getSavedRecordRaw(page);
+    expect(after).toBe(before);
+  }
+  expect(consoleErrors).toHaveLength(0);
+});
+
+test('Battery Record deletion requires confirmation and clears localStorage only after acceptance', async ({ page }) => {
+  await identifyAndSaveBatteryRecord(page, 'CR2032');
+  await page.goto(`${baseURL}/battery-record.html`);
+
+  page.once('dialog', (dialog) => dialog.dismiss());
+  await page.locator('#btn-delete-record-valid').click();
+  const afterDismiss = await getSavedRecordRaw(page);
+  expect(afterDismiss).not.toBeNull();
+
+  page.once('dialog', (dialog) => dialog.accept());
+  await page.locator('#btn-delete-record-valid').click();
+  const afterAccept = await getSavedRecordRaw(page);
+  expect(afterAccept).toBeNull();
+  await expect(page.locator('#state-no-record')).toBeVisible();
+});
+
+test('Finder sessionStorage and Battery Record localStorage remain isolated', async ({ page }) => {
+  await identifyAndSaveBatteryRecord(page, 'CR2032');
+  const savedRawBefore = await getSavedRecordRaw(page);
+  const finderSessionBefore = await page.evaluate(() => sessionStorage.getItem('nb_finder_state_v2'));
+
+  await page.goto(`${baseURL}/battery-record.html`);
+  const finderSessionAfterBatteryRecordLoad = await page.evaluate(() => sessionStorage.getItem('nb_finder_state_v2'));
+  expect(finderSessionAfterBatteryRecordLoad).toBe(finderSessionBefore);
+
+  await enterBatteryCodeAndWait(page, 'CR2025');
+  const finderSessionAfterNewRun = await page.evaluate(() => sessionStorage.getItem('nb_finder_state_v2'));
+  const savedRawAfter = await getSavedRecordRaw(page);
+
+  expect(finderSessionAfterNewRun).not.toBe(finderSessionBefore);
+  expect(savedRawAfter).toBe(savedRawBefore);
+});
+
+test('running compatibility from Battery Record does not mutate the saved Battery Record and does not auto-run', async ({ page }) => {
+  await identifyAndSaveBatteryRecord(page, 'CR2032');
+  const before = await getSavedRecordRaw(page);
+
+  await page.goto(`${baseURL}/battery-record.html`);
+  await expect(page.locator('#saved-record-compat-link')).toBeVisible();
+  await page.locator('#saved-record-compat-link').click();
+
+  await expect(page).toHaveURL(/compatibility\.html\?code=CR2032$/);
+  await expect(page.locator('#inputA')).toHaveValue('CR2032');
+  await expect(page.locator('#inputB')).toHaveValue('');
+  await expect(page.locator('#compatResult')).toBeHidden();
+
+  await page.locator('#inputB').fill('CR2025');
+  await page.locator('#btn-check').click();
+  await expect(page.locator('#compatResult')).toBeVisible();
+
+  const after = await getSavedRecordRaw(page);
+  expect(after).toBe(before);
 });
