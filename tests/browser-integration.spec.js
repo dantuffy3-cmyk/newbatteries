@@ -451,7 +451,8 @@ test('production pages serve all referenced assets without any same-origin 404',
     '/finder.html',
     '/compatibility.html',
     '/physical-fit-lab.html',
-    '/battery-record.html'
+    '/battery-record.html',
+    '/seller-demo.html'
   ];
 
   for (const pagePath of productionPages) {
@@ -472,6 +473,137 @@ test('production pages serve all referenced assets without any same-origin 404',
     page.removeAllListeners('response');
   }
 });
+
+// Fixed research-demo integration. These checks do not approve source publication or fitment.
+for (const width of [1280, 360]) {
+  test.describe(`seller journey at ${width}px`, () => {
+    test.use({ viewport: { width, height: 900 } });
+    const errorsByPage = new WeakMap();
+    test.beforeEach(async ({ page }) => { errorsByPage.set(page, collectConsoleErrors(page)); });
+    test.afterEach(async ({ page }) => { expect(errorsByPage.get(page), 'No browser errors in the seller journey').toHaveLength(0); });
+
+    async function showExample(page, number) {
+      await page.locator('.choice').nth(number).click();
+      await page.getByRole('button', { name: 'Show example result', exact: true }).click();
+      await expect(page.locator('#workspace h2')).toBeFocused();
+      await expect(page.locator('#workspace .status')).toHaveText('Equipment suitability: unconfirmed');
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      const evidenceLinks = page.locator('.evidence a');
+      expect(await evidenceLinks.count()).toBeGreaterThan(0);
+      for (const link of await evidenceLinks.all()) {
+        await expect(link).toHaveAttribute('href', /^https:\/\//);
+        await expect(link).toHaveAttribute('target', '_blank');
+        await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+      }
+    }
+
+    test('homepage offers a separate, honestly labelled preview and a route home', async ({ page }) => {
+      await page.goto(`${baseURL}/index.html`);
+      await expect(page.locator('#seller-demo-heading')).toHaveText('Explore a seller-journey demo');
+      await expect(page.locator('#seller-demo-heading').locator('..')).toContainText('fictional enquiries');
+      await page.getByRole('link', { name: 'Try the seller demo', exact: true }).click();
+      await expect(page).toHaveURL(`${baseURL}/seller-demo.html`);
+      await expect(page.locator('.notice')).toContainText('No live stock, vehicle matching or affiliate tracking');
+      await page.getByRole('link', { name: 'Back to NewBatteries home', exact: true }).click();
+      await expect(page).toHaveURL(`${baseURL}/index.html`);
+      await expect(page.locator('#homeQuery')).toBeVisible();
+    });
+
+    test('demo ignores query data and leaves existing browser records unchanged', async ({ page }) => {
+      await page.goto(`${baseURL}/index.html`);
+      const before = await page.evaluate(() => {
+        localStorage.setItem('nb_saved_identity_record_v1', 'SENTINEL_SAVED_RECORD');
+        sessionStorage.setItem('nb_finder_state_v2', 'SENTINEL_FINDER');
+        return { local: JSON.stringify({ ...localStorage }), session: JSON.stringify({ ...sessionStorage }) };
+      });
+      const errors = collectConsoleErrors(page);
+      await page.goto(`${baseURL}/seller-demo.html?code=AA&merchant=Other&fitment=confirmed`);
+      await page.locator('.choice').first().focus();
+      await page.keyboard.press('Enter');
+      await expect(page.locator('.choice').first()).toBeFocused();
+      await page.getByRole('button', { name: 'Show example result', exact: true }).click();
+      await expect(page.locator('#workspace')).toContainText('NS70L MF');
+      await expect(page.locator('#workspace .status')).toHaveText('Equipment suitability: unconfirmed');
+      const after = await page.evaluate(() => ({ local: JSON.stringify({ ...localStorage }), session: JSON.stringify({ ...sessionStorage }) }));
+      expect(after).toEqual(before);
+      expect(errors).toHaveLength(0);
+    });
+
+    test('supported seller dialogs cancel safely and bind both destinations', async ({ page }) => {
+      await page.goto(`${baseURL}/seller-demo.html`);
+      await page.evaluate(() => { window.__opened = []; window.open = (...args) => { window.__opened.push(args); return null; }; });
+      await showExample(page, 0);
+      const sellers = page.getByRole('button', { name: 'View seller listing', exact: true });
+      await expect(sellers).toHaveCount(2);
+      for (let i = 0; i < 2; i++) {
+        await sellers.nth(i).click();
+        await expect(page.locator('#handoff')).toBeVisible();
+        await expect(page.locator('#destination')).toContainText(i === 0 ? 'EL14396' : '602480');
+        await expect(page.locator('#continue')).toHaveClass('btn secondary');
+        await expect(page.locator('#cancel')).toBeFocused();
+        await page.keyboard.press('Shift+Tab');
+        await expect(page.locator('#continue')).toBeFocused();
+        await page.keyboard.press('Tab');
+        await expect(page.locator('#cancel')).toBeFocused();
+        await page.keyboard.press('Escape');
+        await expect(page.locator('#handoff')).not.toBeVisible();
+        await expect(sellers.nth(i)).toBeFocused();
+        await sellers.nth(i).click();
+        await page.locator('#cancel').click();
+        expect(await page.evaluate(() => window.__opened.length)).toBe(i);
+        await sellers.nth(i).click();
+        await page.locator('#continue').click();
+        const args = await page.evaluate(() => window.__opened.at(-1));
+        expect(args[0]).toMatch(i === 0 ? /^https:\/\/autobarn\.com\.au\/.*\/EL14396$/ : /^https:\/\/www\.supercheapauto\.com\.au\/.*\/602480\.html$/);
+        expect(args.slice(1)).toEqual(['_blank', 'noopener,noreferrer']);
+        await expect(sellers.nth(i)).toBeFocused();
+      }
+    });
+
+    test('conflicting case retains all disagreements without a seller CTA', async ({ page }) => {
+      await page.goto(`${baseURL}/seller-demo.html`);
+      await showExample(page, 1);
+      await expect(page.locator('.conflict')).toHaveCount(3);
+      for (const text of ['112112', '115149', '660', '650', '68', '75']) {
+        await expect(page.locator('#workspace')).toContainText(text);
+      }
+      await expect(page.getByRole('button', { name: 'View seller listing', exact: true })).toHaveCount(0);
+      await page.getByText('Inspect the evidence', { exact: true }).click();
+      await expect(page.getByRole('link', { name: 'Source of conflicting claim', exact: false })).toBeVisible();
+    });
+
+    test('missing vehicle stays unconfirmed and its question is display-only', async ({ page }) => {
+      await page.goto(`${baseURL}/seller-demo.html`);
+      await showExample(page, 2);
+      await expect(page.locator('.question')).toContainText('What is the vehicle make?');
+      await expect(page.locator('.question')).toContainText('does not accept answers');
+      await expect(page.locator('#workspace input, #workspace select, #workspace textarea')).toHaveCount(0);
+      await expect(page.getByRole('button', { name: 'View seller listing', exact: true })).toHaveCount(0);
+      await page.getByRole('button', { name: 'Back to supplied information', exact: true }).click();
+      await expect(page.locator('#workspace h2')).toBeFocused();
+      await page.getByRole('button', { name: 'Return to examples', exact: true }).click();
+      await expect(page.locator('.choice').first()).toBeFocused();
+    });
+
+    test('stale dialogs and unavailable native dialogs cannot open a seller', async ({ page }) => {
+      await page.goto(`${baseURL}/seller-demo.html`);
+      await page.evaluate(() => { window.__opened = []; window.open = (...args) => { window.__opened.push(args); return null; }; });
+      await showExample(page, 0);
+      await page.getByRole('button', { name: 'View seller listing', exact: true }).first().click();
+      await page.locator('.choice').nth(1).evaluate(node => node.click());
+      await page.locator('#continue').evaluate(node => node.click());
+      expect(await page.evaluate(() => window.__opened.length)).toBe(0);
+      await expect(page.locator('#handoff')).not.toBeVisible();
+      await showExample(page, 0);
+      await page.evaluate(() => { document.querySelector('#handoff').showModal = undefined; });
+      await page.getByRole('button', { name: 'View seller listing', exact: true }).first().click();
+      await expect(page.locator('#workspace [role="status"]').first()).toContainText('This viewer cannot open the seller notice');
+      await page.locator('#continue').evaluate(node => node.click());
+      expect(await page.evaluate(() => window.__opened.length)).toBe(0);
+      await expect(page.locator('#handoff')).not.toBeVisible();
+    });
+  });
+}
 
 test('finder resolves CR2032 to the exact governed public identification state', async ({ page }) => {
   const consoleErrors = collectConsoleErrors(page);
