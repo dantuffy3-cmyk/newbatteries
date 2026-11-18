@@ -18,8 +18,13 @@ jobs:
     timeout-minutes: 20
     env:
       CI: 'true'
-      NB_QC_EVIDENCE: ${{ runner.temp }}/newbatteries-readiness-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
+      - name: Initialize isolated evidence directory
+        shell: bash
+        run: |
+          NB_QC_EVIDENCE="$RUNNER_TEMP/newbatteries-readiness-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$NB_QC_EVIDENCE"
+          printf 'NB_QC_EVIDENCE=%s\n' "$NB_QC_EVIDENCE" >> "$GITHUB_ENV"
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
