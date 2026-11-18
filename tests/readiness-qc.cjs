@@ -11,6 +11,7 @@ const root = path.resolve(__dirname, '..');
 const expectedTree = '6cdde482b92c590032eb4348c286637b005dc2970932075148fc394ff8aea3a8';
 const pages = ['index.html', 'about.html', 'suppliers.html', 'battery-guides.html', 'retailer-links.html'];
 const widths = [360, 400, 768, 980, 981, 1200];
+const requiredChecks = ['document structure', 'skip-link keyboard path', 'horizontal overflow', 'navigation toggle', 'local links', 'runtime resources'];
 const evidence = path.resolve(process.env.NB_QC_EVIDENCE || path.join(os.tmpdir(), 'newbatteries-readiness-qc'));
 fs.mkdirSync(evidence, { recursive: true });
 const sha256 = b => crypto.createHash('sha256').update(b).digest('hex');
@@ -70,16 +71,45 @@ async function browserChecks() {
         if (new URL(route.request().url()).origin === base) return route.continue();
         externalRequests.push(route.request().url()); return route.abort();
       });
-      const record = { file, width, status: 'FAIL' };
+      const record = { file, width, status: 'FAIL', checks: [] };
+      async function check(name, action) {
+        const result = { name, status: 'FAIL' };
+        try { await action(); result.status = 'PASS'; }
+        catch (e) { result.reason = e.message; }
+        record.checks.push(result);
+      }
       try {
         assert.equal((await page.goto(base + '/' + file)).status(), 200);
+        await check('document structure', async () => {
         assert.equal(await page.locator('h1').count(), 1);
         const duplicateIds = await page.locator('[id]').evaluateAll(nodes => { const ids = nodes.map(n => n.id); return ids.filter((id, i) => ids.indexOf(id) !== i); });
         assert.deepEqual(duplicateIds, [], 'Duplicate IDs');
-        await page.keyboard.press('Tab'); await page.keyboard.press('Enter');
-        assert.equal(await page.evaluate(() => document.activeElement.id), 'main-content', 'Skip-link focus');
+        });
+        await check('skip-link keyboard path', async () => {
+          const focusState = () => page.evaluate(() => {
+            const active = document.activeElement, main = document.getElementById('main-content');
+            return { tag: active?.tagName || null, id: active?.id || null,
+              href: active?.getAttribute('href') || null, hash: location.hash,
+              inMain: !!main && !!active && main.contains(active),
+              mainTop: main?.getBoundingClientRect().top ?? null, scrollY };
+          });
+          record.keyboard = { before: await focusState() };
+          await page.keyboard.press('Tab');
+          record.keyboard.firstTab = await focusState();
+          assert.equal(await page.locator('.skip-link:focus').count(), 1, 'Initial Tab must focus the skip link');
+          assert.equal(record.keyboard.firstTab.href, '#main-content', 'Skip-link target');
+          await page.keyboard.press('Enter');
+          await page.waitForURL(url => url.hash === '#main-content');
+          record.keyboard.afterActivation = await focusState();
+          await page.keyboard.press('Tab');
+          record.keyboard.nextTab = await focusState();
+          assert(record.keyboard.nextTab.inMain, 'Next Tab after skip must enter main content');
+        });
+        await check('horizontal overflow', async () => {
         const size = await page.evaluate(() => ({ page: document.documentElement.scrollWidth, viewport: innerWidth }));
         assert(size.page <= size.viewport + 1, 'Horizontal overflow: ' + JSON.stringify(size));
+        });
+        await check('navigation toggle', async () => {
         const toggle = page.locator('#navToggle');
         if (await toggle.isVisible()) {
           await toggle.focus(); await page.keyboard.press('Enter');
@@ -89,6 +119,8 @@ async function browserChecks() {
           assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
           assert.equal(await page.locator('#primaryNav.is-open').count(), 0);
         }
+        });
+        await check('local links', async () => {
         const links = await page.locator('a[href]').evaluateAll(nodes => nodes.map(n => n.getAttribute('href')));
         for (const href of links) {
           const url = new URL(href, base + '/' + file);
@@ -100,9 +132,13 @@ async function browserChecks() {
             assert(html.includes('id="' + id + '"') || html.includes("id='" + id + "'"), 'Missing fragment: ' + href);
           }
         }
+        });
+        await check('runtime resources', async () => {
         assert.deepEqual(externalRequests, [], 'Unexpected external resource requests');
         assert.deepEqual(errors, [], 'Page or console errors');
-        record.status = 'PASS';
+        });
+        record.status = record.checks.length === requiredChecks.length && record.checks.every(c => c.status === 'PASS') ? 'PASS' : 'FAIL';
+        if (record.status === 'FAIL') record.reason = record.checks.filter(c => c.status !== 'PASS').map(c => c.name + ': ' + c.reason).join('; ');
       } catch (e) { record.reason = e.message; }
       finally {
         try {
@@ -144,7 +180,13 @@ function summarize() {
     assert.equal(runs.length, 1, 'Exactly one browser evidence run required');
     const r = JSON.parse(fs.readFileSync(path.join(evidence, runs[0], 'results.json'), 'utf8'));
     assert.equal(r.status, 'PASS'); assert.equal(r.source_tree_sha256, expectedTree); if (process.env.GITHUB_SHA) assert.equal(r.commit, process.env.GITHUB_SHA); assert.equal(r.checks.length, 30);
-    const keys = r.checks.map(c => { assert.equal(c.status, 'PASS'); assert(c.screenshot && fs.existsSync(path.join(evidence, runs[0], c.screenshot))); return c.file + ':' + c.width; }).sort();
+    const keys = r.checks.map(c => {
+      assert.equal(c.status, 'PASS');
+      assert.deepEqual(c.checks.map(x => x.name).sort(), [...requiredChecks].sort(), 'All independent checks required');
+      for (const result of c.checks) assert.equal(result.status, 'PASS', result.name);
+      assert(c.keyboard?.firstTab?.href === '#main-content' && c.keyboard?.afterActivation?.hash === '#main-content' && c.keyboard?.nextTab?.inMain === true, 'Keyboard-path evidence required');
+      assert(c.screenshot && fs.existsSync(path.join(evidence, runs[0], c.screenshot))); return c.file + ':' + c.width;
+    }).sort();
     assert.deepEqual(keys, pages.flatMap(f => widths.map(w => f + ':' + w)).sort());
     checks.push({ check: 'affected pages at six widths', status: 'PASS', passed: 30 });
   } catch (e) { checks.push({ check: 'affected pages at six widths', status: 'FAIL', reason: e.message }); }
