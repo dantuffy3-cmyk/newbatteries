@@ -1,6 +1,6 @@
 {
   "base_commit": "abc3e17394af51f68aec447f03c0bb3d8420f30c",
-  "source_tree_sha256": "6cdde482b92c590032eb4348c286637b005dc2970932075148fc394ff8aea3a8",
+  "source_tree_sha256": "7fadf1af6798a286c7b419ff2d28f39d2185b2297c5646099d542f940543729c",
   "source_files_sha256": {
     ".gitignore": "a1b9b3aabbabe90958f5b13afee01981b529713cc1a54d5109e4ba88c5b0c77f",
     "CNAME": "55563938dce116e034576ffb37ac1fdb8a9280f9de638211120be4f8b7ca1d3f",
@@ -44,7 +44,7 @@
     "privacy.html": "773852e58bd268039baae8e35db8d1a756b82e91bbf145e99909d6ccbd1f4ea5",
     "retailer-links.html": "888c4994b7f98d48007023513fb53db29cd4b85e06f1f1bab82e6765850e89d1",
     "seller-demo.html": "27f467aa3bec9b5751546f0b0baf4f9260517492562bbceb9dd9758421defa27",
-    "suppliers.html": "ee5a900a68b1b20649682cd6ecd836201b4a5bfc9674b9f1579aeea09112aa63",
+    "suppliers.html": "b14c28c68f32d327ebfcd5c1d6dcbc2d9dc8397b938402b26d263e45b1c644ca",
     "terms.html": "24179fa15e2402f6d1d6ea4cc2d1cc2e1a7d5d056c59d3bed28af0156595e7c8",
     "tests/browser-integration.spec.js": "ba48f4fe192cdf70ca67e9db230105a799c57b8230c24d6d78d429095d62a67f",
     "tests/seller-demo-policy.cjs": "fc284d177056e8a5ad6ae1fd400bb8364e90492d7505726337607aa2665a6823"
