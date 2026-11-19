@@ -1,11 +1,11 @@
 {
   "base_commit": "abc3e17394af51f68aec447f03c0bb3d8420f30c",
-  "source_tree_sha256": "7fadf1af6798a286c7b419ff2d28f39d2185b2297c5646099d542f940543729c",
+  "source_tree_sha256": "e6ea65efb7e52ea20a7abb99668fe6d0d5fee0a2a35b85cf5a5a0734bd5f3dd2",
   "source_files_sha256": {
     ".gitignore": "a1b9b3aabbabe90958f5b13afee01981b529713cc1a54d5109e4ba88c5b0c77f",
     "CNAME": "55563938dce116e034576ffb37ac1fdb8a9280f9de638211120be4f8b7ca1d3f",
     "README.md": "396575224922451054cc0a1855123af475afe482d580f5ab9a7e203764ddd5dd",
-    "about.html": "aa89f4ecb49bfe00f404c4defc3536979a808eeb73053eb037e06b35cb9ab6b1",
+    "about.html": "116950c5df577d5433b6fe3e38528c6ea6e14f54c4fdda591054485d4a4fcbf6",
     "assets/css/styles.css": "250326f4e959870d55dc220b8bafffef40cddf47fd0511d8ea509197bf39d15b",
     "assets/js/battery-data.js": "60cde3721253819be2bf2609d2f702257c30b343fdd9ae2b26480281962379c5",
     "assets/js/battery-record-store.js": "0513868c08892b421b4ea039a516d632dbc06ce868368f8ae4d2002c93933cae",
@@ -42,7 +42,7 @@
     "package.json": "0ea549df5bf0828927b991dec1b8dc2729cba4d08436f8a92a3fbbfc7a586831",
     "physical-fit-lab.html": "c054bf6309d9f9bf93870b7be6f69e6528a6e86081c1e645c2d920195bb2734f",
     "privacy.html": "773852e58bd268039baae8e35db8d1a756b82e91bbf145e99909d6ccbd1f4ea5",
-    "retailer-links.html": "888c4994b7f98d48007023513fb53db29cd4b85e06f1f1bab82e6765850e89d1",
+    "retailer-links.html": "5031247fb532b2afa8b98846ae4eb42a375c1a9068fb1b87a4b25e9959370aee",
     "seller-demo.html": "27f467aa3bec9b5751546f0b0baf4f9260517492562bbceb9dd9758421defa27",
     "suppliers.html": "b14c28c68f32d327ebfcd5c1d6dcbc2d9dc8397b938402b26d263e45b1c644ca",
     "terms.html": "24179fa15e2402f6d1d6ea4cc2d1cc2e1a7d5d056c59d3bed28af0156595e7c8",
