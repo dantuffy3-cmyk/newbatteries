@@ -1,0 +1,74 @@
+name: NewBatteries readiness QC (tests only)
+
+on:
+  push:
+    branches:
+      - qc/affiliate-readiness-2026-11-18
+
+permissions:
+  contents: read
+
+concurrency:
+  group: readiness-qc-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  browser-qc:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      CI: 'true'
+    steps:
+      - name: Initialize isolated evidence directory
+        shell: bash
+        run: |
+          NB_QC_EVIDENCE="$RUNNER_TEMP/newbatteries-readiness-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$NB_QC_EVIDENCE"
+          printf 'NB_QC_EVIDENCE=%s\n' "$NB_QC_EVIDENCE" >> "$GITHUB_ENV"
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Verify exact preserved candidate
+        id: source
+        run: node tests/readiness-qc.cjs --verify-only
+      - name: Install locked test dependencies
+        id: dependencies
+        run: npm ci
+      - name: Install Chromium and system dependencies
+        id: browsers
+        run: npx playwright install --with-deps chromium
+      - name: Existing browser regression (38 tests)
+        id: regression
+        if: ${{ !cancelled() && steps.browsers.outcome == 'success' }}
+        run: >-
+          node node_modules/playwright/cli.js test tests/browser-integration.spec.js
+          --reporter=json --output="$NB_QC_EVIDENCE/playwright-results"
+          > "$NB_QC_EVIDENCE/regression.json" 2> "$NB_QC_EVIDENCE/regression.stderr.log"
+      - name: Existing seller policy (32 checks)
+        id: policy
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: node tests/seller-demo-policy.cjs > "$NB_QC_EVIDENCE/policy.log" 2>&1
+      - name: Responsive and keyboard checks with screenshots
+        id: responsive
+        if: ${{ !cancelled() && steps.browsers.outcome == 'success' }}
+        run: node tests/readiness-qc.cjs
+      - name: Consolidated QC result (missing evidence fails)
+        if: ${{ !cancelled() }}
+        env:
+          QC_SOURCE_OUTCOME: ${{ steps.source.outcome }}
+          QC_REGRESSION_OUTCOME: ${{ steps.regression.outcome }}
+          QC_POLICY_OUTCOME: ${{ steps.policy.outcome }}
+          QC_RESPONSIVE_OUTCOME: ${{ steps.responsive.outcome }}
+        run: node tests/readiness-qc.cjs --summarize
+      - name: Save QC evidence only
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: readiness-qc-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ env.NB_QC_EVIDENCE }}
+          retention-days: 14
+          if-no-files-found: error
